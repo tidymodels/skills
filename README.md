@@ -16,7 +16,15 @@ Skills help by:
 
 ### add-yardstick-metric
 
-Comprehensive guide for creating new yardstick performance metrics (numeric, class, probability). Includes templates for implementation functions, vector functions, data frame methods, documentation, and comprehensive testing patterns. Covers weighted calculations, NA handling, multiclass support, and common pitfalls.
+Comprehensive guide for creating new yardstick performance metrics (numeric, class, probability). Includes:
+
+- Templates for implementation functions, vector functions, and data frame methods
+- Roxygen documentation templates
+- Comprehensive testing patterns
+- Optional autoplot support for visualization (curve metrics and confusion matrices)
+- Weighted calculations and `NA` handling
+- Multiclass support with different averaging strategies
+- Common pitfalls and troubleshooting guidance
 
 ```r
 usethis::use_github_file(
