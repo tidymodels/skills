@@ -14,28 +14,11 @@ Skills help by:
 
 ## Skills Inventory
 
-| Skill | Location | Description | Installation |
-|-------|----------|-------------|--------------|
-| **add-yardstick-metric** | `tidymodels/add-yardstick-metric/` | Comprehensive guide for creating new yardstick performance metrics (numeric, class, probability). Includes templates for implementation functions, vector functions, data frame methods, documentation, and comprehensive testing patterns. Covers weighted calculations, NA handling, multiclass support, and common pitfalls. | `usethis::use_github_file("edgararuiz/skills", "tidymodels/add-yardstick-metric/SKILL.md", destdir = ".claude/skills/add-yardstick-metric")` |
+### add-yardstick-metric
 
-## Repository Structure
+Comprehensive guide for creating new yardstick performance metrics (numeric, class, probability). Includes templates for implementation functions, vector functions, data frame methods, documentation, and comprehensive testing patterns. Covers weighted calculations, NA handling, multiclass support, and common pitfalls.
 
-```
-skills-personal/
-├── tidymodels/              # Tidymodels skills
-│   └── add-yardstick-metric/
-│       └── SKILL.md
-├── repos/                   # Reference packages (for development)
-└── README.md
-```
-
-## Installing Skills
-
-To use a skill in your project, download it directly from this repository to your project's `.claude/skills/` directory. From your project directory, run the installation command shown in the table above.
-
-For example:
 ```r
-# Download the skill
 usethis::use_github_file(
   "edgararuiz/skills",
   "tidymodels/add-yardstick-metric/SKILL.md",
