@@ -710,196 +710,75 @@ estimate <- factor(c("pos", "neg"), levels = c("neg", "pos"))  # Different order
 
 ### Event level mechanics
 
-The `event_level` parameter is one of the most confusing aspects of binary classification metrics. This section clarifies how it works and when to use it.
+For binary classification, `event_level` specifies which factor level is the "positive" class: `"first"` (default) or `"second"`.
 
-#### What is event_level?
+#### Why it matters
 
-For binary classification, `event_level` specifies which factor level represents the "event" or "positive" class:
+Asymmetric metrics (sensitivity, specificity, precision, recall) depend on which class is "positive". Changing `event_level` swaps their meaning. Symmetric metrics (accuracy, MCC) are unaffected.
 
-- `event_level = "first"` (default): The first factor level is the positive class
-- `event_level = "second"`: The second factor level is the positive class
-
-#### Why does it matter?
-
-Many binary metrics are asymmetric - they depend on which class is considered "positive":
-
-**Affected metrics:**
-- `sensitivity()` (true positive rate)
-- `specificity()` (true negative rate)
-- `ppv()` / `precision()` (positive predictive value)
-- `npv()` (negative predictive value)
-- `recall()` (same as sensitivity)
-
-**Unaffected metrics:**
-- `accuracy()` (symmetric)
-- `bal_accuracy()` (accounts for both classes)
-- `mcc()` (Matthews correlation coefficient)
-
-#### Practical example
-
+**Example:**
 ```r
 truth <- factor(c("disease", "disease", "healthy", "healthy"),
                 levels = c("disease", "healthy"))
 estimate <- factor(c("disease", "healthy", "healthy", "healthy"),
                    levels = c("disease", "healthy"))
 
-# With event_level = "first" (default)
-# "disease" is the positive class
-sensitivity(df, truth, estimate, event_level = "first")
-# Measures: of actual disease cases, how many were detected?
-# TP=1, FN=1 → sensitivity = 1/2 = 0.5
+# event_level = "first" → "disease" is positive
+# sensitivity = 0.5 (1 of 2 diseases detected)
+# specificity = 1.0 (2 of 2 healthy identified)
 
-specificity(df, truth, estimate, event_level = "first")
-# Measures: of actual healthy cases, how many were correctly identified?
-# TN=2, FP=0 → specificity = 2/2 = 1.0
-
-# With event_level = "second"
-# "healthy" is now the positive class
-sensitivity(df, truth, estimate, event_level = "second")
-# Now measures: of actual healthy cases, how many were detected?
-# This is the same as specificity with event_level = "first"!
-# Result: 1.0
-
-specificity(df, truth, estimate, event_level = "second")
-# Now measures: of actual disease cases, how many were correctly identified?
-# This is the same as sensitivity with event_level = "first"!
-# Result: 0.5
+# event_level = "second" → "healthy" is positive
+# sensitivity = 1.0 (swapped with specificity above)
+# specificity = 0.5 (swapped with sensitivity above)
 ```
-
-**Key insight:** Changing `event_level` swaps sensitivity and specificity.
-
-#### Factor level ordering interaction
-
-Event level interacts with factor level ordering:
-
-```r
-# Scenario 1: levels = c("disease", "healthy"), event_level = "first"
-# → "disease" is positive class
-
-# Scenario 2: levels = c("healthy", "disease"), event_level = "first"
-# → "healthy" is positive class
-
-# Scenario 3: levels = c("disease", "healthy"), event_level = "second"
-# → "healthy" is positive class
-
-# Scenario 2 and Scenario 3 are equivalent!
-```
-
-#### Which event_level to use?
-
-**Default (`event_level = "first"`) when:**
-- The first level in your factor is naturally the "event" or "positive" outcome
-- You're following a convention where positive class comes first
-- You're detecting something (disease, fraud, failure)
-
-**Use `event_level = "second"` when:**
-- The second level is actually the event of interest
-- Your factor levels are ordered alphabetically but that's not your "positive" class
-- Legacy code/data has levels in a specific order
 
 **Best practice:** Order factor levels so the positive class is first, then use default `event_level = "first"`.
 
-#### Confusion matrix indexing
-
-Understanding how event_level maps to confusion matrix positions:
+#### Implementation pattern
 
 ```r
-# With event_level = "first"
-event <- levels(truth)[1]
-control <- levels(truth)[2]
-
-# Confusion matrix indexing:
-xtab[event, event]      # True Positives (TP)
-xtab[control, event]    # False Positives (FP)
-xtab[event, control]    # False Negatives (FN)
-xtab[control, control]  # True Negatives (TN)
-
-# With event_level = "second"
-event <- levels(truth)[2]
-control <- levels(truth)[1]
-# Same indexing logic, but event and control are swapped
-```
-
-#### When implementing your metric
-
-**If your metric is symmetric** (like accuracy, MCC):
-- You can ignore `event_level`
-- Or include it for consistency but note it doesn't affect the result
-
-**If your metric is asymmetric** (like sensitivity, PPV):
-- **You must include `event_level` parameter**
-- Default to `event_level = "first"`
-- Use it to determine which level is the "positive" class
-- Document clearly how `event_level` affects interpretation
-
-**Implementation pattern:**
-```r
-your_metric_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,
-                            case_weights = NULL, event_level = "first", ...) {
-  # ... validation ...
-
-  # Determine event level
+your_metric_vec <- function(truth, estimate, ..., event_level = "first") {
+  # Determine which level is the event
   event <- if (identical(event_level, "first")) {
     levels(truth)[1]
   } else {
     levels(truth)[2]
   }
+  control <- setdiff(levels(truth), event)
 
-  # Use event to index confusion matrix correctly
-  # ...
+  # Index confusion matrix with event/control
+  xtab <- yardstick_table(truth, estimate, case_weights)
+  tp <- xtab[event, event]
+  fp <- xtab[control, event]
+  fn <- xtab[event, control]
+  tn <- xtab[control, control]
+  # ... use tp, fp, fn, tn in calculation
 }
 ```
 
-#### Testing with different event levels
+**For symmetric metrics:** Include `event_level` parameter for consistency but don't use it.
 
-Always test both event levels if your metric is affected:
+**For asymmetric metrics:** Always include `event_level`, use it to determine positive class, and document its effect.
+
+#### Testing
 
 ```r
 test_that("metric respects event_level parameter", {
-  df <- data.frame(
-    truth = factor(c("yes", "yes", "no", "no"), levels = c("yes", "no")),
-    estimate = factor(c("yes", "no", "yes", "no"), levels = c("yes", "no"))
-  )
+  truth <- factor(c("yes", "yes", "no", "no"), levels = c("yes", "no"))
+  estimate <- factor(c("yes", "no", "yes", "no"), levels = c("yes", "no"))
 
-  result_first <- metric_vec(df$truth, df$estimate, event_level = "first")
-  result_second <- metric_vec(df$truth, df$estimate, event_level = "second")
+  result_first <- metric_vec(truth, estimate, event_level = "first")
+  result_second <- metric_vec(truth, estimate, event_level = "second")
 
-  # Results should differ for asymmetric metrics
-  expect_false(result_first == result_second)
-
-  # Verify the actual values are correct for each case
-  expect_equal(result_first, expected_value_when_yes_is_positive)
-  expect_equal(result_second, expected_value_when_no_is_positive)
+  expect_false(result_first == result_second)  # Should differ for asymmetric metrics
 })
 ```
 
 #### Common mistakes
 
-**Mistake 1: Assuming alphabetical order**
-```r
-# Data has levels: c("negative", "positive") (alphabetical)
-# User expects "positive" to be event_level = "first"
-# But first level is actually "negative"!
-```
-
-**Mistake 2: Ignoring event_level for asymmetric metrics**
-```r
-# Bad: sensitivity calculation that doesn't use event_level
-sensitivity_impl <- function(truth, estimate) {
-  # Assumes first level is always positive - wrong!
-}
-```
-
-**Mistake 3: Not documenting the behavior**
-```r
-# Bad: no documentation about what event_level does
-#' @param event_level Either "first" or "second"
-
-# Good: clear documentation
-#' @param event_level A string either "first" or "second" to specify which
-#'   level of truth to consider as the "event" or "positive" class.
-#'   Default is "first".
-```
+- Assuming alphabetical factor order (levels are explicit, not alphabetical)
+- Not using `event_level` in asymmetric metric calculations
+- Poor documentation of what `event_level` does
 
 ## Creating a probability metric
 
@@ -1867,346 +1746,82 @@ test_that("Works with grouped data", {
 
 ### Real-world edge cases
 
-Beyond standard tests, your metric should handle edge cases that occur in real data. Test these explicitly to avoid surprises.
+Test edge cases explicitly to avoid surprises in production:
 
-#### Empty data frames
-
+**Empty data frames:**
 ```r
 test_that("handles empty data frames", {
-  df_empty <- data.frame(
-    truth = numeric(0),
-    estimate = numeric(0)
-  )
-
-  result <- metric_name(df_empty, truth, estimate)
-
-  # Should return a tibble with NA or appropriate value
+  df <- data.frame(truth = numeric(0), estimate = numeric(0))
+  result <- metric_name(df, truth, estimate)
   expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 1)
-  # The .estimate might be NA or NaN depending on your metric
+  # .estimate will be NA or NaN (mean(numeric(0)) = NaN, sum(numeric(0)) = 0)
 })
 ```
 
-**Common behaviors:**
-- Averages of empty vectors: `mean(numeric(0))` = `NaN`
-- Sums of empty vectors: `sum(numeric(0))` = `0`
-- Document which behavior your metric has
-
-#### All-`NA` columns
-
+**All-`NA` values:**
 ```r
 test_that("handles all-NA values", {
-  truth <- c(NA, NA, NA)
-  estimate <- c(1, 2, 3)
-
-  # With na_rm = TRUE, all values are removed
-  result <- metric_name_vec(truth, estimate, na_rm = TRUE)
-
-  # Should return NA or NaN (empty after removing NAs)
-  expect_true(is.na(result) || is.nan(result))
-})
-
-test_that("handles all-NA in both vectors", {
-  truth <- c(NA, NA)
-  estimate <- c(NA, NA)
-
-  expect_true(is.na(metric_name_vec(truth, estimate, na_rm = TRUE)))
-  expect_equal(metric_name_vec(truth, estimate, na_rm = FALSE), NA_real_)
+  result <- metric_name_vec(c(NA, NA), c(1, 2), na_rm = TRUE)
+  expect_true(is.na(result) || is.nan(result))  # Empty after removing NAs
 })
 ```
 
-#### Single-row data frames
-
-```r
-test_that("handles single observation", {
-  df_single <- data.frame(
-    truth = 5,
-    estimate = 5.1
-  )
-
-  result <- metric_name(df_single, truth, estimate)
-
-  expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 1)
-  expect_false(is.na(result$.estimate))
-})
-```
-
-**Watch for:**
-- Variance-based metrics with n=1 (often undefined)
-- Metrics that require multiple observations
-- Division by zero in calculations
-
-#### Factors with unused levels
-
-```r
-test_that("handles factors with unused levels", {
-  # Create factor with 3 levels but only use 2
-  truth <- factor(c("A", "A", "B", "B"), levels = c("A", "B", "C"))
-  estimate <- factor(c("A", "B", "A", "B"), levels = c("A", "B", "C"))
-
-  # Should work, but confusion matrix has unused level
-  result <- metric_name_vec(truth, estimate)
-  expect_false(is.na(result))
-})
-```
-
-#### Zero or all-zero case weights
-
-```r
-test_that("handles zero case weights", {
-  df <- data.frame(
-    truth = c(1, 2, 3),
-    estimate = c(1, 2, 3),
-    weights = c(0, 0, 0)  # All zero!
-  )
-
-  # weighted.mean with all-zero weights returns NaN
-  result <- metric_name_vec(df$truth, df$estimate, case_weights = df$weights)
-  expect_true(is.na(result) || is.nan(result))
-})
-
-test_that("handles some zero case weights", {
-  df <- data.frame(
-    truth = c(1, 2, 3),
-    estimate = c(1.5, 2, 3),
-    weights = c(1, 0, 1)  # Middle observation has zero weight
-  )
-
-  # Should only use observations with non-zero weights
-  result <- metric_name_vec(df$truth, df$estimate, case_weights = df$weights)
-
-  # Manual: only (1, 1.5) and (3, 3) with weights 1, 1
-  # This depends on your metric's implementation
-  expect_false(is.na(result))
-})
-```
-
-#### Perfect separation (classification)
-
-```r
-test_that("handles perfect predictions", {
-  # All predictions correct
-  truth <- factor(c("A", "A", "B", "B"), levels = c("A", "B"))
-  estimate <- factor(c("A", "A", "B", "B"), levels = c("A", "B"))
-
-  result <- metric_name_vec(truth, estimate)
-
-  # Should give optimal value, not error
-  expect_equal(result, optimal_value)  # e.g., 1.0 for accuracy
-})
-
-test_that("handles all wrong predictions", {
-  # All predictions incorrect
-  truth <- factor(c("A", "A", "B", "B"), levels = c("A", "B"))
-  estimate <- factor(c("B", "B", "A", "A"), levels = c("A", "B"))
-
-  result <- metric_name_vec(truth, estimate)
-
-  # Should give worst value, not error
-  expect_equal(result, worst_value)  # e.g., 0.0 for accuracy
-})
-
-test_that("handles predictions all of one class", {
-  # Model only predicts one class
-  truth <- factor(c("A", "A", "B", "B"), levels = c("A", "B"))
-  estimate <- factor(c("A", "A", "A", "A"), levels = c("A", "B"))
-
-  # Some metrics become undefined (e.g., precision for unpredicted class)
-  result <- metric_name_vec(truth, estimate)
-
-  # Behavior depends on metric
-  # Might be NA, 0, or a valid value
-})
-```
-
-#### Extreme values (numeric)
-
-```r
-test_that("handles very large values", {
-  truth <- c(1e10, 2e10, 3e10)
-  estimate <- c(1.1e10, 2.1e10, 3.1e10)
-
-  result <- metric_name_vec(truth, estimate)
-
-  # Should not overflow or return Inf
-  expect_true(is.finite(result))
-})
-
-test_that("handles very small values", {
-  truth <- c(1e-10, 2e-10, 3e-10)
-  estimate <- c(1.1e-10, 2.1e-10, 3.1e-10)
-
-  result <- metric_name_vec(truth, estimate)
-
-  # Should not underflow or lose precision
-  expect_false(is.na(result))
-})
-```
+**Additional edge cases to test:**
+- **Single observation**: May be undefined for variance-based metrics
+- **Factors with unused levels**: Confusion matrix includes empty rows/columns
+- **Zero case weights**: `weighted.mean()` with all-zero weights returns `NaN`
+- **Perfect predictions**: All correct (should give optimal value, not error)
+- **Perfect anti-predictions**: All incorrect (should give worst value)
+- **Single-class predictions**: Model only predicts one class (some metrics become undefined)
+- **Extreme numeric values**: Very large (`1e10`) or small (`1e-10`) values shouldn't overflow/underflow
 
 ### Integration testing
 
-Test that your metric works properly within the yardstick ecosystem.
+Ensure your metric works within the yardstick ecosystem:
 
-#### Comprehensive `metric_set()` testing
-
+**metric_set() compatibility:**
 ```r
 test_that("works in metric_set with other metrics", {
-  df <- data.frame(
-    truth = c(1, 2, 3, 4, 5),
-    estimate = c(1.1, 2.2, 2.9, 4.1, 5.2)
-  )
+  df <- data.frame(truth = 1:5, estimate = c(1.1, 2.2, 2.9, 4.1, 5.2))
 
-  # Combine with multiple yardstick metrics
-  metrics <- yardstick::metric_set(
-    metric_name,
-    yardstick::rmse,
-    yardstick::mae,
-    yardstick::rsq
-  )
-
+  metrics <- yardstick::metric_set(metric_name, yardstick::rmse, yardstick::mae)
   result <- metrics(df, truth, estimate)
 
-  # Check structure
-  expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 4)
-  expect_equal(ncol(result), 3)
-
-  # Check all metrics present
+  expect_equal(nrow(result), 3)
   expect_true("metric_name" %in% result$.metric)
-  expect_true("rmse" %in% result$.metric)
-  expect_true("mae" %in% result$.metric)
-  expect_true("rsq" %in% result$.metric)
-
-  # Check all have same estimator
   expect_true(all(result$.estimator == "standard"))
-
-  # Check all have numeric estimates
-  expect_true(all(is.numeric(result$.estimate)))
-  expect_true(all(!is.na(result$.estimate)))
 })
 ```
 
-#### Testing all estimator types (classification)
-
+**All estimator types (classification):**
 ```r
 test_that("works with all estimator types", {
-  # Binary data
-  df_binary <- data.frame(
-    truth = factor(c("A", "A", "B", "B"), levels = c("A", "B")),
-    estimate = factor(c("A", "B", "A", "B"), levels = c("A", "B"))
-  )
-
-  result_binary <- metric_name(df_binary, truth, estimate)
-  expect_equal(result_binary$.estimator, "binary")
-
-  # Multiclass data
-  df_multi <- data.frame(
+  df <- data.frame(
     truth = factor(c("A", "A", "B", "B", "C", "C")),
     estimate = factor(c("A", "B", "B", "C", "C", "A"))
   )
 
-  # Test macro
-  result_macro <- metric_name(df_multi, truth, estimate, estimator = "macro")
-  expect_equal(result_macro$.estimator, "macro")
-
-  # Test macro_weighted
-  result_weighted <- metric_name(df_multi, truth, estimate, estimator = "macro_weighted")
-  expect_equal(result_weighted$.estimator, "macro_weighted")
-
-  # Test micro
-  result_micro <- metric_name(df_multi, truth, estimate, estimator = "micro")
-  expect_equal(result_micro$.estimator, "micro")
-
-  # All should return valid numeric values
-  expect_true(is.numeric(result_macro$.estimate))
-  expect_true(is.numeric(result_weighted$.estimate))
-  expect_true(is.numeric(result_micro$.estimate))
+  expect_equal(metric_name(df, truth, estimate)$.estimator, "macro")  # Default
+  expect_equal(metric_name(df, truth, estimate, estimator = "macro_weighted")$.estimator, "macro_weighted")
+  expect_equal(metric_name(df, truth, estimate, estimator = "micro")$.estimator, "micro")
 })
 ```
 
-#### Grouped data integration
-
+**Grouped data:**
 ```r
 test_that("respects dplyr groups", {
   df <- data.frame(
-    group1 = rep(c("X", "Y"), each = 6),
-    group2 = rep(c("low", "high"), 6),
-    truth = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-    estimate = c(1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 10.1, 11.1, 12.1)
-  )
-
-  # Single grouping variable
-  result_single <- df |>
-    dplyr::group_by(group1) |>
-    metric_name(truth, estimate)
-
-  expect_equal(nrow(result_single), 2)  # Two groups
-  expect_equal(sort(result_single$group1), c("X", "Y"))
-  expect_true(all(!is.na(result_single$.estimate)))
-
-  # Multiple grouping variables
-  result_multi <- df |>
-    dplyr::group_by(group1, group2) |>
-    metric_name(truth, estimate)
-
-  expect_equal(nrow(result_multi), 4)  # 2 × 2 = 4 groups
-  expect_true(all(!is.na(result_multi$.estimate)))
-})
-```
-
-#### Case weights with grouping
-
-```r
-test_that("case weights work with grouped data", {
-  df <- data.frame(
     group = rep(c("A", "B"), each = 3),
-    truth = c(1, 2, 3, 4, 5, 6),
-    estimate = c(1.5, 2.5, 3.5, 4.5, 5.5, 6.5),
-    weights = c(1, 2, 1, 1, 2, 1)
+    truth = 1:6,
+    estimate = c(1.1, 2.1, 3.1, 4.1, 5.1, 6.1)
   )
 
-  result <- df |>
-    dplyr::group_by(group) |>
-    metric_name(truth, estimate, case_weights = weights)
-
-  expect_equal(nrow(result), 2)
-  expect_true(all(!is.na(result$.estimate)))
-
-  # Each group should use its own weights
-  # Group A: weights 1, 2, 1
-  # Group B: weights 1, 2, 1
+  result <- df |> dplyr::group_by(group) |> metric_name(truth, estimate)
+  expect_equal(nrow(result), 2)  # One row per group
 })
 ```
 
-#### Integration with tidymodels workflow
-
-```r
-test_that("works in typical tidymodels workflow", {
-  # Simulating a typical workflow
-  df <- data.frame(
-    truth = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-    estimate = c(1.1, 2.2, 2.9, 4.1, 5.2, 5.8, 7.1, 8.2, 8.9, 10.1)
-  )
-
-  # Multiple metrics at once
-  all_metrics <- yardstick::metric_set(
-    metric_name,
-    yardstick::rmse,
-    yardstick::mae
-  )
-
-  result <- all_metrics(df, truth = truth, estimate = estimate)
-
-  # Verify structure matches tidymodels expectations
-  expect_true("tbl_df" %in% class(result))
-  expect_true(all(c(".metric", ".estimator", ".estimate") %in% names(result)))
-
-  # Verify can be easily filtered/manipulated
-  my_metric <- result |> dplyr::filter(.metric == "metric_name")
-  expect_equal(nrow(my_metric), 1)
-})
-```
+**Other integration patterns to test:** Case weights with grouping, multiple grouping variables, typical tidymodels workflows with multiple metrics.
 
 ## File naming conventions
 
