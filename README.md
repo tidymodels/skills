@@ -1,16 +1,6 @@
 # Claude Skills for Tidymodels Development
 
-A curated collection of Claude Code skills for developing and maintaining tidymodels ecosystem packages, with a current focus on building extension packages. These skills package expertise, workflows, and best practices into reusable capabilities that Claude can automatically invoke.
-
-## What are Claude Skills?
-
-Claude skills are autonomous capabilities that Claude Code can invoke automatically based on your request. Each skill consists of a `SKILL.md` file containing structured instructions that guide Claude through complex workflows, from adding new metrics to yardstick to properly deprecating functions following tidyverse conventions.
-
-Skills help by:
-- Encoding domain expertise and institutional knowledge
-- Ensuring consistent processes are followed
-- Making complex tasks accessible and repeatable
-- Providing step-by-step guidance with verification checklists
+A curated collection of [Claude Code skills](https://code.claude.com/docs/en/skills) for developing and maintaining tidymodels ecosystem packages, with a current focus on building extension packages. These skills package expertise, workflows, and best practices into reusable capabilities that Claude can automatically invoke.
 
 ## Skills Inventory
 
@@ -33,6 +23,8 @@ usethis::use_github_file(
   destdir = ".claude/skills/add-yardstick-metric"
 )
 ```
+
+**Why is this a large skill?** This skill is ~2,350 lines because it covers three metric types (numeric, class, probability), each with different complexity levels, plus comprehensive testing patterns, edge case handling, autoplot support, and yardstick-specific internals (confusion matrices, event levels, factor ordering). It's designed as a self-contained reference guide that Claude searches rather than reads linearly—users without access to yardstick source code need complete working examples and detailed explanations of non-exported functions.
 
 ## Using Skills
 
