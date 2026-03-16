@@ -16,18 +16,6 @@ Comprehensive guide for creating new yardstick performance metrics (numeric, cla
 - Multiclass support with different averaging strategies
 - Common pitfalls and troubleshooting guidance
 
-```r
-# Create directory first
-dir.create(".claude/skills/add-yardstick-metric", recursive = TRUE, showWarnings = FALSE)
-
-# Download the skill file
-usethis::use_github_file(
-  "edgararuiz/skills",
-  "tidymodels/add-yardstick-metric/SKILL.md",
-  save_as = ".claude/skills/add-yardstick-metric/SKILL.md"
-)
-```
-
 **Why is this a large skill?** This skill is ~2,350 lines because it covers three metric types (numeric, class, probability), each with different complexity levels, plus comprehensive testing patterns, edge case handling, autoplot support, and yardstick-specific internals (confusion matrices, event levels, factor ordering). It's designed as a self-contained reference guide that Claude searches rather than reads linearly—users without access to yardstick source code need complete working examples and detailed explanations of non-exported functions.
 
 ## Using Skills
