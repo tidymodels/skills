@@ -1,17 +1,22 @@
 {
   "name": "tidymodels-skills",
+  "owner": {
+    "name": "Edgar Ruiz"
+  },
   "metadata": {
     "description": "Claude Code skills for tidymodels",
     "version": "1.0.0"
   },
-  "owner": {
-    "name": "Edgar Ruiz"
-  },
   "plugins": [
     {
       "name": "tidymodels-dev",
-      "source": "./tidymodels",
-      "description": "Skills for developing tidymodels extension packages"
+      "description": "Development tools and guides for tidymodels ecosystem packages including yardstick metrics and recipes steps",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./tidymodels/skills/add-yardstick-metric",
+        "./tidymodels/skills/add-recipe-step"
+      ]
     }
   ]
 }
