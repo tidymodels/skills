@@ -17,10 +17,14 @@ Comprehensive guide for creating new yardstick performance metrics (numeric, cla
 - Common pitfalls and troubleshooting guidance
 
 ```r
+# Create directory first
+dir.create(".claude/skills/add-yardstick-metric", recursive = TRUE, showWarnings = FALSE)
+
+# Download the skill file
 usethis::use_github_file(
   "edgararuiz/skills",
   "tidymodels/add-yardstick-metric/SKILL.md",
-  destdir = ".claude/skills/add-yardstick-metric"
+  save_as = ".claude/skills/add-yardstick-metric/SKILL.md"
 )
 ```
 
