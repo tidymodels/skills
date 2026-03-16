@@ -1,7 +1,7 @@
 {
   "name": "tidymodels-skills",
   "metadata": {
-    "description": "Claude Code skills for tidymodels package development",
+    "description": "Claude Code skills for tidymodels",
     "version": "1.0.0"
   },
   "owner": {
@@ -11,7 +11,7 @@
     {
       "name": "tidymodels-dev",
       "source": "./tidymodels",
-      "description": "Skills for developing tidymodels packages including yardstick metrics"
+      "description": "Skills for developing tidymodels extension packages"
     }
   ]
 }
