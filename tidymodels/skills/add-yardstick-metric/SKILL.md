@@ -1,6 +1,6 @@
 ---
 name: add-yardstick-metric
-description: Guide for creating new yardstick metrics. Use when a developer needs to extend yardstick with a custom performance metric, including numeric, class, or probability metrics.
+description: Guide for creating new yardstick metrics. Use when a developer needs to extend yardstick with a custom performance metric, including numeric, class, probability, ordered probability, survival (static, dynamic, integrated, linear predictor), and quantile metrics.
 ---
 
 # Add Yardstick Metric
@@ -25,6 +25,12 @@ Creating a custom yardstick metric provides:
 - [Numeric Metrics](references/numeric-metrics.md) - Regression metrics (MAE, RMSE, MSE)
 - [Class Metrics](references/class-metrics.md) - Classification metrics (accuracy, precision, recall)
 - [Probability Metrics](references/probability-metrics.md) - Probability-based metrics (ROC AUC, log loss)
+- [Ordered Probability Metrics](references/ordered-probability-metrics.md) - Ordinal classification metrics (Ranked Probability Score)
+- [Static Survival Metrics](references/static-survival-metrics.md) - Overall survival metrics (Concordance Index)
+- [Dynamic Survival Metrics](references/dynamic-survival-metrics.md) - Time-dependent survival metrics (Brier Survival)
+- [Integrated Survival Metrics](references/integrated-survival-metrics.md) - Integrated survival metrics (Integrated Brier)
+- [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md) - Linear predictor metrics (Royston's D)
+- [Quantile Metrics](references/quantile-metrics.md) - Quantile prediction metrics (Weighted Interval Score)
 - [Confusion Matrix](references/confusion-matrix.md) - Working with yardstick_table()
 - [Case Weights](references/case-weights.md) - Handling weighted observations
 - [Autoplot Support](references/autoplot.md) - Optional visualization (curves, confusion matrices)
@@ -85,33 +91,67 @@ See [Development Workflow](../shared-references/development-workflow.md) for com
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ What are you measuring?                                     │
+│ What type of data do you have?                              │
 └─────────────────────────────────────────────────────────────┘
                             │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-        ▼                   ▼                   ▼
-  Continuous          Predicted           Predicted
-  predictions         classes         probabilities
-        │                   │                   │
-        ▼                   ▼                   ▼
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   NUMERIC   │     │    CLASS    │     │ PROBABILITY │
-│   METRIC    │     │   METRIC    │     │   METRIC    │
-└─────────────┘     └─────────────┘     └─────────────┘
-        │                   │                   │
-        ▼                   ▼                   ▼
-  Examples:           Examples:           Examples:
-  - MAE               - Accuracy           - ROC AUC
-  - RMSE              - Precision          - Log Loss
-  - MSE               - Recall             - Brier Score
-  - Huber Loss        - F1 Score           - PR AUC
+        ┌───────────────────┼───────────────────┬───────────────────┐
+        │                   │                   │                   │
+        ▼                   ▼                   ▼                   ▼
+   Regression        Classification    Survival Analysis    Quantile Forecasting
+        │                   │                   │                   │
+        ▼                   ▼                   ▼                   ▼
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   NUMERIC   │     │ CLASS-BASED │     │  SURVIVAL   │     │  QUANTILE   │
+│   METRICS   │     │   METRICS   │     │   METRICS   │     │   METRICS   │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+        │                   │                   │                   │
+        │                   ├───────────────────┤                   │
+        │                   │                   │                   │
+        │                   ▼                   ▼                   │
+        │            ┌─────────────┐     ┌─────────────┐           │
+        │            │   Classes   │     │Probabilities│           │
+        │            └─────────────┘     └─────────────┘           │
+        │                   │                   │                   │
+        │                   ├───────────────────┤                   │
+        │                   │                   │                   │
+        │                   ▼                   ▼                   │
+        │            ┌─────────────┐     ┌─────────────┐           │
+        │            │Unordered?   │     │Unordered?   │           │
+        │            │  CLASS      │     │ PROBABILITY │           │
+        │            └─────────────┘     └─────────────┘           │
+        │                   │                   │                   │
+        │                   ▼                   ▼                   │
+        │            ┌─────────────┐     ┌─────────────┐           │
+        │            │Ordered?     │     │Ordered?     │           │
+        │            │ORDERED PROB │     │ORDERED PROB │           │
+        │            └─────────────┘     └─────────────┘           │
+        │                                                            │
+        │            ┌───────────────────┬───────────────┬─────────┤
+        │            │                   │               │         │
+        ▼            ▼                   ▼               ▼         ▼
+  Examples:     Examples:          Examples:      Examples:  Examples:
+  - MAE         - Accuracy         - ROC AUC      - Concordance - WIS
+  - RMSE        - Precision        - Log Loss     - Brier       - Pinball
+  - R²          - F1 Score         - PR AUC       - Royston's D - Coverage
+                - Ranked Prob Score
+
+  Survival Metrics Breakdown:
+  - STATIC: Single overall value (e.g., Concordance)
+  - DYNAMIC: Value per time point (e.g., Time-dependent Brier)
+  - INTEGRATED: Averaged across time (e.g., Integrated Brier)
+  - LINEAR PRED: From Cox models (e.g., Royston's D)
 ```
 
 **Decision guide:**
 - **Numeric metric**: Truth and predictions are continuous numbers → [Numeric Metrics](references/numeric-metrics.md)
-- **Class metric**: Truth and predictions are factor classes → [Class Metrics](references/class-metrics.md)
-- **Probability metric**: Truth is factor, predictions are probabilities → [Probability Metrics](references/probability-metrics.md)
+- **Class metric**: Truth and predictions are unordered factor classes → [Class Metrics](references/class-metrics.md)
+- **Probability metric**: Truth is unordered factor, predictions are probabilities → [Probability Metrics](references/probability-metrics.md)
+- **Ordered probability metric**: Truth is ordered factor, predictions are probabilities → [Ordered Probability Metrics](references/ordered-probability-metrics.md)
+- **Static survival metric**: Truth is Surv object, single numeric prediction → [Static Survival Metrics](references/static-survival-metrics.md)
+- **Dynamic survival metric**: Truth is Surv object, time-dependent predictions → [Dynamic Survival Metrics](references/dynamic-survival-metrics.md)
+- **Integrated survival metric**: Truth is Surv object, integrated across time → [Integrated Survival Metrics](references/integrated-survival-metrics.md)
+- **Linear predictor survival metric**: Truth is Surv object, linear predictor from Cox model → [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md)
+- **Quantile metric**: Truth is numeric, predictions are quantiles → [Quantile Metrics](references/quantile-metrics.md)
 
 ## Complete Example: Numeric Metric (MAE)
 
@@ -323,6 +363,102 @@ See [Testing Patterns](../shared-references/testing-patterns.md) for comprehensi
 
 **Examples:** ROC AUC, Log Loss, Brier Score, PR AUC
 
+### Ordered Probability Metrics
+
+**Use for:** Ordinal classification metrics where class ordering matters.
+
+**Pattern:** Three-function approach with cumulative probabilities
+
+**Complete guide:** [Ordered Probability Metrics](references/ordered-probability-metrics.md)
+
+**Key points:**
+- Truth must be ordered factor
+- Uses cumulative probabilities to respect ordering
+- Use `check_ordered_prob_metric()` for validation
+- No averaging types (works same for any number of classes)
+
+**Examples:** Ranked Probability Score (RPS)
+
+### Static Survival Metrics
+
+**Use for:** Overall survival metrics with single numeric predictions.
+
+**Pattern:** Three-function approach with Surv objects
+
+**Complete guide:** [Static Survival Metrics](references/static-survival-metrics.md)
+
+**Key points:**
+- Truth is Surv object from survival package
+- Estimate is single numeric per observation
+- Handles right-censoring with comparable pairs
+- Use `check_static_survival_metric()` for validation
+
+**Examples:** Concordance Index (C-index)
+
+### Dynamic Survival Metrics
+
+**Use for:** Time-dependent survival metrics at specific evaluation times.
+
+**Pattern:** Three-function approach with list-column predictions
+
+**Complete guide:** [Dynamic Survival Metrics](references/dynamic-survival-metrics.md)
+
+**Key points:**
+- Truth is Surv object
+- Estimate is list-column of data.frames with `.eval_time`, `.pred_survival`, `.weight_censored`
+- Returns multiple rows (one per eval_time)
+- Uses inverse probability of censoring weights (IPCW)
+
+**Examples:** Time-dependent Brier Score, Time-dependent ROC AUC
+
+### Integrated Survival Metrics
+
+**Use for:** Overall survival metrics integrated across evaluation times.
+
+**Pattern:** Two-function approach (calls dynamic metric, then integrates)
+
+**Complete guide:** [Integrated Survival Metrics](references/integrated-survival-metrics.md)
+
+**Key points:**
+- Same input format as dynamic survival metrics
+- Integrates across time using trapezoidal rule
+- Normalizes by max evaluation time
+- Requires at least 2 evaluation times
+
+**Examples:** Integrated Brier Score, Integrated ROC AUC
+
+### Linear Predictor Survival Metrics
+
+**Use for:** Metrics for linear predictors from Cox models.
+
+**Pattern:** Three-function approach with transformations
+
+**Complete guide:** [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md)
+
+**Key points:**
+- Truth is Surv object
+- Estimate is linear predictor values (unbounded)
+- Often uses transformations (e.g., normal scores)
+- Use `check_linear_pred_survival_metric()` for validation
+
+**Examples:** Royston's D statistic, R²_D
+
+### Quantile Metrics
+
+**Use for:** Quantile prediction metrics for uncertainty quantification.
+
+**Pattern:** Three-function approach with quantile_pred objects
+
+**Complete guide:** [Quantile Metrics](references/quantile-metrics.md)
+
+**Key points:**
+- Truth is numeric
+- Estimate is `hardhat::quantile_pred` object
+- Handles missing quantiles (impute, drop, or propagate)
+- Uses `fn_options` for additional parameters
+
+**Examples:** Weighted Interval Score (WIS), Pinball Loss
+
 ## Documentation
 
 See [Roxygen Documentation](../shared-references/roxygen-documentation.md) for complete templates.
@@ -448,7 +584,11 @@ See [Troubleshooting](../shared-references/troubleshooting.md) for complete guid
 ## Next Steps
 
 1. **Understand the system:** Read [Metric System](references/metric-system.md)
-2. **Choose metric type:** [Numeric](references/numeric-metrics.md), [Class](references/class-metrics.md), or [Probability](references/probability-metrics.md)
+2. **Choose metric type:**
+   - Regression: [Numeric](references/numeric-metrics.md)
+   - Classification: [Class](references/class-metrics.md), [Probability](references/probability-metrics.md), [Ordered Probability](references/ordered-probability-metrics.md)
+   - Survival: [Static](references/static-survival-metrics.md), [Dynamic](references/dynamic-survival-metrics.md), [Integrated](references/integrated-survival-metrics.md), [Linear Predictor](references/linear-predictor-survival-metrics.md)
+   - Quantile: [Quantile](references/quantile-metrics.md)
 3. **Follow the template:** Use complete examples from reference files
 4. **Test thoroughly:** See [Testing Patterns](../shared-references/testing-patterns.md)
 5. **Document completely:** See [Roxygen Documentation](../shared-references/roxygen-documentation.md)
