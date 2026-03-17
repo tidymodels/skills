@@ -91,7 +91,8 @@ function Test-GitInstalled {
         exit 1
     }
 
-    $gitVersion = git --version
+    $ErrorActionPreference = 'Continue'
+    $gitVersion = git --version 2>&1
     Write-Success "Git is installed ($gitVersion)"
 }
 
@@ -159,6 +160,7 @@ function Clone-Repository {
     # Clone repository with shallow clone
     Write-Info "Cloning $RepoName from $RepoUrl..."
 
+    $ErrorActionPreference = 'Continue'
     $output = git clone --depth 1 $RepoUrl $repoPath 2>&1
     $output | ForEach-Object { Write-Host "  $_" }
 
