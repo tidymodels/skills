@@ -5,11 +5,11 @@
 ## 1. Create Scripts Directory and Files
 
 ### 1.1 Setup Scripts Directory
-- [x] Create `shared-scripts/` directory in skills-personal root
-- [x] Create README.md in shared-scripts/ explaining script purpose and usage
+- [x] Create `tidymodels/skills/shared-scripts/` directory in skills-personal root
+- [x] Create README.md in tidymodels/skills/shared-scripts/ explaining script purpose and usage
 
 ### 1.2 Write Bash Script: clone-tidymodels-repos.sh
-- [x] Create file: `shared-scripts/clone-tidymodels-repos.sh`
+- [x] Create file: `tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh`
 - [x] Add shebang and script header documentation
 - [x] Implement git installation check
 - [x] Implement argument parsing (yardstick, recipes, all)
@@ -28,7 +28,7 @@
 - [x] Fix bash 3.2 compatibility (macOS default - no associative arrays)
 
 ### 1.3 Write PowerShell Script: clone-tidymodels-repos.ps1
-- [x] Create file: `shared-scripts/clone-tidymodels-repos.ps1`
+- [x] Create file: `tidymodels/skills/shared-scripts/clone-tidymodels-repos.ps1`
 - [x] Add script header documentation with .SYNOPSIS, .DESCRIPTION, .PARAMETER
 - [x] Implement git installation check (Test-Path for git.exe)
 - [x] Implement parameter parsing (yardstick, recipes, all)
@@ -42,7 +42,7 @@
 - [x] Set execution policy recommendation in documentation
 
 ### 1.4 Write Python Script: clone-tidymodels-repos.py
-- [x] Create file: `shared-scripts/clone-tidymodels-repos.py`
+- [x] Create file: `tidymodels/skills/shared-scripts/clone-tidymodels-repos.py`
 - [x] Add shebang and script header documentation
 - [x] Implement git installation check (shutil.which('git'))
 - [x] Implement argument parsing using argparse (yardstick, recipes, all)
@@ -162,7 +162,7 @@
 - [ ] Mention scripts location
 
 ### 6.2 Scripts README
-- [ ] Create shared-scripts/README.md
+- [ ] Create tidymodels/skills/shared-scripts/README.md
 - [ ] Explain purpose of clone scripts
 - [ ] Show usage examples
 - [ ] Document exit codes
@@ -189,7 +189,7 @@
 
 ### 7.3 End-to-End Validation
 - [ ] Create test R package in temp directory
-- [ ] Run script: `./shared-scripts/clone-tidymodels-repos.sh yardstick`
+- [ ] Run script: `./tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh yardstick`
 - [ ] Verify repos/yardstick/ exists
 - [ ] Verify .gitignore includes repos/
 - [ ] Verify .Rbuildignore includes ^repos$
@@ -215,7 +215,7 @@
 
 ### Changes from Initial Implementation
 - ❌ **Removed**: Long "Repository Access Setup" sections in each skill
-- ✅ **Added**: Standalone scripts in shared-scripts/ directory
+- ✅ **Added**: Standalone scripts in tidymodels/skills/shared-scripts/ directory
 - ✅ **Added**: Centralized documentation in shared-references/repository-access.md
 - ✅ **Simplified**: Skills now have brief links to centralized docs
 - ✅ **Improved**: Reproducible setup with executable scripts
@@ -223,10 +223,10 @@
 
 ### What Will Be Created
 1. **Scripts** (platform-native approach):
-   - `shared-scripts/clone-tidymodels-repos.sh` (Bash for macOS/Linux/WSL)
-   - `shared-scripts/clone-tidymodels-repos.ps1` (PowerShell for Windows)
-   - `shared-scripts/clone-tidymodels-repos.py` (Python universal fallback)
-   - `shared-scripts/README.md` (usage guide with platform selection)
+   - `tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh` (Bash for macOS/Linux/WSL)
+   - `tidymodels/skills/shared-scripts/clone-tidymodels-repos.ps1` (PowerShell for Windows)
+   - `tidymodels/skills/shared-scripts/clone-tidymodels-repos.py` (Python universal fallback)
+   - `tidymodels/skills/shared-scripts/README.md` (usage guide with platform selection)
 
 2. **Documentation**:
    - `tidymodels/skills/shared-references/repository-access.md` (comprehensive guide)

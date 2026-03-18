@@ -63,14 +63,14 @@ Enhance the tidymodels skills system to provide automatic access to source code 
 
 ### 1. Repository Cloning Scripts
 
-**Implementation**: Standalone scripts in `shared-scripts/` directory that can be executed by Claude or run manually by users
+**Implementation**: Standalone scripts in `tidymodels/skills/shared-scripts/` directory that can be executed by Claude or run manually by users
 
-**Location**: `shared-scripts/` in skills-personal repository
+**Location**: `tidymodels/skills/shared-scripts/` in skills-personal repository
 
 **Scripts** (platform-native approach):
-1. `shared-scripts/clone-tidymodels-repos.sh` - POSIX shell script (macOS, Linux, WSL, Git Bash)
-2. `shared-scripts/clone-tidymodels-repos.ps1` - PowerShell script (Windows native, preferred)
-3. `shared-scripts/clone-tidymodels-repos.py` - Python script (universal fallback for any platform)
+1. `tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh` - POSIX shell script (macOS, Linux, WSL, Git Bash)
+2. `tidymodels/skills/shared-scripts/clone-tidymodels-repos.ps1` - PowerShell script (Windows native, preferred)
+3. `tidymodels/skills/shared-scripts/clone-tidymodels-repos.py` - Python script (universal fallback for any platform)
 
 **Requirements**:
 - Work on macOS, Linux, Windows
@@ -127,13 +127,13 @@ Enhance the tidymodels skills system to provide automatic access to source code 
 **macOS/Linux/WSL:**
 ```bash
 # Clone specific package
-./shared-scripts/clone-tidymodels-repos.sh yardstick
+./tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh yardstick
 
 # Clone multiple packages
-./shared-scripts/clone-tidymodels-repos.sh yardstick recipes
+./tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh yardstick recipes
 
 # Clone all packages
-./shared-scripts/clone-tidymodels-repos.sh all
+./tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh all
 ```
 
 **Windows (PowerShell):**
@@ -151,7 +151,7 @@ Enhance the tidymodels skills system to provide automatic access to source code 
 **Any platform (Python fallback):**
 ```bash
 # If native scripts don't work or Python is preferred
-python3 shared-scripts/clone-tidymodels-repos.py yardstick
+python3 tidymodels/skills/shared-scripts/clone-tidymodels-repos.py yardstick
 ```
 
 **Script Selection Logic**:
@@ -260,7 +260,7 @@ The clone scripts will:
 
    Repository Access Setup: shared-references/repository-access.md
 
-   Or run: shared-scripts/clone-tidymodels-repos.sh {package}
+   Or run: tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh {package}
 
    I'll proceed using built-in references for now.
    ```
@@ -457,7 +457,7 @@ standard pattern shown in the references/numeric-metrics.md guide...
 ## Implementation Phases (Revised)
 
 ### Phase 1: Foundation (Week 1)
-- [ ] **Create shared-scripts/ directory** in skills-personal
+- [ ] **Create tidymodels/skills/shared-scripts/ directory** in skills-personal
 - [ ] **Write clone-tidymodels-repos.sh** - POSIX shell script
   - [ ] Check git installation
   - [ ] Accept package name arguments

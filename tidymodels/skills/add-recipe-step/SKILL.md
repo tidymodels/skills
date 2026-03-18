@@ -34,13 +34,13 @@ Run from your R package directory:
 
 ```bash
 # macOS/Linux/WSL
-./path/to/skills-personal/shared-scripts/clone-tidymodels-repos.sh recipes
+./path/to/skills-personal/tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh recipes
 
 # Windows (PowerShell)
-.\path\to\skills-personal\shared-scripts\clone-tidymodels-repos.ps1 recipes
+.\path\to\skills-personal\tidymodels\skills\shared-scripts\clone-tidymodels-repos.ps1 recipes
 
 # Any platform (Python)
-python3 /path/to/skills-personal/shared-scripts/clone-tidymodels-repos.py recipes
+python3 /path/to/skills-personal/tidymodels/skills/shared-scripts/clone-tidymodels-repos.py recipes
 ```
 
 **For complete instructions**, see: [Repository Access Setup](../shared-references/repository-access.md)

@@ -9,7 +9,7 @@ Successfully implemented repository access functionality with platform-native cl
 
 ## What Was Created
 
-### 1. Scripts (shared-scripts/)
+### 1. Scripts (tidymodels/skills/shared-scripts/)
 
 ✅ **clone-tidymodels-repos.sh** (Bash - macOS/Linux/WSL)
 - 7.6 KB, 249 lines
@@ -151,7 +151,7 @@ Successfully implemented repository access functionality with platform-native cl
 
 ```
 skills-personal/
-├── shared-scripts/
+├── tidymodels/skills/shared-scripts/
 │   ├── README.md                           # 4.5 KB - Script usage guide ✅
 │   ├── clone-tidymodels-repos.sh           # 7.6 KB - Bash script ✅
 │   ├── clone-tidymodels-repos.ps1          # 8.9 KB - PowerShell script ✅

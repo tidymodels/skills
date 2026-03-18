@@ -71,10 +71,10 @@ Navigate to your R package directory (where your `DESCRIPTION` file is) and run 
 cd /path/to/your-package
 
 # Clone yardstick
-./path/to/skills-personal/shared-scripts/clone-tidymodels-repos.sh yardstick
+./path/to/skills-personal/tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh yardstick
 
 # Or clone all packages
-./path/to/skills-personal/shared-scripts/clone-tidymodels-repos.sh all
+./path/to/skills-personal/tidymodels/skills/shared-scripts/clone-tidymodels-repos.sh all
 ```
 
 **Windows (PowerShell):**
@@ -84,17 +84,17 @@ cd /path/to/your-package
 cd C:\path\to\your-package
 
 # Clone yardstick
-.\path\to\skills-personal\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+.\path\to\skills-personal\tidymodels\skills\shared-scripts\clone-tidymodels-repos.ps1 yardstick
 
 # Or clone all packages
-.\path\to\skills-personal\shared-scripts\clone-tidymodels-repos.ps1 all
+.\path\to\skills-personal\tidymodels\skills\shared-scripts\clone-tidymodels-repos.ps1 all
 ```
 
 **Any platform (Python):**
 
 ```bash
 # From your package directory
-python3 /path/to/skills-personal/shared-scripts/clone-tidymodels-repos.py yardstick
+python3 /path/to/skills-personal/tidymodels/skills/shared-scripts/clone-tidymodels-repos.py yardstick
 ```
 
 ### Step 3: Verify Setup
@@ -430,7 +430,7 @@ Users can use whichever is most comfortable for their platform.
 
 ## Related Documentation
 
-- **Scripts README**: `shared-scripts/README.md` - Script usage and quick reference
+- **Scripts README**: `../shared-scripts/README.md` - Script usage and quick reference
 - **Yardstick skill**: `add-yardstick-metric/SKILL.md` - Creating metrics
 - **Recipes skill**: `add-recipe-step/SKILL.md` - Creating recipe steps
 
