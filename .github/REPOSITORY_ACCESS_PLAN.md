@@ -495,12 +495,14 @@ standard pattern shown in the references/numeric-metrics.md guide...
 
 ### Phase 3: File References Enhancement (Week 3)
 - [ ] **Add file path references to yardstick skill**
+  - [ ] Review and update SKILL.md with repo file references
   - [ ] Update numeric-metrics.md with R/ file paths
   - [ ] Update class-metrics.md with R/ file paths
   - [ ] Update probability-metrics.md with R/ file paths
   - [ ] Update test patterns with test file paths
   - [ ] Balance reference density (avoid over-referencing)
 - [ ] **Add file path references to recipes skill**
+  - [ ] Review and update SKILL.md with repo file references
   - [ ] Update modify-in-place-steps.md with R/ file paths
   - [ ] Update create-new-columns-steps.md with R/ file paths
   - [ ] Update test patterns with test file paths
