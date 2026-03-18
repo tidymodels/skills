@@ -1,0 +1,1338 @@
+# Tidymodels Skill Implementation Guide
+
+**Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
+
+**Last Updated:** 2026-03-18
+
+---
+
+## Overview
+
+This guide documents the current architecture and patterns for tidymodels skills, based on the completed `add-yardstick-metric` and `add-recipe-step` skills.
+
+### Current Skills
+
+- **add-yardstick-metric** - Creating custom performance metrics
+- **add-recipe-step** - Creating preprocessing steps for recipes
+- *(Future: add-parsnip-model, add-dials-parameter, etc.)*
+
+---
+
+## Core Architecture: Extension vs Source Development
+
+### The Dual Context Pattern
+
+Every tidymodels skill supports **two distinct development contexts**:
+
+1. **Extension Development** (Default)
+   - Creating **new R packages** that extend tidymodels
+   - Cannot use internal functions (only exported functions with `package::` prefix)
+   - For CRAN submissions, standalone packages, independent work
+   - Package detection: No tidymodels package name in DESCRIPTION's `Package:` field
+
+2. **Source Development** (Advanced)
+   - Contributing **directly to tidymodels repositories** via PRs
+   - Can use internal functions without prefix
+   - Has access to internal helpers, test data, documentation templates
+   - Package detection: tidymodels package name in DESCRIPTION's `Package:` field
+
+### Why This Split Matters
+
+**Extension developers** (90% of users):
+- Must use only exported functions
+- Need self-contained implementations
+- Require complete examples showing all code
+- Face stricter constraints but get portability
+
+**Source developers** (10% - contributors):
+- Can leverage internal infrastructure
+- Follow package-specific conventions
+- Have access to internal test helpers
+- Need to match existing code style exactly
+
+---
+
+## File Structure
+
+### Complete Skill Directory Structure
+
+```
+tidymodels/skills/
+├── add-[package]-[feature]/          # E.g., add-yardstick-metric
+│   ├── SKILL.md                      # Main entry point (REQUIRED)
+│   ├── extension-guide.md            # Extension development guide
+│   ├── source-guide.md               # Source development guide
+│   ├── testing-patterns-source.md    # Package-specific testing
+│   ├── best-practices-source.md      # Package-specific practices
+│   ├── troubleshooting-source.md     # Package-specific troubleshooting
+│   └── references/                   # Detailed reference docs
+│       ├── [topic1].md
+│       ├── [topic2].md
+│       └── ...
+│
+└── shared-references/                # Universal cross-skill resources
+    ├── testing-patterns-extension.md
+    ├── best-practices-extension.md
+    ├── troubleshooting-extension.md
+    ├── r-package-setup.md
+    ├── development-workflow.md
+    ├── roxygen-documentation.md
+    ├── package-imports.md
+    └── repository-access.md
+```
+
+### Shared Scripts (Optional)
+
+```
+tidymodels/skills/shared-scripts/
+├── README.md
+├── clone-tidymodels-repos.sh    # Bash script
+├── clone-tidymodels-repos.ps1   # PowerShell script
+└── clone-tidymodels-repos.py    # Python script
+```
+
+---
+
+## File-by-File Implementation Guide
+
+### 1. SKILL.md (Main Entry Point)
+
+**Purpose:** User-facing entry point that introduces the skill and provides navigation.
+
+**Required Sections:**
+
+```markdown
+---
+name: add-[package]-[feature]
+description: [One-line description for Claude Code skill selector]
+---
+
+# Add [Package] [Feature]
+
+[Brief introduction paragraph]
+
+## Two Development Contexts
+
+This skill supports **two distinct development contexts**:
+
+### 🆕 Extension Development (Default)
+**Creating a new R package** that extends [package] with custom [features].
+
+- ✅ Use this for: New packages, standalone [features], CRAN submissions
+- 📦 Package detection: No `[package]` in DESCRIPTION's `Package:` field
+- ⚠️ **Constraint**: Can only use exported functions (no `:::`)
+- 📖 **Guide**: [Extension Development Guide](extension-guide.md)
+
+### 🔧 Source Development (Advanced)
+**Contributing directly to [package]** via pull requests.
+
+- ✅ Use this for: Contributing to tidymodels/[package] repository
+- 📦 Package detection: `Package: [package]` in DESCRIPTION
+- ✨ **Benefit**: Can use internal functions and package infrastructure
+- 📖 **Guide**: [Source Development Guide](source-guide.md)
+
+**This main guide shows extension development patterns.** If you're contributing to [package] itself, see the [Source Development Guide](source-guide.md) for package-specific details.
+
+---
+
+## Quick Start
+
+**Choose your context:**
+
+- **Creating a new package?** → Follow this guide, then see [Extension Development Guide](extension-guide.md)
+- **Contributing to [package]?** → Clone repository, then see [Source Development Guide](source-guide.md)
+
+**Not sure which?** If you're in the `tidymodels/[package]` repository, use source development. Otherwise, use extension development.
+
+---
+
+## Overview
+
+[What this skill provides...]
+
+## Repository Access (Optional but Recommended)
+
+[Standard repository access section - see existing skills for template]
+
+## Quick Navigation
+
+**Development Guides:**
+- [Extension Development Guide](extension-guide.md) - Creating new packages that extend [package]
+- [Source Development Guide](source-guide.md) - Contributing PRs to [package] itself
+
+**Reference Files:**
+- [List all reference/*.md files with descriptions]
+
+**Shared References (Extension Development):**
+- [R Package Setup](../shared-references/r-package-setup.md)
+- [Development Workflow](../shared-references/development-workflow.md)
+- [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+- [Roxygen Documentation](../shared-references/roxygen-documentation.md)
+- [Package Imports](../shared-references/package-imports.md)
+- [Best Practices (Extension)](../shared-references/best-practices-extension.md)
+- [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+
+**Source Development Specific:**
+- [Testing Patterns (Source)](testing-patterns-source.md)
+- [Best Practices (Source)](best-practices-source.md)
+- [Troubleshooting (Source)](troubleshooting-source.md)
+
+## Prerequisites
+
+[Standard prerequisites section - see shared-references/r-package-setup.md]
+
+## Development Workflow
+
+[Standard workflow section - see shared-references/development-workflow.md]
+
+## Complete Example: [Primary Use Case]
+
+[Full working example using EXTENSION patterns (with package:: prefix)]
+
+### 1. [Component 1]
+[Code example]
+
+### 2. [Component 2]
+[Code example]
+
+[... continue with all required components]
+
+## [Additional Sections]
+
+[Feature-specific content organized logically]
+
+## Package-Specific Patterns (Source Development)
+
+If you're contributing to [package] itself, you have access to internal functions and conventions not available in extension development.
+
+[Brief overview of source-specific patterns - link to source-guide.md for details]
+
+---
+
+## Next Steps
+
+**For Extension Development (creating new packages):**
+
+1. **Choose your context:** [Extension Development Guide](extension-guide.md)
+2. [Additional steps...]
+
+**For Source Development (contributing to [package]):**
+
+1. **Start here:** [Source Development Guide](source-guide.md)
+2. [Additional steps...]
+```
+
+**Key Principles:**
+- Start with frontmatter for Claude Code skill registration
+- Clearly distinguish extension vs source from the beginning
+- Provide complete examples using extension patterns (most users)
+- Link extensively to other documents
+- Keep main content focused on extension development
+- Reference source guide for package-specific patterns
+
+---
+
+### 2. extension-guide.md
+
+**Purpose:** Step-by-step guide for creating new packages that extend tidymodels.
+
+**Required Sections:**
+
+```markdown
+# Extension Development Guide: [Package] [Feature]
+
+Complete guide for creating new packages that extend [package] with custom [features].
+
+---
+
+## When to Use This Guide
+
+✅ **Use this guide if you are:**
+- Creating a **new R package** that adds custom [features]
+- Building on [package]'s foundation without modifying [package] itself
+- Publishing [features] to CRAN or sharing privately
+- Want to avoid tight coupling with [package] internals
+
+❌ **Don't use this guide if you are:**
+- Contributing a PR directly to the [package] package → Use [Source Development Guide](source-guide.md)
+- Working inside the [package] repository → Use [Source Development Guide](source-guide.md)
+
+---
+
+## Prerequisites
+
+### Quick Package Setup
+
+See [R Package Setup](../shared-references/r-package-setup.md) for complete details.
+
+[Standard setup code block]
+
+---
+
+## Key Constraints for Extension Development
+
+### ❌ Never Use Internal Functions
+
+**Critical:** You CANNOT use functions accessed with `:::`.
+
+[Examples of what NOT to do and alternatives]
+
+### ✅ Only Use Exported Functions
+
+Safe to use:
+- `[package]::[function1]()`
+- `[package]::[function2]()`
+[List all key exported functions]
+
+### ✅ Self-Contained Implementations
+
+You must implement all logic yourself:
+
+[Example of self-contained implementation]
+
+---
+
+## Step-by-Step Implementation
+
+### Step 1: [First Major Step]
+[Detailed guidance with code examples]
+
+### Step 2: [Second Major Step]
+[Detailed guidance with code examples]
+
+[... continue with all steps]
+
+---
+
+## Complete Examples
+
+### [Example 1]
+[Full working example]
+
+### [Example 2]
+[Full working example]
+
+---
+
+## Common Patterns
+
+[Common code patterns with examples]
+
+---
+
+## Development Workflow
+
+See [Development Workflow](../shared-references/development-workflow.md) for complete details.
+
+**Fast iteration cycle (run repeatedly):**
+1. `devtools::document()` - Generate documentation
+2. `devtools::load_all()` - Load your package
+3. `devtools::test()` - Run tests
+
+**Final validation (run once at end):**
+4. `devtools::check()` - Full R CMD check
+
+---
+
+## Package Integration
+
+[How to integrate into R package structure]
+
+---
+
+## Testing
+
+See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) for comprehensive guide.
+
+**Required test categories:**
+[List essential test types]
+
+---
+
+## Best Practices
+
+See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for complete guide.
+
+**Key principles:**
+[List critical principles]
+
+---
+
+## Troubleshooting
+
+See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for complete guide.
+
+**Common issues:**
+[List common problems and solutions]
+
+---
+
+## Reference Documentation
+
+### [Package] Types
+- [Link to relevant references]
+
+### Core Concepts
+- [Link to core concept references]
+
+### Shared References
+- [Link to shared references]
+
+---
+
+## Next Steps
+
+1. **Set up your package** following [R Package Setup](../shared-references/r-package-setup.md)
+2. [Additional steps...]
+
+---
+
+## Getting Help
+
+- Check [Troubleshooting Guide](../shared-references/troubleshooting-extension.md)
+- Review existing examples in reference documentation
+- Study the main [[package] SKILL.md](SKILL.md) for more details
+- Search GitHub issues: https://github.com/tidymodels/[package]/issues
+```
+
+**Key Principles:**
+- Focus exclusively on extension development
+- Emphasize the "never use :::" constraint repeatedly
+- Provide self-contained code examples
+- Link to shared references extensively
+- Show complete implementations, not fragments
+
+---
+
+### 3. source-guide.md
+
+**Purpose:** Guide for contributing directly to the tidymodels package repository.
+
+**Required Sections:**
+
+```markdown
+# Source Development Guide: Contributing to [Package]
+
+Complete guide for contributing new [features] to the [package] package itself.
+
+---
+
+## When to Use This Guide
+
+✅ **Use this guide if you are:**
+- Contributing a PR directly to the [package] package
+- Working inside the [package] repository
+- Adding [features] that should be part of [package] core
+- Modifying existing [package] [features]
+
+❌ **Don't use this guide if you are:**
+- Creating a new package that extends [package] → Use [Extension Development Guide](extension-guide.md)
+- Building standalone [features] → Use [Extension Development Guide](extension-guide.md)
+
+---
+
+## Prerequisites
+
+### Clone the [Package] Repository
+
+```bash
+# Clone from GitHub
+git clone https://github.com/tidymodels/[package].git
+cd [package]
+
+# Create a feature branch
+git checkout -b feature/add-[feature]-name
+```
+
+See [Repository Access](../shared-references/repository-access.md) for more details.
+
+### Install Development Dependencies
+
+```r
+# Install [package] with all dependencies
+devtools::install_dev_deps()
+
+# Load the package for development
+devtools::load_all()
+```
+
+---
+
+## Understanding [Package]'s Architecture
+
+### Package Organization
+
+[Directory structure of the package]
+
+### File Naming Conventions
+
+**Source files must follow strict naming:**
+[List naming conventions]
+
+**Test files must match:**
+[List test naming conventions]
+
+---
+
+## Working with Internal Functions
+
+### ✅ You CAN Use Internal Functions
+
+When developing [package] itself, internal functions are available:
+
+[Examples of using internal functions]
+
+### Common Internal Helpers
+
+#### [Internal Helper 1]
+[Description and example]
+
+#### [Internal Helper 2]
+[Description and example]
+
+### Finding Internal Functions
+
+[How to discover available internal functions]
+
+See [Best Practices (Source)](best-practices-source.md) for complete guide to internal functions.
+
+---
+
+## Step-by-Step Implementation
+
+[Detailed implementation steps specific to source development]
+
+---
+
+## Documentation Patterns
+
+[Package-specific documentation patterns, templates, etc.]
+
+---
+
+## Using Internal Test Data
+
+### Available Test Helpers
+
+[List and describe internal test helpers]
+
+See [Testing Patterns (Source)](testing-patterns-source.md) for complete list.
+
+---
+
+## Snapshot Testing
+
+[How the package uses snapshot testing]
+
+---
+
+## Consistency with Existing [Features]
+
+### Study Similar [Features]
+
+Before implementing:
+[What to study]
+
+### Match Function Structure
+
+[Expected structure pattern]
+
+---
+
+## Creating New Internal Helpers
+
+### When to Create
+
+[Guidelines for creating helpers]
+
+### Naming and Documentation
+
+[How to document internal helpers]
+
+---
+
+## Error Messages
+
+[Package-specific error message patterns]
+
+---
+
+## PR Submission
+
+### Before Submitting
+
+[Checklist before PR]
+
+### Creating the PR
+
+[How to create and describe PR]
+
+### Review Process
+
+[What to expect in review]
+
+See [Troubleshooting (Source)](troubleshooting-source.md) for common review feedback.
+
+---
+
+## Reference Documentation
+
+### Source Development
+- [Testing Patterns (Source)](testing-patterns-source.md)
+- [Best Practices (Source)](best-practices-source.md)
+- [Troubleshooting (Source)](troubleshooting-source.md)
+
+[Additional reference links]
+
+---
+
+## Next Steps
+
+1. **Clone [package] repository**
+2. **Create feature branch**
+3. **Implement your [feature]** following this guide
+4. **Test thoroughly** using internal test data
+5. **Run `devtools::check()`**
+6. **Submit PR** to tidymodels/[package]
+
+---
+
+## Getting Help
+
+- Check [Troubleshooting (Source)](troubleshooting-source.md)
+- Study existing [features] in the repository
+- Review [Best Practices (Source)](best-practices-source.md)
+- Open an issue on GitHub for questions
+- Tag maintainers in your PR
+```
+
+**Key Principles:**
+- Focus exclusively on source development
+- Emphasize access to internal functions
+- Describe package-specific conventions
+- Include git/PR workflow
+- Link to source-specific reference docs
+
+---
+
+### 4. testing-patterns-source.md
+
+**Purpose:** Package-specific testing patterns for source development.
+
+**Content Structure:**
+
+```markdown
+# Testing Patterns: [Package] Source Development
+
+This guide covers testing patterns when **developing [package] itself** (contributing PRs to the tidymodels/[package] repository).
+
+**For extension development**, see: [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+
+---
+
+## When to Use This Guide
+
+✅ **Use this guide if:**
+- You're in the `tidymodels/[package]` repository
+- `DESCRIPTION` has `Package: [package]`
+- You're contributing via PR
+
+❌ **For extension development:**
+- Use [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+
+---
+
+## Key Differences from Extension Testing
+
+| Aspect | Source Development | Extension Development |
+|--------|-------------------|----------------------|
+| Test data | Use internal helpers | Create own data |
+| Test files | `tests/testthat/test-[prefix]-*.R` | `tests/testthat/test-*.R` |
+| Snapshots | Extensive use | Optional |
+| Internal functions | Can test directly | Cannot access |
+
+---
+
+## Internal Test Helpers
+
+[List all internal test data helpers with examples]
+
+---
+
+## Test File Organization
+
+[Package-specific test file naming and organization]
+
+---
+
+## Snapshot Testing
+
+[How to use snapshot testing in this package]
+
+---
+
+## Testing Internal Functions
+
+[How to test internal helper functions]
+
+---
+
+## Common Test Patterns
+
+[Package-specific test patterns with examples]
+
+---
+
+## Required Test Coverage
+
+[What tests are required for this package]
+
+---
+
+## Running Tests
+
+[How to run tests during development]
+
+---
+
+## Examples
+
+### Example 1: [Test Type 1]
+[Complete test example]
+
+### Example 2: [Test Type 2]
+[Complete test example]
+
+---
+
+## Troubleshooting
+
+[Common testing issues specific to source development]
+
+---
+
+## Cross-References
+
+- [Best Practices (Source)](best-practices-source.md)
+- [Troubleshooting (Source)](troubleshooting-source.md)
+- [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) - For universal patterns
+```
+
+**Key Principles:**
+- Focus on package-specific testing
+- Show use of internal test helpers
+- Explain snapshot testing
+- Provide complete examples
+- Link to extension guide for universal patterns
+
+---
+
+### 5. best-practices-source.md
+
+**Purpose:** Package-specific best practices and conventions for source development.
+
+**Content Structure:**
+
+```markdown
+# Best Practices: [Package] Source Development
+
+Best practices when **developing [package] itself** (contributing to tidymodels/[package]).
+
+**For extension development**, see: [Best Practices (Extension)](../shared-references/best-practices-extension.md)
+
+---
+
+## When to Use This Guide
+
+[Same context discrimination as other source files]
+
+---
+
+## Key Differences from Extension Development
+
+| Aspect | Source Development | Extension Development |
+|--------|-------------------|----------------------|
+| Function access | Direct (no prefix) | Must use `package::` |
+| Internal helpers | Can use freely | Must reimplement |
+| File naming | Strict conventions | Flexible |
+| Documentation | Uses templates | Self-contained |
+
+---
+
+## File Organization
+
+[Package-specific file organization rules]
+
+---
+
+## Internal Function Usage
+
+[When and how to use internal functions]
+
+---
+
+## Code Style
+
+[Package-specific code style requirements]
+
+---
+
+## Documentation Patterns
+
+[Package-specific documentation templates and patterns]
+
+---
+
+## Function Structure
+
+[Expected function structure for this package]
+
+---
+
+## Error Messages
+
+[Package-specific error message patterns]
+
+---
+
+## Creating Internal Helpers
+
+[When and how to create new internal functions]
+
+---
+
+## Examples
+
+### Example 1: [Pattern 1]
+[Complete example]
+
+### Example 2: [Pattern 2]
+[Complete example]
+
+---
+
+## Universal Best Practices
+
+See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for practices that apply to both contexts:
+- Using base pipe `|>` not `%>%`
+- Prefer for-loops over `purrr::map()`
+- Using `cli::cli_abort()` for errors
+- [Other universal practices]
+
+---
+
+## Cross-References
+
+- [Testing Patterns (Source)](testing-patterns-source.md)
+- [Troubleshooting (Source)](troubleshooting-source.md)
+- [Best Practices (Extension)](../shared-references/best-practices-extension.md)
+```
+
+---
+
+### 6. troubleshooting-source.md
+
+**Purpose:** Package-specific troubleshooting for source development.
+
+**Content Structure:**
+
+```markdown
+# Troubleshooting: [Package] Source Development
+
+Troubleshooting guide for **developing [package] itself** (contributing to tidymodels/[package]).
+
+**For extension development**, see: [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+
+---
+
+## When to Use This Guide
+
+[Same context discrimination as other source files]
+
+---
+
+## Package-Specific Issues
+
+### Issue 1: [Specific Problem]
+**Problem:** [Description]
+**Solution:** [How to fix]
+**Example:**
+```r
+[Code example]
+```
+
+[Continue with all package-specific issues]
+
+---
+
+## Git and PR Issues
+
+[Issues specific to PR workflow]
+
+---
+
+## Internal Function Issues
+
+[Problems with internal function usage]
+
+---
+
+## Test Issues
+
+[Testing problems specific to source development]
+
+---
+
+## Universal Issues
+
+See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for issues that apply to both contexts:
+- "could not find function" → Run `devtools::load_all()`
+- "object not found in namespace" → Add `@export`, run `devtools::document()`
+- [Other universal issues]
+
+---
+
+## Getting Help
+
+- Review [Best Practices (Source)](best-practices-source.md)
+- Study existing [features] in the repository
+- Check GitHub issues
+- Ask in PR review
+
+---
+
+## Cross-References
+
+- [Testing Patterns (Source)](testing-patterns-source.md)
+- [Best Practices (Source)](best-practices-source.md)
+- [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+```
+
+---
+
+### 7. references/*.md
+
+**Purpose:** Deep-dive reference documentation on specific topics.
+
+**Naming Pattern:** `[topic-name].md` (e.g., `metric-system.md`, `step-architecture.md`)
+
+**Content Structure:**
+
+```markdown
+# [Topic Name]
+
+[Comprehensive documentation on a specific topic]
+
+> **Note for Source Development:** If you're contributing directly to the [package] package, you can use [internal features X, Y, Z]. See the [Source Development Guide](../source-guide.md) for details.
+
+---
+
+## Overview
+
+[Topic introduction]
+
+## [Section 1]
+
+[Detailed content]
+
+## [Section 2]
+
+[Detailed content]
+
+## Complete Examples
+
+### Example 1: [Use Case 1]
+[Full working example using EXTENSION patterns]
+
+### Example 2: [Use Case 2]
+[Full working example using EXTENSION patterns]
+
+---
+
+## Cross-References
+
+- [Related reference doc 1]
+- [Related reference doc 2]
+- [Extension Guide](../extension-guide.md)
+- [Source Guide](../source-guide.md)
+```
+
+**Key Principles:**
+- Focus on one specific topic in depth
+- Provide complete, self-contained examples
+- Use extension patterns (package:: prefix) in examples
+- Note when source development has alternatives
+- Cross-reference related docs
+
+---
+
+## Shared References (Universal)
+
+These files live in `shared-references/` and apply to ALL skills:
+
+### testing-patterns-extension.md
+Universal testing patterns for extension developers (creating new packages).
+
+### best-practices-extension.md
+Universal best practices for extension developers.
+
+### troubleshooting-extension.md
+Universal troubleshooting for extension developers.
+
+### r-package-setup.md
+How to initialize an R package structure (used by all skills).
+
+### development-workflow.md
+The fast iteration cycle: document → load → test → check.
+
+### roxygen-documentation.md
+How to write roxygen2 documentation.
+
+### package-imports.md
+Managing package dependencies and imports.
+
+### repository-access.md
+How to clone tidymodels repositories (optional but recommended).
+
+**Key Principle:** These files should never mention package-specific details. They provide universal guidance applicable across all tidymodels skills.
+
+---
+
+## Writing Style Guidelines
+
+### Markdown Conventions
+
+1. **Headers:**
+   - Use `#` for main title
+   - Use `##` for major sections
+   - Use `###` for subsections
+   - Use `####` sparingly for sub-subsections
+
+2. **Code Blocks:**
+   - Always specify language: ` ```r `, ` ```bash `
+   - Include comments to explain non-obvious code
+   - Show complete, runnable examples
+
+3. **Lists:**
+   - Use `-` for unordered lists
+   - Use `1.` for ordered lists
+   - Maintain consistent indentation
+
+4. **Emphasis:**
+   - Use `**bold**` for critical information
+   - Use `*italic*` for emphasis
+   - Use `**Critical:**`, `**Warning:**`, `**Note:**` for callouts
+
+5. **Links:**
+   - Use relative links: `[Text](../shared-references/file.md)`
+   - Link section anchors: `[Text](file.md#section-name)`
+
+6. **Tables:**
+   - Use markdown tables for comparisons
+   - Keep cells concise
+   - Use `|` alignment when helpful
+
+### Voice and Tone
+
+- **Active voice:** "You create" not "A metric is created"
+- **Direct:** "Use `function()`" not "One might use `function()`"
+- **Encouraging:** "This lets you..." not "This prevents you from..."
+- **Clear constraints:** Be explicit about what's not allowed
+
+### Code Example Standards
+
+1. **Complete, not fragments:**
+   ```r
+   # ✅ GOOD - Complete example
+   mae_impl <- function(truth, estimate, case_weights = NULL) {
+     errors <- abs(truth - estimate)
+     if (is.null(case_weights)) {
+       mean(errors)
+     } else {
+       weighted.mean(errors, w = case_weights)
+     }
+   }
+   ```
+
+2. **Show required vs optional:**
+   - Comment which parameters are required
+   - Show defaults explicitly
+   - Demonstrate common variations
+
+3. **Extension pattern by default:**
+   - Use `package::function()` prefix in main examples
+   - Note source alternatives in callout boxes
+   - Keep extension examples self-contained
+
+---
+
+## Cross-Reference Patterns
+
+### Within a Skill
+
+```markdown
+See [Source Development Guide](source-guide.md) for details.
+See [Metric System](references/metric-system.md) for complete guide.
+```
+
+### To Shared References
+
+```markdown
+See [R Package Setup](../shared-references/r-package-setup.md) for complete details.
+See [Development Workflow](../shared-references/development-workflow.md) for the fast iteration cycle.
+```
+
+### To Other Skills
+
+```markdown
+See the [add-recipe-step skill](../add-recipe-step/SKILL.md) for preprocessing patterns.
+```
+
+### Bidirectional Cross-References
+
+When you add a new skill, update related skills:
+- Add link from related skill's SKILL.md to new skill
+- Cross-reference in shared-references where appropriate
+
+---
+
+## Testing Your New Skill
+
+### Before Considering It Complete
+
+1. **File Checklist:**
+   - [ ] SKILL.md with frontmatter
+   - [ ] extension-guide.md
+   - [ ] source-guide.md
+   - [ ] testing-patterns-source.md
+   - [ ] best-practices-source.md
+   - [ ] troubleshooting-source.md
+   - [ ] At least 3-5 references/*.md files
+   - [ ] All files have proper cross-references
+
+2. **Content Checklist:**
+   - [ ] Clear extension vs source discrimination throughout
+   - [ ] Complete examples (not code fragments)
+   - [ ] Extension examples use `package::` prefix
+   - [ ] Source examples show internal function usage
+   - [ ] All cross-references work (no broken links)
+   - [ ] Consistent voice and tone
+   - [ ] No package-specific details in shared-references
+
+3. **Quality Checklist:**
+   - [ ] Examples are tested and work
+   - [ ] Code follows tidymodels style
+   - [ ] Documentation is clear and concise
+   - [ ] Navigation is intuitive
+   - [ ] Covers both happy path and edge cases
+
+### Manual Testing
+
+1. **Read as extension developer:**
+   - Can you follow SKILL.md → extension-guide.md flow?
+   - Are examples self-contained?
+   - Is the `:::` constraint clear?
+
+2. **Read as source developer:**
+   - Can you follow SKILL.md → source-guide.md flow?
+   - Are internal functions documented?
+   - Is PR workflow clear?
+
+3. **Check cross-references:**
+   - Click every link to verify it works
+   - Ensure bidirectional references make sense
+   - Verify shared-references links are correct
+
+---
+
+## Common Pitfalls to Avoid
+
+### ❌ Don't:
+1. **Mix extension and source patterns in examples** - Choose one context per example
+2. **Assume `:::` access in extension examples** - Always use exported functions
+3. **Put package-specific content in shared-references** - Keep universal
+4. **Show code fragments without context** - Provide complete examples
+5. **Forget to update cross-references** - Keep links bidirectional
+6. **Skip the context discrimination section** - Always clarify extension vs source
+7. **Use generic error messages** - Be specific to the context
+8. **Leave broken links** - Test all cross-references
+
+### ✅ Do:
+1. **Start with SKILL.md structure from existing skills** - Copy, then adapt
+2. **Test all code examples** - They should run as shown
+3. **Link generously** - Help users navigate
+4. **Be explicit about constraints** - Extension development has limits
+5. **Provide both extension and source examples** - When patterns differ significantly
+6. **Update related skills** - Add cross-references when appropriate
+7. **Follow naming conventions** - Consistent with existing skills
+8. **Include troubleshooting** - Anticipate common problems
+
+---
+
+## Implementation Checklist for New Skill
+
+When creating a new skill (e.g., `add-parsnip-model`):
+
+### Phase 1: Planning (1-2 hours)
+- [ ] Identify target package (e.g., parsnip)
+- [ ] Determine primary feature (e.g., adding model specifications)
+- [ ] List 3-5 key reference topics
+- [ ] Review existing package for patterns
+- [ ] Identify internal functions (for source guide)
+
+### Phase 2: Core Structure (3-4 hours)
+- [ ] Create skill directory: `tidymodels/skills/add-[package]-[feature]/`
+- [ ] Write SKILL.md from template
+- [ ] Create extension-guide.md
+- [ ] Create source-guide.md
+- [ ] Add references/ directory
+
+### Phase 3: Reference Documentation (4-6 hours)
+- [ ] Write 3-5 reference/*.md files
+- [ ] Ensure each has complete examples
+- [ ] Test all code examples
+- [ ] Add cross-references between references
+
+### Phase 4: Source-Specific Guides (3-4 hours)
+- [ ] Write testing-patterns-source.md
+- [ ] Write best-practices-source.md
+- [ ] Write troubleshooting-source.md
+- [ ] Document internal functions
+- [ ] Add test data helpers
+
+### Phase 5: Cross-References (1-2 hours)
+- [ ] Link all files within skill
+- [ ] Link to shared-references
+- [ ] Update related skills if needed
+- [ ] Verify all links work
+
+### Phase 6: Review and Polish (2-3 hours)
+- [ ] Read through as extension developer
+- [ ] Read through as source developer
+- [ ] Test all code examples
+- [ ] Check for consistency
+- [ ] Proofread for clarity
+
+**Total Time Estimate: 14-22 hours**
+
+---
+
+## Example: Planned Structure for add-parsnip-model
+
+If we were to create an `add-parsnip-model` skill:
+
+```
+tidymodels/skills/add-parsnip-model/
+├── SKILL.md                        # Entry point
+├── extension-guide.md              # Creating new model packages
+├── source-guide.md                 # Contributing to parsnip
+├── testing-patterns-source.md      # Parsnip test patterns
+├── best-practices-source.md        # Parsnip code conventions
+├── troubleshooting-source.md       # Parsnip-specific issues
+└── references/
+    ├── model-specification.md      # set_model_engine(), set_dependency()
+    ├── fit-predict-pattern.md      # fit.model_spec(), predict.model_fit()
+    ├── engine-registration.md      # set_model_arg(), set_encoding()
+    ├── parameter-translation.md    # Translating args to engine
+    └── prediction-types.md         # numeric, class, prob, etc.
+```
+
+Key topics for parsnip:
+- Model specification creation
+- Engine registration
+- Fit/predict pattern
+- Parameter translation
+- Multiple prediction types
+- Engine-specific details
+
+---
+
+## Questions to Answer for Each New Skill
+
+When planning a new skill, answer these questions:
+
+1. **What is the target package?** (e.g., yardstick, recipes, parsnip, dials)
+
+2. **What is the primary feature being extended?** (e.g., metrics, steps, models, parameters)
+
+3. **What are the 3-5 most important concepts users need to understand?** (These become references/*.md)
+
+4. **What internal functions exist in the package?** (Document in source guide)
+
+5. **What test helpers are available?** (Document in testing-patterns-source.md)
+
+6. **What are the package-specific naming conventions?** (Document in best-practices-source.md)
+
+7. **What are the most common errors?** (Document in troubleshooting-source.md)
+
+8. **What is a complete, minimal example?** (Show in SKILL.md and extension-guide.md)
+
+9. **What makes this different from extension development?** (Explain in source-guide.md)
+
+10. **What should users read next?** (Plan cross-references)
+
+---
+
+## Maintenance
+
+### When to Update Skills
+
+- **Package releases:** When tidymodels packages release new features
+- **API changes:** When exported functions change
+- **New patterns:** When best practices evolve
+- **User feedback:** When users report confusion
+
+### Updating Existing Skills
+
+1. Update the relevant file(s)
+2. Update cross-references if structure changed
+3. Test code examples still work
+4. Update "Last Updated" date in planning docs
+
+### Version Information
+
+Skills don't have version numbers themselves, but:
+- Date stamps in planning docs track evolution
+- Git history shows changes over time
+- Skills reflect current state of tidymodels packages
+
+---
+
+## Summary
+
+### Key Principles
+
+1. **Dual Context:** Always support extension and source development
+2. **Extension First:** Main examples use extension patterns (most users)
+3. **Complete Examples:** Show full working code, not fragments
+4. **Cross-Reference Heavily:** Help users navigate
+5. **Test All Code:** Examples must work as shown
+6. **Consistent Structure:** Follow established patterns
+7. **Clear Constraints:** Be explicit about extension limitations
+8. **Package-Specific Details:** In skill directories, not shared-references
+
+### Quick Start for New Skill
+
+1. Copy structure from existing skill (yardstick or recipes)
+2. Replace package name throughout
+3. Identify 3-5 key concepts for references/
+4. Write complete examples
+5. Test all code
+6. Add cross-references
+7. Review as both extension and source developer
+
+### Success Criteria
+
+A skill is complete when:
+- ✅ Extension developers can create working packages
+- ✅ Source developers can contribute PRs
+- ✅ All examples run without errors
+- ✅ Navigation is clear and intuitive
+- ✅ Both contexts are well-documented
+- ✅ Cross-references work correctly
+
+---
+
+**Last Updated:** 2026-03-18
+
+For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.
