@@ -31,7 +31,7 @@ cd recipes
 git checkout -b feature/add-step-name
 ```
 
-See [Repository Access](../shared-references/repository-access.md) for more details.
+See [Repository Access](../../shared-references/repository-access.md) for more details.
 
 ### Install Development Dependencies
 
@@ -162,7 +162,7 @@ Determine which category your step falls into:
 - **Create-new-columns**: Generates new columns
 - **Row-operation**: Filters or removes rows
 
-See [Step Architecture](references/step-architecture.md) for decision tree.
+See [Step Architecture](step-architecture.md) for decision tree.
 
 ### Step 2: Create Source File
 
@@ -668,19 +668,19 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
 ### Step Types
-- [Step Architecture](references/step-architecture.md)
-- [Modify-in-Place Steps](references/modify-in-place-steps.md)
-- [Create-New-Columns Steps](references/create-new-columns-steps.md)
-- [Row-Operation Steps](references/row-operation-steps.md)
+- [Step Architecture](step-architecture.md)
+- [Modify-in-Place Steps](modify-in-place-steps.md)
+- [Create-New-Columns Steps](create-new-columns-steps.md)
+- [Row-Operation Steps](row-operation-steps.md)
 
 ### Core Concepts
-- [Helper Functions](references/helper-functions.md)
-- [Optional Methods](references/optional-methods.md)
+- [Helper Functions](helper-functions.md)
+- [Optional Methods](optional-methods.md)
 
 ### Shared References
-- [R Package Setup](../shared-references/r-package-setup.md)
-- [Development Workflow](../shared-references/development-workflow.md)
-- [Roxygen Documentation](../shared-references/roxygen-documentation.md)
+- [R Package Setup](../../shared-references/r-package-setup.md)
+- [Development Workflow](../../shared-references/development-workflow.md)
+- [Roxygen Documentation](../../shared-references/roxygen-documentation.md)
 
 ---
 

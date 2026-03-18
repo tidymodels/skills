@@ -31,7 +31,7 @@ cd yardstick
 git checkout -b feature/add-metric-name
 ```
 
-See [Repository Access](../shared-references/repository-access.md) for more details.
+See [Repository Access](../../shared-references/repository-access.md) for more details.
 
 ### Install Development Dependencies
 
@@ -606,20 +606,20 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
 ### Metric Types
-- [Numeric Metrics](references/numeric-metrics.md)
-- [Class Metrics](references/class-metrics.md)
-- [Probability Metrics](references/probability-metrics.md)
-- [Survival Metrics](references/static-survival-metrics.md)
+- [Numeric Metrics](numeric-metrics.md)
+- [Class Metrics](class-metrics.md)
+- [Probability Metrics](probability-metrics.md)
+- [Survival Metrics](static-survival-metrics.md)
 
 ### Core Concepts
-- [Metric System Architecture](references/metric-system.md)
-- [Confusion Matrix](references/confusion-matrix.md)
-- [Case Weights](references/case-weights.md)
+- [Metric System Architecture](metric-system.md)
+- [Confusion Matrix](confusion-matrix.md)
+- [Case Weights](case-weights.md)
 
 ### Shared References
-- [R Package Setup](../shared-references/r-package-setup.md)
-- [Development Workflow](../shared-references/development-workflow.md)
-- [Roxygen Documentation](../shared-references/roxygen-documentation.md)
+- [R Package Setup](../../shared-references/r-package-setup.md)
+- [Development Workflow](../../shared-references/development-workflow.md)
+- [Roxygen Documentation](../../shared-references/roxygen-documentation.md)
 
 ---
 

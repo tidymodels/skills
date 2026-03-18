@@ -22,7 +22,7 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ### Quick Package Setup
 
-See [R Package Setup](../shared-references/r-package-setup.md) for complete details.
+See [R Package Setup](../../shared-references/r-package-setup.md) for complete details.
 
 ```r
 # Check if this is a new package or existing package
@@ -243,7 +243,7 @@ Key roxygen tags:
 
 ### Step 6: Test Your Metric
 
-See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) for complete details.
+See [Testing Patterns (Extension)](../../shared-references/testing-patterns-extension.md) for complete details.
 
 ```r
 # tests/testthat/test-mae.R
@@ -400,7 +400,7 @@ if (na_rm) {
 
 ## Development Workflow
 
-See [Development Workflow](../shared-references/development-workflow.md) for complete details.
+See [Development Workflow](../../shared-references/development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 1. `devtools::document()` - Generate documentation
@@ -447,7 +447,7 @@ mae_vec <- function(truth, estimate, ...) {
 
 ## Testing
 
-See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](../../shared-references/testing-patterns-extension.md) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -460,7 +460,7 @@ See [Testing Patterns (Extension)](../shared-references/testing-patterns-extensi
 
 ## Best Practices
 
-See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](../../shared-references/best-practices-extension.md) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -473,7 +473,7 @@ See [Best Practices (Extension)](../shared-references/best-practices-extension.m
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](../../shared-references/troubleshooting-extension.md) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -486,35 +486,35 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 ## Reference Documentation
 
 ### Metric Types
-- [Numeric Metrics](references/numeric-metrics.md) - Regression metrics
-- [Class Metrics](references/class-metrics.md) - Classification metrics
-- [Probability Metrics](references/probability-metrics.md) - Probability-based metrics
-- [Ordered Probability Metrics](references/ordered-probability-metrics.md) - Ordinal metrics
-- [Survival Metrics](references/static-survival-metrics.md) - Time-to-event metrics
-- [Quantile Metrics](references/quantile-metrics.md) - Uncertainty metrics
+- [Numeric Metrics](numeric-metrics.md) - Regression metrics
+- [Class Metrics](class-metrics.md) - Classification metrics
+- [Probability Metrics](probability-metrics.md) - Probability-based metrics
+- [Ordered Probability Metrics](ordered-probability-metrics.md) - Ordinal metrics
+- [Survival Metrics](static-survival-metrics.md) - Time-to-event metrics
+- [Quantile Metrics](quantile-metrics.md) - Uncertainty metrics
 
 ### Core Concepts
-- [Metric System Architecture](references/metric-system.md)
-- [Combining Metrics](references/metric-set.md)
-- [Confusion Matrix](references/confusion-matrix.md)
-- [Case Weights](references/case-weights.md)
+- [Metric System Architecture](metric-system.md)
+- [Combining Metrics](metric-set.md)
+- [Confusion Matrix](confusion-matrix.md)
+- [Case Weights](case-weights.md)
 
 ### Shared References
-- [R Package Setup](../shared-references/r-package-setup.md)
-- [Development Workflow](../shared-references/development-workflow.md)
-- [Testing Patterns](../shared-references/testing-patterns-extension.md)
-- [Roxygen Documentation](../shared-references/roxygen-documentation.md)
-- [Best Practices](../shared-references/best-practices-extension.md)
-- [Troubleshooting](../shared-references/troubleshooting-extension.md)
+- [R Package Setup](../../shared-references/r-package-setup.md)
+- [Development Workflow](../../shared-references/development-workflow.md)
+- [Testing Patterns](../../shared-references/testing-patterns-extension.md)
+- [Roxygen Documentation](../../shared-references/roxygen-documentation.md)
+- [Best Practices](../../shared-references/best-practices-extension.md)
+- [Troubleshooting](../../shared-references/troubleshooting-extension.md)
 
 ---
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](../shared-references/r-package-setup.md)
+1. **Set up your package** following [R Package Setup](../../shared-references/r-package-setup.md)
 2. **Choose your metric type** from the [main SKILL.md](SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
-4. **Test thoroughly** using [Testing Patterns](../shared-references/testing-patterns-extension.md)
+4. **Test thoroughly** using [Testing Patterns](../../shared-references/testing-patterns-extension.md)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -522,7 +522,7 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](../shared-references/troubleshooting-extension.md)
+- Check [Troubleshooting Guide](../../shared-references/troubleshooting-extension.md)
 - Review existing examples in reference documentation
 - Study the main [yardstick SKILL.md](SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/yardstick/issues

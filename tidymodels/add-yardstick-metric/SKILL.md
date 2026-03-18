@@ -17,7 +17,7 @@ This skill supports **two distinct development contexts**:
 - ✅ Use this for: New packages, standalone metrics, CRAN submissions
 - 📦 Package detection: No `yardstick` in DESCRIPTION's `Package:` field
 - ⚠️ **Constraint**: Can only use exported functions (no `:::`)
-- 📖 **Guide**: [Extension Development Guide](extension-guide.md)
+- 📖 **Guide**: [Extension Development Guide](references/extension-guide.md)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to yardstick** via pull requests.
@@ -25,9 +25,9 @@ This skill supports **two distinct development contexts**:
 - ✅ Use this for: Contributing to tidymodels/yardstick repository
 - 📦 Package detection: `Package: yardstick` in DESCRIPTION
 - ✨ **Benefit**: Can use internal functions and package infrastructure
-- 📖 **Guide**: [Source Development Guide](source-guide.md)
+- 📖 **Guide**: [Source Development Guide](references/source-guide.md)
 
-**This main guide shows extension development patterns.** If you're contributing to yardstick itself, see the [Source Development Guide](source-guide.md) for package-specific details.
+**This main guide shows extension development patterns.** If you're contributing to yardstick itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
 
 ---
 
@@ -35,8 +35,8 @@ This skill supports **two distinct development contexts**:
 
 **Choose your context:**
 
-- **Creating a new package?** → Follow this guide, then see [Extension Development Guide](extension-guide.md)
-- **Contributing to yardstick?** → Clone repository, then see [Source Development Guide](source-guide.md)
+- **Creating a new package?** → Follow this guide, then see [Extension Development Guide](references/extension-guide.md)
+- **Contributing to yardstick?** → Clone repository, then see [Source Development Guide](references/source-guide.md)
 
 **Not sure which?** If you're in the `tidymodels/yardstick` repository, use source development. Otherwise, use extension development.
 
@@ -85,8 +85,8 @@ python3 /path/to/skills-personal/tidymodels/shared-scripts/clone-tidymodels-repo
 ## Quick Navigation
 
 **Development Guides:**
-- [Extension Development Guide](extension-guide.md) - Creating new packages that extend yardstick
-- [Source Development Guide](source-guide.md) - Contributing PRs to yardstick itself
+- [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend yardstick
+- [Source Development Guide](references/source-guide.md) - Contributing PRs to yardstick itself
 
 **Reference Files:**
 - [Metric System Architecture](references/metric-system.md) - How new_*_metric() works, .estimator column, design considerations
@@ -115,9 +115,9 @@ python3 /path/to/skills-personal/tidymodels/shared-scripts/clone-tidymodels-repo
 - [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) - Extension issues
 
 **Source Development Specific:**
-- [Testing Patterns (Source)](testing-patterns-source.md) - Using internal test helpers
-- [Best Practices (Source)](best-practices-source.md) - Using internal functions
-- [Troubleshooting (Source)](troubleshooting-source.md) - Source-specific issues
+- [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal test helpers
+- [Best Practices (Source)](references/best-practices-source.md) - Using internal functions
+- [Troubleshooting (Source)](references/troubleshooting-source.md) - Source-specific issues
 
 ## Prerequisites
 
@@ -232,7 +232,7 @@ See [Development Workflow](../shared-references/development-workflow.md) for com
 
 This example shows all required components for a numeric metric **using extension development patterns** (exported functions only).
 
-**For source development**, see [Source Development Guide](source-guide.md) for examples using internal functions.
+**For source development**, see [Source Development Guide](references/source-guide.md) for examples using internal functions.
 
 **Reference implementation:** `R/num-mae.R` in yardstick repository
 
@@ -707,7 +707,7 @@ test_that("mae returns correct structure", {
 })
 ```
 
-**Complete source development guide:** [Source Development Guide](source-guide.md)
+**Complete source development guide:** [Source Development Guide](references/source-guide.md)
 
 ---
 
@@ -763,7 +763,7 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 **For Extension Development (creating new packages):**
 
-1. **Choose your context:** [Extension Development Guide](extension-guide.md)
+1. **Choose your context:** [Extension Development Guide](references/extension-guide.md)
 2. **Understand the system:** Read [Metric System](references/metric-system.md)
 3. **Choose metric type:**
    - Regression: [Numeric](references/numeric-metrics.md)
@@ -777,9 +777,9 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 **For Source Development (contributing to yardstick):**
 
-1. **Start here:** [Source Development Guide](source-guide.md)
+1. **Start here:** [Source Development Guide](references/source-guide.md)
 2. **Clone repository:** See [Repository Access](../shared-references/repository-access.md)
 3. **Study existing metrics:** Browse `R/num-*.R`, `R/class-*.R`, etc.
 4. **Follow package conventions:** File naming, internal functions, templates
-5. **Test with internal helpers:** See [Testing Patterns (Source)](testing-patterns-source.md)
-6. **Submit PR:** See [Source Development Guide](source-guide.md) for PR process
+5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)
+6. **Submit PR:** See [Source Development Guide](references/source-guide.md) for PR process
