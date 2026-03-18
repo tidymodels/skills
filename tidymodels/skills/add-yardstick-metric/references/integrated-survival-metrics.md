@@ -17,6 +17,8 @@ Integrated survival metrics aggregate time-dependent performance across all eval
 
 **Examples:** Integrated Brier Score, Integrated ROC AUC
 
+**Reference implementation:** `R/surv-brier_survival_integrated.R` in yardstick repository
+
 ## Pattern: Two-Function Approach
 
 Unlike other metric types, integrated metrics typically:

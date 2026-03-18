@@ -17,6 +17,8 @@ Linear predictor survival metrics evaluate linear predictor values (from Cox mod
 
 **Examples:** Royston's D statistic, R² based on D
 
+**Reference implementation:** `R/surv-royston.R` in yardstick repository
+
 ## Pattern: Three-Function Approach
 
 ### 1. Implementation Function

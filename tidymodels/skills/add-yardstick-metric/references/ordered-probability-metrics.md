@@ -16,6 +16,8 @@ Ordered probability metrics evaluate predicted probabilities for ordered factor 
 
 **Examples:** Ranked Probability Score (RPS)
 
+**Reference implementation:** `R/orderedprob-ranked_prob_score.R` in yardstick repository
+
 ## Pattern: Three-Function Approach
 
 ### 1. Implementation Function

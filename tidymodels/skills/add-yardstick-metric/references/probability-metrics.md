@@ -11,6 +11,15 @@ Probability metrics work with continuous probability values rather than discrete
 - Log Loss / Cross-Entropy
 - Calibration metrics
 
+**Canonical implementations in yardstick:**
+- ROC-based metrics: `R/prob-roc_auc.R` (binary and multiclass)
+- Precision-Recall: `R/prob-pr_auc.R`, `R/prob-average_precision.R`
+- Probability scoring: `R/prob-brier_class.R`, `R/prob-mn_log_loss.R` (multinomial log loss)
+
+**Test patterns:**
+- Binary probability metrics: `tests/testthat/test-prob-roc_auc.R`
+- Multiclass metrics: `tests/testthat/test-prob-mn_log_loss.R`
+
 ## Key Differences from Class Metrics
 
 **Probability metrics:**
@@ -54,6 +63,11 @@ df <- tibble(
 ## Implementation Steps
 
 ### Step 1: Implementation function for binary case
+
+**Reference implementations:**
+- Simple probability metrics: `R/prob-brier_class.R` (Brier score)
+- Curve-based metrics: `R/prob-roc_auc.R` (requires threshold calculations)
+- Log-based metrics: `R/prob-mn_log_loss.R` (multinomial log loss)
 
 ```r
 # Example: Brier Score (Mean Squared Error for probabilities)

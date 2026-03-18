@@ -16,11 +16,11 @@ Phase 3 adds specific file path references throughout the skill documentation to
 ## 1. Yardstick Skill Enhancement
 
 ### 1.1 Review SKILL.md for File Reference Opportunities
-- [ ] Read through `tidymodels/skills/add-yardstick-metric/SKILL.md`
-- [ ] Identify sections that reference "existing implementations" or "patterns"
-- [ ] Add specific file paths to 2-3 canonical examples per section
-- [ ] Focus on main workflow examples (not comprehensive lists)
-- [ ] Verify paths exist in yardstick repository
+- [x] Read through `tidymodels/skills/add-yardstick-metric/SKILL.md`
+- [x] Identify sections that reference "existing implementations" or "patterns"
+- [x] Add specific file paths to 2-3 canonical examples per section
+- [x] Focus on main workflow examples (not comprehensive lists)
+- [x] Verify paths exist in yardstick repository
 
 **Example transformation:**
 ```markdown
@@ -35,56 +35,56 @@ See existing numeric metric implementations:
 ```
 
 ### 1.2 Update Numeric Metrics Reference
-- [ ] File: `tidymodels/skills/add-yardstick-metric/references/numeric-metrics.md`
-- [ ] Add 2-4 file paths to canonical implementations:
-  - [ ] Simple metrics (MAE, RMSE, MSE)
-  - [ ] Weighted metrics (Huber loss)
-  - [ ] Complex metrics (CCC, IIC)
-- [ ] Add test file references:
-  - [ ] Basic test pattern example
-  - [ ] Edge case handling example
-- [ ] Avoid listing every numeric metric file
-- [ ] Verify all paths exist in repos/yardstick/
+- [x] File: `tidymodels/skills/add-yardstick-metric/references/numeric-metrics.md`
+- [x] Add 2-4 file paths to canonical implementations:
+  - [x] Simple metrics (MAE, RMSE, MSE)
+  - [x] Weighted metrics (Huber loss)
+  - [x] Complex metrics (CCC, IIC)
+- [x] Add test file references:
+  - [x] Basic test pattern example
+  - [x] Edge case handling example
+- [x] Avoid listing every numeric metric file
+- [x] Verify all paths exist in repos/yardstick/
 
 ### 1.3 Update Class Metrics Reference
-- [ ] File: `tidymodels/skills/add-yardstick-metric/references/class-metrics.md`
-- [ ] Add 2-4 file paths to canonical implementations:
-  - [ ] Simple metrics (accuracy, precision, recall)
-  - [ ] Multiclass handling examples
-  - [ ] Confusion matrix based metrics
-- [ ] Add test file references:
-  - [ ] Binary classification tests
-  - [ ] Multiclass tests
-- [ ] Verify all paths exist
+- [x] File: `tidymodels/skills/add-yardstick-metric/references/class-metrics.md`
+- [x] Add 2-4 file paths to canonical implementations:
+  - [x] Simple metrics (accuracy, precision, recall)
+  - [x] Multiclass handling examples
+  - [x] Confusion matrix based metrics
+- [x] Add test file references:
+  - [x] Binary classification tests
+  - [x] Multiclass tests
+- [x] Verify all paths exist
 
 ### 1.4 Update Probability Metrics Reference
-- [ ] File: `tidymodels/skills/add-yardstick-metric/references/probability-metrics.md`
-- [ ] Add 2-4 file paths to canonical implementations:
-  - [ ] ROC AUC variants
-  - [ ] Log loss
-  - [ ] Brier score
-- [ ] Add test file references
-- [ ] Verify all paths exist
+- [x] File: `tidymodels/skills/add-yardstick-metric/references/probability-metrics.md`
+- [x] Add 2-4 file paths to canonical implementations:
+  - [x] ROC AUC variants
+  - [x] Log loss
+  - [x] Brier score
+- [x] Add test file references
+- [x] Verify all paths exist
 
 ### 1.5 Update Other Metric Type References
-- [ ] File: `references/ordered-probability-metrics.md`
-  - [ ] Add 1-2 canonical examples (RPS)
-- [ ] File: `references/static-survival-metrics.md`
-  - [ ] Add 1-2 canonical examples (Concordance Index)
-- [ ] File: `references/dynamic-survival-metrics.md`
-  - [ ] Add 1-2 canonical examples (Brier Survival)
-- [ ] File: `references/integrated-survival-metrics.md`
-  - [ ] Add 1-2 canonical examples
-- [ ] File: `references/linear-predictor-survival-metrics.md`
-  - [ ] Add 1-2 canonical examples
-- [ ] File: `references/quantile-metrics.md`
-  - [ ] Add 1-2 canonical examples
+- [x] File: `references/ordered-probability-metrics.md`
+  - [x] Add 1-2 canonical examples (RPS)
+- [x] File: `references/static-survival-metrics.md`
+  - [x] Add 1-2 canonical examples (Concordance Index)
+- [x] File: `references/dynamic-survival-metrics.md`
+  - [x] Add 1-2 canonical examples (Brier Survival)
+- [x] File: `references/integrated-survival-metrics.md`
+  - [x] Add 1-2 canonical examples
+- [x] File: `references/linear-predictor-survival-metrics.md`
+  - [x] Add 1-2 canonical examples
+- [x] File: `references/quantile-metrics.md`
+  - [x] Add 1-2 canonical examples
 
 ### 1.6 Balance Reference Density
-- [ ] Review all updated files for over-referencing
-- [ ] Ensure focus is on representative examples, not comprehensive lists
-- [ ] Verify consistency in path format across all files
-- [ ] Check that references enhance rather than clutter documentation
+- [x] Review all updated files for over-referencing
+- [x] Ensure focus is on representative examples, not comprehensive lists
+- [x] Verify consistency in path format across all files
+- [x] Check that references enhance rather than clutter documentation
 
 ## 2. Recipes Skill Enhancement
 

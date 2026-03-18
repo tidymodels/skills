@@ -10,11 +10,25 @@ Class metrics are used for classification problems where predictions and truth a
 - F1 Score / F-measure
 - Matthews Correlation Coefficient (MCC)
 
+**Canonical implementations in yardstick:**
+- Simple binary metrics: `R/class-accuracy.R`, `R/class-precision.R`, `R/class-recall.R`
+- F-measure family: `R/class-f_meas.R` (combines precision and recall)
+- Balanced metrics: `R/class-bal_accuracy.R` (handles class imbalance)
+- Complex metrics: `R/class-mcc.R` (Matthews Correlation Coefficient)
+
+**Test patterns:**
+- Binary classification: `tests/testthat/test-class-accuracy.R`
+- Multiclass averaging: `tests/testthat/test-class-f_meas.R`
+
 ## Implementation Steps
 
 ### Step 1: Binary implementation
 
-Start with the binary case - this is the foundation:
+Start with the binary case - this is the foundation.
+
+**Reference implementations:**
+- Simple confusion matrix metrics: `R/class-accuracy.R`, `R/class-precision.R`
+- Metrics with event_level handling: `R/class-recall.R`, `R/class-f_meas.R`
 
 ```r
 # Example: Miss Rate (False Negative Rate)
@@ -42,7 +56,11 @@ miss_rate_binary <- function(data, event_level) {
 
 ### Step 2: Multiclass implementation (optional)
 
-If your metric extends to multiclass:
+If your metric extends to multiclass.
+
+**Reference implementations with averaging:**
+- Macro/micro averaging: `R/class-precision.R`, `R/class-recall.R`
+- Balanced accuracy: `R/class-bal_accuracy.R` (handles imbalanced classes)
 
 ```r
 miss_rate_multiclass <- function(data, estimator) {

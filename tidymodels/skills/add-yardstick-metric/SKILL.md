@@ -188,6 +188,8 @@ See [Development Workflow](../shared-references/development-workflow.md) for com
 
 This example shows all required components for a numeric metric.
 
+**Reference implementation:** `R/num-mae.R` in yardstick repository
+
 ### 1. Implementation function
 
 ```r
@@ -342,6 +344,8 @@ test_that("mae works with case weights", {
 })
 ```
 
+**Reference test pattern:** `tests/testthat/test-num-mae.R` in yardstick repository
+
 See [Testing Patterns](../shared-references/testing-patterns.md) for comprehensive testing guide.
 
 ## Implementation Guide by Metric Type
@@ -362,6 +366,11 @@ See [Testing Patterns](../shared-references/testing-patterns.md) for comprehensi
 
 **Examples:** MAE, RMSE, MSE, Huber Loss, R-squared
 
+**Reference implementations:**
+- Simple metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+- Parameterized metrics: `R/num-huber_loss.R` (has delta parameter)
+- Complex metrics: `R/num-ccc.R` (correlation-based)
+
 ### Class Metrics
 
 **Use for:** Classification metrics where truth and predictions are factor classes.
@@ -378,6 +387,11 @@ See [Testing Patterns](../shared-references/testing-patterns.md) for comprehensi
 
 **Examples:** Accuracy, Precision, Recall, F1, Specificity
 
+**Reference implementations:**
+- Simple metrics: `R/class-accuracy.R`, `R/class-precision.R`, `R/class-recall.R`
+- Combined metrics: `R/class-f_meas.R` (F1 score)
+- Balanced metrics: `R/class-bal_accuracy.R` (handles class imbalance)
+
 ### Probability Metrics
 
 **Use for:** Metrics that evaluate predicted probabilities against true classes.
@@ -393,6 +407,10 @@ See [Testing Patterns](../shared-references/testing-patterns.md) for comprehensi
 - Use `check_prob_metric()` for validation
 
 **Examples:** ROC AUC, Log Loss, Brier Score, PR AUC
+
+**Reference implementations:**
+- Curve-based: `R/prob-roc_auc.R`, `R/prob-pr_auc.R`
+- Scoring rules: `R/prob-brier_class.R`, `R/prob-mn_log_loss.R`
 
 ### Ordered Probability Metrics
 

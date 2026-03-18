@@ -17,6 +17,8 @@ Quantile metrics evaluate quantile predictions (probabilistic forecasts represen
 
 **Examples:** Weighted Interval Score (WIS), Pinball Loss
 
+**Reference implementation:** `R/quant-weighted_interval_score.R` in yardstick repository
+
 ## Pattern: Three-Function Approach
 
 ### 1. Implementation Function

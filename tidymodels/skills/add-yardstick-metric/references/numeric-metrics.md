@@ -10,9 +10,24 @@ Numeric metrics are used for regression problems where both truth and prediction
 - Mean Absolute Error (MAE)
 - R-squared
 
+**Canonical implementations in yardstick:**
+- Simple error metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+- Percentage error metrics: `R/num-mape.R` (Mean Absolute Percentage Error)
+- Robust metrics: `R/num-huber_loss.R` (has tuning parameter for outliers)
+- Correlation-based: `R/num-ccc.R` (Concordance Correlation Coefficient)
+
+**Test patterns:**
+- Basic testing: `tests/testthat/test-num-mae.R`
+- Parameterized metrics: `tests/testthat/test-num-huber_loss.R`
+
 ## Step 1: Define the implementation function
 
-Create the core calculation function. Use the `_impl` suffix:
+Create the core calculation function. Use the `_impl` suffix.
+
+**Reference implementations:**
+- Simple calculation: `R/num-mae.R` (mean absolute error)
+- Squared errors: `R/num-mse.R`, `R/num-rmse.R`
+- With parameters: `R/num-huber_loss.R` (has delta parameter for robust loss)
 
 ```r
 # Example: Mean Squared Error
@@ -207,7 +222,7 @@ param <- rlang::arg_match(param, c("option1", "option2"))
 
 ## Complete Example
 
-Here's a complete implementation of a simple metric:
+Here's a complete implementation of a simple metric. This follows the same pattern as `R/num-mae.R` in the yardstick repository.
 
 ```r
 # File: R/num-mae.R
@@ -309,6 +324,10 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 ## Testing Numeric Metrics
 
 See [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md) for comprehensive testing guide.
+
+**Reference test files:**
+- Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling, weights)
+- Edge cases: `tests/testthat/test-num-huber_loss.R` (parameter validation, robustness)
 
 ### Key tests for numeric metrics
 

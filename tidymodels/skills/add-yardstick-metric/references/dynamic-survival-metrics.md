@@ -17,6 +17,10 @@ Dynamic survival metrics evaluate time-dependent survival predictions at specifi
 
 **Examples:** Time-dependent Brier Score, Time-dependent ROC AUC
 
+**Reference implementations:**
+- Time-dependent Brier: `R/surv-brier_survival.R`
+- Time-dependent ROC AUC: `R/surv-roc_auc_survival.R`
+
 ## Pattern: Three-Function Approach
 
 ### 1. Implementation Function

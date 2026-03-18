@@ -16,6 +16,8 @@ Static survival metrics evaluate a single numeric prediction against right-censo
 
 **Examples:** Concordance Index
 
+**Reference implementation:** `R/surv-concordance_survival.R` in yardstick repository
+
 ## Pattern: Three-Function Approach
 
 ### 1. Implementation Function
