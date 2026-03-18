@@ -247,6 +247,6 @@ test_that("complex output matches", {
 
 ## Next Steps
 
-- Learn testing patterns: [testing-patterns.md](testing-patterns.md)
+- Learn testing patterns: [testing-patterns-extension.md](testing-patterns-extension.md)
 - Set up proper documentation: [roxygen-documentation.md](roxygen-documentation.md)
-- Follow best practices: [best-practices.md](best-practices.md)
+- Follow best practices: [best-practices-extension.md](best-practices-extension.md)

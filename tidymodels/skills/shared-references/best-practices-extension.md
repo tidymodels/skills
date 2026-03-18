@@ -1,6 +1,14 @@
-# Best Practices for R Package Development
+# Best Practices for Extension Package Development
 
-Guide to writing high-quality R code for tidymodels packages.
+**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages.
+
+**Key principle:** ❌ **Never use internal functions** (accessed with `:::`) - they are not guaranteed to be stable and will cause CRAN check failures.
+
+For source development (contributing to tidymodels packages directly), see the package-specific source guides.
+
+---
+
+Guide to writing high-quality R code for tidymodels extension packages.
 
 ## Code Style
 

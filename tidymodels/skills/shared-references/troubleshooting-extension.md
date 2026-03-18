@@ -1,6 +1,14 @@
-# Troubleshooting R Package Development
+# Troubleshooting Extension Package Development
 
-Common issues and solutions when developing R packages in the tidymodels ecosystem.
+**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages.
+
+**Key focus:** Package setup, namespace issues, dependency management, and common errors with external functions.
+
+For source development (contributing to tidymodels packages directly), see the package-specific source guides.
+
+---
+
+Common issues and solutions when developing tidymodels extension packages.
 
 ## Build and Check Issues
 

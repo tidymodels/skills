@@ -1,4 +1,12 @@
-# Testing Patterns for R Packages
+# Testing Patterns for Extension Packages
+
+**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages like yardstick or recipes.
+
+**Key principle:** ❌ **Never use internal functions or test helpers** - they are not exported and may change without notice.
+
+For source development (contributing to tidymodels packages directly), see the package-specific source guides.
+
+---
 
 Comprehensive guide to testing R packages in the tidymodels ecosystem using testthat.
 

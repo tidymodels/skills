@@ -178,5 +178,5 @@ usethis::use_package("package_name")
 After setup is complete:
 1. Review [development-workflow.md](development-workflow.md) for iteration cycle
 2. Start implementing your functions
-3. Write tests following [testing-patterns.md](testing-patterns.md)
+3. Write tests following [testing-patterns-extension.md](testing-patterns-extension.md)
 4. Document functions using [roxygen-documentation.md](roxygen-documentation.md)

@@ -296,5 +296,5 @@ Look for:
 ## Next Steps
 
 - Write roxygen documentation: [roxygen-documentation.md](roxygen-documentation.md)
-- Follow best practices: [best-practices.md](best-practices.md)
-- Set up testing: [testing-patterns.md](testing-patterns.md)
+- Follow best practices: [best-practices-extension.md](best-practices-extension.md)
+- Set up testing: [testing-patterns-extension.md](testing-patterns-extension.md)
