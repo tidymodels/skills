@@ -13,6 +13,23 @@ This guide covers setting up an R package structure for tidymodels extension dev
 if (!file.exists("DESCRIPTION")) {
   # New package - create full structure
   usethis::create_package(".", open = FALSE)
+
+  # Set up Claude Code integration immediately (if available)
+  # This must run BEFORE other setup so Claude can read CLAUDE.md
+  # and follow its instructions for the rest of the setup
+  if (packageVersion("usethis") >= "3.2.1.9000") {
+    usethis::use_claude_code()
+    message("\n========================================")
+    message("✓ Claude Code setup complete!")
+    message("✓ Created .claude/CLAUDE.md")
+    message("✓ Created .claude/skills/ with tidyverse patterns")
+    message("========================================\n")
+  } else {
+    message("For Claude Code integration, install usethis dev version:\n",
+            "  pak::pak('r-lib/usethis')")
+  }
+
+  # Continue with package setup
   usethis::use_mit_license()  # or use_gpl3_license()
 
   # Add core dependencies (adjust based on your needs)
@@ -31,6 +48,16 @@ if (!file.exists("DESCRIPTION")) {
 }
 ```
 
+**INSTRUCTIONS FOR CLAUDE:** After the user runs this code, if `use_claude_code()` was executed (version >= 3.2.1.9000):
+
+1. Use `AskUserQuestion` to prompt: "The package setup created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now to incorporate tidyverse development patterns?"
+   - Option 1: "Yes, read CLAUDE.md now (Recommended)"
+   - Option 2: "Skip for now"
+
+2. If user chooses "Yes", read `.claude/CLAUDE.md` using the Read tool before continuing
+
+3. Continue with remaining setup following any instructions from CLAUDE.md
+
 ### For yardstick metrics, add:
 ```r
 usethis::use_package("yardstick")
@@ -45,35 +72,6 @@ usethis::use_package("vctrs")
 # Suggested packages for examples
 usethis::use_package("modeldata", type = "Suggests")
 ```
-
-## Claude Code Setup (Optional but Recommended)
-
-If you're using Claude Code for development and have the development version of usethis installed (3.2.1.9000+), you can set up recommended Claude Code integration:
-
-```r
-# Check if use_claude_code() is available
-if (packageVersion("usethis") >= "3.2.1.9000") {
-  usethis::use_claude_code()
-} else {
-  message("Claude Code setup requires usethis >= 3.2.1.9000\n",
-          "Install with: pak::pak('r-lib/usethis')")
-}
-```
-
-**What it creates:**
-- `.claude/CLAUDE.md` - R package development instructions optimized for Claude Code
-- `.claude/settings.json` - Recommended permissions for R development (Rscript, air, gh, git)
-- `.claude/skills/` - Tidyverse team skills including:
-  - `tidy-argument-checking` - Patterns for validating function arguments
-  - `tidy-deprecate-function` - Best practices for deprecating functions
-
-**Benefits:**
-- Pre-configured development workflow aligned with tidyverse practices
-- Access to tidyverse team's R package development patterns
-- Proper permissions for common R development tasks
-- When these skills are present, tidymodels-dev skills will automatically incorporate their patterns for general R package practices
-
-**Note:** If `use_claude_code()` is not available, the tidymodels-dev skills will still work perfectly - this setup just provides additional helpful patterns for general R package development.
 
 ## Setting up .Rbuildignore
 

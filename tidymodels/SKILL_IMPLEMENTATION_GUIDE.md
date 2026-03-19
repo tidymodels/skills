@@ -1368,17 +1368,30 @@ ran `usethis::use_claude_code()`.
 
 ### Reading Tidy Skills at Runtime
 
-Claude Code can:
-1. Detect if `.claude/skills/tidy-*` directories exist
-2. Read their SKILL.md files when relevant to the current task
-3. Incorporate their patterns for general R package development
-4. Keep tidymodels-dev skills focused on domain-specific guidance
+When a tidymodels-dev skill is invoked, Claude Code should:
+
+1. **Check for `.claude/CLAUDE.md`** - If it exists, read it first to understand the project's R package development context
+2. **Detect `.claude/skills/tidy-*` directories** - Look for tidyverse team skills
+3. **Read relevant tidy skills** when they apply to the current task
+4. **Incorporate patterns** for general R package development
+5. **Keep tidymodels-dev skills focused** on domain-specific guidance
+
+**Automatic Detection Pattern:**
+
+When a skill is invoked:
+```markdown
+# Skill should check and read if present
+- If .claude/CLAUDE.md exists → Read it for general R package development context
+- If .claude/skills/tidy-argument-checking/ exists → Available for argument validation guidance
+- If .claude/skills/tidy-deprecate-function/ exists → Available for deprecation guidance
+```
 
 **Example scenario:**
 - User asks: "How should I validate arguments in my yardstick metric?"
-- Tidymodels skill provides: Metric-specific validation (truth/estimate columns, case weights, etc.)
-- Tidy skill provides: General R argument checking patterns (type checking, NULL handling, etc.)
-- Result: Complete guidance combining both domain-specific and general best practices
+- **First:** Check if `.claude/CLAUDE.md` exists and read it for general R context
+- **Tidymodels skill provides:** Metric-specific validation (truth/estimate columns, case weights, etc.)
+- **Tidy skill provides:** General R argument checking patterns (type checking, NULL handling, etc.)
+- **Result:** Complete guidance combining both domain-specific and general best practices
 
 ### Benefits of This Approach
 
@@ -1386,6 +1399,46 @@ Claude Code can:
 2. **Stay focused**: Tidymodels skills focus on package-specific guidance
 3. **Consistency**: Users get tidyverse patterns across all their R development
 4. **Maintainability**: Updates to tidy-* skills benefit all users automatically
+
+### Skill Invocation Best Practices
+
+When a tidymodels-dev skill guides a user through package setup that includes `use_claude_code()`:
+
+**After `use_claude_code()` runs:**
+
+1. **Use `AskUserQuestion` to prompt the user:**
+   ```
+   Question: "The package setup created `.claude/CLAUDE.md` with R package development
+              instructions. Should I read this file now to incorporate tidyverse
+              development patterns?"
+
+   Options:
+   - "Yes, read CLAUDE.md now (Recommended)"
+   - "Skip for now"
+   ```
+
+2. **If user chooses "Yes":**
+   - Read `.claude/CLAUDE.md` using the Read tool
+   - Incorporate tidyverse patterns (testing, documentation, code style, etc.)
+   - Continue with tidymodels-specific guidance
+
+3. **If user chooses "Skip":**
+   - Continue with tidymodels-specific guidance only
+   - Tidymodels skills still provide complete, working guidance
+
+4. **Proceed with domain-specific implementation:**
+   - Focus on tidymodels patterns (metrics, recipe steps, etc.)
+   - Apply any general R practices learned from CLAUDE.md
+
+**Example workflow:**
+```
+User runs setup code with use_claude_code()
+→ Claude uses AskUserQuestion: "Should I read CLAUDE.md?"
+→ User: "Yes, read CLAUDE.md now"
+→ Claude reads .claude/CLAUDE.md
+→ Claude learns: use base pipe |>, air format ., expect_snapshot(), etc.
+→ Claude proceeds with yardstick metric implementation using those patterns
+```
 
 ### Fallback Behavior
 

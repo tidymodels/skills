@@ -29,6 +29,18 @@ See [R Package Setup](../../shared-references/r-package-setup.md) for complete d
 if (!file.exists("DESCRIPTION")) {
   # New package - create full structure
   usethis::create_package(".", open = FALSE)
+
+  # Set up Claude Code integration immediately (if available)
+  if (packageVersion("usethis") >= "3.2.1.9000") {
+    usethis::use_claude_code()
+    message("\n========================================")
+    message("✓ Claude Code setup complete!")
+    message("✓ Created .claude/CLAUDE.md")
+    message("✓ Created .claude/skills/ with tidyverse patterns")
+    message("========================================\n")
+  }
+
+  # Continue with package setup
   usethis::use_mit_license()
   usethis::use_package("recipes")
   usethis::use_package("rlang")
@@ -49,15 +61,17 @@ if (!file.exists("DESCRIPTION")) {
   }
   usethis::use_package("modeldata", type = "Suggests")
 }
-
-# Optional: Set up Claude Code integration (if using Claude Code for development)
-# Requires usethis >= 3.2.1.9000
-if (packageVersion("usethis") >= "3.2.1.9000") {
-  usethis::use_claude_code()
-  # This adds tidyverse R package development patterns that complement
-  # the recipes-specific guidance in this skill
-}
 ```
+
+**INSTRUCTIONS FOR CLAUDE:** After the user runs this code, if `use_claude_code()` was executed:
+
+1. Use `AskUserQuestion` to prompt: "The package setup created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now?"
+   - Option 1: "Yes, read CLAUDE.md now (Recommended)"
+   - Option 2: "Skip for now"
+
+2. If user chooses "Yes", read `.claude/CLAUDE.md` using the Read tool
+
+3. Continue with recipe step implementation following any instructions from CLAUDE.md
 
 ---
 
