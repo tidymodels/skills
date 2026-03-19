@@ -13,7 +13,7 @@ Guide for developing new metrics that extend the yardstick package. This skill p
 
 **Before implementing any metrics, you MUST complete the package setup:**
 
-👉 **[R Package Setup Guide](../shared-references/r-package-setup.md)** (REQUIRED)
+👉 **[R Package Setup Guide](references/r-package-setup.md)** (REQUIRED)
 
 This guide provides a step-by-step checklist for:
 - Package initialization
@@ -99,13 +99,13 @@ Creating a custom yardstick metric provides:
 - [Autoplot Support](references/autoplot.md) - Optional visualization (curves, confusion matrices)
 
 **Shared References (Extension Development):**
-- [R Package Setup](../shared-references/r-package-setup.md) - Package initialization and structure
-- [Development Workflow](../shared-references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) - Extension testing guide
-- [Roxygen Documentation](../shared-references/roxygen-documentation.md) - Documentation templates
-- [Package Imports](../shared-references/package-imports.md) - Managing dependencies
-- [Best Practices (Extension)](../shared-references/best-practices-extension.md) - Extension code style
-- [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) - Extension issues
+- [R Package Setup](references/r-package-setup.md) - Package initialization and structure
+- [Development Workflow](references/development-workflow.md) - Fast iteration cycle
+- [Testing Patterns (Extension)](references/testing-patterns-extension.md) - Extension testing guide
+- [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
+- [Package Imports](references/package-imports.md) - Managing dependencies
+- [Best Practices (Extension)](references/best-practices-extension.md) - Extension code style
+- [Troubleshooting (Extension)](references/troubleshooting-extension.md) - Extension issues
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal test helpers
@@ -114,7 +114,7 @@ Creating a custom yardstick metric provides:
 
 ## Development Workflow
 
-See [Development Workflow](../shared-references/development-workflow.md) for complete details.
+See [Development Workflow](references/development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -376,7 +376,7 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 
 ## Documentation
 
-See [Roxygen Documentation](../shared-references/roxygen-documentation.md) for complete templates.
+See [Roxygen Documentation](references/roxygen-documentation.md) for complete templates.
 
 **Required roxygen tags:**
 ```r
@@ -393,7 +393,7 @@ See [Roxygen Documentation](../shared-references/roxygen-documentation.md) for c
 
 ## Testing
 
-See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](references/testing-patterns-extension.md) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -535,7 +535,7 @@ test_that("mae returns correct structure", {
 
 ### Package-level documentation
 
-See [Package Imports](../shared-references/package-imports.md) for complete guide.
+See [Package Imports](references/package-imports.md) for complete guide.
 
 Create `R/{packagename}-package.R`:
 
@@ -560,7 +560,7 @@ mae <- function(data, ...) {
 
 ## Best Practices
 
-See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](references/best-practices-extension.md) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -571,7 +571,7 @@ See [Best Practices (Extension)](../shared-references/best-practices-extension.m
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -591,14 +591,14 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
    - Survival: [Static](references/static-survival-metrics.md), [Dynamic](references/dynamic-survival-metrics.md), [Integrated](references/integrated-survival-metrics.md), [Linear Predictor](references/linear-predictor-survival-metrics.md)
    - Quantile: [Quantile](references/quantile-metrics.md)
 4. **Follow the template:** Use complete examples from reference files
-5. **Test thoroughly:** See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
-6. **Document completely:** See [Roxygen Documentation](../shared-references/roxygen-documentation.md)
+5. **Test thoroughly:** See [Testing Patterns (Extension)](references/testing-patterns-extension.md)
+6. **Document completely:** See [Roxygen Documentation](references/roxygen-documentation.md)
 7. **Run final check:** `devtools::check()` before publishing
 
 **For Source Development (contributing to yardstick):**
 
 1. **Start here:** [Source Development Guide](references/source-guide.md)
-2. **Clone repository:** See [Repository Access](../shared-references/repository-access.md)
+2. **Clone repository:** See [Repository Access](references/repository-access.md)
 3. **Study existing metrics:** Browse `R/num-*.R`, `R/class-*.R`, etc.
 4. **Follow package conventions:** File naming, internal functions, templates
 5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)

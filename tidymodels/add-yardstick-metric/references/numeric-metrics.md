@@ -325,7 +325,7 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 
 ## Testing Numeric Metrics
 
-See [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md) for comprehensive testing guide.
+See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
 
 **Reference test files:**
 - Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling, weights)
@@ -376,7 +376,7 @@ Use `num-` prefix to indicate numeric metrics.
 
 ## Next Steps
 
-- Document your metric: [../../shared-references/roxygen-documentation.md](../../shared-references/roxygen-documentation.md)
-- Write tests: [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md)
+- Document your metric: [../roxygen-documentation.md](../roxygen-documentation.md)
+- Write tests: [../testing-patterns.md](../testing-patterns.md)
 - Understand metric system: [metric-system.md](metric-system.md)
 - Add visualization (optional): [autoplot.md](autoplot.md)

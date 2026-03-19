@@ -371,5 +371,5 @@ Use `prob-` prefix to indicate probability metrics.
 ## Next Steps
 
 - Understand class metrics: [class-metrics.md](class-metrics.md)
-- Document your metric: [../../shared-references/roxygen-documentation.md](../../shared-references/roxygen-documentation.md)
-- Write tests: [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md)
+- Document your metric: [../roxygen-documentation.md](../roxygen-documentation.md)
+- Write tests: [../testing-patterns.md](../testing-patterns.md)

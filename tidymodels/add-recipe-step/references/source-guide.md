@@ -31,7 +31,7 @@ cd recipes
 git checkout -b feature/add-step-name
 ```
 
-See [Repository Access](../../shared-references/repository-access.md) for more details.
+See [Repository Access](../repository-access.md) for more details.
 
 ### Install Development Dependencies
 
@@ -678,9 +678,9 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
-- [R Package Setup](../../shared-references/r-package-setup.md)
-- [Development Workflow](../../shared-references/development-workflow.md)
-- [Roxygen Documentation](../../shared-references/roxygen-documentation.md)
+- [R Package Setup](../r-package-setup.md)
+- [Development Workflow](../development-workflow.md)
+- [Roxygen Documentation](../roxygen-documentation.md)
 
 ---
 

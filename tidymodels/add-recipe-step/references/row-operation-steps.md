@@ -285,7 +285,7 @@ bake:
 
 ## Testing Row-Operation Steps
 
-See [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md) for comprehensive testing guide.
+See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
 
 ### Key tests for row-operation steps
 
@@ -378,5 +378,5 @@ Consider alternatives in these cases:
 - Create new columns: [create-new-columns-steps.md](create-new-columns-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [../../shared-references/roxygen-documentation.md](../../shared-references/roxygen-documentation.md)
-- Write tests: [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md)
+- Document your step: [../roxygen-documentation.md](../roxygen-documentation.md)
+- Write tests: [../testing-patterns.md](../testing-patterns.md)

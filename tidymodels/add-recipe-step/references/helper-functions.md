@@ -561,4 +561,4 @@ See the [Source Development Guide](../source-guide.md) for complete patterns and
 - Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
 - Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
-- Review best practices: [../../shared-references/best-practices-extension.md](../../shared-references/best-practices-extension.md)
+- Review best practices: [../best-practices-extension.md](../best-practices-extension.md)

@@ -371,7 +371,7 @@ bake:
 
 ## Testing
 
-See [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md) for comprehensive testing guide.
+See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
 
 ### Key tests for create-new-columns steps
 
@@ -427,5 +427,5 @@ test_that("tidy returns correct information", {
 - Row operations: [row-operation-steps.md](row-operation-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [../../shared-references/roxygen-documentation.md](../../shared-references/roxygen-documentation.md)
-- Write tests: [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md)
+- Document your step: [../roxygen-documentation.md](../roxygen-documentation.md)
+- Write tests: [../testing-patterns.md](../testing-patterns.md)

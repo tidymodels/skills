@@ -24,7 +24,7 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 **⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the package setup:
 
-👉 **[R Package Setup Guide](../../shared-references/r-package-setup.md)** (REQUIRED)
+👉 **[R Package Setup Guide](r-package-setup.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
@@ -228,7 +228,7 @@ Key roxygen tags:
 
 ### Step 6: Test Your Metric
 
-See [Testing Patterns (Extension)](../../shared-references/testing-patterns-extension.md) for complete details.
+See [Testing Patterns (Extension)](testing-patterns-extension.md) for complete details.
 
 ```r
 # tests/testthat/test-mae.R
@@ -385,7 +385,7 @@ if (na_rm) {
 
 ## Development Workflow
 
-See [Development Workflow](../../shared-references/development-workflow.md) for complete details.
+See [Development Workflow](development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 1. `devtools::document()` - Generate documentation
@@ -432,7 +432,7 @@ mae_vec <- function(truth, estimate, ...) {
 
 ## Testing
 
-See [Testing Patterns (Extension)](../../shared-references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](testing-patterns-extension.md) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -445,7 +445,7 @@ See [Testing Patterns (Extension)](../../shared-references/testing-patterns-exte
 
 ## Best Practices
 
-See [Best Practices (Extension)](../../shared-references/best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](best-practices-extension.md) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -458,7 +458,7 @@ See [Best Practices (Extension)](../../shared-references/best-practices-extensio
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](../../shared-references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -485,21 +485,21 @@ See [Troubleshooting (Extension)](../../shared-references/troubleshooting-extens
 - [Case Weights](case-weights.md)
 
 ### Shared References
-- [R Package Setup](../../shared-references/r-package-setup.md)
-- [Development Workflow](../../shared-references/development-workflow.md)
-- [Testing Patterns](../../shared-references/testing-patterns-extension.md)
-- [Roxygen Documentation](../../shared-references/roxygen-documentation.md)
-- [Best Practices](../../shared-references/best-practices-extension.md)
-- [Troubleshooting](../../shared-references/troubleshooting-extension.md)
+- [R Package Setup](r-package-setup.md)
+- [Development Workflow](development-workflow.md)
+- [Testing Patterns](testing-patterns-extension.md)
+- [Roxygen Documentation](roxygen-documentation.md)
+- [Best Practices](best-practices-extension.md)
+- [Troubleshooting](troubleshooting-extension.md)
 
 ---
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](../../shared-references/r-package-setup.md)
+1. **Set up your package** following [R Package Setup](r-package-setup.md)
 2. **Choose your metric type** from the [main SKILL.md](SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
-4. **Test thoroughly** using [Testing Patterns](../../shared-references/testing-patterns-extension.md)
+4. **Test thoroughly** using [Testing Patterns](testing-patterns-extension.md)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -507,7 +507,7 @@ See [Troubleshooting (Extension)](../../shared-references/troubleshooting-extens
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](../../shared-references/troubleshooting-extension.md)
+- Check [Troubleshooting Guide](troubleshooting-extension.md)
 - Review existing examples in reference documentation
 - Study the main [yardstick SKILL.md](SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/yardstick/issues

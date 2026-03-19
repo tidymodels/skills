@@ -4,7 +4,7 @@
 
 **Key principle:** ✅ **You CAN use internal functions and test helpers** - you're developing the package itself.
 
-For extension development (creating new packages), see [Testing Patterns (Extension)](../../shared-references/testing-patterns-extension.md).
+For extension development (creating new packages), see [Testing Patterns (Extension)](../testing-patterns-extension.md).
 
 ---
 

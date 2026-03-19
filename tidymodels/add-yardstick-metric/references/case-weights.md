@@ -275,4 +275,4 @@ Negative weights are mathematically possible but uncommon. Your validation (`che
 - Understand metric system: [metric-system.md](metric-system.md)
 - Create numeric metrics: [numeric-metrics.md](numeric-metrics.md)
 - Create class metrics: [class-metrics.md](class-metrics.md)
-- Test comprehensively: [../../shared-references/testing-patterns.md](../../shared-references/testing-patterns.md)
+- Test comprehensively: [../testing-patterns.md](../testing-patterns.md)

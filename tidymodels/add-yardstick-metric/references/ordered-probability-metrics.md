@@ -333,4 +333,4 @@ cum_ind <- cumulative_rows(inds)
 
 - [Probability Metrics](probability-metrics.md) - Regular (nominal) probability metrics
 - [Metric System](metric-system.md) - Understanding metric architecture
-- [Testing Patterns](../../shared-references/testing-patterns.md) - Comprehensive test guide
+- [Testing Patterns](../testing-patterns.md) - Comprehensive test guide
