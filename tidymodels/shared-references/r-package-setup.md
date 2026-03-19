@@ -205,7 +205,9 @@ usethis::use_package("package_name")
 After completing all setup steps, verify everything is configured correctly:
 
 ```r
-source("path/to/skills-personal/tidymodels/shared-scripts/verify-setup.R")
+# The script is in the Claude plugin cache
+# Use shell expansion to find it (run in terminal, not R console):
+# Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R")'
 ```
 
 This will check:

@@ -7,6 +7,37 @@ description: Guide for creating new yardstick metrics. Use when a developer need
 
 Guide for developing new metrics that extend the yardstick package. This skill provides best practices, code templates, and testing patterns for creating custom performance metrics.
 
+---
+
+## 🛑 CLAUDE: RUN VERIFICATION FIRST
+
+**Before implementing ANY metrics, run this verification script from the user's package directory:**
+
+```bash
+cd /path/to/user/package
+Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/<commit>/tidymodels/shared-scripts/verify-setup.R")'
+```
+
+**How to find the script path:**
+- This skill is loaded from the plugin cache at `~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/<commit-hash>/tidymodels/`
+- The verify-setup.R script is at `../shared-scripts/verify-setup.R` relative to this SKILL.md
+- Use the absolute plugin cache path shown above, replacing `<commit>` with the actual commit hash from where this skill was loaded
+
+**What the script checks:**
+- Package structure (DESCRIPTION, R/, tests/testthat/)
+- Claude Code integration (usethis version, .claude/CLAUDE.md)
+- Repository access (repos/yardstick/)
+- Dependencies (yardstick, rlang, cli)
+
+**If there are ANY warnings:**
+1. Guide the user through fixing them using suggested commands
+2. Do NOT proceed with implementation until all checks pass
+3. Critical blockers require user action first
+
+**When to run:** After initial package setup, BEFORE implementing any metrics.
+
+---
+
 ## Two Development Contexts
 
 This skill supports **two distinct development contexts**:
@@ -42,34 +73,6 @@ This skill supports **two distinct development contexts**:
 
 ---
 
-## 🛑 MANDATORY VERIFICATION STEP - FOR CLAUDE
-
-**INSTRUCTIONS FOR CLAUDE:** Before creating ANY functions in R/, you MUST run this verification script using the Bash tool:
-
-```bash
-cd /path/to/user/package
-Rscript -e 'source("path/to/skills-personal/tidymodels/shared-scripts/verify-setup.R")'
-```
-
-**This verifies YOU didn't skip setup steps.** The script checks:
-- Package structure (DESCRIPTION, R/, tests/testthat/)
-- Claude Code integration (usethis version, .claude/CLAUDE.md)
-- Repository access (repos/yardstick/)
-- Dependencies (yardstick, rlang, cli)
-
-**If there are ANY warnings:**
-1. YOU must guide the user through fixing them using the suggested commands shown in the output
-2. Do NOT proceed with implementation until all checks pass
-3. Critical blockers:
-   - Missing DESCRIPTION → Guide user through usethis::create_package()
-   - Missing .claude/CLAUDE.md (if usethis 3.2.1.9000+) → Guide user through use_claude_code(), then read CLAUDE.md
-   - Missing repos/yardstick/ → Offer to clone repository for reference implementations
-   - Missing dependencies → Guide user through adding them
-
-**Run this verification AFTER guiding the user through initial setup but BEFORE implementing any metrics.**
-
----
-
 ## Overview
 
 Creating a custom yardstick metric provides:
@@ -97,14 +100,16 @@ Run from your R package directory:
 
 ```bash
 # macOS/Linux/WSL
-./path/to/skills-personal/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
 
 # Windows (PowerShell)
-.\path\to\skills-personal\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
 
 # Any platform (Python)
-python3 /path/to/skills-personal/tidymodels/shared-scripts/clone-tidymodels-repos.py yardstick
+python3 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.py yardstick
 ```
+
+**Note:** The `*` wildcard matches the commit hash. The shell will expand it to the actual path.
 
 **For complete instructions**, see: [Repository Access Setup](../shared-references/repository-access.md)
 
