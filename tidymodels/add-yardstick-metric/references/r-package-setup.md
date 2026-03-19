@@ -6,6 +6,30 @@ This is the single source of truth for package setup. Do not proceed with develo
 
 ---
 
+## INSTRUCTIONS FOR CLAUDE
+
+**You must guide the user through this setup interactively:**
+
+1. **Present ONE step at a time** - Show the current step only
+2. **Show the command(s)** the user needs to run
+3. **Ask the user to run the command** in their R console
+4. **Wait for user confirmation** that the step completed
+5. **Verify the result** - Use Read or Bash tools to confirm expected files/directories exist
+6. **Move to next step** only after confirmation
+7. **Run verification script** after all steps complete (Step 6)
+8. **Handle verification warnings** as documented in Step 6
+9. **Only after verification passes** - Return to implementation
+
+**DO NOT:**
+- ❌ List all steps at once and say "run these"
+- ❌ Tell user "let me know when you're done" and wait passively
+- ❌ Skip ahead to implementation before setup is complete
+- ❌ Offer to write implementation code before verification passes
+
+**YOU ARE:** Actively guiding the user step-by-step through setup, not waiting for them to complete it independently.
+
+---
+
 ## Setup Checklist
 
 ### Step 1: Create Package Structure
