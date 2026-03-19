@@ -46,6 +46,35 @@ usethis::use_package("vctrs")
 usethis::use_package("modeldata", type = "Suggests")
 ```
 
+## Claude Code Setup (Optional but Recommended)
+
+If you're using Claude Code for development and have the development version of usethis installed (3.2.1.9000+), you can set up recommended Claude Code integration:
+
+```r
+# Check if use_claude_code() is available
+if (packageVersion("usethis") >= "3.2.1.9000") {
+  usethis::use_claude_code()
+} else {
+  message("Claude Code setup requires usethis >= 3.2.1.9000\n",
+          "Install with: pak::pak('r-lib/usethis')")
+}
+```
+
+**What it creates:**
+- `.claude/CLAUDE.md` - R package development instructions optimized for Claude Code
+- `.claude/settings.json` - Recommended permissions for R development (Rscript, air, gh, git)
+- `.claude/skills/` - Tidyverse team skills including:
+  - `tidy-argument-checking` - Patterns for validating function arguments
+  - `tidy-deprecate-function` - Best practices for deprecating functions
+
+**Benefits:**
+- Pre-configured development workflow aligned with tidyverse practices
+- Access to tidyverse team's R package development patterns
+- Proper permissions for common R development tasks
+- When these skills are present, tidymodels-dev skills will automatically incorporate their patterns for general R package practices
+
+**Note:** If `use_claude_code()` is not available, the tidymodels-dev skills will still work perfectly - this setup just provides additional helpful patterns for general R package development.
+
 ## Setting up .Rbuildignore
 
 Add patterns to exclude from package builds to prevent R CMD check NOTEs about non-standard files.

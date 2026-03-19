@@ -1298,6 +1298,112 @@ Skills don't have version numbers themselves, but:
 
 ---
 
+## Skill Composition: Integration with usethis Claude Code Setup
+
+### Overview
+
+When users run `usethis::use_claude_code()` (available in usethis 3.2.1.9000+), it creates:
+- `.claude/CLAUDE.md` - R package development instructions
+- `.claude/settings.json` - Recommended permissions
+- `.claude/skills/tidy-argument-checking/` - Patterns for validating function arguments
+- `.claude/skills/tidy-deprecate-function/` - Best practices for deprecating functions
+
+Tidymodels-dev skills can automatically incorporate these tidyverse patterns when they're present.
+
+### Detection Pattern
+
+Skills should check for the presence of usethis-created skills:
+
+```markdown
+# In your skill's guidance (e.g., extension-guide.md)
+
+## Argument Validation
+
+When implementing your [metric/step/model], validate arguments appropriately.
+
+**Note:** If you set up Claude Code using `usethis::use_claude_code()`, the `tidy-argument-checking`
+skill provides comprehensive patterns for argument validation. Those patterns apply to general R package
+development and complement the tidymodels-specific guidance here.
+
+[Your tidymodels-specific argument validation patterns...]
+```
+
+### When to Reference Tidy Skills
+
+**Do reference tidy-* skills for:**
+- General R package practices (argument checking, deprecation)
+- Code style and conventions
+- Error message patterns
+- Testing strategies that apply to all R packages
+
+**Don't duplicate tidy-* skills for:**
+- Domain-specific patterns (metric implementation, recipe prep/bake)
+- Package-specific APIs (yardstick classes, recipes infrastructure)
+- Tidymodels ecosystem conventions
+
+### Implementation Approach
+
+**In SKILL.md or extension-guide.md:**
+```markdown
+## Prerequisites
+
+### Setup Claude Code (Recommended)
+
+If using Claude Code for development, see [R Package Setup](../shared-references/r-package-setup.md)
+for instructions on running `usethis::use_claude_code()`.
+
+This provides access to tidyverse team's general R package development patterns which complement
+the tidymodels-specific guidance in this skill.
+```
+
+**When discussing general R topics:**
+```markdown
+## Error Handling
+
+[Your tidymodels-specific error handling patterns]
+
+**For general argument validation patterns**, see the `tidy-argument-checking` skill if you
+ran `usethis::use_claude_code()`.
+```
+
+### Reading Tidy Skills at Runtime
+
+Claude Code can:
+1. Detect if `.claude/skills/tidy-*` directories exist
+2. Read their SKILL.md files when relevant to the current task
+3. Incorporate their patterns for general R package development
+4. Keep tidymodels-dev skills focused on domain-specific guidance
+
+**Example scenario:**
+- User asks: "How should I validate arguments in my yardstick metric?"
+- Tidymodels skill provides: Metric-specific validation (truth/estimate columns, case weights, etc.)
+- Tidy skill provides: General R argument checking patterns (type checking, NULL handling, etc.)
+- Result: Complete guidance combining both domain-specific and general best practices
+
+### Benefits of This Approach
+
+1. **Avoid duplication**: General R patterns stay in tidy-* skills
+2. **Stay focused**: Tidymodels skills focus on package-specific guidance
+3. **Consistency**: Users get tidyverse patterns across all their R development
+4. **Maintainability**: Updates to tidy-* skills benefit all users automatically
+
+### Fallback Behavior
+
+If tidy-* skills are not present:
+- Tidymodels-dev skills still provide complete, working guidance
+- No functionality is lost
+- Users just don't get the additional general R package patterns
+
+### Documentation in r-package-setup.md
+
+The `r-package-setup.md` file now includes a section on `use_claude_code()`:
+- Explains what it creates
+- Shows version check pattern
+- Lists benefits including skill composition
+- Makes it clear it's optional but recommended
+
+---
+
 ## Summary
 
 ### Key Principles

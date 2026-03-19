@@ -22,7 +22,7 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ### Quick Package Setup
 
-See [R Package Setup](../../shared-references/r-package-setup.md) for complete details.
+See [R Package Setup](../../shared-references/r-package-setup.md) for complete details, including optional Claude Code setup.
 
 ```r
 # Check if this is a new package or existing package
@@ -48,6 +48,14 @@ if (!file.exists("DESCRIPTION")) {
     usethis::use_testthat()
   }
   usethis::use_package("modeldata", type = "Suggests")
+}
+
+# Optional: Set up Claude Code integration (if using Claude Code for development)
+# Requires usethis >= 3.2.1.9000
+if (packageVersion("usethis") >= "3.2.1.9000") {
+  usethis::use_claude_code()
+  # This adds tidyverse R package development patterns that complement
+  # the recipes-specific guidance in this skill
 }
 ```
 

@@ -1,5 +1,12 @@
 # Tidymodels Skills - News
 
+- **Claude Code Integration** (2026-03-19)
+  - Added support for `usethis::use_claude_code()` in extension setup workflow
+  - Skills now reference tidyverse R package development patterns when available
+  - Skill composition: tidymodels-dev skills can incorporate tidy-* skills for general R practices
+  - Graceful fallback: skills work perfectly without usethis dev version
+  - Documentation in r-package-setup.md with version checking and setup instructions
+
 - **Extension vs Source Development Architecture** (2026-03-18)
   - Skills now support two distinct development contexts
   - Extension development: Creating new packages using only exported functions
