@@ -1,5 +1,13 @@
 # Tidymodels Skills - News
 
+- **Development Scripts Reorganization & Link Verification** (2026-03-20)
+  - Added new maintenance scripts in `dev-scripts/` subfolder:
+    - `verify-references.py` - Validates all markdown links and anchors
+    - `replace-text.py` - Performs exact text replacements in files
+    - `rename-and-update.py` - Renames files and updates all references
+  - Scripts moved from root to `tidymodels/dev-scripts/` for better organization
+  - Fixed all broken internal references (63 links corrected across documentation)
+
 - **UUID-Based Warning System in verify-setup.R** (2026-03-20)
   - **CRITICAL ANTI-PATTERN FIX**: Replaced verbose error messages with UUID-only warnings
   - **Why UUIDs?** Combat Claude's propensity to start developing instead of reading documentation
