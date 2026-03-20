@@ -1126,6 +1126,52 @@ How to clone tidymodels repositories (optional but recommended).
 
 ---
 
+### ⚠️ IMPORTANT: Updating Shared Files
+
+**When updating shared content, ONLY edit the source files in `shared-*` folders:**
+
+**Shared reference files** (in `shared-references/`):
+- `best-practices-extension.md`
+- `development-workflow.md`
+- `package-imports.md`
+- `r-package-setup.md`
+- `repository-access.md`
+- `roxygen-documentation.md`
+- `testing-patterns-extension.md`
+- `troubleshooting-extension.md`
+
+**Shared script files** (in `shared-scripts/`):
+- `clone-tidymodels-repos.sh`
+- `clone-tidymodels-repos.ps1`
+- `clone-tidymodels-repos.py`
+- `verify-setup.R`
+- `README.md`
+
+**❌ Do NOT edit these files in their copied locations:**
+- `add-yardstick-metric/references/[shared reference files]`
+- `add-yardstick-metric/references/scripts/[shared script files]`
+- `add-recipe-step/references/[shared reference files]`
+- `add-recipe-step/references/scripts/[shared script files]`
+
+**✅ After editing any shared file, run:**
+```bash
+cd tidymodels
+./localize-shared-files.sh
+```
+
+This script copies the updated files from `shared-references/` and `shared-scripts/` to each skill's `references/` folder, ensuring all skills stay in sync.
+
+**Workflow:**
+```
+Edit shared-references/r-package-setup.md
+    ↓
+Run ./localize-shared-files.sh
+    ↓
+Changes copied to all skills' references/ folders
+```
+
+---
+
 ## Writing Style Guidelines
 
 ### Markdown Conventions
