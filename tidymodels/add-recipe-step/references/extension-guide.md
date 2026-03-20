@@ -4,6 +4,24 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ---
 
+## Prerequisites
+
+**Before implementing, you MUST complete the package setup:**
+
+👉 **[R Package Setup Guide](references/r-package-setup.md)** (REQUIRED)
+
+This guide provides a step-by-step checklist for:
+- Package initialization
+- Claude Code integration
+- Repository cloning for reference implementations
+- Dependency management
+- Testing infrastructure setup
+- **Verification script** (mandatory final step)
+
+**ALL verification checks must pass before proceeding with implementation.**
+
+---
+
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**

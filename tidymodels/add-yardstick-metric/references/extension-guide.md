@@ -4,6 +4,25 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ---
 
+
+## Prerequisites
+
+**Before implementing, you MUST complete the package setup:**
+
+👉 **[R Package Setup Guide](references/r-package-setup.md)** (REQUIRED)
+
+This guide provides a step-by-step checklist for:
+- Package initialization
+- Claude Code integration
+- Repository cloning for reference implementations
+- Dependency management
+- Testing infrastructure setup
+- **Verification script** (mandatory final step)
+
+**ALL verification checks must pass before proceeding with implementation.**
+
+---
+
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
@@ -31,6 +50,8 @@ Complete all steps in the setup guide and ensure the verification script passes.
 **After setup verification passes, return here to implement your metric.**
 
 ---
+
+
 
 ## Key Constraints for Extension Development
 
