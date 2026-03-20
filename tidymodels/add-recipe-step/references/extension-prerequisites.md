@@ -64,6 +64,8 @@ Rscript -e 'usethis::use_claude_code()'
 
 Clone the source repository to access reference implementations:
 
+**INSTRUCTIONS FOR CLAUDE:** The `*` wildcard in these paths will be expanded by bash. Run these commands via Bash tool.
+
 **For yardstick metrics:**
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
@@ -141,8 +143,7 @@ This creates:
 Run the verification script to check all setup components:
 
 ```bash
-cd /path/to/your-package
-Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R")'
+Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R"))[1])'
 ```
 
 **What it checks:**

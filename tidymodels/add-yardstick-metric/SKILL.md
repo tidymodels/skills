@@ -32,7 +32,7 @@ This skill supports **two distinct development contexts**:
 **INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
 
 ```bash
-Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R")'
+Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R"))[1])'
 ```
 
 **Then follow the appropriate path based on the output:**
