@@ -17,30 +17,35 @@ This skill supports **two distinct development contexts**:
 **Creating a new R package** that extends recipes with custom steps.
 
 - ✅ Use this for: New packages, standalone steps, CRAN submissions
-- 📦 Package detection: No `recipes` in DESCRIPTION's `Package:` field
 - ⚠️ **Constraint**: Must use `recipes::` prefix for all functions
-- 📖 **Guide**: [Extension Prerequisites](references/extension-prerequisites.md)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to recipes** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/recipes repository
-- 📦 Package detection: `Package: recipes` in DESCRIPTION
 - ✨ **Benefit**: Can use internal functions directly (no prefix needed)
-- 📖 **Guide**: [Source Development Guide](references/source-guide.md)
 
-**This main guide shows extension development patterns.** If you're contributing to recipes itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
 
 ---
 
-## Quick Start
+## Getting Started
 
-**Choose your context:**
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
 
-- **Creating a new package?** → Start with [Extension Prerequisites](references/extension-prerequisites.md)
-- **Contributing to recipes?** → Clone repository, then see [Source Development Guide](references/source-guide.md)
+```bash
+Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R")'
+```
 
-**Not sure which?** If you're in the `tidymodels/recipes` repository, use source development. Otherwise, use extension development.
+**Then follow the appropriate path based on the output:**
+
+- **Output: "All checks for source development complete."**
+  → Go to [Source Development Guide](references/source-guide.md)
+
+- **Output: "All checks for extension development complete." (no warnings)**
+  → Go to [Extension Development Guide](references/extension-guide.md)
+
+- **Output: Shows "Warning - [UUID]" messages**
+  → Go to [Extension Prerequisites](references/extension-prerequisites.md) to resolve warnings first
 
 ---
 

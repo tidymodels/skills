@@ -17,30 +17,34 @@ This skill supports **two distinct development contexts**:
 **Creating a new R package** that extends yardstick with custom metrics.
 
 - ✅ Use this for: New packages, standalone metrics, CRAN submissions
-- 📦 Package detection: No `yardstick` in DESCRIPTION's `Package:` field
 - ⚠️ **Constraint**: Can only use exported functions (no `:::`)
-- 📖 **Guide**: [Extension Prerequisites](references/extension-prerequisites.md)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to yardstick** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/yardstick repository
-- 📦 Package detection: `Package: yardstick` in DESCRIPTION
 - ✨ **Benefit**: Can use internal functions and package infrastructure
-- 📖 **Guide**: [Source Development Guide](references/source-guide.md)
-
-**This main guide shows extension development patterns.** If you're contributing to yardstick itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
 
 ---
 
-## Quick Start
+## Getting Started
 
-**Choose your context:**
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
 
-- **Creating a new package?** → Start with [Extension Prerequisites](references/extension-prerequisites.md)
-- **Contributing to yardstick?** → Clone repository, then see [Source Development Guide](references/source-guide.md)
+```bash
+Rscript -e 'source("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R")'
+```
 
-**Not sure which?** If you're in the `tidymodels/yardstick` repository, use source development. Otherwise, use extension development.
+**Then follow the appropriate path based on the output:**
+
+- **Output: "All checks for source development complete."**
+  → Go to [Source Development Guide](references/source-guide.md)
+
+- **Output: "All checks for extension development complete." (no warnings)**
+  → Go to [Extension Development Guide](references/extension-guide.md)
+
+- **Output: Shows "Warning - [UUID]" messages**
+  → Go to [Extension Prerequisites](references/extension-prerequisites.md) to resolve warnings first
 
 ---
 
