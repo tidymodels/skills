@@ -9,7 +9,7 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 **CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
 
-👉 **[FOLLOW THE STEPS IN: R Package Setup Guide](references/extension-prerequisites.md)** (REQUIRED)
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](references/extension-prerequisites.md)** (REQUIRED)
 
 
 **CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
@@ -35,9 +35,9 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ### Package Setup Required
 
-**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the package setup:
+**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the extension prerequisites:
 
-👉 **[R Package Setup Guide](extension-prerequisites.md)** (REQUIRED)
+👉 **[Extension Prerequisites Guide](extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
@@ -500,7 +500,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 - [Case Weights](case-weights.md)
 
 ### Shared References
-- [R Package Setup](extension-prerequisites.md)
+- [Extension Prerequisites](extension-prerequisites.md)
 - [Development Workflow](development-workflow.md)
 - [Testing Patterns](testing-patterns-extension.md)
 - [Roxygen Documentation](roxygen-documentation.md)
@@ -511,7 +511,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](extension-prerequisites.md)
 2. **Choose your metric type** from the [main SKILL.md](SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
 4. **Test thoroughly** using [Testing Patterns](testing-patterns-extension.md)

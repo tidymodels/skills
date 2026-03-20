@@ -519,5 +519,5 @@ Before considering your code complete:
 
 - Review testing patterns: [testing-patterns.md](testing-patterns.md)
 - Learn documentation: [roxygen-documentation.md](roxygen-documentation.md)
-- Set up package: [extension-prerequisites.md](extension-prerequisites.md)
+- Complete extension prerequisites: [extension-prerequisites.md](extension-prerequisites.md)
 - Follow workflow: [development-workflow.md](development-workflow.md)

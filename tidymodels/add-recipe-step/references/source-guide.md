@@ -678,7 +678,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
-- [R Package Setup](../extension-prerequisites.md)
+- [Extension Prerequisites](../extension-prerequisites.md)
 - [Development Workflow](../development-workflow.md)
 - [Roxygen Documentation](../roxygen-documentation.md)
 

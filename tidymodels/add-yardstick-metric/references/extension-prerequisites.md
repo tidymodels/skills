@@ -1,8 +1,8 @@
-# R Package Setup
+# Extension Prerequisites
 
 **Complete these steps IN ORDER before implementing any metrics or recipe steps.**
 
-This is the single source of truth for package setup. Do not proceed with development until all steps are complete and verification passes.
+This is the single source of truth for extension prerequisites. Do not proceed with development until all steps are complete and verification passes.
 
 ---
 
@@ -48,7 +48,7 @@ Rscript -e 'usethis::use_claude_code()'
 
 **After running `use_claude_code()`:**
 
-1. Use `AskUserQuestion` to prompt: "The package setup created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now to incorporate tidyverse development patterns?"
+1. Use `AskUserQuestion` to prompt: "The extension prerequisites created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now to incorporate tidyverse development patterns?"
    - Option 1: "Yes, read CLAUDE.md now (Recommended)"
    - Option 2: "Skip for now"
 

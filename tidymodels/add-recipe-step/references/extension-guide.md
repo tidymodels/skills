@@ -8,7 +8,7 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 **CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
 
-👉 **[FOLLOW THE STEPS IN: R Package Setup Guide](references/extension-prerequisites.md)** (REQUIRED)
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](references/extension-prerequisites.md)** (REQUIRED)
 
 
 **CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
@@ -33,9 +33,9 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ### Package Setup Required
 
-**⚠️ IMPORTANT**: Before implementing recipe steps, you MUST complete the package setup:
+**⚠️ IMPORTANT**: Before implementing recipe steps, you MUST complete the extension prerequisites:
 
-👉 **[R Package Setup Guide](extension-prerequisites.md)** (REQUIRED)
+👉 **[Extension Prerequisites Guide](extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
@@ -572,7 +572,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
-- [R Package Setup](extension-prerequisites.md)
+- [Extension Prerequisites](extension-prerequisites.md)
 - [Development Workflow](development-workflow.md)
 - [Testing Patterns](testing-patterns-extension.md)
 - [Roxygen Documentation](roxygen-documentation.md)
@@ -583,7 +583,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](extension-prerequisites.md)
 2. **Choose your step type** from [Step Architecture](step-architecture.md)
 3. **Implement your step** following the guide above
 4. **Test thoroughly** using [Testing Patterns](testing-patterns-extension.md)

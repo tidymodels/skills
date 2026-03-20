@@ -526,6 +526,6 @@ package_name::          # See package contents (RStudio)
 ## Next Steps
 
 - Review development workflow: [development-workflow.md](development-workflow.md)
-- Set up package properly: [extension-prerequisites.md](extension-prerequisites.md)
+- Complete extension prerequisites: [extension-prerequisites.md](extension-prerequisites.md)
 - Follow best practices: [best-practices.md](best-practices.md)
 - Learn testing patterns: [testing-patterns.md](testing-patterns.md)

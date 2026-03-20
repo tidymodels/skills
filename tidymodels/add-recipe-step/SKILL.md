@@ -70,7 +70,7 @@ Creating a custom recipe step provides:
 - [Helper Functions](references/helper-functions.md) - recipes helper function reference
 
 **Shared References (Extension Development):**
-- [Extension Prerequisites](references/extension-prerequisites.md) - Package initialization and structure
+- [Extension Prerequisites](references/extension-prerequisites.md) - Extension prerequisites
 - [Development Workflow](references/development-workflow.md) - Fast iteration cycle
 - [Testing Patterns (Extension)](references/testing-patterns-extension.md) - Extension testing guide
 - [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
@@ -702,7 +702,7 @@ See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for c
 
 **For Extension Development (creating new packages):**
 
-1. **Setup package structure:** [Extension Prerequisites](references/extension-prerequisites.md) - START HERE
+1. **Extension prerequisites:** [Extension Prerequisites](references/extension-prerequisites.md) - START HERE
 
 **For Source Development (contributing to recipes):**
 

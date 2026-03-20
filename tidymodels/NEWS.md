@@ -24,7 +24,7 @@
 - **Architecture: Single Source of Truth & Code Duplication Remediation** (2026-03-19)
   - **BREAKING**: Removed all code blocks from SKILL.md files to eliminate duplication
   - SKILL.md is now purely navigational (overview + links to references)
-  - Removed duplicated package setup code from extension-guide.md files (both recipe and yardstick)
+  - Removed duplicated extension prerequisites code from extension-guide.md files (both recipe and yardstick)
   - Setup code now exists only in extension-prerequisites.md (single source of truth)
   - Removed duplicate MAE implementation from add-yardstick-metric SKILL.md
   - Complete MAE example now lives only in numeric-metrics.md reference

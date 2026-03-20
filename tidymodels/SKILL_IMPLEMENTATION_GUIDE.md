@@ -165,7 +165,7 @@ When designing skills, account for these observed Claude Code behaviors:
 
 **Solution:**
 - Remove ALL setup code from SKILL.md and extension-guide.md
-- Only include "See [R Package Setup](../shared-references/extension-prerequisites.md)" links
+- Only include "See [Extension Prerequisites](../shared-references/extension-prerequisites.md)" links
 - Never provide partial/abbreviated setup instructions anywhere except extension-prerequisites.md
 
 #### 2. Treats Short Checklists as "Good Enough"
@@ -283,7 +283,7 @@ This skill supports **two distinct development contexts**:
 - [List all reference/*.md files with descriptions]
 
 **Shared References (Extension Development):**
-- [R Package Setup](../shared-references/extension-prerequisites.md)
+- [Extension Prerequisites](../shared-references/extension-prerequisites.md)
 - [Development Workflow](../shared-references/development-workflow.md)
 - [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
 - [Roxygen Documentation](../shared-references/roxygen-documentation.md)
@@ -298,13 +298,13 @@ This skill supports **two distinct development contexts**:
 
 ## Prerequisites
 
-**⚠️ IMPORTANT**: Before implementing [features], complete the package setup sequence:
+**⚠️ IMPORTANT**: Before implementing [features], complete the extension prerequisites sequence:
 
-👉 **[R Package Setup Guide](../shared-references/extension-prerequisites.md)**
+👉 **[Extension Prerequisites Guide](../shared-references/extension-prerequisites.md)**
 
 This guide includes critical steps like `use_claude_code()` (if available) that must run BEFORE adding dependencies. Following the complete sequence ensures proper package initialization and Claude Code integration.
 
-After completing package setup, return here to implement your [feature].
+After completing extension prerequisites, return here to implement your [feature].
 
 ## Development Workflow
 
@@ -391,7 +391,7 @@ Complete guide for creating new packages that extend [package] with custom [feat
 
 ### Quick Package Setup
 
-See [R Package Setup](../shared-references/extension-prerequisites.md) for complete details.
+See [Extension Prerequisites](../shared-references/extension-prerequisites.md) for complete details.
 
 [Standard setup code block]
 
@@ -510,7 +510,7 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](../shared-references/extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](../shared-references/extension-prerequisites.md)
 2. [Additional steps...]
 
 ---
@@ -1252,7 +1252,7 @@ See [Metric System](references/metric-system.md) for complete guide.
 ### To Shared References
 
 ```markdown
-See [R Package Setup](../shared-references/extension-prerequisites.md) for complete details.
+See [Extension Prerequisites](../shared-references/extension-prerequisites.md) for complete details.
 See [Development Workflow](../shared-references/development-workflow.md) for the fast iteration cycle.
 ```
 
@@ -1549,7 +1549,7 @@ development and complement the tidymodels-specific guidance here.
 
 ### Setup Claude Code (Recommended)
 
-If using Claude Code for development, see [R Package Setup](../shared-references/extension-prerequisites.md)
+If using Claude Code for development, see [Extension Prerequisites](../shared-references/extension-prerequisites.md)
 for instructions on running `usethis::use_claude_code()`.
 
 This provides access to tidyverse team's general R package development patterns which complement
@@ -1602,13 +1602,13 @@ When a skill is invoked:
 
 ### Skill Invocation Best Practices
 
-When a tidymodels-dev skill guides a user through package setup that includes `use_claude_code()`:
+When a tidymodels-dev skill guides a user through extension prerequisites that includes `use_claude_code()`:
 
 **After `use_claude_code()` runs:**
 
 1. **Use `AskUserQuestion` to prompt the user:**
    ```
-   Question: "The package setup created `.claude/CLAUDE.md` with R package development
+   Question: "The extension prerequisites created `.claude/CLAUDE.md` with R package development
               instructions. Should I read this file now to incorporate tidyverse
               development patterns?"
 

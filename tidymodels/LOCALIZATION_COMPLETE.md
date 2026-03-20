@@ -83,13 +83,13 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[R Package Setup Guide](../shared-references/extension-prerequisites.md)
+[Extension Prerequisites Guide](../shared-references/extension-prerequisites.md)
 [Development Workflow](../shared-references/development-workflow.md)
 ```
 
 **After**:
 ```markdown
-[R Package Setup Guide](references/extension-prerequisites.md)
+[Extension Prerequisites Guide](references/extension-prerequisites.md)
 [Development Workflow](references/development-workflow.md)
 ```
 
@@ -104,12 +104,12 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[R Package Setup Guide](../../shared-references/extension-prerequisites.md)
+[Extension Prerequisites Guide](../../shared-references/extension-prerequisites.md)
 ```
 
 **After**:
 ```markdown
-[R Package Setup Guide](extension-prerequisites.md)
+[Extension Prerequisites Guide](extension-prerequisites.md)
 ```
 
 **Why it matters**:
