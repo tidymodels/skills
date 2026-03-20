@@ -234,19 +234,31 @@ Complete guide for developing R package extensions to tidymodels packages.
 
 ### Phase 2: Update References
 
-1. **Run rename-and-update.py** to update all file references:
+**Note:** Use `replace-text.py` (not `rename-and-update.py`) because we're merging files, not renaming them.
+
+1. **Use replace-text.py** to update all file references systematically:
    ```bash
-   ./tidymodels/dev-scripts/rename-and-update.py best-practices-extension.md extension-requirements.md --dry-run
-   ./tidymodels/dev-scripts/rename-and-update.py testing-patterns-extension.md extension-requirements.md --dry-run
-   ./tidymodels/dev-scripts/rename-and-update.py troubleshooting-extension.md extension-requirements.md --dry-run
+   # Pattern: Update old filename to new filename with section anchor
+   # Process each file that references the old documents
+
+   # Example for a single file:
+   python3 tidymodels/dev-scripts/replace-text.py \
+     add-yardstick-metric/SKILL.md \
+     "best-practices-extension.md" \
+     "extension-requirements.md#best-practices" \
+     --dry-run
+
+   # Review output, then apply without --dry-run
    ```
 
-2. **Manually review** links to ensure they point to correct sections:
-   - `[Best Practices](extension-requirements.md#best-practices)`
-   - `[Testing](extension-requirements.md#testing-requirements)`
-   - `[Troubleshooting](extension-requirements.md#common-issues-solutions)`
+2. **Follow the batch replacement patterns** documented in "Recommended Workflow" section below
 
-3. **Update SKILL.md navigation sections** in both skills
+3. **Run verify-references.py** after each batch to catch any issues early:
+   ```bash
+   python3 tidymodels/dev-scripts/verify-references.py
+   ```
+
+4. **Update SKILL.md navigation sections** in both skills using replace-text.py
 
 ### Phase 3: Cleanup
 
@@ -275,7 +287,130 @@ Complete guide for developing R package extensions to tidymodels packages.
 1. **Update SKILL_IMPLEMENTATION_GUIDE.md**:
    - Remove references to three separate files
    - Document new single-file approach
-   - Update file structure examples 
+   - Update file structure examples
+
+---
+
+## Tools and Methodology
+
+### Script-First Approach
+
+**IMPORTANT:** Always use the provided scripts instead of manual commands when applicable:
+- ✅ Use `verify-references.py` instead of manually checking links
+- ✅ Use `replace-text.py` instead of manual `sed` or text editor find/replace
+- ✅ Use `rename-and-update.py` instead of `mv` + manual link updates
+- ❌ Do NOT use manual approaches (`ls`, `mv`, `sed`, `grep -r`) for tasks covered by scripts
+- ❌ Do NOT manually edit links when scripts can handle updates automatically
+
+Scripts provide safety (dry-run modes), consistency, and comprehensive updates across all files.
+
+### Available Maintenance Scripts
+
+All scripts located in `tidymodels/dev-scripts/`:
+
+1. **verify-references.py**
+   - Validates all markdown links and anchors
+   - Checks for broken file references
+   - Identifies missing anchor targets
+   - Run before and after migration to ensure no broken links
+
+   ```bash
+   python3 tidymodels/dev-scripts/verify-references.py
+   ```
+
+2. **replace-text.py**
+   - Performs exact text replacements in files
+   - Useful for updating link text or fixing specific references
+   - Dry-run mode available for safety
+
+   ```bash
+   # Dry run to preview changes
+   python3 tidymodels/dev-scripts/replace-text.py <file> "old text" "new text" --dry-run
+
+   # Apply changes
+   python3 tidymodels/dev-scripts/replace-text.py <file> "old text" "new text"
+   ```
+
+3. **rename-and-update.py**
+   - Renames files and updates all references automatically
+   - Handles markdown links in all files
+   - Dry-run mode available
+
+   ```bash
+   # See what would change
+   python3 tidymodels/dev-scripts/rename-and-update.py old-file.md new-file.md --dry-run
+
+   # Execute rename and updates
+   python3 tidymodels/dev-scripts/rename-and-update.py old-file.md new-file.md
+   ```
+
+### Recommended Workflow
+
+**Step 1: Baseline verification**
+```bash
+# Check current state - should show 0 errors
+python3 tidymodels/dev-scripts/verify-references.py
+```
+
+**Step 2: Create and populate new file**
+- Manually create `extension-requirements.md`
+- Merge content from three source files
+- Add table of contents with proper anchors
+
+**Step 3: Update references with targeted replacements**
+```bash
+# Update each old filename to new filename
+# Example pattern for each file:
+python3 tidymodels/dev-scripts/replace-text.py \
+  add-yardstick-metric/references/some-file.md \
+  "best-practices-extension.md" \
+  "extension-requirements.md#best-practices"
+
+# Batch process multiple files if needed
+for file in add-yardstick-metric/references/*.md; do
+  python3 tidymodels/dev-scripts/replace-text.py "$file" \
+    "testing-patterns-extension.md" \
+    "extension-requirements.md#testing-requirements"
+done
+```
+
+**Step 4: Verify after updates**
+```bash
+# Should still show 0 errors
+python3 tidymodels/dev-scripts/verify-references.py
+```
+
+### Lessons from Recent Link Fix (2026-03-20)
+
+Successfully fixed 63 broken references using this methodology:
+
+1. **Discovery**: `verify-references.py` identified all broken links
+2. **Pattern recognition**: Grouped similar issues by error type
+3. **Batch fixes**: Used `replace-text.py` to fix common patterns across files
+4. **Validation**: Re-ran verification to confirm all fixes
+5. **Documentation**: Updated NEWS.md with changes
+
+**Key insights:**
+- Run verification before starting to establish baseline
+- Group similar link patterns for efficient batch processing
+- Use `--dry-run` flags to preview changes before applying
+- Verify after each major batch of changes
+- Fix section anchors last (after confirming file references work)
+
+**Common patterns to fix during this merge:**
+```bash
+# Pattern 1: Basic filename change
+"best-practices-extension.md" → "extension-requirements.md#best-practices"
+"testing-patterns-extension.md" → "extension-requirements.md#testing-requirements"
+"troubleshooting-extension.md" → "extension-requirements.md#common-issues-solutions"
+
+# Pattern 2: Section-specific references
+"[Best Practices](best-practices-extension.md#code-style)"
+  → "[Best Practices](extension-requirements.md#code-style)"
+
+# Pattern 3: Cross-references from other files
+"../best-practices-extension.md" → "../extension-requirements.md#best-practices"
+```
 
 ---
 
@@ -349,12 +484,12 @@ Complete guide for developing R package extensions to tidymodels packages.
 - [ ] Eliminate any duplication
 
 ### Step 3: Reference Updates
-- [ ] Run rename-and-update.py for each old file (dry-run first)
-- [ ] Apply actual changes
-- [ ] Manually fix section anchor links
-- [ ] Update SKILL.md quick navigation sections
-- [ ] Update extension-guide.md references
-- [ ] Review all changed files
+- [ ] Use replace-text.py to update references (NOT rename-and-update.py - we're merging, not renaming)
+- [ ] Process each old filename with appropriate section anchors
+- [ ] Run verify-references.py after each batch of changes
+- [ ] Update SKILL.md quick navigation sections using replace-text.py
+- [ ] Update extension-guide.md references using replace-text.py
+- [ ] Final verification: run verify-references.py to confirm 0 errors
 
 ### Step 4: Cleanup
 - [ ] Delete three old files from shared-references/
@@ -367,9 +502,9 @@ Complete guide for developing R package extensions to tidymodels packages.
 - [ ] Review all changes one final time
 
 ### Step 6: Validation
-- [ ] Test all links in SKILL.md files
-- [ ] Test all links in extension-guide.md files
-- [ ] Verify no broken references
+- [ ] Run verify-references.py to validate all links (must show 0 errors)
+- [ ] Manually review key navigation sections in SKILL.md files
+- [ ] Verify section anchors work correctly in extension-requirements.md
 - [ ] Ensure localization script works correctly
 - [ ] Check file sizes are reasonable
 
@@ -378,14 +513,15 @@ Complete guide for developing R package extensions to tidymodels packages.
 ## Success Criteria
 
 ✅ **Single comprehensive file** exists with all extension development guidance
-✅ **No broken links** anywhere in the tidymodels/ folder
+✅ **No broken links** - verify-references.py reports 0 errors
 ✅ **Clear structure** with logical flow between sections
 ✅ **Table of contents** allows quick navigation
-✅ **All references updated** to point to new file
+✅ **All references updated** using replace-text.py (not manual edits)
 ✅ **Old files deleted** from both shared-references/ and all skill references/ folders
 ✅ **Documentation updated** in SKILL_IMPLEMENTATION_GUIDE.md
 ✅ **File size** remains under 1500 lines for readability
 ✅ **Cross-references** between sections work correctly
+✅ **Scripts used** for all applicable operations (no manual mv/sed/grep)
 
 ---
 
