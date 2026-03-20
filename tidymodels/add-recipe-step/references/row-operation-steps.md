@@ -285,7 +285,7 @@ bake:
 
 ## Testing Row-Operation Steps
 
-See [testing-patterns-extension.md](testing-patterns-extension.md) for comprehensive testing guide.
+See [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for row-operation steps
 
@@ -379,4 +379,4 @@ Consider alternatives in these cases:
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 - Document your step: [roxygen-documentation.md](roxygen-documentation.md)
-- Write tests: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Write tests: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)

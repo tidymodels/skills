@@ -243,7 +243,7 @@ Key roxygen tags:
 
 ### Step 6: Test Your Metric
 
-See [Testing Patterns (Extension)](testing-patterns-extension.md) for complete details.
+See [Testing Patterns (Extension)](extension-requirements.md#testing-requirements) for complete details.
 
 ```r
 # tests/testthat/test-mae.R
@@ -447,7 +447,7 @@ mae_vec <- function(truth, estimate, ...) {
 
 ## Testing
 
-See [Testing Patterns (Extension)](testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -460,7 +460,7 @@ See [Testing Patterns (Extension)](testing-patterns-extension.md) for comprehens
 
 ## Best Practices
 
-See [Best Practices (Extension)](best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -473,7 +473,7 @@ See [Best Practices (Extension)](best-practices-extension.md) for complete guide
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -502,10 +502,10 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 ### Shared References
 - [Extension Prerequisites](extension-prerequisites.md)
 - [Development Workflow](development-workflow.md)
-- [Testing Patterns](testing-patterns-extension.md)
+- [Testing Patterns](extension-requirements.md#testing-requirements)
 - [Roxygen Documentation](roxygen-documentation.md)
-- [Best Practices](best-practices-extension.md)
-- [Troubleshooting](troubleshooting-extension.md)
+- [Best Practices](extension-requirements.md#best-practices)
+- [Troubleshooting](extension-requirements.md#common-issues-solutions)
 
 ---
 
@@ -514,7 +514,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 1. **Complete extension prerequisites** following [Extension Prerequisites](extension-prerequisites.md)
 2. **Choose your metric type** from the [main SKILL.md](../SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
-4. **Test thoroughly** using [Testing Patterns](testing-patterns-extension.md)
+4. **Test thoroughly** using [Testing Patterns](extension-requirements.md#testing-requirements)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -522,7 +522,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](troubleshooting-extension.md)
+- Check [Troubleshooting Guide](extension-requirements.md#common-issues-solutions)
 - Review existing examples in reference documentation
 - Study the main [yardstick SKILL.md](../SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/yardstick/issues

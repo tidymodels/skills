@@ -437,7 +437,7 @@ Aggregate contributions across all classes, then calculate:
 
 ## Testing Class Metrics
 
-See [testing-patterns-extension.md](testing-patterns-extension.md) for comprehensive testing guide.
+See [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for class metrics
 
@@ -495,4 +495,4 @@ Use `class-` prefix to indicate classification metrics.
 - Understand confusion matrices: [confusion-matrix.md](confusion-matrix.md)
 - Handle case weights: [case-weights.md](case-weights.md)
 - Document your metric: [roxygen-documentation.md](roxygen-documentation.md)
-- Write tests: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Write tests: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)

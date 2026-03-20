@@ -77,11 +77,11 @@ Creating a custom recipe step provides:
 **Shared References (Extension Development):**
 - [Extension Prerequisites](references/extension-prerequisites.md) - Extension prerequisites
 - [Development Workflow](references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns (Extension)](references/testing-patterns-extension.md) - Extension testing guide
+- [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) - Extension testing guide
 - [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
 - [Package Imports](references/package-imports.md) - Managing dependencies
-- [Best Practices (Extension)](references/best-practices-extension.md) - Extension code style
-- [Troubleshooting (Extension)](references/troubleshooting-extension.md) - Extension issues
+- [Best Practices (Extension)](references/extension-requirements.md#best-practices) - Extension code style
+- [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal helpers
@@ -504,7 +504,7 @@ test_that("centering works with case weights", {
 
 **Reference test pattern:** `tests/testthat/test-center.R` in recipes repository
 
-See [Testing Patterns](references/testing-patterns-extension.md) for comprehensive testing guide.
+See [Testing Patterns](references/extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ## Implementation Guide by Step Type
 
@@ -613,7 +613,7 @@ See [Roxygen Documentation](references/roxygen-documentation.md) for complete te
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Step transforms data correctly
@@ -684,7 +684,7 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 
 ## Best Practices
 
-See [Best Practices](references/best-practices-extension.md) for complete guide.
+See [Best Practices](references/extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -695,7 +695,7 @@ See [Best Practices](references/best-practices-extension.md) for complete guide.
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports

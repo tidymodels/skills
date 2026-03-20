@@ -456,5 +456,5 @@ After verification passes, you MUST proceed to the Extension Development Guide:
 
 **Additional resources (reference as needed):**
 - [development-workflow.md](development-workflow.md) - Fast iteration cycle
-- [testing-patterns-extension.md](testing-patterns-extension.md) - Writing tests
+- [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) - Writing tests
 - [roxygen-documentation.md](roxygen-documentation.md) - Documentation templates

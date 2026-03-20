@@ -657,5 +657,5 @@ testthat::snapshot_accept()
 ## Next Steps
 
 - Document your functions: [roxygen-documentation.md](roxygen-documentation.md)
-- Follow coding best practices: [best-practices-extension.md](best-practices-extension.md)
+- Follow coding best practices: [extension-requirements.md#best-practices](extension-requirements.md#best-practices)
 - Review extension prerequisites: [extension-prerequisites.md](extension-prerequisites.md)

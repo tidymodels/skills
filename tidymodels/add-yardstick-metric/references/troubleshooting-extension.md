@@ -194,7 +194,7 @@ test_data <- data.frame(
 )
 ```
 
-See [testing-patterns-extension.md](testing-patterns-extension.md) for test data patterns.
+See [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) for test data patterns.
 
 ### "Could not find function in tests"
 
@@ -527,5 +527,5 @@ package_name::          # See package contents (RStudio)
 
 - Review development workflow: [development-workflow.md](development-workflow.md)
 - Complete extension prerequisites: [extension-prerequisites.md](extension-prerequisites.md)
-- Follow best practices: [best-practices-extension.md](best-practices-extension.md)
-- Learn testing patterns: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Follow best practices: [extension-requirements.md#best-practices](extension-requirements.md#best-practices)
+- Learn testing patterns: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)

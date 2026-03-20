@@ -4,7 +4,7 @@
 
 **Key focus:** Working with package internals, integration testing, and yardstick-specific issues.
 
-For extension development (creating new packages), see [Troubleshooting (Extension)](troubleshooting-extension.md).
+For extension development (creating new packages), see [Troubleshooting (Extension)](extension-requirements.md#common-issues-solutions).
 
 ---
 
@@ -639,4 +639,4 @@ Study similar metrics in the codebase:
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
-- See [Extension Troubleshooting](troubleshooting-extension.md) for common R package issues
+- See [Extension Troubleshooting](extension-requirements.md#common-issues-solutions) for common R package issues

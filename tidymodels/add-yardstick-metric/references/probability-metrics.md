@@ -372,4 +372,4 @@ Use `prob-` prefix to indicate probability metrics.
 
 - Understand class metrics: [class-metrics.md](class-metrics.md)
 - Document your metric: [roxygen-documentation.md](roxygen-documentation.md)
-- Write tests: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Write tests: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)

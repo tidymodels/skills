@@ -4,7 +4,7 @@
 
 **Key principle:** ✅ **You CAN use internal functions** - you're developing the package, so internals are available.
 
-For extension development (creating new packages), see [Best Practices (Extension)](best-practices-extension.md).
+For extension development (creating new packages), see [Best Practices (Extension)](extension-requirements.md#best-practices).
 
 ---
 
@@ -680,4 +680,4 @@ step_name <- function(
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 - Study existing steps in the recipes repository
-- Follow [Extension Best Practices](best-practices-extension.md) for code style basics
+- Follow [Extension Best Practices](extension-requirements.md#best-practices) for code style basics

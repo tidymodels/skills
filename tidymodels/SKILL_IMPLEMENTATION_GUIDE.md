@@ -71,9 +71,9 @@ tidymodels/
 │       └── ...
 │
 └── shared-references/                # Universal cross-skill resources
-    ├── testing-patterns-extension.md
-    ├── best-practices-extension.md
-    ├── troubleshooting-extension.md
+    ├── extension-requirements.md#testing-requirements
+    ├── extension-requirements.md#best-practices
+    ├── extension-requirements.md#common-issues-solutions
     ├── extension-prerequisites.md
     ├── development-workflow.md
     ├── roxygen-documentation.md
@@ -285,11 +285,11 @@ This skill supports **two distinct development contexts**:
 **Shared References (Extension Development):**
 - [Extension Prerequisites](../shared-references/extension-prerequisites.md)
 - [Development Workflow](../shared-references/development-workflow.md)
-- [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+- [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements)
 - [Roxygen Documentation](../shared-references/roxygen-documentation.md)
 - [Package Imports](../shared-references/package-imports.md)
-- [Best Practices (Extension)](../shared-references/best-practices-extension.md)
-- [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+- [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices)
+- [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions)
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](testing-patterns-source.md)
@@ -470,7 +470,7 @@ See [Development Workflow](../shared-references/development-workflow.md) for com
 
 ## Testing
 
-See [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 [List essential test types]
@@ -479,7 +479,7 @@ See [Testing Patterns (Extension)](../shared-references/testing-patterns-extensi
 
 ## Best Practices
 
-See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 [List critical principles]
@@ -488,7 +488,7 @@ See [Best Practices (Extension)](../shared-references/best-practices-extension.m
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 [List common problems and solutions]
@@ -517,7 +517,7 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](../shared-references/troubleshooting-extension.md)
+- Check [Troubleshooting Guide](../shared-references/extension-requirements.md#common-issues-solutions)
 - Review existing examples in reference documentation
 - Study the main [[package] SKILL.md](SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/[package]/issues
@@ -754,7 +754,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 
 This guide covers testing patterns when **developing [package] itself** (contributing PRs to the tidymodels/[package] repository).
 
-**For extension development**, see: [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+**For extension development**, see: [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements)
 
 ---
 
@@ -766,7 +766,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 - You're contributing via PR
 
 ❌ **For extension development:**
-- Use [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md)
+- Use [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements)
 
 ---
 
@@ -843,7 +843,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 
 - [Best Practices (Source)](best-practices-source.md)
 - [Troubleshooting (Source)](troubleshooting-source.md)
-- [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md) - For universal patterns
+- [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements) - For universal patterns
 ```
 
 **Key Principles:**
@@ -866,7 +866,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 
 Best practices when **developing [package] itself** (contributing to tidymodels/[package]).
 
-**For extension development**, see: [Best Practices (Extension)](../shared-references/best-practices-extension.md)
+**For extension development**, see: [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices)
 
 ---
 
@@ -941,7 +941,7 @@ Best practices when **developing [package] itself** (contributing to tidymodels/
 
 ## Universal Best Practices
 
-See [Best Practices (Extension)](../shared-references/best-practices-extension.md) for practices that apply to both contexts:
+See [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices) for practices that apply to both contexts:
 - Using base pipe `|>` not `%>%`
 - Prefer for-loops over `purrr::map()`
 - Using `cli::cli_abort()` for errors
@@ -953,7 +953,7 @@ See [Best Practices (Extension)](../shared-references/best-practices-extension.m
 
 - [Testing Patterns (Source)](testing-patterns-source.md)
 - [Troubleshooting (Source)](troubleshooting-source.md)
-- [Best Practices (Extension)](../shared-references/best-practices-extension.md)
+- [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices)
 ```
 
 ---
@@ -969,7 +969,7 @@ See [Best Practices (Extension)](../shared-references/best-practices-extension.m
 
 Troubleshooting guide for **developing [package] itself** (contributing to tidymodels/[package]).
 
-**For extension development**, see: [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+**For extension development**, see: [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions)
 
 ---
 
@@ -1013,7 +1013,7 @@ Troubleshooting guide for **developing [package] itself** (contributing to tidym
 
 ## Universal Issues
 
-See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md) for issues that apply to both contexts:
+See [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions) for issues that apply to both contexts:
 - "could not find function" → Run `devtools::load_all()`
 - "object not found in namespace" → Add `@export`, run `devtools::document()`
 - [Other universal issues]
@@ -1033,7 +1033,7 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 - [Testing Patterns (Source)](testing-patterns-source.md)
 - [Best Practices (Source)](best-practices-source.md)
-- [Troubleshooting (Extension)](../shared-references/troubleshooting-extension.md)
+- [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions)
 ```
 
 ---
@@ -1098,13 +1098,13 @@ See [Troubleshooting (Extension)](../shared-references/troubleshooting-extension
 
 These files live in `shared-references/` and apply to ALL skills:
 
-### testing-patterns-extension.md
+### extension-requirements.md#testing-requirements
 Universal testing patterns for extension developers (creating new packages).
 
-### best-practices-extension.md
+### extension-requirements.md#best-practices
 Universal best practices for extension developers.
 
-### troubleshooting-extension.md
+### extension-requirements.md#common-issues-solutions
 Universal troubleshooting for extension developers.
 
 ### extension-prerequisites.md
@@ -1131,14 +1131,14 @@ How to clone tidymodels repositories (optional but recommended).
 **When updating shared content, ONLY edit the source files in `shared-*` folders:**
 
 **Shared reference files** (in `shared-references/`):
-- `best-practices-extension.md`
+- `extension-requirements.md#best-practices`
 - `development-workflow.md`
 - `package-imports.md`
 - `extension-prerequisites.md`
 - `repository-access.md`
 - `roxygen-documentation.md`
-- `testing-patterns-extension.md`
-- `troubleshooting-extension.md`
+- `extension-requirements.md#testing-requirements`
+- `extension-requirements.md#common-issues-solutions`
 
 **Shared script files** (in `shared-scripts/`):
 - `clone-tidymodels-repos.sh`

@@ -315,6 +315,6 @@ git log --oneline
 
 ## Next Steps
 
-- Learn testing patterns: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Learn testing patterns: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)
 - Set up proper documentation: [roxygen-documentation.md](roxygen-documentation.md)
-- Follow best practices: [best-practices-extension.md](best-practices-extension.md)
+- Follow best practices: [extension-requirements.md#best-practices](extension-requirements.md#best-practices)
