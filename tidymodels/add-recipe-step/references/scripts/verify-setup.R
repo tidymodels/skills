@@ -146,7 +146,7 @@ if (desc_exists) {
   } else {
     print_check(FALSE, "R/ directory not found")
     print_action("Run: dir.create(\"R\")")
-    print_action("Review and follow instructions in ../r-package-setup.md")
+    print_action("Review and follow instructions in ../shared-references/r-package-setup.md")
     add_warning("structure", "R/ directory not found")
   }
 
@@ -156,14 +156,14 @@ if (desc_exists) {
   } else {
     print_check(FALSE, "tests/testthat/ not found")
     print_action("Run: usethis::use_testthat()")
-    print_action("Review and follow instructions in ../r-package-setup.md")
+    print_action("Review and follow instructions in ../shared-references/r-package-setup.md")
     add_warning("structure", "tests/testthat/ not found")
   }
 } else {
   print_check(FALSE, "DESCRIPTION not found")
   print_action("Run: usethis::create_package(\".\", open = FALSE)")
   print_action("This will create DESCRIPTION and R/ directory")
-  print_action("Review and follow instructions in ../r-package-setup.md")
+  print_action("Review and follow instructions in ../shared-references/r-package-setup.md")
   add_warning("structure", "DESCRIPTION not found")
   print_info("Skipping R/ and tests/ checks - create package first")
 }
@@ -192,7 +192,7 @@ if (usethis_available) {
       print_action("Run: usethis::use_claude_code()")
       print_action("IMPORTANT: Must run BEFORE adding other dependencies")
       print_action("This enables Claude to read tidyverse development patterns")
-      print_action("Review and follow instructions in ../r-package-setup.md")
+      print_action("Review and follow instructions in ../shared-references/r-package-setup.md")
       add_warning("claude_code", ".claude/CLAUDE.md not found")
     }
   } else {
@@ -229,7 +229,7 @@ if (results$context == "source") {
     } else {
       print_check(FALSE, paste0(repo_path, "/ not found"))
       print_action("Reference implementations are critical for development")
-      print_action("Follow instructions in ../repository-access.md")
+      print_action("Follow instructions in ../shared-references/repository-access.md")
       print_action(paste0("Run: ./path/to/clone-tidymodels-repos.sh ", results$package_type))
       add_warning("repository", paste0(repo_path, "/ not found"))
     }
@@ -292,7 +292,7 @@ if (results$context == "source") {
     }
 
     if (any_missing) {
-      print_action("Review and follow instructions in ../r-package-setup.md")
+      print_action("Review and follow instructions in ../shared-references/r-package-setup.md")
     }
   }
 } else {
@@ -328,7 +328,7 @@ if (results$all_passed) {
     cat("\u26A0 REQUIRED: After addressing deficiencies, re-run this script\n")
   }
   cat("\nTo re-run:\n")
-  cat("  Rscript -e 'source(\"scripts/verify-setup.R\")'\n")
+  cat("  Rscript -e 'source(\"~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R\")'\n")
 }
 
 cat("========================================\n\n")

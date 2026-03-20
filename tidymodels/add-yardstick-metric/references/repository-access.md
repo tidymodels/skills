@@ -73,10 +73,10 @@ Navigate to your R package directory (where your `DESCRIPTION` file is) and run 
 cd /path/to/your-package
 
 # Clone yardstick
-scripts/clone-tidymodels-repos.sh yardstick
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
 
 # Or clone all packages
-scripts/clone-tidymodels-repos.sh all
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh all
 ```
 
 **Windows (PowerShell):**
@@ -96,7 +96,7 @@ cd C:\path\to\your-package
 
 ```bash
 # From your package directory
-python3 scripts/clone-tidymodels-repos.py yardstick
+python3 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.py yardstick
 ```
 
 ### Step 3: Verify Setup
@@ -131,17 +131,17 @@ All scripts accept package names as arguments:
 
 **Clone single package:**
 ```bash
-scripts/clone-tidymodels-repos.sh yardstick
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
 ```
 
 **Clone multiple packages:**
 ```bash
-scripts/clone-tidymodels-repos.sh yardstick recipes
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick recipes
 ```
 
 **Clone all packages:**
 ```bash
-scripts/clone-tidymodels-repos.sh all
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/clone-tidymodels-repos.sh all
 ```
 
 ### Script Output

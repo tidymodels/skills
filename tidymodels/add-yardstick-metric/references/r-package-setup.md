@@ -450,15 +450,19 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 
 ## Next Steps
 
-After setup is complete and verification passes, return to your implementation guide:
+✅ **PACKAGE SETUP IS NOW COMPLETE**
+
+After verification passes, you MUST proceed to the Extension Development Guide:
 
 **For yardstick metrics:**
-- [Extension Development Guide](../add-yardstick-metric/references/extension-guide.md)
+→ **[Extension Development Guide](../add-yardstick-metric/references/extension-guide.md)** - Start implementing your metric
 
 **For recipe steps:**
-- [Extension Development Guide](../add-recipe-step/references/extension-guide.md)
+→ **[Extension Development Guide](../add-recipe-step/references/extension-guide.md)** - Start implementing your step
 
-**Additional resources:**
+**DO NOT** skip the Extension Development Guide. It contains critical implementation patterns and step-by-step instructions.
+
+**Additional resources (reference as needed):**
 - [development-workflow.md](development-workflow.md) - Fast iteration cycle
 - [testing-patterns-extension.md](testing-patterns-extension.md) - Writing tests
 - [roxygen-documentation.md](roxygen-documentation.md) - Documentation templates

@@ -19,7 +19,7 @@ This skill supports **two distinct development contexts**:
 - ✅ Use this for: New packages, standalone steps, CRAN submissions
 - 📦 Package detection: No `recipes` in DESCRIPTION's `Package:` field
 - ⚠️ **Constraint**: Must use `recipes::` prefix for all functions
-- 📖 **Guide**: [Extension Development Guide](references/extension-guide.md)
+- 📖 **Guide**: [R Package Setup](references/r-package-setup.md)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to recipes** via pull requests.
@@ -37,7 +37,7 @@ This skill supports **two distinct development contexts**:
 
 **Choose your context:**
 
-- **Creating a new package?** → Follow this guide, then see [Extension Development Guide](references/extension-guide.md)
+- **Creating a new package?** → Start with [R Package Setup](references/r-package-setup.md)
 - **Contributing to recipes?** → Clone repository, then see [Source Development Guide](references/source-guide.md)
 
 **Not sure which?** If you're in the `tidymodels/recipes` repository, use source development. Otherwise, use extension development.
@@ -702,15 +702,7 @@ See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for c
 
 **For Extension Development (creating new packages):**
 
-1. **Choose your context:** [Extension Development Guide](references/extension-guide.md)
-2. **Understand architecture:** Read [Step Architecture](references/step-architecture.md)
-3. **Choose step type:** [Modify-in-Place](references/modify-in-place-steps.md), [Create-New-Columns](references/create-new-columns-steps.md), or [Row-Operation](references/row-operation-steps.md)
-4. **Follow the template:** Use complete examples from reference files
-5. **Learn helpers:** See [Helper Functions](references/helper-functions.md)
-6. **Add optional methods:** See [Optional Methods](references/optional-methods.md) if needed
-7. **Test thoroughly:** See [Testing Patterns (Extension)](references/testing-patterns-extension.md)
-8. **Document completely:** See [Roxygen Documentation](references/roxygen-documentation.md)
-9. **Run final check:** `devtools::check()` before publishing
+1. **Setup package structure:** [R Package Setup](references/r-package-setup.md) - START HERE
 
 **For Source Development (contributing to recipes):**
 
