@@ -106,16 +106,24 @@ if (results$context != "source") {
     add_warning(UUID_NO_CLAUDE_MD)
   }
 
-  # Check Repository Access (Extension Development Only)
-  if (results$context == "extension" && results$package_type %in% c("recipes", "yardstick")) {
+  # Check Repository Access (always check unless source development)
+  # Check for repos even if package_type is unknown
+  has_repos <- FALSE
+  if (results$package_type %in% c("recipes", "yardstick")) {
+    # Check for specific repo
     repo_path <- file.path("repos", results$package_type)
-    if (!dir.exists(repo_path)) {
-      add_warning(UUID_NO_REPOS)
-    }
+    has_repos <- dir.exists(repo_path)
+  } else {
+    # Unknown package type - check if ANY tidymodels repos exist
+    has_repos <- dir.exists("repos/yardstick") || dir.exists("repos/recipes")
   }
 
-  # Check Dependencies (Extension Development Only)
-  if (results$context == "extension" && desc_exists) {
+  if (!has_repos) {
+    add_warning(UUID_NO_REPOS)
+  }
+
+  # Check Dependencies (only if DESCRIPTION exists and package type is known)
+  if (desc_exists && results$package_type %in% c("recipes", "yardstick")) {
     # Get Imports field
     imports_start <- grep("^Imports:", desc_lines)
     if (length(imports_start) > 0) {
