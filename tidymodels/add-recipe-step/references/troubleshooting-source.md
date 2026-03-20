@@ -4,7 +4,7 @@
 
 **Key focus:** Working with package internals, prep/bake workflow issues, and recipes-specific problems.
 
-For extension development (creating new packages), see [Troubleshooting (Extension)](extension-requirements.md#common-issues-solutions).
+For extension development (creating new packages), see [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions).
 
 ---
 
@@ -787,4 +787,4 @@ Look at similar steps:
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
-- See [Extension Troubleshooting](extension-requirements.md#common-issues-solutions) for general R package issues
+- See [Extension Troubleshooting](package-extension-requirements.md#common-issues-solutions) for general R package issues

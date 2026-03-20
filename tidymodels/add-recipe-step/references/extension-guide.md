@@ -8,7 +8,7 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 **CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
 
-👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](extension-prerequisites.md)** (REQUIRED)
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 
 **CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
@@ -35,7 +35,7 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 **⚠️ IMPORTANT**: Before implementing recipe steps, you MUST complete the extension prerequisites:
 
-👉 **[Extension Prerequisites Guide](extension-prerequisites.md)** (REQUIRED)
+👉 **[Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
@@ -348,7 +348,7 @@ test_that("centering validates input types", {
 })
 ```
 
-See [Testing Patterns (Extension)](extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ---
 
@@ -491,7 +491,7 @@ recipes::check_new_data(col_names, object, new_data)
 
 ## Development Workflow
 
-See [Development Workflow](development-workflow.md) for complete details.
+See [Development Workflow](package-development-workflow.md) for complete details.
 
 **Fast iteration cycle:**
 1. `devtools::document()` - Generate documentation
@@ -522,7 +522,7 @@ NULL
 
 ## Testing
 
-See [Testing Patterns (Extension)](extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Step transforms data correctly
@@ -536,7 +536,7 @@ See [Testing Patterns (Extension)](extension-requirements.md#testing-requirement
 
 ## Best Practices
 
-See [Best Practices (Extension)](extension-requirements.md#best-practices) for complete guide.
+See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not `%>%`
@@ -549,7 +549,7 @@ See [Best Practices (Extension)](extension-requirements.md#best-practices) for c
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - Column selection not working → Check `recipes_eval_select()` usage
@@ -572,21 +572,21 @@ See [Troubleshooting (Extension)](extension-requirements.md#common-issues-soluti
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
-- [Extension Prerequisites](extension-prerequisites.md)
-- [Development Workflow](development-workflow.md)
-- [Testing Patterns](extension-requirements.md#testing-requirements)
-- [Roxygen Documentation](roxygen-documentation.md)
-- [Best Practices](extension-requirements.md#best-practices)
-- [Troubleshooting](extension-requirements.md#common-issues-solutions)
+- [Extension Prerequisites](package-extension-prerequisites.md)
+- [Development Workflow](package-development-workflow.md)
+- [Testing Patterns](package-extension-requirements.md#testing-requirements)
+- [Roxygen Documentation](package-roxygen-documentation.md)
+- [Best Practices](package-extension-requirements.md#best-practices)
+- [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
 
 ---
 
 ## Next Steps
 
-1. **Complete extension prerequisites** following [Extension Prerequisites](extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
 2. **Choose your step type** from [Step Architecture](step-architecture.md)
 3. **Implement your step** following the guide above
-4. **Test thoroughly** using [Testing Patterns](extension-requirements.md#testing-requirements)
+4. **Test thoroughly** using [Testing Patterns](package-extension-requirements.md#testing-requirements)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -594,7 +594,7 @@ See [Troubleshooting (Extension)](extension-requirements.md#common-issues-soluti
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](extension-requirements.md#common-issues-solutions)
+- Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
 - Review [Step Architecture](step-architecture.md)
 - Study the main [recipes SKILL.md](../SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/recipes/issues

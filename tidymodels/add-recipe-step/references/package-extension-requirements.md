@@ -1028,7 +1028,7 @@ writeLines(c(
 
 Or manually edit `.Rbuildignore` to include these patterns.
 
-See [extension-prerequisites.md](extension-prerequisites.md) for details.
+See [package-extension-prerequisites.md](package-extension-prerequisites.md) for details.
 
 #### "No visible global function definition"
 
@@ -1355,7 +1355,7 @@ devtools::test()      # Fast (seconds to minutes)
 
 Only run `check()` once at the very end.
 
-See [development-workflow.md](development-workflow.md) for details.
+See [package-development-workflow.md](package-development-workflow.md) for details.
 
 ### Memory Issues
 
@@ -1495,7 +1495,7 @@ browser()            # Add breakpoint in code
 
 ### Next Steps
 
-- Complete setup: [extension-prerequisites.md](extension-prerequisites.md)
-- Follow workflow: [development-workflow.md](development-workflow.md)
-- Document functions: [roxygen-documentation.md](roxygen-documentation.md)
+- Complete setup: [package-extension-prerequisites.md](package-extension-prerequisites.md)
+- Follow workflow: [package-development-workflow.md](package-development-workflow.md)
+- Document functions: [package-roxygen-documentation.md](package-roxygen-documentation.md)
 - Manage dependencies: [package-imports.md](package-imports.md)

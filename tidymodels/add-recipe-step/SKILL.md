@@ -45,7 +45,7 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
   → Go to [Extension Development Guide](references/extension-guide.md)
 
 - **Output: Shows "Warning - [UUID]" messages**
-  → Go to [Extension Prerequisites](references/extension-prerequisites.md) to resolve warnings first
+  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
 
 ---
 
@@ -75,13 +75,13 @@ Creating a custom recipe step provides:
 - [Helper Functions](references/helper-functions.md) - recipes helper function reference
 
 **Shared References (Extension Development):**
-- [Extension Prerequisites](references/extension-prerequisites.md) - Extension prerequisites
-- [Development Workflow](references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) - Extension testing guide
-- [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
+- [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+- [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+- [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
 - [Package Imports](references/package-imports.md) - Managing dependencies
-- [Best Practices (Extension)](references/extension-requirements.md#best-practices) - Extension code style
-- [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) - Extension issues
+- [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+- [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal helpers
@@ -90,7 +90,7 @@ Creating a custom recipe step provides:
 
 ## Development Workflow
 
-See [Development Workflow](references/development-workflow.md) for complete details.
+See [Development Workflow](references/package-development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -504,7 +504,7 @@ test_that("centering works with case weights", {
 
 **Reference test pattern:** `tests/testthat/test-center.R` in recipes repository
 
-See [Testing Patterns](references/extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing Patterns](references/package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ## Implementation Guide by Step Type
 
@@ -597,7 +597,7 @@ See [Optional Methods](references/optional-methods.md) for complete details.
 
 ## Documentation
 
-See [Roxygen Documentation](references/roxygen-documentation.md) for complete templates.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete templates.
 
 **Required roxygen tags:**
 ```r
@@ -613,7 +613,7 @@ See [Roxygen Documentation](references/roxygen-documentation.md) for complete te
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Step transforms data correctly
@@ -684,7 +684,7 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 
 ## Best Practices
 
-See [Best Practices](references/extension-requirements.md#best-practices) for complete guide.
+See [Best Practices](references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -695,7 +695,7 @@ See [Best Practices](references/extension-requirements.md#best-practices) for co
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -707,12 +707,12 @@ See [Troubleshooting (Extension)](references/extension-requirements.md#common-is
 
 **For Extension Development (creating new packages):**
 
-1. **Extension prerequisites:** [Extension Prerequisites](references/extension-prerequisites.md) - START HERE
+1. **Extension prerequisites:** [Extension Prerequisites](references/package-extension-prerequisites.md) - START HERE
 
 **For Source Development (contributing to recipes):**
 
 1. **Start here:** [Source Development Guide](references/source-guide.md)
-2. **Clone repository:** See [Repository Access](references/repository-access.md)
+2. **Clone repository:** See [Repository Access](references/package-repository-access.md)
 3. **Study existing steps:** Browse `R/center.R`, `R/dummy.R`, `R/pca.R`, etc.
 4. **Follow package conventions:** File naming, internal functions, three-function pattern
 5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)

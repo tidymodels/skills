@@ -168,7 +168,7 @@ if (!results$all_passed) {
   for (uuid in results$warnings) {
     cat("Warning -", uuid, "\n")
   }
-  cat("See extension-prerequisites.md to resolve these warnings.\n")
+  cat("See package-extension-prerequisites.md to resolve these warnings.\n")
 }
 # Always show completion message
 cat("All checks for", context_name, "development complete.\n")

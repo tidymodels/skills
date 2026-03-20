@@ -44,7 +44,7 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
   → Go to [Extension Development Guide](references/extension-guide.md)
 
 - **Output: Shows "Warning - [UUID]" messages**
-  → Go to [Extension Prerequisites](references/extension-prerequisites.md) to resolve warnings first
+  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
 
 ---
 
@@ -83,13 +83,13 @@ Creating a custom yardstick metric provides:
 - [Autoplot Support](references/autoplot.md) - Optional visualization (curves, confusion matrices)
 
 **Shared References (Extension Development):**
-- [Extension Prerequisites](references/extension-prerequisites.md) - Extension prerequisites
-- [Development Workflow](references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) - Extension testing guide
-- [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
+- [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+- [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+- [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
 - [Package Imports](references/package-imports.md) - Managing dependencies
-- [Best Practices (Extension)](references/extension-requirements.md#best-practices) - Extension code style
-- [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) - Extension issues
+- [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+- [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal test helpers
@@ -98,7 +98,7 @@ Creating a custom yardstick metric provides:
 
 ## Development Workflow
 
-See [Development Workflow](references/development-workflow.md) for complete details.
+See [Development Workflow](references/package-development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -360,7 +360,7 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 
 ## Documentation
 
-See [Roxygen Documentation](references/roxygen-documentation.md) for complete templates.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete templates.
 
 **Required roxygen tags:**
 ```r
@@ -377,7 +377,7 @@ See [Roxygen Documentation](references/roxygen-documentation.md) for complete te
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -544,7 +544,7 @@ mae <- function(data, ...) {
 
 ## Best Practices
 
-See [Best Practices (Extension)](references/extension-requirements.md#best-practices) for complete guide.
+See [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -555,7 +555,7 @@ See [Best Practices (Extension)](references/extension-requirements.md#best-pract
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -567,12 +567,12 @@ See [Troubleshooting (Extension)](references/extension-requirements.md#common-is
 
 **For Extension Development (creating new packages):**
 
-1. **Extension prerequisites:** [Extension Prerequisites](references/extension-prerequisites.md) - START HERE
+1. **Extension prerequisites:** [Extension Prerequisites](references/package-extension-prerequisites.md) - START HERE
 
 **For Source Development (contributing to yardstick):**
 
 1. **Start here:** [Source Development Guide](references/source-guide.md)
-2. **Clone repository:** See [Repository Access](references/repository-access.md)
+2. **Clone repository:** See [Repository Access](references/package-repository-access.md)
 3. **Study existing metrics:** Browse `R/num-*.R`, `R/class-*.R`, etc.
 4. **Follow package conventions:** File naming, internal functions, templates
 5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)

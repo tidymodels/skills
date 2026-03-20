@@ -14,7 +14,7 @@
   - Previous verbose warnings gave Claude enough context to attempt fixes without reading full prerequisites
   - Claude would see "Run: usethis::create_package()" and execute immediately, bypassing complete setup sequence
   - **New behavior**: verify-setup.R outputs only cryptic UUIDs (e.g., "Warning - e0f0c00a-0000")
-  - Forces Claude to look up each UUID in extension-prerequisites.md for resolution details
+  - Forces Claude to look up each UUID in package-extension-prerequisites.md for resolution details
   - Ensures Claude reads complete setup instructions before attempting any fixes
   - **Behavioral changes**:
     - All checks run independently (no early exits)
@@ -23,12 +23,12 @@
     - Repos check now runs in empty directories (was previously skipped due to "unknown" context)
   - **Output format**: Clean, minimal, no blank lines between messages
   - **Path robustness**: Updated SKILL.md files to use `Sys.glob(path.expand(...))` for wildcard expansion
-  - Single source of truth: UUID resolution details live only in extension-prerequisites.md
+  - Single source of truth: UUID resolution details live only in package-extension-prerequisites.md
   - Result: Claude cannot skip documentation reading; must follow complete setup sequence
   - Propagated to both add-yardstick-metric and add-recipe-step skills
 
-- **extension-prerequisites.md: Fixed Claude Code Execution Instructions** (2026-03-19)
-  - **CRITICAL FIX**: Updated extension-prerequisites.md to clarify Claude Code SHOULD run R commands directly
+- **package-extension-prerequisites.md: Fixed Claude Code Execution Instructions** (2026-03-19)
+  - **CRITICAL FIX**: Updated package-extension-prerequisites.md to clarify Claude Code SHOULD run R commands directly
   - Removed misleading guidance stating "you cannot run R commands directly"
   - All setup steps now explicitly instruct Claude to run `Rscript -e` commands via Bash tool
   - Changed from "Ask user to run..." to "Run this command via Bash tool..."
@@ -40,9 +40,9 @@
     - Short checklists in SKILL.md were being treated as "good enough" instead of reading full references
     - "Optional" labels were effectively disregarded by Claude, executing marked-optional steps anyway
   - **Architectural changes to prevent premature execution**:
-    - Centralized `use_claude_code()` and repo cloning instructions exclusively in extension-prerequisites.md
+    - Centralized `use_claude_code()` and repo cloning instructions exclusively in package-extension-prerequisites.md
     - Removed these details from SKILL.md and extension-guide.md to prevent Claude from executing before reading full reference
-    - High-level documents now contain only "see extension-prerequisites.md" to force proper reference reading
+    - High-level documents now contain only "see package-extension-prerequisites.md" to force proper reference reading
     - Removed misleading "optional" monikers that Claude consistently ignored
   - Steps updated: package creation, Claude Code integration, dependencies, testing, and configurations
   - Result: Claude now runs full setup autonomously, verifying each step before proceeding
@@ -52,7 +52,7 @@
   - **BREAKING**: Removed all code blocks from SKILL.md files to eliminate duplication
   - SKILL.md is now purely navigational (overview + links to references)
   - Removed duplicated extension prerequisites code from extension-guide.md files (both recipe and yardstick)
-  - Setup code now exists only in extension-prerequisites.md (single source of truth)
+  - Setup code now exists only in package-extension-prerequisites.md (single source of truth)
   - Removed duplicate MAE implementation from add-yardstick-metric SKILL.md
   - Complete MAE example now lives only in numeric-metrics.md reference
   - Prevents users from following incomplete/stale setup instructions
@@ -67,7 +67,7 @@
   - Seamless integration: Claude reads CLAUDE.md and incorporates tidyverse patterns automatically
   - Skill composition: tidymodels-dev skills combine with tidy-* skills for complete R package guidance
   - Graceful fallback: skills work perfectly without usethis dev version
-  - Clear instructions in extension-prerequisites.md, extension guides, and SKILL_IMPLEMENTATION_GUIDE.md
+  - Clear instructions in package-extension-prerequisites.md, extension guides, and SKILL_IMPLEMENTATION_GUIDE.md
 
 - **Extension vs Source Development Architecture** (2026-03-18)
   - Skills now support two distinct development contexts

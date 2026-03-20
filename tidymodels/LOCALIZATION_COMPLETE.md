@@ -27,8 +27,8 @@ Successfully copied shared-references and shared-scripts into each skill's refer
 ```
 tidymodels/
 ├── shared-references/
-│   ├── extension-prerequisites.md
-│   ├── development-workflow.md
+│   ├── package-extension-prerequisites.md
+│   ├── package-development-workflow.md
 │   └── ...
 ├── shared-scripts/
 │   ├── verify-setup.R
@@ -53,8 +53,8 @@ tidymodels/
 │   └── ...
 ├── add-yardstick-metric/
 │   └── references/
-│       ├── extension-prerequisites.md          ← COPIED
-│       ├── development-workflow.md     ← COPIED
+│       ├── package-extension-prerequisites.md          ← COPIED
+│       ├── package-development-workflow.md     ← COPIED
 │       ├── extension-guide.md
 │       ├── scripts/                    ← NEW
 │       │   ├── verify-setup.R          ← COPIED
@@ -63,8 +63,8 @@ tidymodels/
 │       └── ...
 └── add-recipe-step/
     └── references/
-        ├── extension-prerequisites.md          ← COPIED
-        ├── development-workflow.md     ← COPIED
+        ├── package-extension-prerequisites.md          ← COPIED
+        ├── package-development-workflow.md     ← COPIED
         ├── extension-guide.md
         ├── scripts/                    ← NEW
         │   ├── verify-setup.R          ← COPIED
@@ -83,14 +83,14 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[Extension Prerequisites Guide](shared-references/extension-prerequisites.md)
-[Development Workflow](shared-references/development-workflow.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
+[Development Workflow](shared-references/package-development-workflow.md)
 ```
 
 **After**:
 ```markdown
-[Extension Prerequisites Guide](shared-references/extension-prerequisites.md)
-[Development Workflow](shared-references/development-workflow.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
+[Development Workflow](shared-references/package-development-workflow.md)
 ```
 
 **Why it matters**:
@@ -104,12 +104,12 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[Extension Prerequisites Guide](shared-references/extension-prerequisites.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
 ```
 
 **After**:
 ```markdown
-[Extension Prerequisites Guide](shared-references/extension-prerequisites.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
 ```
 
 **Why it matters**:
@@ -119,7 +119,7 @@ All references to shared files have been updated to use local paths:
 
 ---
 
-#### In extension-prerequisites.md Files
+#### In package-extension-prerequisites.md Files
 
 **Before**:
 ```bash
@@ -142,13 +142,13 @@ scripts/verify-setup.R
 
 **Before**:
 ```r
-print_action("Review instructions in ../shared-references/extension-prerequisites.md")
+print_action("Review instructions in ../shared-references/package-extension-prerequisites.md")
 cat("Rscript -e 'source(\"~/.claude/plugins/cache/.../verify-setup.R\")'")
 ```
 
 **After**:
 ```r
-print_action("Review instructions in ../extension-prerequisites.md")
+print_action("Review instructions in ../package-extension-prerequisites.md")
 cat("Rscript -e 'source(\"scripts/verify-setup.R\")'")
 ```
 
@@ -225,7 +225,7 @@ To verify localization worked:
 
 1. Invoke add-yardstick-metric skill
 2. Observe Claude's behavior:
-   - [ ] Does it navigate to `references/extension-prerequisites.md`?
+   - [ ] Does it navigate to `references/package-extension-prerequisites.md`?
    - [ ] Does it actually READ the file (not substitute knowledge)?
    - [ ] Does it run the scripts from `scripts/` directory?
    - [ ] Does verification script work with local paths?
@@ -236,7 +236,7 @@ To verify localization worked:
 ## Success Metrics
 
 If localization worked:
-- ✅ Claude reads extension-prerequisites.md (doesn't substitute own knowledge)
+- ✅ Claude reads package-extension-prerequisites.md (doesn't substitute own knowledge)
 - ✅ Claude follows the setup checklist
 - ✅ Claude runs scripts from local scripts/ directory
 - ✅ Verification script references work correctly
@@ -267,7 +267,7 @@ If localization failed:
 ## Next Steps
 
 1. Test with fresh skill invocation
-2. Verify Claude actually reads extension-prerequisites.md
+2. Verify Claude actually reads package-extension-prerequisites.md
 3. Confirm scripts work from local paths
 4. If successful: Consider removing references to old shared-references in any remaining docs
 

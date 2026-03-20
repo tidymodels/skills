@@ -4,7 +4,7 @@
 
 **Key principle:** ✅ **You CAN use internal functions** - you're developing the package, so internals are available.
 
-For extension development (creating new packages), see [Best Practices (Extension)](extension-requirements.md#best-practices).
+For extension development (creating new packages), see [Best Practices (Extension)](package-extension-requirements.md#best-practices).
 
 ---
 
@@ -541,4 +541,4 @@ if (na_rm) {
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 - Study existing metrics in the yardstick repository
-- Follow the [Extension Guide](extension-requirements.md#best-practices) for code style basics
+- Follow the [Extension Guide](package-extension-requirements.md#best-practices) for code style basics

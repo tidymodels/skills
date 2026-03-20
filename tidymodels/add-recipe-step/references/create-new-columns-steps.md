@@ -371,7 +371,7 @@ bake:
 
 ## Testing
 
-See [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for create-new-columns steps
 
@@ -427,5 +427,5 @@ test_that("tidy returns correct information", {
 - Row operations: [row-operation-steps.md](row-operation-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [roxygen-documentation.md](roxygen-documentation.md)
-- Write tests: [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements)
+- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

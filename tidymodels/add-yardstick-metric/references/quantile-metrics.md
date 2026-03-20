@@ -594,4 +594,4 @@ Imports:
 
 - [Numeric Metrics](numeric-metrics.md) - Point prediction metrics
 - [Metric System](metric-system.md) - Understanding metric architecture
-- [Testing Patterns](extension-requirements.md#testing-requirements) - Comprehensive test guide
+- [Testing Patterns](package-extension-requirements.md#testing-requirements) - Comprehensive test guide

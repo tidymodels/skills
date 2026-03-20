@@ -167,7 +167,7 @@ cd repos/yardstick && git pull
 
 ## For More Information
 
-See the comprehensive documentation: `tidymodels/shared-references/repository-access.md`
+See the comprehensive documentation: `tidymodels/shared-references/package-repository-access.md`
 
 ## License
 

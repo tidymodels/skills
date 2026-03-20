@@ -31,7 +31,7 @@ cd yardstick
 git checkout -b feature/add-metric-name
 ```
 
-See [Repository Access](repository-access.md) for more details.
+See [Repository Access](package-repository-access.md) for more details.
 
 ### Install Development Dependencies
 
@@ -617,9 +617,9 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 - [Case Weights](case-weights.md)
 
 ### Shared References
-- [Extension Prerequisites](extension-prerequisites.md)
-- [Development Workflow](development-workflow.md)
-- [Roxygen Documentation](roxygen-documentation.md)
+- [Extension Prerequisites](package-extension-prerequisites.md)
+- [Development Workflow](package-development-workflow.md)
+- [Roxygen Documentation](package-roxygen-documentation.md)
 
 ---
 

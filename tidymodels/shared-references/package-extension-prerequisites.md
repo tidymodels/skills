@@ -377,7 +377,7 @@ Rscript -e 'usethis::use_package("package_name")'
 
 **Problem:** Using non-standard evaluation (NSE) without declaring variables
 
-**Solution:** See [roxygen-documentation.md](roxygen-documentation.md) for `@importFrom` usage
+**Solution:** See [package-roxygen-documentation.md](package-roxygen-documentation.md) for `@importFrom` usage
 
 ---
 
@@ -436,7 +436,7 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 → Add pattern to `.Rbuildignore`
 
 **"No visible binding for global variable":**
-→ See [roxygen-documentation.md](roxygen-documentation.md) for `@importFrom` usage
+→ See [package-roxygen-documentation.md](package-roxygen-documentation.md) for `@importFrom` usage
 
 ---
 
@@ -447,14 +447,14 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 After verification passes, you MUST proceed to the Extension Development Guide:
 
 **For yardstick metrics:**
-→ **[Extension Development Guide](extension-guide.md)** - Start implementing your metric
+→ **[Extension Development Guide](../add-yardstick-metric/references/extension-guide.md)** - Start implementing your metric
 
 **For recipe steps:**
-→ **[Extension Development Guide](../../add-recipe-step/references/extension-guide.md)** - Start implementing your step
+→ **[Extension Development Guide](../add-recipe-step/references/extension-guide.md)** - Start implementing your step
 
 **DO NOT** skip the Extension Development Guide. It contains critical implementation patterns and step-by-step instructions.
 
 **Additional resources (reference as needed):**
-- [development-workflow.md](development-workflow.md) - Fast iteration cycle
-- [extension-requirements.md#testing-requirements](extension-requirements.md#testing-requirements) - Writing tests
-- [roxygen-documentation.md](roxygen-documentation.md) - Documentation templates
+- [package-development-workflow.md](package-development-workflow.md) - Fast iteration cycle
+- [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) - Writing tests
+- [package-roxygen-documentation.md](package-roxygen-documentation.md) - Documentation templates

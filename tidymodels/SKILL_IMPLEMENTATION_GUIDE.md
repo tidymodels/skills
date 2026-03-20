@@ -71,12 +71,12 @@ tidymodels/
 │       └── ...
 │
 └── shared-references/                # Universal cross-skill resources
-    ├── extension-requirements.md     # All-in-one: best practices, testing, troubleshooting
-    ├── extension-prerequisites.md
-    ├── development-workflow.md
-    ├── roxygen-documentation.md
+    ├── package-extension-requirements.md     # All-in-one: best practices, testing, troubleshooting
+    ├── package-extension-prerequisites.md
+    ├── package-development-workflow.md
+    ├── package-roxygen-documentation.md
     ├── package-imports.md
-    └── repository-access.md
+    └── package-repository-access.md
 ```
 
 ### Shared Scripts (Optional)
@@ -114,7 +114,7 @@ Code duplication causes:
 - ✅ Links to references for all actual content
 
 **extension-guide.md / source-guide.md:**
-- ❌ No setup code (link to extension-prerequisites.md)
+- ❌ No setup code (link to package-extension-prerequisites.md)
 - ❌ No testing patterns (link to testing-patterns-*.md)
 - ✅ Step-by-step implementation specific to the feature
 - ✅ Links to references for universal patterns
@@ -141,7 +141,7 @@ Code duplication causes:
 → ✅ Link to the full setup guide, users need the complete sequence anyway
 
 **❌ "But users should see use_claude_code() mentioned here!"**
-→ ✅ Say "See extension-prerequisites.md" only—never show the actual command in SKILL.md
+→ ✅ Say "See package-extension-prerequisites.md" only—never show the actual command in SKILL.md
 → **Why:** Claude sees the command and executes it before reading full context
 
 **❌ "But I'll mark it 'optional' so Claude knows it's not required!"**
@@ -159,12 +159,12 @@ Code duplication causes:
 When designing skills, account for these observed Claude Code behaviors:
 
 #### 1. Refuses to Read Top-Level References When Partial Info Exists
-**Behavior:** When Claude sees abbreviated setup instructions or short checklists in SKILL.md or extension-guide.md, it may refuse to read the full reference file (e.g., extension-prerequisites.md) even when explicitly instructed to do so.
+**Behavior:** When Claude sees abbreviated setup instructions or short checklists in SKILL.md or extension-guide.md, it may refuse to read the full reference file (e.g., package-extension-prerequisites.md) even when explicitly instructed to do so.
 
 **Solution:**
 - Remove ALL setup code from SKILL.md and extension-guide.md
-- Only include "See [Extension Prerequisites](../shared-references/extension-prerequisites.md)" links
-- Never provide partial/abbreviated setup instructions anywhere except extension-prerequisites.md
+- Only include "See [Extension Prerequisites](../shared-references/package-extension-prerequisites.md)" links
+- Never provide partial/abbreviated setup instructions anywhere except package-extension-prerequisites.md
 
 #### 2. Treats Short Checklists as "Good Enough"
 **Behavior:** Claude may see a short checklist in a high-level document and consider it sufficient guidance, skipping detailed reference documentation.
@@ -183,10 +183,10 @@ When designing skills, account for these observed Claude Code behaviors:
 - Be explicit about consequences of skipping (e.g., "reduces development quality")
 
 #### 4. Executes Setup Commands Prematurely
-**Behavior:** If Claude sees specific commands (like `use_claude_code()` or repo cloning scripts) in SKILL.md or guides, it may execute them before reading full context from extension-prerequisites.md, missing critical ordering dependencies.
+**Behavior:** If Claude sees specific commands (like `use_claude_code()` or repo cloning scripts) in SKILL.md or guides, it may execute them before reading full context from package-extension-prerequisites.md, missing critical ordering dependencies.
 
 **Solution:**
-- Centralize ALL setup commands exclusively in extension-prerequisites.md
+- Centralize ALL setup commands exclusively in package-extension-prerequisites.md
 - High-level documents should only reference the setup guide, never show commands
 - Prevents Claude from executing out-of-order or without proper context
 
@@ -281,13 +281,13 @@ This skill supports **two distinct development contexts**:
 - [List all reference/*.md files with descriptions]
 
 **Shared References (Extension Development):**
-- [Extension Prerequisites](../shared-references/extension-prerequisites.md)
-- [Development Workflow](../shared-references/development-workflow.md)
-- [Extension Requirements](../shared-references/extension-requirements.md) - Complete guide:
-  - [Best Practices](../shared-references/extension-requirements.md#best-practices)
-  - [Testing Patterns](../shared-references/extension-requirements.md#testing-requirements)
-  - [Troubleshooting](../shared-references/extension-requirements.md#common-issues-solutions)
-- [Roxygen Documentation](../shared-references/roxygen-documentation.md)
+- [Extension Prerequisites](../shared-references/package-extension-prerequisites.md)
+- [Development Workflow](../shared-references/package-development-workflow.md)
+- [Extension Requirements](../shared-references/package-extension-requirements.md) - Complete guide:
+  - [Best Practices](../shared-references/package-extension-requirements.md#best-practices)
+  - [Testing Patterns](../shared-references/package-extension-requirements.md#testing-requirements)
+  - [Troubleshooting](../shared-references/package-extension-requirements.md#common-issues-solutions)
+- [Roxygen Documentation](../shared-references/package-roxygen-documentation.md)
 - [Package Imports](../shared-references/package-imports.md)
 
 **Source Development Specific:**
@@ -299,7 +299,7 @@ This skill supports **two distinct development contexts**:
 
 **⚠️ IMPORTANT**: Before implementing [features], complete the extension prerequisites sequence:
 
-👉 **[Extension Prerequisites Guide](../shared-references/extension-prerequisites.md)**
+👉 **[Extension Prerequisites Guide](../shared-references/package-extension-prerequisites.md)**
 
 This guide includes critical steps like `use_claude_code()` (if available) that must run BEFORE adding dependencies. Following the complete sequence ensures proper package initialization and Claude Code integration.
 
@@ -307,7 +307,7 @@ After completing extension prerequisites, return here to implement your [feature
 
 ## Development Workflow
 
-[Link to shared-references/development-workflow.md - do NOT duplicate code here]
+[Link to shared-references/package-development-workflow.md - do NOT duplicate code here]
 
 ## Complete Example: [Primary Use Case]
 
@@ -354,8 +354,8 @@ If you're contributing to [package] itself, you have access to internal function
 - Keep main content focused on extension development
 - Reference source guide for package-specific patterns
 - **NEVER duplicate code across SKILL.md and reference files** - SKILL.md should only link to references, not repeat their content
-- Prerequisites section should link to extension-prerequisites.md, NOT include abbreviated setup code
-- Single source of truth: all setup instructions live in shared-references/extension-prerequisites.md
+- Prerequisites section should link to package-extension-prerequisites.md, NOT include abbreviated setup code
+- Single source of truth: all setup instructions live in shared-references/package-extension-prerequisites.md
 
 ---
 
@@ -390,7 +390,7 @@ Complete guide for creating new packages that extend [package] with custom [feat
 
 ### Quick Package Setup
 
-See [Extension Prerequisites](../shared-references/extension-prerequisites.md) for complete details.
+See [Extension Prerequisites](../shared-references/package-extension-prerequisites.md) for complete details.
 
 [Standard setup code block]
 
@@ -449,7 +449,7 @@ You must implement all logic yourself:
 
 ## Development Workflow
 
-See [Development Workflow](../shared-references/development-workflow.md) for complete details.
+See [Development Workflow](../shared-references/package-development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 1. `devtools::document()` - Generate documentation
@@ -469,7 +469,7 @@ See [Development Workflow](../shared-references/development-workflow.md) for com
 
 ## Testing
 
-See [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns (Extension)](../shared-references/package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 [List essential test types]
@@ -478,7 +478,7 @@ See [Testing Patterns (Extension)](../shared-references/extension-requirements.m
 
 ## Best Practices
 
-See [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices) for complete guide.
+See [Best Practices (Extension)](../shared-references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 [List critical principles]
@@ -487,7 +487,7 @@ See [Best Practices (Extension)](../shared-references/extension-requirements.md#
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](../shared-references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 [List common problems and solutions]
@@ -509,14 +509,14 @@ See [Troubleshooting (Extension)](../shared-references/extension-requirements.md
 
 ## Next Steps
 
-1. **Complete extension prerequisites** following [Extension Prerequisites](../shared-references/extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](../shared-references/package-extension-prerequisites.md)
 2. [Additional steps...]
 
 ---
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](../shared-references/extension-requirements.md#common-issues-solutions)
+- Check [Troubleshooting Guide](../shared-references/package-extension-requirements.md#common-issues-solutions)
 - Review existing examples in reference documentation
 - Study the main [[package] SKILL.md](SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/[package]/issues
@@ -571,7 +571,7 @@ cd [package]
 git checkout -b feature/add-[feature]-name
 ```
 
-See [Repository Access](../shared-references/repository-access.md) for more details.
+See [Repository Access](../shared-references/package-repository-access.md) for more details.
 
 ### Install Development Dependencies
 
@@ -753,7 +753,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 
 This guide covers testing patterns when **developing [package] itself** (contributing PRs to the tidymodels/[package] repository).
 
-**For extension development**, see: [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements)
+**For extension development**, see: [Testing Patterns (Extension)](../shared-references/package-extension-requirements.md#testing-requirements)
 
 ---
 
@@ -765,7 +765,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 - You're contributing via PR
 
 ❌ **For extension development:**
-- Use [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements)
+- Use [Testing Patterns (Extension)](../shared-references/package-extension-requirements.md#testing-requirements)
 
 ---
 
@@ -842,7 +842,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 
 - [Best Practices (Source)](best-practices-source.md)
 - [Troubleshooting (Source)](troubleshooting-source.md)
-- [Testing Patterns (Extension)](../shared-references/extension-requirements.md#testing-requirements) - For universal patterns
+- [Testing Patterns (Extension)](../shared-references/package-extension-requirements.md#testing-requirements) - For universal patterns
 ```
 
 **Key Principles:**
@@ -865,7 +865,7 @@ This guide covers testing patterns when **developing [package] itself** (contrib
 
 Best practices when **developing [package] itself** (contributing to tidymodels/[package]).
 
-**For extension development**, see: [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices)
+**For extension development**, see: [Best Practices (Extension)](../shared-references/package-extension-requirements.md#best-practices)
 
 ---
 
@@ -940,7 +940,7 @@ Best practices when **developing [package] itself** (contributing to tidymodels/
 
 ## Universal Best Practices
 
-See [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices) for practices that apply to both contexts:
+See [Best Practices (Extension)](../shared-references/package-extension-requirements.md#best-practices) for practices that apply to both contexts:
 - Using base pipe `|>` not `%>%`
 - Prefer for-loops over `purrr::map()`
 - Using `cli::cli_abort()` for errors
@@ -952,7 +952,7 @@ See [Best Practices (Extension)](../shared-references/extension-requirements.md#
 
 - [Testing Patterns (Source)](testing-patterns-source.md)
 - [Troubleshooting (Source)](troubleshooting-source.md)
-- [Best Practices (Extension)](../shared-references/extension-requirements.md#best-practices)
+- [Best Practices (Extension)](../shared-references/package-extension-requirements.md#best-practices)
 ```
 
 ---
@@ -968,7 +968,7 @@ See [Best Practices (Extension)](../shared-references/extension-requirements.md#
 
 Troubleshooting guide for **developing [package] itself** (contributing to tidymodels/[package]).
 
-**For extension development**, see: [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions)
+**For extension development**, see: [Troubleshooting (Extension)](../shared-references/package-extension-requirements.md#common-issues-solutions)
 
 ---
 
@@ -1012,7 +1012,7 @@ Troubleshooting guide for **developing [package] itself** (contributing to tidym
 
 ## Universal Issues
 
-See [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions) for issues that apply to both contexts:
+See [Troubleshooting (Extension)](../shared-references/package-extension-requirements.md#common-issues-solutions) for issues that apply to both contexts:
 - "could not find function" → Run `devtools::load_all()`
 - "object not found in namespace" → Add `@export`, run `devtools::document()`
 - [Other universal issues]
@@ -1032,7 +1032,7 @@ See [Troubleshooting (Extension)](../shared-references/extension-requirements.md
 
 - [Testing Patterns (Source)](testing-patterns-source.md)
 - [Best Practices (Source)](best-practices-source.md)
-- [Troubleshooting (Extension)](../shared-references/extension-requirements.md#common-issues-solutions)
+- [Troubleshooting (Extension)](../shared-references/package-extension-requirements.md#common-issues-solutions)
 ```
 
 ---
@@ -1097,28 +1097,28 @@ See [Troubleshooting (Extension)](../shared-references/extension-requirements.md
 
 These files live in `shared-references/` and apply to ALL skills:
 
-### extension-requirements.md#testing-requirements
+### package-extension-requirements.md#testing-requirements
 Universal testing patterns for extension developers (creating new packages).
 
-### extension-requirements.md#best-practices
+### package-extension-requirements.md#best-practices
 Universal best practices for extension developers.
 
-### extension-requirements.md#common-issues-solutions
+### package-extension-requirements.md#common-issues-solutions
 Universal troubleshooting for extension developers.
 
-### extension-prerequisites.md
+### package-extension-prerequisites.md
 How to initialize an R package structure (used by all skills).
 
-### development-workflow.md
+### package-development-workflow.md
 The fast iteration cycle: document → load → test → check.
 
-### roxygen-documentation.md
+### package-roxygen-documentation.md
 How to write roxygen2 documentation.
 
 ### package-imports.md
 Managing package dependencies and imports.
 
-### repository-access.md
+### package-repository-access.md
 How to clone tidymodels repositories (optional but recommended).
 
 **Key Principle:** These files should never mention package-specific details. They provide universal guidance applicable across all tidymodels skills.
@@ -1130,14 +1130,14 @@ How to clone tidymodels repositories (optional but recommended).
 **When updating shared content, ONLY edit the source files in `shared-*` folders:**
 
 **Shared reference files** (in `shared-references/`):
-- `extension-requirements.md#best-practices`
-- `development-workflow.md`
+- `package-extension-requirements.md#best-practices`
+- `package-development-workflow.md`
 - `package-imports.md`
-- `extension-prerequisites.md`
-- `repository-access.md`
-- `roxygen-documentation.md`
-- `extension-requirements.md#testing-requirements`
-- `extension-requirements.md#common-issues-solutions`
+- `package-extension-prerequisites.md`
+- `package-repository-access.md`
+- `package-roxygen-documentation.md`
+- `package-extension-requirements.md#testing-requirements`
+- `package-extension-requirements.md#common-issues-solutions`
 
 **Shared script files** (in `shared-scripts/`):
 - `clone-tidymodels-repos.sh`
@@ -1162,7 +1162,7 @@ This script copies the updated files from `shared-references/` and `shared-scrip
 
 **Workflow:**
 ```
-Edit shared-references/extension-prerequisites.md
+Edit shared-references/package-extension-prerequisites.md
     ↓
 Run ./localize-shared-files.sh
     ↓
@@ -1251,8 +1251,8 @@ See [Metric System](references/metric-system.md) for complete guide.
 ### To Shared References
 
 ```markdown
-See [Extension Prerequisites](../shared-references/extension-prerequisites.md) for complete details.
-See [Development Workflow](../shared-references/development-workflow.md) for the fast iteration cycle.
+See [Extension Prerequisites](../shared-references/package-extension-prerequisites.md) for complete details.
+See [Development Workflow](../shared-references/package-development-workflow.md) for the fast iteration cycle.
 ```
 
 ### To Other Skills
@@ -1325,16 +1325,16 @@ When you add a new skill, update related skills:
    - ❌ NEVER include setup code blocks in SKILL.md (e.g., "Quick setup")
    - ❌ NEVER include abbreviated versions of reference content
    - ❌ NEVER include short checklists that Claude might treat as "good enough"
-   - ✅ ALWAYS link to the full reference (e.g., extension-prerequisites.md)
+   - ✅ ALWAYS link to the full reference (e.g., package-extension-prerequisites.md)
    - **Why:** Creates inconsistency, users follow incomplete instructions, maintenance nightmare
-   - **Example of the problem:** User follows "Quick setup" in SKILL.md, misses `use_claude_code()` from extension-prerequisites.md
-   - **Real-world finding:** Claude was refusing to read reference files from top-level folders, treating short checklists as sufficient guidance instead of reading the full extension-prerequisites.md reference
+   - **Example of the problem:** User follows "Quick setup" in SKILL.md, misses `use_claude_code()` from package-extension-prerequisites.md
+   - **Real-world finding:** Claude was refusing to read reference files from top-level folders, treating short checklists as sufficient guidance instead of reading the full package-extension-prerequisites.md reference
 2. **Include detailed setup instructions in high-level documents (SKILL.md, extension-guide.md)**
    - ❌ NEVER include `use_claude_code()` or repo cloning details in SKILL.md or guides
    - ❌ NEVER create short checklists that Claude might execute prematurely
-   - ✅ ALWAYS centralize these instructions exclusively in extension-prerequisites.md
+   - ✅ ALWAYS centralize these instructions exclusively in package-extension-prerequisites.md
    - **Why:** Claude may execute setup steps before reading full reference documentation
-   - **Real-world finding:** Claude would see short checklist in SKILL.md and execute it before reading extension-prerequisites.md, missing critical context and order dependencies
+   - **Real-world finding:** Claude would see short checklist in SKILL.md and execute it before reading package-extension-prerequisites.md, missing critical context and order dependencies
 3. **Use "Optional" labels for steps that should actually be completed**
    - ❌ NEVER mark steps as "optional" if they're important
    - ✅ Be clear about what is truly optional vs. strongly recommended
@@ -1352,8 +1352,8 @@ When you add a new skill, update related skills:
 ### ✅ Do:
 1. **Use references as single source of truth** - SKILL.md links, references contain content
 2. **Make SKILL.md purely navigational** - Overview + links, no duplicated code blocks
-3. **Link to extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
-4. **Centralize setup commands exclusively in extension-prerequisites.md** - Prevents premature execution
+3. **Link to package-extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
+4. **Centralize setup commands exclusively in package-extension-prerequisites.md** - Prevents premature execution
 5. **Write "INSTRUCTIONS FOR CLAUDE" for autonomous execution** - Claude should run commands via Bash tool
 6. **Avoid "optional" labels that Claude ignores** - Be explicit about importance and consequences
 7. **Force reference reading** - Only show "See [reference]" links, never partial content
@@ -1548,7 +1548,7 @@ development and complement the tidymodels-specific guidance here.
 
 ### Setup Claude Code (Recommended)
 
-If using Claude Code for development, see [Extension Prerequisites](../shared-references/extension-prerequisites.md)
+If using Claude Code for development, see [Extension Prerequisites](../shared-references/package-extension-prerequisites.md)
 for instructions on running `usethis::use_claude_code()`.
 
 This provides access to tidyverse team's general R package development patterns which complement
@@ -1646,9 +1646,9 @@ If tidy-* skills are not present:
 - No functionality is lost
 - Users just don't get the additional general R package patterns
 
-### Documentation in extension-prerequisites.md
+### Documentation in package-extension-prerequisites.md
 
-The `extension-prerequisites.md` file now includes a section on `use_claude_code()`:
+The `package-extension-prerequisites.md` file now includes a section on `use_claude_code()`:
 - Explains what it creates
 - Shows version check pattern
 - Lists benefits including skill composition
