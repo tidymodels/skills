@@ -15,6 +15,10 @@ Examples:
 
     # Rename with different extension
     ./rename-and-update.py verify-setup.sh verify-setup.py
+
+    # Simple text replacement (no files renamed)
+    ./rename-and-update.py "r-package-setup" "extension-prerequisites"
+    ./rename-and-update.py "old text" "new text"
 """
 
 import os
@@ -153,39 +157,53 @@ def update_references_in_file(
         content = file_path.read_text(encoding='utf-8')
         original_content = content
 
+        # Determine if we're doing file renaming or simple text replacement
         from_path = Path(from_pattern)
         to_path = Path(to_pattern)
-        from_name = from_path.name
-        to_name = to_path.name
 
-        # Simple approach: replace all occurrences of the filename
-        # This handles most cases including markdown links, paths, etc.
+        # Check if from_pattern looks like a file path
+        is_file_pattern = '.' in from_pattern or '/' in from_pattern
 
-        # Strategy 1: Direct filename replacement
-        content = content.replace(from_name, to_name)
+        if is_file_pattern:
+            # File-based replacement
+            from_name = from_path.name
+            to_name = to_path.name
 
-        # Strategy 2: Handle path relocations
-        # If moving to subdirectory, update relative paths
-        if len(to_path.parts) > 1:
-            # Example: from "file.md" to "subdir/file.md"
-            # Need to update references like "../file.md" to "../subdir/file.md"
+            # Strategy 1: Direct filename replacement
+            content = content.replace(from_name, to_name)
 
-            # Find common path patterns and update them
-            for old_ref in [f"../{from_name}", f"./{from_name}", from_name]:
-                # Build new reference preserving relative path structure
-                if old_ref.startswith("../"):
-                    new_ref = f"../{to_path}"
-                elif old_ref.startswith("./"):
-                    new_ref = f"./{to_path}"
-                else:
-                    new_ref = str(to_path)
+            # Strategy 2: Handle path relocations
+            # If moving to subdirectory, update relative paths
+            if len(to_path.parts) > 1:
+                # Example: from "file.md" to "subdir/file.md"
+                # Need to update references like "../file.md" to "../subdir/file.md"
 
-                content = content.replace(old_ref, new_ref)
+                # Find common path patterns and update them
+                for old_ref in [f"../{from_name}", f"./{from_name}", from_name]:
+                    # Build new reference preserving relative path structure
+                    if old_ref.startswith("../"):
+                        new_ref = f"../{to_path}"
+                    elif old_ref.startswith("./"):
+                        new_ref = f"./{to_path}"
+                    else:
+                        new_ref = str(to_path)
+
+                    content = content.replace(old_ref, new_ref)
+        else:
+            # Simple text replacement
+            content = content.replace(from_pattern, to_pattern)
 
         if content != original_content:
             if not dry_run:
                 file_path.write_text(content, encoding='utf-8')
-            return content.count(to_name) - original_content.count(to_name)
+
+            # Count replacements
+            if is_file_pattern:
+                replacements = content.count(to_path.name) - original_content.count(from_path.name)
+            else:
+                replacements = content.count(to_pattern) - original_content.count(to_pattern)
+
+            return max(replacements, 1)  # At least 1 if content changed
 
         return 0
 
@@ -242,24 +260,27 @@ def main():
     files_to_rename = find_files_to_rename(script_dir, args.from_pattern)
 
     if not files_to_rename:
-        log_error(f"No files found matching: {args.from_pattern}")
-        return 1
+        log_warning(f"No files found matching: {args.from_pattern}")
+        log_info("Will perform text replacement only")
+        rename_map = []
+    else:
+        log_info(f"Found {len(files_to_rename)} file(s) to rename:")
+        for f in files_to_rename:
+            rel_path = f.relative_to(script_dir)
+            print(f"  • {rel_path}")
 
-    log_info(f"Found {len(files_to_rename)} file(s) to rename:")
-    for f in files_to_rename:
-        rel_path = f.relative_to(script_dir)
-        print(f"  • {rel_path}")
+        # Step 2: Build rename map
+        rename_map = build_rename_map(files_to_rename, args.from_pattern, args.to_pattern, script_dir)
 
-    # Step 2: Build rename map
-    rename_map = build_rename_map(files_to_rename, args.from_pattern, args.to_pattern, script_dir)
-
-    # Step 3: Find all searchable files
-    log_header("\n2. Finding files to search for references...")
+    # Step 2: Find all searchable files
+    step_num = 2
+    log_header(f"\n{step_num}. Finding files to search for text/references...")
     searchable_files = find_searchable_files(script_dir)
     log_info(f"Found {len(searchable_files)} files to search")
 
-    # Step 4: Update references in all files
-    log_header("\n3. Updating references...")
+    # Step 3: Update references in all files
+    step_num += 1
+    log_header(f"\n{step_num}. Updating text/references...")
     total_replacements = 0
     files_modified = 0
 
@@ -283,16 +304,28 @@ def main():
     else:
         log_info(f"Total: {total_replacements} reference(s) updated in {files_modified} file(s)")
 
-    # Step 5: Rename files
-    log_header("\n4. Renaming files...")
-    renamed_count = rename_files(rename_map, args.dry_run)
+    # Step 4: Rename files (if any)
+    step_num += 1
+    renamed_count = 0
+    if rename_map:
+        log_header(f"\n{step_num}. Renaming files...")
+        renamed_count = rename_files(rename_map, args.dry_run)
+    else:
+        log_header(f"\n{step_num}. Renaming files...")
+        log_info("No files to rename (text replacement only)")
 
     # Summary
     log_header("\n" + "=" * 60)
     log_header("Summary")
     log_header("=" * 60)
-    log_info(f"Files renamed: {renamed_count}")
-    log_info(f"References updated: {total_replacements} in {files_modified} file(s)")
+
+    if rename_map:
+        log_info(f"Mode: File rename + text replacement")
+        log_info(f"Files renamed: {renamed_count}")
+    else:
+        log_info(f"Mode: Text replacement only")
+
+    log_info(f"Text updated: {total_replacements} reference(s) in {files_modified} file(s)")
 
     if args.dry_run:
         log_warning("\nDRY RUN: No actual changes were made")
