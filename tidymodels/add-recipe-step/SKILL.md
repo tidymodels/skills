@@ -9,26 +9,6 @@ Guide for developing new preprocessing steps that extend the recipes package. Th
 
 ---
 
-## Prerequisites
-
-**Before implementing any recipe steps, you MUST complete the package setup:**
-
-👉 **[R Package Setup Guide](references/r-package-setup.md)** (REQUIRED)
-
-This guide provides a step-by-step checklist for:
-- Package initialization
-- Claude Code integration
-- Repository cloning for reference implementations
-- Dependency management
-- Testing infrastructure setup
-- **Verification script** (mandatory final step)
-
-**ALL verification checks must pass before proceeding with recipe step implementation.**
-
-After completing setup, return here for implementation guidance.
-
----
-
 ## Two Development Contexts
 
 This skill supports **two distinct development contexts**:

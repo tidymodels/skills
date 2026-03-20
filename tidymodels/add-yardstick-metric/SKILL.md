@@ -9,26 +9,6 @@ Guide for developing new metrics that extend the yardstick package. This skill p
 
 ---
 
-## Prerequisites
-
-**Before implementing any metrics, you MUST complete the package setup:**
-
-👉 **[R Package Setup Guide](references/r-package-setup.md)** (REQUIRED)
-
-This guide provides a step-by-step checklist for:
-- Package initialization
-- Claude Code integration
-- Repository cloning for reference implementations
-- Dependency management
-- Testing infrastructure setup
-- **Verification script** (mandatory final step)
-
-**ALL verification checks must pass before proceeding with metric implementation.**
-
-After completing setup, return here for implementation guidance.
-
----
-
 ## Two Development Contexts
 
 This skill supports **two distinct development contexts**:
