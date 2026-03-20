@@ -4,6 +4,19 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ---
 
+
+## PREREQUISITES
+
+**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
+
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
+
+
+**CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
+
+---
+
+
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
@@ -22,15 +35,17 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ### Package Setup Required
 
-**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the package setup:
+**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the extension prerequisites:
 
-👉 **[R Package Setup Guide](r-package-setup.md)** (REQUIRED)
+👉 **[Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
 **After setup verification passes, return here to implement your metric.**
 
 ---
+
+
 
 ## Key Constraints for Extension Development
 
@@ -103,7 +118,7 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 
 ### Step 1: Choose Your Metric Type
 
-See the decision tree in the main [SKILL.md](SKILL.md#choosing-your-metric-type) to determine:
+See the decision tree in the main [SKILL.md](../SKILL.md#choosing-your-metric-type) to determine:
 - Numeric metric (regression)
 - Class metric (classification with classes)
 - Probability metric (classification with probabilities)
@@ -228,7 +243,7 @@ Key roxygen tags:
 
 ### Step 6: Test Your Metric
 
-See [Testing Patterns (Extension)](testing-patterns-extension.md) for complete details.
+See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for complete details.
 
 ```r
 # tests/testthat/test-mae.R
@@ -385,7 +400,7 @@ if (na_rm) {
 
 ## Development Workflow
 
-See [Development Workflow](development-workflow.md) for complete details.
+See [Development Workflow](package-development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 1. `devtools::document()` - Generate documentation
@@ -432,7 +447,7 @@ mae_vec <- function(truth, estimate, ...) {
 
 ## Testing
 
-See [Testing Patterns (Extension)](testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Metric calculates correctly
@@ -445,7 +460,7 @@ See [Testing Patterns (Extension)](testing-patterns-extension.md) for comprehens
 
 ## Best Practices
 
-See [Best Practices (Extension)](best-practices-extension.md) for complete guide.
+See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -458,7 +473,7 @@ See [Best Practices (Extension)](best-practices-extension.md) for complete guide
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -485,21 +500,21 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 - [Case Weights](case-weights.md)
 
 ### Shared References
-- [R Package Setup](r-package-setup.md)
-- [Development Workflow](development-workflow.md)
-- [Testing Patterns](testing-patterns-extension.md)
-- [Roxygen Documentation](roxygen-documentation.md)
-- [Best Practices](best-practices-extension.md)
-- [Troubleshooting](troubleshooting-extension.md)
+- [Extension Prerequisites](package-extension-prerequisites.md)
+- [Development Workflow](package-development-workflow.md)
+- [Testing Patterns](package-extension-requirements.md#testing-requirements)
+- [Roxygen Documentation](package-roxygen-documentation.md)
+- [Best Practices](package-extension-requirements.md#best-practices)
+- [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
 
 ---
 
 ## Next Steps
 
-1. **Set up your package** following [R Package Setup](r-package-setup.md)
-2. **Choose your metric type** from the [main SKILL.md](SKILL.md)
+1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
+2. **Choose your metric type** from the [main SKILL.md](../SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
-4. **Test thoroughly** using [Testing Patterns](testing-patterns-extension.md)
+4. **Test thoroughly** using [Testing Patterns](package-extension-requirements.md#testing-requirements)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -507,7 +522,7 @@ See [Troubleshooting (Extension)](troubleshooting-extension.md) for complete gui
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](troubleshooting-extension.md)
+- Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
 - Review existing examples in reference documentation
-- Study the main [yardstick SKILL.md](SKILL.md) for more details
+- Study the main [yardstick SKILL.md](../SKILL.md) for more details
 - Search GitHub issues: https://github.com/tidymodels/yardstick/issues

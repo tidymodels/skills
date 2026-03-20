@@ -19,7 +19,7 @@ Row-operation steps:
 - Skip behavior: `tests/testthat/test-filter.R`
 - Sampling: `tests/testthat/test-sample.R`
 
-> **Source Development:** When contributing to recipes itself, internal helpers are available without the `recipes::` prefix. Row operations are simpler but still benefit from helpers like `recipes_eval_select()` when applicable. See [Best Practices (Source)](../best-practices-source.md).
+> **Source Development:** When contributing to recipes itself, internal helpers are available without the `recipes::` prefix. Row operations are simpler but still benefit from helpers like `recipes_eval_select()` when applicable. See [Best Practices (Source)](best-practices-source.md).
 
 ## Key Characteristics
 
@@ -285,7 +285,7 @@ bake:
 
 ## Testing Row-Operation Steps
 
-See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for row-operation steps
 
@@ -378,5 +378,5 @@ Consider alternatives in these cases:
 - Create new columns: [create-new-columns-steps.md](create-new-columns-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

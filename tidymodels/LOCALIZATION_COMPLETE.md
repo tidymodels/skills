@@ -2,7 +2,7 @@
 
 ## Summary
 
-Successfully copied shared-references and shared-scripts into each skill's references/ folder, eliminating "../shared-references" paths that Claude was treating as optional documentation.
+Successfully copied shared-references and shared-references/scripts into each skill's references/ folder, eliminating "../shared-references" paths that Claude was treating as optional documentation.
 
 ---
 
@@ -16,7 +16,7 @@ Successfully copied shared-references and shared-scripts into each skill's refer
 
 **Actions**:
 - Copies all `shared-references/*.md` → `[skill]/references/`
-- Copies all `shared-scripts/*` → `[skill]/references/scripts/`
+- Copies all `shared-references/scripts/*` → `[skill]/references/scripts/`
 - Executed for both add-yardstick-metric and add-recipe-step
 
 ---
@@ -27,10 +27,10 @@ Successfully copied shared-references and shared-scripts into each skill's refer
 ```
 tidymodels/
 ├── shared-references/
-│   ├── r-package-setup.md
-│   ├── development-workflow.md
+│   ├── package-extension-prerequisites.md
+│   ├── package-development-workflow.md
 │   └── ...
-├── shared-scripts/
+├── shared-references/scripts/
 │   ├── verify-setup.R
 │   ├── clone-tidymodels-repos.sh
 │   └── ...
@@ -49,12 +49,12 @@ tidymodels/
 tidymodels/
 ├── shared-references/      (still exists, but not referenced)
 │   └── ...
-├── shared-scripts/         (still exists, but not referenced)
+├── shared-references/scripts/         (still exists, but not referenced)
 │   └── ...
 ├── add-yardstick-metric/
 │   └── references/
-│       ├── r-package-setup.md          ← COPIED
-│       ├── development-workflow.md     ← COPIED
+│       ├── package-extension-prerequisites.md          ← COPIED
+│       ├── package-development-workflow.md     ← COPIED
 │       ├── extension-guide.md
 │       ├── scripts/                    ← NEW
 │       │   ├── verify-setup.R          ← COPIED
@@ -63,8 +63,8 @@ tidymodels/
 │       └── ...
 └── add-recipe-step/
     └── references/
-        ├── r-package-setup.md          ← COPIED
-        ├── development-workflow.md     ← COPIED
+        ├── package-extension-prerequisites.md          ← COPIED
+        ├── package-development-workflow.md     ← COPIED
         ├── extension-guide.md
         ├── scripts/                    ← NEW
         │   ├── verify-setup.R          ← COPIED
@@ -83,14 +83,14 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[R Package Setup Guide](../shared-references/r-package-setup.md)
-[Development Workflow](../shared-references/development-workflow.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
+[Development Workflow](shared-references/package-development-workflow.md)
 ```
 
 **After**:
 ```markdown
-[R Package Setup Guide](references/r-package-setup.md)
-[Development Workflow](references/development-workflow.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
+[Development Workflow](shared-references/package-development-workflow.md)
 ```
 
 **Why it matters**:
@@ -104,12 +104,12 @@ All references to shared files have been updated to use local paths:
 
 **Before**:
 ```markdown
-[R Package Setup Guide](../../shared-references/r-package-setup.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
 ```
 
 **After**:
 ```markdown
-[R Package Setup Guide](r-package-setup.md)
+[Extension Prerequisites Guide](shared-references/package-extension-prerequisites.md)
 ```
 
 **Why it matters**:
@@ -119,11 +119,11 @@ All references to shared files have been updated to use local paths:
 
 ---
 
-#### In r-package-setup.md Files
+#### In package-extension-prerequisites.md Files
 
 **Before**:
 ```bash
-~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-scripts/verify-setup.R
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/verify-setup.R
 ```
 
 **After**:
@@ -142,13 +142,13 @@ scripts/verify-setup.R
 
 **Before**:
 ```r
-print_action("Review instructions in ../shared-references/r-package-setup.md")
+print_action("Review instructions in ../shared-references/package-extension-prerequisites.md")
 cat("Rscript -e 'source(\"~/.claude/plugins/cache/.../verify-setup.R\")'")
 ```
 
 **After**:
 ```r
-print_action("Review instructions in ../r-package-setup.md")
+print_action("Review instructions in ../package-extension-prerequisites.md")
 cat("Rscript -e 'source(\"scripts/verify-setup.R\")'")
 ```
 
@@ -204,7 +204,7 @@ By putting setup docs in the SAME location, we leverage the pattern Claude alrea
 
 ### When to Update Shared Files
 
-The original `shared-references/` and `shared-scripts/` still exist. If you update them:
+The original `shared-references/` and `shared-references/scripts/` still exist. If you update them:
 
 1. Run the localization script again: `./localize-shared-files.sh`
 2. This will copy updated files to both skills
@@ -225,7 +225,7 @@ To verify localization worked:
 
 1. Invoke add-yardstick-metric skill
 2. Observe Claude's behavior:
-   - [ ] Does it navigate to `references/r-package-setup.md`?
+   - [ ] Does it navigate to `references/package-extension-prerequisites.md`?
    - [ ] Does it actually READ the file (not substitute knowledge)?
    - [ ] Does it run the scripts from `scripts/` directory?
    - [ ] Does verification script work with local paths?
@@ -236,7 +236,7 @@ To verify localization worked:
 ## Success Metrics
 
 If localization worked:
-- ✅ Claude reads r-package-setup.md (doesn't substitute own knowledge)
+- ✅ Claude reads package-extension-prerequisites.md (doesn't substitute own knowledge)
 - ✅ Claude follows the setup checklist
 - ✅ Claude runs scripts from local scripts/ directory
 - ✅ Verification script references work correctly
@@ -267,7 +267,7 @@ If localization failed:
 ## Next Steps
 
 1. Test with fresh skill invocation
-2. Verify Claude actually reads r-package-setup.md
+2. Verify Claude actually reads package-extension-prerequisites.md
 3. Confirm scripts work from local paths
 4. If successful: Consider removing references to old shared-references in any remaining docs
 

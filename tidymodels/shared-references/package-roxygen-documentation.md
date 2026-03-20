@@ -518,5 +518,5 @@ devtools::load_all()
 ## Next Steps
 
 - Learn about package imports: [package-imports.md](package-imports.md)
-- Follow best practices: [best-practices-extension.md](best-practices-extension.md)
-- Set up testing: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Follow best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)
+- Set up testing: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

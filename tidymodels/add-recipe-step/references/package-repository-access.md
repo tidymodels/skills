@@ -73,10 +73,10 @@ Navigate to your R package directory (where your `DESCRIPTION` file is) and run 
 cd /path/to/your-package
 
 # Clone yardstick
-scripts/clone-tidymodels-repos.sh yardstick
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
 # Or clone all packages
-scripts/clone-tidymodels-repos.sh all
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
 
 **Windows (PowerShell):**
@@ -86,17 +86,17 @@ scripts/clone-tidymodels-repos.sh all
 cd C:\path\to\your-package
 
 # Clone yardstick
-~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick
 
 # Or clone all packages
-~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 all
+~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 all
 ```
 
 **Any platform (Python):**
 
 ```bash
 # From your package directory
-python3 scripts/clone-tidymodels-repos.py yardstick
+python3 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
 ```
 
 ### Step 3: Verify Setup
@@ -131,17 +131,17 @@ All scripts accept package names as arguments:
 
 **Clone single package:**
 ```bash
-scripts/clone-tidymodels-repos.sh yardstick
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 ```
 
 **Clone multiple packages:**
 ```bash
-scripts/clone-tidymodels-repos.sh yardstick recipes
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
 ```
 
 **Clone all packages:**
 ```bash
-scripts/clone-tidymodels-repos.sh all
+~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
 
 ### Script Output
@@ -210,7 +210,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Solution 2 - Run with bypass flag (one-time):**
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+powershell -ExecutionPolicy Bypass -File ~\.claude\plugins\cache\tidymodels-skills\tidymodels-dev\*\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick
 ```
 
 ## Manual Setup (Alternative)
@@ -432,7 +432,7 @@ Users can use whichever is most comfortable for their platform.
 
 ## Related Documentation
 
-- **Scripts README**: `../shared-scripts/README.md` - Script usage and quick reference
+- **Scripts README**: `scripts/README.md` - Script usage and quick reference
 - **Yardstick skill**: `add-yardstick-metric/SKILL.md` - Creating metrics
 - **Recipes skill**: `add-recipe-step/SKILL.md` - Creating recipe steps
 

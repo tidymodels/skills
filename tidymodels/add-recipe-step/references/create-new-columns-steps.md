@@ -20,7 +20,7 @@ Create-new-columns steps:
 - Encoding tests: `tests/testthat/test-dummy.R`
 - Dimension reduction: `tests/testthat/test-pca.R`
 
-> **Source Development:** When contributing to recipes itself, use internal helpers directly: `recipes_eval_select()`, `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed. See [Best Practices (Source)](../best-practices-source.md).
+> **Source Development:** When contributing to recipes itself, use internal helpers directly: `recipes_eval_select()`, `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed. See [Best Practices (Source)](best-practices-source.md).
 
 ## Key Differences from Modify-in-Place
 
@@ -371,7 +371,7 @@ bake:
 
 ## Testing
 
-See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for create-new-columns steps
 
@@ -427,5 +427,5 @@ test_that("tidy returns correct information", {
 - Row operations: [row-operation-steps.md](row-operation-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

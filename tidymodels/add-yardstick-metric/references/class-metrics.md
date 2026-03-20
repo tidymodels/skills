@@ -80,7 +80,7 @@ miss_rate_multiclass <- function(data, estimator) {
 }
 ```
 
-> **Source Development:** When contributing to yardstick itself, you can use `finalize_estimator_internal()` to handle estimator selection and validation. This internal helper manages binary, macro, micro, and macro_weighted estimators automatically. See [Best Practices (Source)](../best-practices-source.md).
+> **Source Development:** When contributing to yardstick itself, you can use `finalize_estimator_internal()` to handle estimator selection and validation. This internal helper manages binary, macro, micro, and macro_weighted estimators automatically. See [Best Practices (Source)](best-practices-source.md).
 ```
 
 **Estimator types:**
@@ -437,7 +437,7 @@ Aggregate contributions across all classes, then calculate:
 
 ## Testing Class Metrics
 
-See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for class metrics
 
@@ -494,5 +494,5 @@ Use `class-` prefix to indicate classification metrics.
 
 - Understand confusion matrices: [confusion-matrix.md](confusion-matrix.md)
 - Handle case weights: [case-weights.md](case-weights.md)
-- Document your metric: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

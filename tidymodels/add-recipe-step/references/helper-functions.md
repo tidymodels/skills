@@ -550,7 +550,7 @@ If contributing to recipes and you find yourself duplicating logic across multip
 3. **Document thoroughly**: Use `@keywords internal` and `@noRd`
 4. **Don't export**: Internal helpers should not be in `NAMESPACE`
 
-See the [Source Development Guide](../source-guide.md) for complete patterns and examples.
+See the [Source Development Guide](source-guide.md) for complete patterns and examples.
 
 ---
 
@@ -561,4 +561,4 @@ See the [Source Development Guide](../source-guide.md) for complete patterns and
 - Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
 - Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
-- Review best practices: [../best-practices-extension.md](../best-practices-extension.md)
+- Review best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)

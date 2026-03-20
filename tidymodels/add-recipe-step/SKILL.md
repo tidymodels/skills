@@ -17,30 +17,35 @@ This skill supports **two distinct development contexts**:
 **Creating a new R package** that extends recipes with custom steps.
 
 - ✅ Use this for: New packages, standalone steps, CRAN submissions
-- 📦 Package detection: No `recipes` in DESCRIPTION's `Package:` field
 - ⚠️ **Constraint**: Must use `recipes::` prefix for all functions
-- 📖 **Guide**: [Extension Development Guide](references/extension-guide.md)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to recipes** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/recipes repository
-- 📦 Package detection: `Package: recipes` in DESCRIPTION
 - ✨ **Benefit**: Can use internal functions directly (no prefix needed)
-- 📖 **Guide**: [Source Development Guide](references/source-guide.md)
 
-**This main guide shows extension development patterns.** If you're contributing to recipes itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
 
 ---
 
-## Quick Start
+## Getting Started
 
-**Choose your context:**
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
 
-- **Creating a new package?** → Follow this guide, then see [Extension Development Guide](references/extension-guide.md)
-- **Contributing to recipes?** → Clone repository, then see [Source Development Guide](references/source-guide.md)
+```bash
+Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/verify-setup.R"))[1])'
+```
 
-**Not sure which?** If you're in the `tidymodels/recipes` repository, use source development. Otherwise, use extension development.
+**Then follow the appropriate path based on the output:**
+
+- **Output: "All checks for source development complete."**
+  → Go to [Source Development Guide](references/source-guide.md)
+
+- **Output: "All checks for extension development complete." (no warnings)**
+  → Go to [Extension Development Guide](references/extension-guide.md)
+
+- **Output: Shows "Warning - [UUID]" messages**
+  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
 
 ---
 
@@ -70,13 +75,13 @@ Creating a custom recipe step provides:
 - [Helper Functions](references/helper-functions.md) - recipes helper function reference
 
 **Shared References (Extension Development):**
-- [R Package Setup](references/r-package-setup.md) - Package initialization and structure
-- [Development Workflow](references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns (Extension)](references/testing-patterns-extension.md) - Extension testing guide
-- [Roxygen Documentation](references/roxygen-documentation.md) - Documentation templates
+- [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+- [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+- [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
 - [Package Imports](references/package-imports.md) - Managing dependencies
-- [Best Practices (Extension)](references/best-practices-extension.md) - Extension code style
-- [Troubleshooting (Extension)](references/troubleshooting-extension.md) - Extension issues
+- [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+- [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal helpers
@@ -85,7 +90,7 @@ Creating a custom recipe step provides:
 
 ## Development Workflow
 
-See [Development Workflow](references/development-workflow.md) for complete details.
+See [Development Workflow](references/package-development-workflow.md) for complete details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -499,7 +504,7 @@ test_that("centering works with case weights", {
 
 **Reference test pattern:** `tests/testthat/test-center.R` in recipes repository
 
-See [Testing Patterns](references/testing-patterns.md) for comprehensive testing guide.
+See [Testing Patterns](references/package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ## Implementation Guide by Step Type
 
@@ -592,7 +597,7 @@ See [Optional Methods](references/optional-methods.md) for complete details.
 
 ## Documentation
 
-See [Roxygen Documentation](references/roxygen-documentation.md) for complete templates.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete templates.
 
 **Required roxygen tags:**
 ```r
@@ -608,7 +613,7 @@ See [Roxygen Documentation](references/roxygen-documentation.md) for complete te
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/testing-patterns-extension.md) for comprehensive guide.
+See [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Step transforms data correctly
@@ -679,7 +684,7 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 
 ## Best Practices
 
-See [Best Practices](references/best-practices-extension.md) for complete guide.
+See [Best Practices](references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
 - Use base pipe `|>` not magrittr pipe `%>%`
@@ -690,7 +695,7 @@ See [Best Practices](references/best-practices-extension.md) for complete guide.
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for complete guide.
+See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
 - "No visible global function definition" → Add to package imports
@@ -702,20 +707,12 @@ See [Troubleshooting (Extension)](references/troubleshooting-extension.md) for c
 
 **For Extension Development (creating new packages):**
 
-1. **Choose your context:** [Extension Development Guide](references/extension-guide.md)
-2. **Understand architecture:** Read [Step Architecture](references/step-architecture.md)
-3. **Choose step type:** [Modify-in-Place](references/modify-in-place-steps.md), [Create-New-Columns](references/create-new-columns-steps.md), or [Row-Operation](references/row-operation-steps.md)
-4. **Follow the template:** Use complete examples from reference files
-5. **Learn helpers:** See [Helper Functions](references/helper-functions.md)
-6. **Add optional methods:** See [Optional Methods](references/optional-methods.md) if needed
-7. **Test thoroughly:** See [Testing Patterns (Extension)](references/testing-patterns-extension.md)
-8. **Document completely:** See [Roxygen Documentation](references/roxygen-documentation.md)
-9. **Run final check:** `devtools::check()` before publishing
+1. **Extension prerequisites:** [Extension Prerequisites](references/package-extension-prerequisites.md) - START HERE
 
 **For Source Development (contributing to recipes):**
 
 1. **Start here:** [Source Development Guide](references/source-guide.md)
-2. **Clone repository:** See [Repository Access](references/repository-access.md)
+2. **Clone repository:** See [Repository Access](references/package-repository-access.md)
 3. **Study existing steps:** Browse `R/center.R`, `R/dummy.R`, `R/pca.R`, etc.
 4. **Follow package conventions:** File naming, internal functions, three-function pattern
 5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)

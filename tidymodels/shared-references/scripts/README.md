@@ -24,32 +24,32 @@ We provide three platform-native scripts for the best user experience:
 
 ```bash
 # Clone yardstick
-./tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
+./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
 # Clone recipes
-./tidymodels/shared-scripts/clone-tidymodels-repos.sh recipes
+./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh recipes
 
 # Clone multiple packages
-./tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick recipes
+./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
 
 # Clone all packages
-./tidymodels/shared-scripts/clone-tidymodels-repos.sh all
+./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
 # Clone yardstick
-.\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick
 
 # Clone recipes
-.\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 recipes
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 recipes
 
 # Clone multiple packages
-.\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick recipes
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick recipes
 
 # Clone all packages
-.\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 all
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 all
 ```
 
 **PowerShell Execution Policy Note:**
@@ -61,17 +61,17 @@ If you encounter execution policy errors, run one of these commands:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 # Option 2: Run with bypass flag (one-time)
-powershell -ExecutionPolicy Bypass -File .\tidymodels\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+powershell -ExecutionPolicy Bypass -File .\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick
 ```
 
 ### Any Platform (Python)
 
 ```bash
 # macOS/Linux
-python3 tidymodels/shared-scripts/clone-tidymodels-repos.py yardstick
+python3 tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
 
 # Windows
-python tidymodels/shared-scripts/clone-tidymodels-repos.py yardstick
+python tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
 ```
 
 ## What the Scripts Do
@@ -167,7 +167,7 @@ cd repos/yardstick && git pull
 
 ## For More Information
 
-See the comprehensive documentation: `tidymodels/shared-references/repository-access.md`
+See the comprehensive documentation: `tidymodels/shared-references/package-repository-access.md`
 
 ## License
 

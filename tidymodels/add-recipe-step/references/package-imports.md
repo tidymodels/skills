@@ -295,6 +295,6 @@ Look for:
 
 ## Next Steps
 
-- Write roxygen documentation: [roxygen-documentation.md](roxygen-documentation.md)
-- Follow best practices: [best-practices-extension.md](best-practices-extension.md)
-- Set up testing: [testing-patterns-extension.md](testing-patterns-extension.md)
+- Write roxygen documentation: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Follow best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)
+- Set up testing: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -20,7 +20,7 @@ Modify-in-place steps:
 - Basic transformations: `tests/testthat/test-center.R`, `tests/testthat/test-scale.R`
 - Parameterized steps: `tests/testthat/test-normalize.R`
 
-> **Source Development:** When contributing to recipes itself, you can use internal helpers directly (no `recipes::` prefix needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See [Best Practices (Source)](../best-practices-source.md).
+> **Source Development:** When contributing to recipes itself, you can use internal helpers directly (no `recipes::` prefix needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See [Best Practices (Source)](best-practices-source.md).
 
 ## Characteristics
 
@@ -348,7 +348,7 @@ bake:
 
 ## Testing
 
-See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ### Key tests for modify-in-place steps
 
@@ -392,5 +392,5 @@ test_that("working correctly", {
 - Create new columns: [create-new-columns-steps.md](create-new-columns-steps.md)
 - Add optional methods: [optional-methods.md](optional-methods.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document your step: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -361,5 +361,5 @@ Document optional methods in your main step documentation:
 - Understand architecture: [step-architecture.md](step-architecture.md)
 - Implement basic steps: [modify-in-place-steps.md](modify-in-place-steps.md), [create-new-columns-steps.md](create-new-columns-steps.md)
 - Learn helper functions: [helper-functions.md](helper-functions.md)
-- Document thoroughly: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Test comprehensively: [../testing-patterns.md](../testing-patterns.md)
+- Document thoroughly: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Test comprehensively: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

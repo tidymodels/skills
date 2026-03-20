@@ -55,7 +55,7 @@ mse_impl <- function(truth, estimate, case_weights = NULL) {
 - Use `weighted.mean()` for weighted calculations
 - Handle hardhat weight classes by converting to numeric
 
-> **Source Development:** When contributing to yardstick itself, you can use `yardstick_mean()` instead of manually handling case weights. This internal helper automatically handles hardhat weights and unweighted cases. See [Best Practices (Source)](../best-practices-source.md).
+> **Source Development:** When contributing to yardstick itself, you can use `yardstick_mean()` instead of manually handling case weights. This internal helper automatically handles hardhat weights and unweighted cases. See [Best Practices (Source)](best-practices-source.md).
 
 ## Step 2: Create the vector function
 
@@ -325,7 +325,7 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 
 ## Testing Numeric Metrics
 
-See [../testing-patterns.md](../testing-patterns.md) for comprehensive testing guide.
+See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 **Reference test files:**
 - Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling, weights)
@@ -376,7 +376,7 @@ Use `num-` prefix to indicate numeric metrics.
 
 ## Next Steps
 
-- Document your metric: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
 - Understand metric system: [metric-system.md](metric-system.md)
 - Add visualization (optional): [autoplot.md](autoplot.md)

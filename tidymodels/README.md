@@ -33,7 +33,7 @@ tidymodels/
 │   ├── references/            # Detailed step type guides
 │   └── ...
 ├── shared-references/         # Common R package development guidance
-├── shared-scripts/            # Repository cloning utilities
+├── shared-references/scripts/  # Repository cloning utilities
 └── SKILL_IMPLEMENTATION_GUIDE.md  # For skill authors
 ```
 

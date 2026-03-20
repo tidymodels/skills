@@ -2,7 +2,7 @@
 
 Probability metrics evaluate predicted probabilities rather than hard classifications. These metrics are used when your model outputs probability estimates for each class.
 
-> **Note for Source Development:** If contributing to yardstick, you can use internal validation and helper functions. See the [Source Development Guide](../source-guide.md) for yardstick-specific patterns.
+> **Note for Source Development:** If contributing to yardstick, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for yardstick-specific patterns.
 
 ## Overview
 
@@ -371,5 +371,5 @@ Use `prob-` prefix to indicate probability metrics.
 ## Next Steps
 
 - Understand class metrics: [class-metrics.md](class-metrics.md)
-- Document your metric: [../roxygen-documentation.md](../roxygen-documentation.md)
-- Write tests: [../testing-patterns.md](../testing-patterns.md)
+- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

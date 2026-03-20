@@ -2,7 +2,7 @@
 
 Before creating metrics, understanding how yardstick's metric system works helps you build metrics that integrate properly with the ecosystem.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal helper functions like `yardstick_mean()`, `finalize_estimator_internal()`, and validation helpers. See the [Source Development Guide](../source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal helper functions like `yardstick_mean()`, `finalize_estimator_internal()`, and validation helpers. See the [Source Development Guide](source-guide.md) for details.
 
 ## What `new_*_metric()` does
 

@@ -544,5 +544,5 @@ fairness_set <- metric_set(
 
 - [Metric System](metric-system.md) - Understanding basic metric architecture
 - [Groupwise Metrics](groupwise-metrics.md) - Creating disparity metrics
-- [metric_tweak()](metric-system.md#metric_tweak) - Customizing metric parameters
+- [metric_tweak()](metric-system.md#using-metric_tweak-for-variations) - Customizing metric parameters
 - `?metric_set` - Full documentation
