@@ -20,6 +20,21 @@ skills-personal/
 
 ## Working in This Repository
 
+### Before Committing Changes
+
+**⚠️ CRITICAL**: Before committing any changes to tidymodels skills, run:
+
+```bash
+cd tidymodels
+./dev-scripts/build-verify.py
+```
+
+This script:
+1. **Builds**: Copies shared files to each skill's references folder
+2. **Verifies**: Checks all markdown links and file references
+
+Fix any errors before committing. This ensures all skills stay in sync and all links work correctly.
+
 ### Creating New Tidymodels Skills
 
 When creating a new tidymodels skill (e.g., add-parsnip-model):
