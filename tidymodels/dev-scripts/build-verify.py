@@ -30,33 +30,34 @@ class Builder:
         self.shared_dir = self.root_dir / "shared-references"
         self.errors = []
 
-    def build_all(self):
+    def build_all(self, quiet=False):
         """Copy shared files to each skill's references folder."""
-        print("=" * 60)
-        print("BUILD: Localizing Shared Files to Skills")
-        print("=" * 60)
-        print()
+        if quiet:
+            print("BUILD: Localizing Shared Files")
+        else:
+            print("=" * 60)
+            print("BUILD: Localizing Shared Files to Skills")
+            print("=" * 60)
+            print()
 
         if not self.shared_dir.exists():
             self.errors.append(f"Shared references directory not found: {self.shared_dir}")
             return False
 
         success = True
+        skill_stats = []
         for skill in self.skills:
-            if not self.build_skill(skill):
+            md_count, script_count = self.build_skill(skill, quiet=quiet)
+            if md_count is None:
                 success = False
+            else:
+                skill_stats.append((skill, md_count, script_count))
 
-        print()
-        if success:
-            print("=" * 60)
-            print("✓ BUILD COMPLETE")
-            print("=" * 60)
-            print()
-            print("Copied to each skill's references/ folder:")
-            print("  - All shared-references/*.md files")
-            print("  - All shared-references/scripts/* files (in scripts/ subdirectory)")
-            print()
-        else:
+        if quiet and success:
+            for skill, md_count, script_count in skill_stats:
+                print(f"✓ {skill} ({md_count} md files, {script_count} scripts)")
+
+        if not success:
             print()
             print("=" * 60)
             print("✗ BUILD FAILED")
@@ -68,9 +69,10 @@ class Builder:
 
         return success
 
-    def build_skill(self, skill: str) -> bool:
-        """Copy shared files to a single skill."""
-        print(f"Processing: {skill}")
+    def build_skill(self, skill: str, quiet=False):
+        """Copy shared files to a single skill. Returns (md_count, script_count) or (None, None) on error."""
+        if not quiet:
+            print(f"Processing: {skill}")
 
         skill_dir = self.root_dir / skill
         refs_dir = skill_dir / "references"
@@ -80,10 +82,11 @@ class Builder:
             error = f"{skill}: references/ directory not found"
             self.errors.append(error)
             print(f"  ERROR: {error}")
-            return False
+            return None, None
 
         # Copy shared-references/*.md files
-        print(f"  Copying shared-references/*.md → {refs_dir.name}/")
+        if not quiet:
+            print(f"  Copying shared-references/*.md → {refs_dir.name}/")
         md_files = list(self.shared_dir.glob("*.md"))
         if not md_files:
             error = f"{skill}: No .md files found in shared-references/"
@@ -94,21 +97,24 @@ class Builder:
             try:
                 dest = refs_dir / md_file.name
                 shutil.copy2(md_file, dest)
-                print(f"    {md_file.name}")
+                if not quiet:
+                    print(f"    {md_file.name}")
             except Exception as e:
                 error = f"{skill}: Failed to copy {md_file.name} - {e}"
                 self.errors.append(error)
                 print(f"  ERROR: {error}")
-                return False
+                return None, None
 
         # Create scripts subdirectory
         scripts_dir = refs_dir / "scripts"
         scripts_dir.mkdir(exist_ok=True)
 
         # Copy shared-references/scripts/* files
+        script_count = 0
         shared_scripts_dir = self.shared_dir / "scripts"
         if shared_scripts_dir.exists():
-            print(f"  Copying shared-references/scripts/* → {refs_dir.name}/scripts/")
+            if not quiet:
+                print(f"  Copying shared-references/scripts/* → {refs_dir.name}/scripts/")
             script_files = list(shared_scripts_dir.iterdir())
 
             for script_file in script_files:
@@ -116,16 +122,19 @@ class Builder:
                     try:
                         dest = scripts_dir / script_file.name
                         shutil.copy2(script_file, dest)
-                        print(f"    {script_file.name}")
+                        script_count += 1
+                        if not quiet:
+                            print(f"    {script_file.name}")
                     except Exception as e:
                         error = f"{skill}: Failed to copy {script_file.name} - {e}"
                         self.errors.append(error)
                         print(f"  ERROR: {error}")
-                        return False
+                        return None, None
 
-        print(f"  ✓ {skill} complete")
-        print()
-        return True
+        if not quiet:
+            print(f"  ✓ {skill} complete")
+            print()
+        return len(md_files), script_count
 
 
 class ReferenceVerifier:
@@ -175,23 +184,28 @@ class ReferenceVerifier:
             lines.append(line)
         return '\n'.join(lines)
 
-    def verify_all(self):
+    def verify_all(self, quiet=False):
         """Run all verification checks."""
-        print("=" * 60)
-        print("VERIFY: Checking References")
-        print("=" * 60)
-        print()
+        if quiet:
+            print("VERIFY: Checking References")
+        else:
+            print("=" * 60)
+            print("VERIFY: Checking References")
+            print("=" * 60)
+            print()
 
         # Find all markdown files (excluding those that should be skipped)
         all_md_files = list(self.root_dir.rglob("*.md"))
         md_files = [f for f in all_md_files if not self.should_skip(f)]
-        print(f"Found {len(md_files)} markdown files (excluded {len(all_md_files) - len(md_files)})")
+        if not quiet:
+            print(f"Found {len(md_files)} markdown files (excluded {len(all_md_files) - len(md_files)})")
 
         # Find all script files (excluding those that should be skipped)
         all_script_files = list(self.root_dir.rglob("*.py")) + list(self.root_dir.rglob("*.sh"))
         script_files = [f for f in all_script_files if not self.should_skip(f)]
-        print(f"Found {len(script_files)} script files (excluded {len(all_script_files) - len(script_files)})")
-        print()
+        if not quiet:
+            print(f"Found {len(script_files)} script files (excluded {len(all_script_files) - len(script_files)})")
+            print()
 
         # Check markdown files
         for md_file in md_files:
@@ -202,7 +216,7 @@ class ReferenceVerifier:
             self.verify_script_file(script_file)
 
         # Report results
-        return self.report_results()
+        return self.report_results(quiet=quiet)
 
     def verify_markdown_file(self, md_file: Path):
         """Verify all references in a markdown file."""
@@ -377,8 +391,14 @@ class ReferenceVerifier:
                         f"  Resolved to: {target_path}"
                     )
 
-    def report_results(self):
+    def report_results(self, quiet=False):
         """Print verification results."""
+        # If quiet and no issues, show concise summary
+        if quiet and not self.errors and not self.warnings:
+            print(f"✓ Checked {self.checked_files} files, {self.checked_links} links - No errors")
+            return 0
+
+        # Verbose output for errors/warnings or non-quiet mode
         print()
         print("=" * 60)
         print("VERIFICATION RESULTS")
@@ -422,11 +442,9 @@ def main():
         print(f"Error: Directory does not exist: {root_dir}")
         sys.exit(1)
 
-    print(f"\n🔨 Building and verifying tidymodels skills in: {root_dir}\n")
-
     # Step 1: Build (localize shared files)
     builder = Builder(root_dir)
-    build_success = builder.build_all()
+    build_success = builder.build_all(quiet=True)
 
     if not build_success:
         print("Build failed. Skipping verification.")
@@ -434,10 +452,9 @@ def main():
 
     # Step 2: Verify (check references)
     verifier = ReferenceVerifier(root_dir)
-    verify_exit_code = verifier.verify_all()
+    verify_exit_code = verifier.verify_all(quiet=True)
 
     # Final summary
-    print()
     if verify_exit_code == 0:
         print("✅ BUILD AND VERIFY SUCCESSFUL")
     else:
