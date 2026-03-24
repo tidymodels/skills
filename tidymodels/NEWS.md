@@ -1,5 +1,16 @@
 # Tidymodels Skills - News
 
+- **Build and Verification Consolidation** (2026-03-24)
+  - Merged `localize-shared-files.sh` and `verify-references.py` into single `build-verify.py`
+  - Single command: `./dev-scripts/build-verify.py` handles both:
+    - Copies shared-references files to each skill's references folder
+    - Verifies all markdown links, anchors, and file references
+  - Python-based for better cross-platform consistency
+  - **CRITICAL**: Must be run before committing any skill changes
+  - Documentation updated (CLAUDE.md and SKILL_IMPLEMENTATION_GUIDE.md) to emphasize pre-commit requirement
+  - Catches broken links and out-of-sync files before they reach repository
+  - Extensible foundation for future build/verification steps
+
 - **Repository Structure Standardization** (2026-03-20)
   - **Scripts Reorganization**: Moved `shared-scripts/` to `shared-references/scripts/`
     - Creates consistency between source and localized structures

@@ -1,28 +1,136 @@
 #!/usr/bin/env python3
 """
-Verify references in markdown files and scripts.
+Build and verify tidymodels skills.
 
-This script checks:
-- Markdown links to files (relative paths)
-- Markdown anchor links (#heading)
-- Script file references (imports, paths)
-- Broken symlinks
+This script performs two operations:
+1. BUILD: Localizes shared files to each skill's references folder
+2. VERIFY: Checks all markdown links and file references
 
 Usage:
-    ./verify-references.py [directory]
+    ./build-verify.py [directory]
 
-    If no directory specified, checks tidymodels/ by default
+    If no directory specified, uses tidymodels/ relative to script location
 """
 
 import os
 import re
 import sys
+import shutil
 from pathlib import Path
 from typing import List, Tuple, Set
 from collections import defaultdict
 
 
+class Builder:
+    """Handles building skills by localizing shared files."""
+
+    def __init__(self, root_dir: str):
+        self.root_dir = Path(root_dir).resolve()
+        self.skills = ["add-yardstick-metric", "add-recipe-step"]
+        self.shared_dir = self.root_dir / "shared-references"
+        self.errors = []
+
+    def build_all(self):
+        """Copy shared files to each skill's references folder."""
+        print("=" * 60)
+        print("BUILD: Localizing Shared Files to Skills")
+        print("=" * 60)
+        print()
+
+        if not self.shared_dir.exists():
+            self.errors.append(f"Shared references directory not found: {self.shared_dir}")
+            return False
+
+        success = True
+        for skill in self.skills:
+            if not self.build_skill(skill):
+                success = False
+
+        print()
+        if success:
+            print("=" * 60)
+            print("✓ BUILD COMPLETE")
+            print("=" * 60)
+            print()
+            print("Copied to each skill's references/ folder:")
+            print("  - All shared-references/*.md files")
+            print("  - All shared-references/scripts/* files (in scripts/ subdirectory)")
+            print()
+        else:
+            print()
+            print("=" * 60)
+            print("✗ BUILD FAILED")
+            print("=" * 60)
+            print()
+            for error in self.errors:
+                print(f"  ERROR: {error}")
+            print()
+
+        return success
+
+    def build_skill(self, skill: str) -> bool:
+        """Copy shared files to a single skill."""
+        print(f"Processing: {skill}")
+
+        skill_dir = self.root_dir / skill
+        refs_dir = skill_dir / "references"
+
+        # Check if references directory exists
+        if not refs_dir.exists():
+            error = f"{skill}: references/ directory not found"
+            self.errors.append(error)
+            print(f"  ERROR: {error}")
+            return False
+
+        # Copy shared-references/*.md files
+        print(f"  Copying shared-references/*.md → {refs_dir.name}/")
+        md_files = list(self.shared_dir.glob("*.md"))
+        if not md_files:
+            error = f"{skill}: No .md files found in shared-references/"
+            self.errors.append(error)
+            print(f"  WARNING: {error}")
+
+        for md_file in md_files:
+            try:
+                dest = refs_dir / md_file.name
+                shutil.copy2(md_file, dest)
+                print(f"    {md_file.name}")
+            except Exception as e:
+                error = f"{skill}: Failed to copy {md_file.name} - {e}"
+                self.errors.append(error)
+                print(f"  ERROR: {error}")
+                return False
+
+        # Create scripts subdirectory
+        scripts_dir = refs_dir / "scripts"
+        scripts_dir.mkdir(exist_ok=True)
+
+        # Copy shared-references/scripts/* files
+        shared_scripts_dir = self.shared_dir / "scripts"
+        if shared_scripts_dir.exists():
+            print(f"  Copying shared-references/scripts/* → {refs_dir.name}/scripts/")
+            script_files = list(shared_scripts_dir.iterdir())
+
+            for script_file in script_files:
+                if script_file.is_file():
+                    try:
+                        dest = scripts_dir / script_file.name
+                        shutil.copy2(script_file, dest)
+                        print(f"    {script_file.name}")
+                    except Exception as e:
+                        error = f"{skill}: Failed to copy {script_file.name} - {e}"
+                        self.errors.append(error)
+                        print(f"  ERROR: {error}")
+                        return False
+
+        print(f"  ✓ {skill} complete")
+        print()
+        return True
+
+
 class ReferenceVerifier:
+    """Verifies references in markdown files and scripts."""
+
     def __init__(self, root_dir: str):
         self.root_dir = Path(root_dir).resolve()
         self.errors = []
@@ -45,8 +153,10 @@ class ReferenceVerifier:
 
     def verify_all(self):
         """Run all verification checks."""
-        print(f"Verifying references in: {self.root_dir}")
         print("=" * 60)
+        print("VERIFY: Checking References")
+        print("=" * 60)
+        print()
 
         # Find all markdown files (excluding those that should be skipped)
         all_md_files = list(self.root_dir.rglob("*.md"))
@@ -68,7 +178,7 @@ class ReferenceVerifier:
             self.verify_script_file(script_file)
 
         # Report results
-        self.report_results()
+        return self.report_results()
 
     def verify_markdown_file(self, md_file: Path):
         """Verify all references in a markdown file."""
@@ -211,7 +321,8 @@ class ReferenceVerifier:
 
     def report_results(self):
         """Print verification results."""
-        print("\n" + "=" * 60)
+        print()
+        print("=" * 60)
         print("VERIFICATION RESULTS")
         print("=" * 60)
         print(f"Files checked: {self.checked_files}")
@@ -219,16 +330,16 @@ class ReferenceVerifier:
         print()
 
         if self.errors:
-            print(f"ERRORS FOUND: {len(self.errors)}")
+            print(f"✗ ERRORS FOUND: {len(self.errors)}")
             print("-" * 60)
             for error in self.errors:
                 print(error)
                 print()
         else:
-            print("No errors found!")
+            print("✓ No errors found!")
 
         if self.warnings:
-            print(f"\nWARNINGS: {len(self.warnings)}")
+            print(f"\n⚠ WARNINGS: {len(self.warnings)}")
             print("-" * 60)
             for warning in self.warnings:
                 print(warning)
@@ -253,9 +364,29 @@ def main():
         print(f"Error: Directory does not exist: {root_dir}")
         sys.exit(1)
 
+    print(f"\n🔨 Building and verifying tidymodels skills in: {root_dir}\n")
+
+    # Step 1: Build (localize shared files)
+    builder = Builder(root_dir)
+    build_success = builder.build_all()
+
+    if not build_success:
+        print("Build failed. Skipping verification.")
+        sys.exit(1)
+
+    # Step 2: Verify (check references)
     verifier = ReferenceVerifier(root_dir)
-    exit_code = verifier.verify_all()
-    sys.exit(exit_code)
+    verify_exit_code = verifier.verify_all()
+
+    # Final summary
+    print()
+    if verify_exit_code == 0:
+        print("✅ BUILD AND VERIFY SUCCESSFUL")
+    else:
+        print("❌ VERIFICATION FAILED - Fix errors above before committing")
+    print()
+
+    sys.exit(verify_exit_code)
 
 
 if __name__ == "__main__":

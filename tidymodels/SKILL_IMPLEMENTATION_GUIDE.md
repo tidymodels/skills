@@ -1155,18 +1155,20 @@ How to clone tidymodels repositories (optional but recommended).
 **✅ After editing any shared file, run:**
 ```bash
 cd tidymodels
-./localize-shared-files.sh
+./dev-scripts/build-verify.py
 ```
 
-This script copies the updated files from `shared-references/` and `shared-references/scripts/` to each skill's `references/` folder, ensuring all skills stay in sync.
+This script:
+1. Copies the updated files from `shared-references/` and `shared-references/scripts/` to each skill's `references/` folder
+2. Verifies all markdown links and file references are valid
 
 **Workflow:**
 ```
 Edit shared-references/package-extension-prerequisites.md
     ↓
-Run ./localize-shared-files.sh
+Run ./dev-scripts/build-verify.py
     ↓
-Changes copied to all skills' references/ folders
+Changes copied to all skills' references/ folders + verification runs
 ```
 
 ---
@@ -1298,6 +1300,7 @@ When you add a new skill, update related skills:
    - [ ] Documentation is clear and concise
    - [ ] Navigation is intuitive
    - [ ] Covers both happy path and edge cases
+   - [ ] **Run `./dev-scripts/build-verify.py` with no errors**
 
 ### Manual Testing
 
@@ -1348,6 +1351,11 @@ When you add a new skill, update related skills:
 9. **Skip the context discrimination section** - Always clarify extension vs source
 10. **Use generic error messages** - Be specific to the context
 11. **Leave broken links** - Test all cross-references
+12. **Commit changes without running build-verify.py** - Always build and verify before committing
+   - ❌ NEVER commit skill changes without running `./dev-scripts/build-verify.py` first
+   - ✅ ALWAYS run build-verify.py to ensure shared files are synced and links work
+   - **Why:** Keeps all skills in sync, prevents broken links from reaching repository
+   - **How:** Run `cd tidymodels && ./dev-scripts/build-verify.py` before every commit
 
 ### ✅ Do:
 1. **Use references as single source of truth** - SKILL.md links, references contain content
@@ -1365,6 +1373,10 @@ When you add a new skill, update related skills:
 13. **Update related skills** - Add cross-references when appropriate
 14. **Follow naming conventions** - Consistent with existing skills
 15. **Include troubleshooting** - Anticipate common problems
+16. **Run build-verify.py before committing** - Ensures files are synced and verified
+   - Run `cd tidymodels && ./dev-scripts/build-verify.py` after any skill changes
+   - Fix all errors before committing
+   - This is CRITICAL for maintaining quality
 
 ---
 
@@ -1411,6 +1423,7 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Test all code examples
 - [ ] Check for consistency
 - [ ] Proofread for clarity
+- [ ] **Run `./dev-scripts/build-verify.py` and fix all errors**
 
 **Total Time Estimate: 14-22 hours**
 
