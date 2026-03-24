@@ -447,10 +447,10 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 After verification passes, you MUST proceed to the Extension Development Guide:
 
 **For yardstick metrics:**
-→ **[Extension Development Guide](../add-yardstick-metric/references/extension-guide.md)** - Start implementing your metric
+→ **[Extension Development Guide](../../add-yardstick-metric/references/extension-guide.md)** - Start implementing your metric
 
 **For recipe steps:**
-→ **[Extension Development Guide](../add-recipe-step/references/extension-guide.md)** - Start implementing your step
+→ **[Extension Development Guide](../../add-recipe-step/references/extension-guide.md)** - Start implementing your step
 
 **DO NOT** skip the Extension Development Guide. It contains critical implementation patterns and step-by-step instructions.
 

@@ -145,11 +145,35 @@ class ReferenceVerifier:
             if part.startswith('.'):
                 return True
 
+        # Skip shared-references directory
+        if 'shared-references' in file_path.parts:
+            return True
+
         # Skip SKILL_IMPLEMENTATION_GUIDE.md
         if file_path.name == "SKILL_IMPLEMENTATION_GUIDE.md":
             return True
 
         return False
+
+    def strip_html_comments(self, content: str) -> str:
+        """Remove HTML comments from content."""
+        # Remove single-line and multi-line HTML comments
+        return re.sub(r'<!--.*?-->', '', content, flags=re.DOTALL)
+
+    def strip_script_comments(self, content: str) -> str:
+        """Remove # comments from script content, preserving shebangs."""
+        lines = []
+        for line in content.split('\n'):
+            # Keep shebang lines
+            if line.startswith('#!'):
+                lines.append(line)
+                continue
+            # Remove everything from # to end of line
+            # Note: This doesn't handle # inside strings, but for our
+            # file path detection (which looks for quoted paths), this works fine
+            line = re.sub(r'#.*$', '', line)
+            lines.append(line)
+        return '\n'.join(lines)
 
     def verify_all(self):
         """Run all verification checks."""
@@ -189,6 +213,9 @@ class ReferenceVerifier:
         except Exception as e:
             self.errors.append(f"{md_file}: Could not read file - {e}")
             return
+
+        # Strip HTML comments before processing
+        content = self.strip_html_comments(content)
 
         # Extract anchors available in this file
         anchors = self.extract_anchors(content)
@@ -250,14 +277,28 @@ class ReferenceVerifier:
 
         # Resolve the file path relative to the source file
         if file_part:
+            # Use resolve() to properly handle all .. and . in the path
             target_file = (source_file.parent / file_part).resolve()
+
+            # Verify the resolved path is within the repository
+            try:
+                target_file.relative_to(self.root_dir)
+            except ValueError:
+                self.errors.append(
+                    f"{source_file}:\n"
+                    f"  Invalid link: [{link_text}]({link_url})\n"
+                    f"  Path escapes repository: {file_part}\n"
+                    f"  Resolved to: {target_file}"
+                )
+                return
 
             # Check if target file exists
             if not target_file.exists():
                 self.errors.append(
                     f"{source_file}:\n"
                     f"  Broken link: [{link_text}]({link_url})\n"
-                    f"  Target does not exist: {file_part}"
+                    f"  Target does not exist: {file_part}\n"
+                    f"  Resolved to: {target_file}"
                 )
                 return
 
@@ -265,6 +306,7 @@ class ReferenceVerifier:
             if anchor:
                 if target_file.suffix == '.md':
                     target_content = target_file.read_text()
+                    target_content = self.strip_html_comments(target_content)
                     target_anchors = self.extract_anchors(target_content)
 
                     if anchor not in target_anchors:
@@ -277,6 +319,7 @@ class ReferenceVerifier:
             # Just an anchor reference (same file)
             if anchor:
                 source_content = source_file.read_text()
+                source_content = self.strip_html_comments(source_content)
                 source_anchors = self.extract_anchors(source_content)
 
                 if anchor not in source_anchors:
@@ -296,6 +339,9 @@ class ReferenceVerifier:
             self.errors.append(f"{script_file}: Could not read file - {e}")
             return
 
+        # Strip # comments before processing
+        content = self.strip_script_comments(content)
+
         # Check for file path references (heuristic approach)
         # Look for patterns like:
         # - ./path/to/file
@@ -313,10 +359,22 @@ class ReferenceVerifier:
             for match in matches:
                 target_path = (script_file.parent / match).resolve()
 
+                # Verify the resolved path is within the repository
+                try:
+                    target_path.relative_to(self.root_dir)
+                except ValueError:
+                    self.warnings.append(
+                        f"{script_file}:\n"
+                        f"  Path escapes repository: {match}\n"
+                        f"  Resolved to: {target_path}"
+                    )
+                    continue
+
                 if not target_path.exists():
                     self.warnings.append(
                         f"{script_file}:\n"
-                        f"  Possible broken path: {match}"
+                        f"  Possible broken path: {match}\n"
+                        f"  Resolved to: {target_path}"
                     )
 
     def report_results(self):
