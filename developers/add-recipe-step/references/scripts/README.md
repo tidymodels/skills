@@ -24,16 +24,16 @@ We provide three platform-native scripts for the best user experience:
 
 ```bash
 # Clone yardstick
-./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
+./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
 # Clone recipes
-./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh recipes
+./developers/shared-references/scripts/clone-tidymodels-repos.sh recipes
 
 # Clone multiple packages
-./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
+./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
 
 # Clone all packages
-./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
+./developers/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
 
 ### Windows (PowerShell)
@@ -68,10 +68,10 @@ powershell -ExecutionPolicy Bypass -File .\tidymodels\shared-references\scripts\
 
 ```bash
 # macOS/Linux
-python3 tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
+python3 developers/shared-references/scripts/clone-tidymodels-repos.py yardstick
 
 # Windows
-python tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
+python developers/shared-references/scripts/clone-tidymodels-repos.py yardstick
 ```
 
 ## What the Scripts Do
@@ -167,7 +167,7 @@ cd repos/yardstick && git pull
 
 ## For More Information
 
-See the comprehensive documentation: `tidymodels/shared-references/package-repository-access.md`
+See the comprehensive documentation: `developers/shared-references/package-repository-access.md`
 
 ## License
 

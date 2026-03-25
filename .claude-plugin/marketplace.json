@@ -9,14 +9,21 @@
   },
   "plugins": [
     {
-      "name": "tidymodels-dev",
+      "name": "tidymodels-developers",
       "description": "Development tools and guides for tidymodels ecosystem packages including yardstick metrics and recipes steps",
       "source": "./",
       "strict": false,
       "skills": [
-        "./tidymodels/add-yardstick-metric",
-        "./tidymodels/add-recipe-step"
+        "./developers/add-yardstick-metric",
+        "./developers/add-recipe-step"
       ]
+    },
+    {
+      "name": "tidymodels-users",
+      "description": "Claude Code skills for using tidymodels packages in data analysis and modeling",
+      "source": "./",
+      "strict": false,
+      "skills": []
     }
   ]
 }
