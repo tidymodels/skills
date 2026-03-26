@@ -181,7 +181,7 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" 2>&1 | Out-Null
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" 2>&1 | Out-Null
           if ($LASTEXITCODE -ne 1) {
             Write-Error "Expected exit code 1, got $LASTEXITCODE"
             exit 1
@@ -195,7 +195,7 @@ jobs:
           $testDir = "$env:TEMP\test-yardstick"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
 
       - name: Verify yardstick clone
         shell: powershell
@@ -243,7 +243,7 @@ jobs:
         run: |
           $testDir = "$env:TEMP\test-yardstick"
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
 
       - name: Verify no duplicates in ignore files
         shell: powershell
@@ -271,7 +271,7 @@ jobs:
           $testDir = "$env:TEMP\test-all"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" all
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" all
 
       - name: Verify all packages cloned
         shell: powershell
@@ -324,7 +324,7 @@ jobs:
           $testDir = "$env:TEMP\test-python"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          python "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.py" yardstick
+          python "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.py" yardstick
 
       - name: Verify yardstick clone (Unix)
         if: runner.os != 'Windows'
