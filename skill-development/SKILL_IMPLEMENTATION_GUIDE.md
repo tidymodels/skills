@@ -57,7 +57,7 @@ Every tidymodels skill supports **two distinct development contexts**:
 ### Complete Skill Directory Structure
 
 ```
-tidymodels/
+developers/
 ├── add-[package]-[feature]/          # E.g., add-yardstick-metric
 │   ├── SKILL.md                      # Main entry point (REQUIRED)
 │   ├── extension-guide.md            # Extension development guide
@@ -82,7 +82,7 @@ tidymodels/
 ### Shared Scripts (Optional)
 
 ```
-tidymodels/shared-references/scripts/
+developers/shared-references/scripts/
 ├── README.md
 ├── clone-tidymodels-repos.sh    # Bash script
 ├── clone-tidymodels-repos.ps1   # PowerShell script
@@ -1392,7 +1392,7 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Identify internal functions (for source guide)
 
 ### Phase 2: Core Structure (3-4 hours)
-- [ ] Create skill directory: `tidymodels/add-[package]-[feature]/`
+- [ ] Create skill directory: `developers/add-[package]-[feature]/`
 - [ ] Write SKILL.md from template
 - [ ] Create extension-guide.md
 - [ ] Create source-guide.md
@@ -1434,7 +1434,7 @@ When creating a new skill (e.g., `add-parsnip-model`):
 If we were to create an `add-parsnip-model` skill:
 
 ```
-tidymodels/add-parsnip-model/
+developers/add-parsnip-model/
 ├── SKILL.md                        # Entry point
 ├── extension-guide.md              # Creating new model packages
 ├── source-guide.md                 # Contributing to parsnip

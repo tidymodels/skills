@@ -9,6 +9,6 @@ yardstick
 r-pkgs
 README.html
 repos
-tidymodels/VERIFY_SETUP_PLAN.md
-tidymodels/SETUP_CONSOLIDATION_PLAN.md
-tidymodels/SETUP_CONSOLIDATION_COMPLETE.md
+developers/VERIFY_SETUP_PLAN.md
+developers/SETUP_CONSOLIDATION_PLAN.md
+developers/SETUP_CONSOLIDATION_COMPLETE.md

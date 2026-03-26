@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build and verify tidymodels skills.
+Build and verify developers skills.
 
 This script performs two operations:
 1. BUILD: Localizes shared files to each skill's references folder
@@ -9,7 +9,7 @@ This script performs two operations:
 Usage:
     ./build-verify.py [directory]
 
-    If no directory specified, uses tidymodels/ relative to script location
+    If no directory specified, uses developers/ relative to script location
 """
 
 import os
@@ -434,7 +434,7 @@ def main():
     if len(sys.argv) > 1:
         root_dir = sys.argv[1]
     else:
-        # Default to tidymodels/ directory relative to script location
+        # Default to developers/ directory relative to script location
         script_dir = Path(__file__).parent
         root_dir = script_dir.parent
 

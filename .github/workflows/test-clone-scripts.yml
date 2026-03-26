@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main, updates ]
     paths:
-      - 'tidymodels/shared-references/scripts/**'
+      - 'developers/shared-references/scripts/**'
       - '.github/workflows/test-clone-scripts.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - 'tidymodels/shared-references/scripts/**'
+      - 'developers/shared-references/scripts/**'
       - '.github/workflows/test-clone-scripts.yml'
   workflow_dispatch:  # Allow manual triggering
 
@@ -25,12 +25,12 @@ jobs:
         run: git --version
 
       - name: Make script executable
-        run: chmod +x tidymodels/shared-references/scripts/clone-tidymodels-repos.sh
+        run: chmod +x developers/shared-references/scripts/clone-tidymodels-repos.sh
 
       - name: Test script with no arguments (should fail)
         run: |
           set +e
-          ./tidymodels/shared-references/scripts/clone-tidymodels-repos.sh
+          ./developers/shared-references/scripts/clone-tidymodels-repos.sh
           exit_code=$?
           if [ $exit_code -eq 1 ]; then
             echo "✓ Script correctly exits with code 1 when no arguments provided"
@@ -45,7 +45,7 @@ jobs:
           cd /tmp
           mkdir -p test-yardstick
           cd test-yardstick
-          $GITHUB_WORKSPACE/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
+          $GITHUB_WORKSPACE/developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
       - name: Verify yardstick clone
         run: |
@@ -88,7 +88,7 @@ jobs:
       - name: Test idempotency (run again)
         run: |
           cd /tmp/test-yardstick
-          $GITHUB_WORKSPACE/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
+          $GITHUB_WORKSPACE/developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
       - name: Verify no duplicates in ignore files
         run: |
@@ -112,7 +112,7 @@ jobs:
           cd /tmp
           mkdir -p test-all
           cd test-all
-          $GITHUB_WORKSPACE/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
+          $GITHUB_WORKSPACE/developers/shared-references/scripts/clone-tidymodels-repos.sh all
 
       - name: Verify all packages cloned
         run: |
@@ -134,14 +134,14 @@ jobs:
         run: git --version
 
       - name: Make script executable
-        run: chmod +x tidymodels/shared-references/scripts/clone-tidymodels-repos.sh
+        run: chmod +x developers/shared-references/scripts/clone-tidymodels-repos.sh
 
       - name: Test cloning yardstick
         run: |
           cd /tmp
           mkdir -p test-yardstick
           cd test-yardstick
-          $GITHUB_WORKSPACE/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
+          $GITHUB_WORKSPACE/developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
       - name: Verify yardstick clone
         run: |
@@ -181,7 +181,7 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" 2>&1 | Out-Null
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" 2>&1 | Out-Null
           if ($LASTEXITCODE -ne 1) {
             Write-Error "Expected exit code 1, got $LASTEXITCODE"
             exit 1
@@ -195,7 +195,7 @@ jobs:
           $testDir = "$env:TEMP\test-yardstick"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
 
       - name: Verify yardstick clone
         shell: powershell
@@ -243,7 +243,7 @@ jobs:
         run: |
           $testDir = "$env:TEMP\test-yardstick"
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" yardstick
 
       - name: Verify no duplicates in ignore files
         shell: powershell
@@ -271,7 +271,7 @@ jobs:
           $testDir = "$env:TEMP\test-all"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          & "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1" all
+          & "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.ps1" all
 
       - name: Verify all packages cloned
         shell: powershell
@@ -306,7 +306,7 @@ jobs:
 
       - name: Test script with no arguments (should fail)
         run: |
-          python tidymodels/shared-references/scripts/clone-tidymodels-repos.py 2>&1 || true
+          python developers/shared-references/scripts/clone-tidymodels-repos.py 2>&1 || true
         continue-on-error: true
 
       - name: Test cloning yardstick (Unix)
@@ -315,7 +315,7 @@ jobs:
           cd /tmp
           mkdir -p test-python
           cd test-python
-          python $GITHUB_WORKSPACE/tidymodels/shared-references/scripts/clone-tidymodels-repos.py yardstick
+          python $GITHUB_WORKSPACE/developers/shared-references/scripts/clone-tidymodels-repos.py yardstick
 
       - name: Test cloning yardstick (Windows)
         if: runner.os == 'Windows'
@@ -324,7 +324,7 @@ jobs:
           $testDir = "$env:TEMP\test-python"
           New-Item -ItemType Directory -Path $testDir -Force | Out-Null
           Set-Location $testDir
-          python "$env:GITHUB_WORKSPACE\tidymodels\shared-references\scripts\clone-tidymodels-repos.py" yardstick
+          python "$env:GITHUB_WORKSPACE\developers\shared-references\scripts\clone-tidymodels-repos.py" yardstick
 
       - name: Verify yardstick clone (Unix)
         if: runner.os != 'Windows'

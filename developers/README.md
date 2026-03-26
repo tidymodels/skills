@@ -23,7 +23,7 @@ Each skill automatically detects your development context and provides appropria
 ## Directory Structure
 
 ```
-tidymodels/
+developers/
 ├── add-yardstick-metric/      # Custom metrics skill
 │   ├── SKILL.md               # Main entry point
 │   ├── references/            # Detailed metric type guides

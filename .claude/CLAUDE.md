@@ -1,32 +1,54 @@
 # Skills Personal - Claude Code Skills Repository
 
-Personal repository for Claude Code skills, with a focus on tidymodels development patterns.
+Personal repository for Claude Code skills for the tidymodels ecosystem, organized by audience.
 
 ## Repository Structure
 
 ```
 skills-personal/
-├── tidymodels/                           # Tidymodels development skills
-│   ├── SKILL_IMPLEMENTATION_GUIDE.md    # How to create new tidymodels skills
-│   ├── add-yardstick-metric/            # Creating custom metrics
-│   ├── add-recipe-step/                 # Creating preprocessing steps
-│   └── shared-references/               # Universal R package patterns
-├── repos/                                # Cloned tidymodels repositories
+├── skill-development/              # Meta-level tooling for skill maintenance
+│   ├── build-verify.py            # Build and verify skills
+│   ├── rename-and-update.py       # Bulk renaming and updates
+│   ├── replace-text.py            # Surgical text replacement
+│   ├── SKILL_IMPLEMENTATION_GUIDE.md
+│   └── README.md                  # Tool documentation
+├── developers/                     # Developer-facing skills
+│   ├── add-yardstick-metric/      # Creating custom metrics
+│   ├── add-recipe-step/           # Creating preprocessing steps
+│   ├── shared-references/         # Universal R package patterns
+│   ├── README.md
+│   └── NEWS.md
+├── users/                          # User-facing skills (future)
+│   ├── shared-references/         # User skill references
+│   └── README.md
+├── repos/                          # Cloned tidymodels repositories
 │   ├── yardstick/
 │   ├── recipes/
 │   └── ...
-└── .claude/                              # Claude Code configuration
+└── .claude/                        # Claude Code configuration
 ```
+
+## Audience-Specific Skills
+
+### Developer Skills (`developers/`)
+For creating tidymodels extensions and contributing to packages:
+- Building custom yardstick metrics
+- Creating recipes preprocessing steps
+- Package development workflows
+
+### User Skills (`users/`)
+For using tidymodels in data analysis and modeling:
+- *(Coming soon - to be added by content team)*
 
 ## Working in This Repository
 
 ### Before Committing Changes
 
-**⚠️ CRITICAL**: Before committing any changes to tidymodels skills, run:
+**⚠️ CRITICAL**: Before committing any changes to skills, run:
 
 ```bash
-cd tidymodels
-./dev-scripts/build-verify.py
+cd skill-development
+./build-verify.py ../developers/
 ```
 
 This script:
@@ -35,11 +57,11 @@ This script:
 
 Fix any errors before committing. This ensures all skills stay in sync and all links work correctly.
 
-### Creating New Tidymodels Skills
+### Creating New Developer Skills
 
-When creating a new tidymodels skill (e.g., add-parsnip-model):
+When creating a new developer skill (e.g., add-parsnip-model):
 
-**Follow the [Skill Implementation Guide](../tidymodels/SKILL_IMPLEMENTATION_GUIDE.md)**
+**Follow the [Skill Implementation Guide](../skill-development/SKILL_IMPLEMENTATION_GUIDE.md)**
 
 This comprehensive guide covers:
 - File structure and organization
@@ -63,16 +85,16 @@ The `repos/` directory contains cloned tidymodels repositories for reference. Th
 ## Quick Links
 
 **Implementation:**
-- [Skill Implementation Guide](../tidymodels/SKILL_IMPLEMENTATION_GUIDE.md) - Creating new skills
+- [Skill Implementation Guide](../skill-development/SKILL_IMPLEMENTATION_GUIDE.md) - Creating new skills
 
 **Example Skills:**
-- [add-yardstick-metric](../tidymodels/add-yardstick-metric/SKILL.md) - Creating custom metrics
-- [add-recipe-step](../tidymodels/add-recipe-step/SKILL.md) - Creating preprocessing steps
+- [add-yardstick-metric](../developers/add-yardstick-metric/SKILL.md) - Creating custom metrics
+- [add-recipe-step](../developers/add-recipe-step/SKILL.md) - Creating preprocessing steps
 
 **Shared Resources:**
-- [Extension Prerequisites](../tidymodels/shared-references/extension-prerequisites.md) - R package setup
-- [Development Workflow](../tidymodels/shared-references/development-workflow.md) - Fast iteration cycle
-- [Testing Patterns](../tidymodels/shared-references/testing-patterns-extension.md) - Extension testing
+- [Extension Prerequisites](../developers/shared-references/extension-prerequisites.md) - R package setup
+- [Development Workflow](../developers/shared-references/development-workflow.md) - Fast iteration cycle
+- [Testing Patterns](../developers/shared-references/testing-patterns-extension.md) - Extension testing
 
 ## Development Philosophy
 
@@ -86,4 +108,4 @@ This repository follows the principles outlined in the Skill Implementation Guid
 
 ---
 
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-25

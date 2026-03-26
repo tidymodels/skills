@@ -167,5 +167,5 @@ Potential improvements:
 
 - [Test Clone Scripts Workflow](.github/workflows/test-clone-scripts.yml)
 - [Phase 1 Summary](.github/PHASE_1_SUMMARY.md)
-- [Repository Access Guide](../tidymodels/shared-references/repository-access.md)
-- [Scripts README](../tidymodels/shared-scripts/README.md)
+- [Repository Access Guide](../developers/shared-references/repository-access.md)
+- [Scripts README](../developers/shared-scripts/README.md)

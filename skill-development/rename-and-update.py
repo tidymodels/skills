@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rename files and update all references across the tidymodels/ folder.
+Rename files and update all references across the developers/ folder.
 
 Usage:
     ./rename-and-update.py <from> <to>
@@ -232,7 +232,7 @@ def rename_files(rename_map: List[Tuple[Path, Path]], dry_run: bool = False) -> 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Rename files and update all references in tidymodels/ folder',
+        description='Rename files and update all references in developers/ folder',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__
     )
@@ -242,7 +242,7 @@ def main():
 
     args = parser.parse_args()
 
-    # Get script directory (tidymodels/)
+    # Get script directory (developers/)
     script_dir = Path(__file__).parent
 
     log_header("=" * 60)
