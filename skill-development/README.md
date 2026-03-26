@@ -23,6 +23,27 @@ Meta-level tooling for maintaining and building skills in this repository.
 - After updating shared references
 - After modifying skill structure
 
+### count-skill-tokens.py
+**Purpose**: Count lines and estimate tokens for a Claude Code skill directory.
+
+**What it does**:
+- Analyzes SKILL.md and all references/**/*.md files
+- Counts lines and tokens using cl100k_base encoding
+- Checks skill description length against metadata token limit (100 tokens)
+- Flags SKILL.md if it exceeds limits (5000 tokens or 500 lines)
+- Outputs a formatted Markdown summary table
+
+**Usage**:
+```bash
+./count-skill-tokens.py <skill-directory>
+./count-skill-tokens.py ../developers/add-yardstick-metric
+```
+
+**When to use**:
+- Checking if a skill fits within Claude Code token limits
+- Identifying which files contribute most to token count
+- Validating skill size before deployment
+
 ### rename-and-update.py
 **Purpose**: Rename files and update all references across a directory tree.
 
