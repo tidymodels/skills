@@ -3,6 +3,8 @@
 Official [Claude Code skills](https://docs.anthropic.com/en/docs/build-with-claude/claude-for-sheets-and-code) for the Tidymodels ecosystem, organized by audience.
 
 [![Documentation](https://img.shields.io/badge/docs-tidymodels--skills-blue)](https://tidymodels.github.io/skills/)
+[![Plugin Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tidymodels/skills/main/.claude-plugin/marketplace.json&query=$.metadata.version&label=plugin&color=blue)](https://github.com/tidymodels/skills/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Quick Start
 
