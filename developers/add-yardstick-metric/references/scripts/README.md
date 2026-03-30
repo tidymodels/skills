@@ -18,7 +18,7 @@ We provide three platform-native scripts for the best user experience:
 
 ## Quick Start
 
-**Note:** These examples assume you're running from the `skills-personal` repository root. If running from elsewhere, adjust the path accordingly.
+**Note:** These examples assume you're running from the `skills` repository root. If running from elsewhere, adjust the path accordingly.
 
 ### macOS / Linux / WSL
 
@@ -171,4 +171,4 @@ See the comprehensive documentation: `developers/shared-references/package-repos
 
 ## License
 
-These scripts are part of the skills-personal repository. See the repository's LICENSE for details.
+These scripts are part of the skills repository. See the repository's LICENSE for details.

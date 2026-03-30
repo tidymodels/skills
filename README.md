@@ -28,7 +28,7 @@ Install skills through the Claude Code marketplace:
 
 ```bash
 # Add the marketplace
-/plugin marketplace add edgararuiz/skills
+/plugin marketplace add tidymodels/skills
 
 # Install developer skills
 /plugin install tidymodels-developers@tidymodels-skills

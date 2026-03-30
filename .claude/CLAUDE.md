@@ -1,11 +1,11 @@
-# Skills Personal - Claude Code Skills Repository
+# Tidymodels Skills - Claude Code Skills Repository
 
-Personal repository for Claude Code skills for the Tidymodels ecosystem, organized by audience.
+Official repository for Claude Code skills for the Tidymodels ecosystem, organized by audience.
 
 ## Repository Structure
 
 ```
-skills-personal/
+skills/
 ├── skill-development/              # Meta-level tooling for skill maintenance
 │   ├── build-verify.py            # Build and verify skills
 │   ├── rename-and-update.py       # Bulk renaming and updates
