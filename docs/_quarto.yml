@@ -23,19 +23,34 @@ website:
     - id: users
       title: "User Skills"
       contents:
-        - users/index.qmd
-        - section: "Skills"
+        - text: "Overview"
+          href: users/index.qmd
+        - text: "Tabular Data ML"
+          href: users/tidymodels.qmd
+        - section: "References"
           contents:
-            - users/tidymodels.qmd
+            - text: "Data Spending"
+              href: users/references/data-spending.qmd
+            - text: "Resampling"
+              href: users/references/resampling.qmd
+            - text: "Feature Engineering"
+              href: users/references/feature-engineering.qmd
+            - text: "Model Tuning"
+              href: users/references/tuning.qmd
+            - text: "Model Evaluation"
+              href: users/references/evaluation.qmd
 
     - id: developers
       title: "Developer Skills"
       contents:
-        - developers/index.qmd
+        - text: "Overview"
+          href: developers/index.qmd
         - section: "Skills"
           contents:
-            - developers/add-yardstick-metric.qmd
-            - developers/add-recipe-step.qmd
+            - text: "Add Yardstick Metric"
+              href: developers/add-yardstick-metric.qmd
+            - text: "Add Recipe Step"
+              href: developers/add-recipe-step.qmd
 
   page-footer:
     left: "Built with [Quarto](https://quarto.org)"

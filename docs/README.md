@@ -76,7 +76,16 @@ docs/
    ```markdown
    {{< include ../../../users/references/file-name.md >}}
    ```
-5. Add to sidebar in `_quarto.yml`
+5. Add to sidebar in `_quarto.yml` with explicit titles:
+   ```yaml
+   - text: "Skill Name"
+     href: users/skill-name.qmd
+   - section: "References"
+     contents:
+       - text: "Reference Title"
+         href: users/references/reference-name.qmd
+   ```
+   **Note:** Use `text:` and `href:` since wrapper files have no YAML front matter.
 
 ### For Developer Skills
 
