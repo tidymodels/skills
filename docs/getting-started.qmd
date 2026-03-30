@@ -4,13 +4,11 @@ title: "Getting Started"
 
 Tidymodels skills are specialized [Claude Code skills](https://support.anthropic.com/en/articles/10218303-what-are-skills-in-claude-code) that guide you through machine learning and package development tasks using the Tidymodels ecosystem. Each skill contains step-by-step guidance for your specific task, best practices from the Tidymodels community, complete working examples, and reference documentation for deeper learning.
 
-These skills help two types of Tidymodels users: **Data scientists and analysts** building predictive models with R get guidance through proper validation practices, feature engineering, and model evaluation. **R package developers** extending Tidymodels with custom metrics, preprocessing steps, or model implementations receive templates and best practices for package development.
+## Installation
 
-## Installing Claude Code
+### Install Claude Code
 
-[Claude Code](https://claude.ai/code) is Anthropic's official CLI for Claude.
-
-### Installation
+[Claude Code](https://claude.ai/code) is Anthropic's official CLI for Claude. It brings Claude's capabilities directly to your terminal, allowing you to work with AI assistance in your development environment. Installation is quick and works across macOS, Linux, and Windows.
 
 ::: {.panel-tabset}
 
@@ -42,13 +40,11 @@ claude --version
 
 For detailed installation instructions, troubleshooting, and alternative methods, visit the [official Claude Code documentation](https://claude.ai/code).
 
-### Authentication
+#### Authentication
 
 On first use, Claude Code will prompt you to authenticate with your Anthropic account. For more information about authentication, see the [Claude Code authentication guide](https://support.anthropic.com/en/articles/10214244-how-do-i-authenticate-claude-code).
 
-## Using Skills
-
-### Installing Skills from the Marketplace
+### Installing Skills
 
 To use Tidymodels skills in Claude Code, first add the Tidymodels skills marketplace:
 
@@ -58,17 +54,47 @@ To use Tidymodels skills in Claude Code, first add the Tidymodels skills marketp
 
 Then install the skill collection you need:
 
-```
-# For data scientists and analysts
-/plugin install tidymodels-users@tidymodels-skills
+::: {.panel-tabset}
 
-# For R package developers
+## For Data Analysis
+
+**[User Skills →](users/index.qmd)**
+
+Install user skills for building predictive models:
+
+```
+/plugin install tidymodels-users@tidymodels-skills
+```
+
+**Available skills:**
+
+- **[Tabular Data Machine Learning](users/tabular-data-ml.qmd)**: Build predictive models with proper validation practices
+  - Data splitting and spending
+  - Cross-validation and resampling
+  - Feature engineering
+  - Model tuning and selection
+  - Performance evaluation
+
+## For Extensions Development
+
+**[Developer Skills →](developers/index.qmd)**
+
+Install developer skills for creating Tidymodels extensions:
+
+```
 /plugin install tidymodels-developers@tidymodels-skills
 ```
 
+**Available skills:**
+
+- **[Add Yardstick Metric](developers/add-yardstick-metric.qmd)**: Create custom performance metrics
+- **[Add Recipe Step](developers/add-recipe-step.qmd)**: Create custom preprocessing steps
+
+:::
+
 Once installed, skills are available in your conversation and Claude Code is ready to assist with your task.
 
-### Example: Building a Predictive Model
+## Using Tidymodels skills
 
 Let's walk through using the **Tabular Data ML** skill for a typical modeling workflow:
 
@@ -96,23 +122,9 @@ Let's walk through using the **Tabular Data ML** skill for a typical modeling wo
 
 5. **Iterate and refine**: Ask questions, request visualizations, tune hyperparameters, and explore feature engineering—all following Tidymodels best practices.
 
-## Available Skills
+## Learn More
 
-### [User Skills](users/index.qmd) - For Data Analysis
-
-- **[Tabular Data Machine Learning](users/tabular-data-ml.qmd)**: Build predictive models with proper validation practices
-  - Data splitting and spending
-  - Cross-validation and resampling
-  - Feature engineering
-  - Model tuning and selection
-  - Performance evaluation
-
-### [Developer Skills](developers/index.qmd) - For Package Development
-
-- **[Add Yardstick Metric](developers/add-yardstick-metric.qmd)**: Create custom performance metrics
-- **[Add Recipe Step](developers/add-recipe-step.qmd)**: Create custom preprocessing steps
-
-## Key Principles
+### Key Principles
 
 When working with Tidymodels skills, Claude Code follows these principles:
 
@@ -121,7 +133,7 @@ When working with Tidymodels skills, Claude Code follows these principles:
 3. **Tidymodels conventions**: Follows ecosystem patterns for consistency and reproducibility.
 4. **Best practices**: Implements approaches recommended by the Tidymodels team.
 
-## Tips for Success
+### Tips for Success
 
 1. **Be specific about your data**: Describe your features, outcome variable, and any domain constraints
 2. **Ask questions**: If you're unsure about an approach, ask Claude Code to explain the reasoning
@@ -129,7 +141,7 @@ When working with Tidymodels skills, Claude Code follows these principles:
 4. **Iterate**: Start with a simple baseline, then refine based on results
 5. **Use visualizations**: Request plots to understand model performance and data patterns
 
-## Getting Help
+### Getting Help
 
 - **Skill documentation**: Each skill has detailed reference materials for deeper learning
 - **Skills issues**: Report issues with Tidymodels skills at [github.com/tidymodels/skills/issues](https://github.com/tidymodels/skills/issues)
