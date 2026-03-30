@@ -5,6 +5,7 @@ project:
 website:
   title: "Tidymodels skills"
   description: "Claude Code skills for tidymodels package development and analysis"
+  favicon: assets/logos/tidymodels.png
 
   navbar:
     background: primary
@@ -18,6 +19,10 @@ website:
         href: users/index.qmd
       - text: "Developers"
         href: developers/index.qmd
+    right:
+      - icon: github
+        href: https://github.com/tidymodels/skills
+        aria-label: GitHub
 
   sidebar:
     - id: users
