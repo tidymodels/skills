@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build and verify developers skills.
+Build and verify skills.
 
 This script performs two operations:
 1. BUILD: Localizes shared files to each skill's references folder
@@ -9,7 +9,11 @@ This script performs two operations:
 Usage:
     ./build-verify.py [directory]
 
-    If no directory specified, uses developers/ relative to script location
+    If no directory specified, uses parent directory relative to script location
+
+Examples:
+    ./build-verify.py ../developers/
+    ./build-verify.py ../users/
 """
 
 import os
@@ -26,9 +30,29 @@ class Builder:
 
     def __init__(self, root_dir: str):
         self.root_dir = Path(root_dir).resolve()
-        self.skills = ["add-yardstick-metric", "add-recipe-step"]
+        self.skills = self._discover_skills()
         self.shared_dir = self.root_dir / "shared-references"
         self.errors = []
+
+    def _discover_skills(self) -> List[str]:
+        """Discover all skill directories in root_dir."""
+        skills = []
+        if not self.root_dir.exists():
+            return skills
+
+        for item in self.root_dir.iterdir():
+            # Skip if not a directory or if it's shared-references
+            if not item.is_dir() or item.name == "shared-references":
+                continue
+
+            # A directory is a skill if it contains SKILL.md or references/
+            has_skill_md = (item / "SKILL.md").exists()
+            has_references = (item / "references").exists()
+
+            if has_skill_md or has_references:
+                skills.append(item.name)
+
+        return sorted(skills)
 
     def build_all(self, quiet=False):
         """Copy shared files to each skill's references folder."""
@@ -434,7 +458,7 @@ def main():
     if len(sys.argv) > 1:
         root_dir = sys.argv[1]
     else:
-        # Default to developers/ directory relative to script location
+        # Default to parent directory relative to script location
         script_dir = Path(__file__).parent
         root_dir = script_dir.parent
 

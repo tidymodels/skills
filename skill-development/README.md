@@ -15,7 +15,7 @@ Meta-level tooling for maintaining and building skills in this repository.
 **Usage**:
 ```bash
 ./build-verify.py ../developers/
-./build-verify.py ../users/  # When user skills exist
+./build-verify.py ../users/
 ```
 
 **When to use**:

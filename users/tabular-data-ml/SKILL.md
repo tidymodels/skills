@@ -18,7 +18,7 @@ A common split is 75% training / 25% testing. Use stratified sampling:
 - Classification: stratify by outcome class
 - Regression: create temporary quartile groups and stratify by those
 
-See [references/data-splitting.md](references/data-splitting.md) for specific instructions for data splitting.
+See [references/data-spending.md](references/data-spending.md) for specific instructions for data splitting.
 
 ### Test Set Rules
 

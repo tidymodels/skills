@@ -16,17 +16,18 @@ Build predictive models for tabular data with proper validation practices. This 
 
 **Key principle**: All development happens on training data using out-of-sample validation. Test set evaluation only occurs with explicit user permission.
 
-See [SKILL.md](SKILL.md) for the complete skill or [references/](references/) for detailed implementation guides.
+See [tabular-data-ml/SKILL.md](tabular-data-ml/SKILL.md) for the complete skill or [tabular-data-ml/references/](tabular-data-ml/references/) for detailed implementation guides.
 
 ## Structure
 
-- `SKILL.md` - Main tidymodels skill entry point
-- `references/` - Implementation guides for:
-  - Data splitting and spending
-  - Resampling methods
-  - Feature engineering techniques
-  - Model tuning strategies
-  - Evaluation metrics and visualizations
+- `tabular-data-ml/` - Tabular data machine learning skill
+  - `SKILL.md` - Main skill entry point
+  - `references/` - Implementation guides for:
+    - Data splitting and spending
+    - Resampling methods
+    - Feature engineering techniques
+    - Model tuning strategies
+    - Evaluation metrics and visualizations
 - `shared-references/` - Future shared reference materials
 
 ## Difference from Developer Skills
@@ -37,6 +38,7 @@ See [SKILL.md](SKILL.md) for the complete skill or [references/](references/) fo
 ## Guidelines for Adding Skills
 
 Follow the structure established in developer skills:
+- Each skill folder (e.g., `tabular-data-ml/`) contains the skill
 - Each skill should have a `SKILL.md` entry point
 - Reference materials go in the skill's `references/` folder
 - Common references go in `shared-references/`
