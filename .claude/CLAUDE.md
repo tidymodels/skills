@@ -1,6 +1,6 @@
 # Skills Personal - Claude Code Skills Repository
 
-Personal repository for Claude Code skills for the tidymodels ecosystem, organized by audience.
+Personal repository for Claude Code skills for the Tidymodels ecosystem, organized by audience.
 
 ## Repository Structure
 
@@ -21,7 +21,7 @@ skills-personal/
 ├── users/                          # User-facing skills (future)
 │   ├── shared-references/         # User skill references
 │   └── README.md
-├── repos/                          # Cloned tidymodels repositories
+├── repos/                          # Cloned Tidymodels repositories
 │   ├── yardstick/
 │   ├── recipes/
 │   └── ...
@@ -31,13 +31,13 @@ skills-personal/
 ## Audience-Specific Skills
 
 ### Developer Skills (`developers/`)
-For creating tidymodels extensions and contributing to packages:
+For creating Tidymodels extensions and contributing to packages:
 - Building custom yardstick metrics
 - Creating recipes preprocessing steps
 - Package development workflows
 
 ### User Skills (`users/`)
-For using tidymodels in data analysis and modeling:
+For using Tidymodels in data analysis and modeling:
 - *(Coming soon - to be added by content team)*
 
 ## Working in This Repository
@@ -90,10 +90,11 @@ This comprehensive guide covers:
 - **SKILL.md files**: Navigation only, link to references for actual content
 - **Shared references**: Universal patterns in `shared-references/`, skill-specific in `references/`
 - **Extension-first**: Main examples use extension patterns with `package::` prefix
+- **Capitalize "Tidymodels"**: When used as a noun (the project, ecosystem, community, or brand), always capitalize as "Tidymodels". Keep lowercase only for: R package names (`tidymodels packages`), URLs (`tidymodels.org`), repository paths (`tidymodels/skills`), and code identifiers (`tidymodels-users`, `@tidymodels-skills`)
 
 ### Repository Access
 
-The `repos/` directory contains cloned tidymodels repositories for reference. These are optional but recommended for creating high-quality skills.
+The `repos/` directory contains cloned Tidymodels repositories for reference. These are optional but recommended for creating high-quality skills.
 
 ## Quick Links
 

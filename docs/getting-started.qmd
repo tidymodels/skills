@@ -2,42 +2,23 @@
 title: "Getting Started"
 ---
 
-## What are Tidymodels Skills?
+Tidymodels skills are specialized [Claude Code skills](https://support.anthropic.com/en/articles/10218303-what-are-skills-in-claude-code) that guide you through machine learning and package development tasks using the Tidymodels ecosystem. Each skill contains step-by-step guidance for your specific task, best practices from the Tidymodels community, complete working examples, and reference documentation for deeper learning.
 
-Tidymodels skills are specialized Claude Code skills that guide you through machine learning and package development tasks using the tidymodels ecosystem. Each skill contains:
-
-- Step-by-step guidance for your specific task
-- Best practices from the tidymodels community
-- Complete working examples
-- Reference documentation for deeper learning
-
-## Who Are These Skills For?
-
-These skills help two types of tidymodels users:
-
-**Data scientists and analysts** building predictive models with R. If you're working on machine learning projects, these skills guide you through proper validation practices, feature engineering, and model evaluation.
-
-**R package developers** extending tidymodels with custom metrics, preprocessing steps, or model implementations. If you're creating tools for the tidymodels ecosystem, these skills provide templates and best practices for package development.
+These skills help two types of Tidymodels users: **Data scientists and analysts** building predictive models with R get guidance through proper validation practices, feature engineering, and model evaluation. **R package developers** extending Tidymodels with custom metrics, preprocessing steps, or model implementations receive templates and best practices for package development.
 
 ## Installing Claude Code
 
-Claude Code is Anthropic's official CLI for Claude.
+[Claude Code](https://claude.ai/code) is Anthropic's official CLI for Claude.
 
 ### Installation
 
-**macOS and Linux:**
+::: {.panel-tabset}
+
+## macOS and Linux
+
 ```bash
 curl -fsSL https://claude.ai/install.sh | sh
 ```
-
-**Windows:**
-```powershell
-irm https://claude.ai/install.ps1 | iex
-```
-
-For detailed installation instructions, troubleshooting, and alternative methods, visit the [official Claude Code documentation](https://claude.ai/code).
-
-### Verification
 
 After installation, verify it's working:
 
@@ -45,27 +26,47 @@ After installation, verify it's working:
 claude --version
 ```
 
+## Windows
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+After installation, verify it's working:
+
+```powershell
+claude --version
+```
+
+:::
+
+For detailed installation instructions, troubleshooting, and alternative methods, visit the [official Claude Code documentation](https://claude.ai/code).
+
 ### Authentication
 
-On first use, Claude Code will prompt you to authenticate with your Anthropic account. Follow the on-screen instructions to complete the setup.
+On first use, Claude Code will prompt you to authenticate with your Anthropic account. For more information about authentication, see the [Claude Code authentication guide](https://support.anthropic.com/en/articles/10214244-how-do-i-authenticate-claude-code).
 
 ## Using Skills
 
-### Accessing Skills with the /plugin Command
+### Installing Skills from the Marketplace
 
-To use a tidymodels skill in Claude Code, use the `/plugin` command:
-
-```
-/plugin https://github.com/[username]/[repo]/[branch]/[path-to-skill]
-```
-
-For example, to use the tabular data machine learning skill:
+To use Tidymodels skills in Claude Code, first add the Tidymodels skills marketplace:
 
 ```
-/plugin https://github.com/[org]/skills-personal/main/users/tabular-data-ml/SKILL.md
+/plugin marketplace add tidymodels/skills
 ```
 
-This loads the skill instructions into your conversation, and Claude Code is ready to assist with your task.
+Then install the skill collection you need:
+
+```
+# For data scientists and analysts
+/plugin install tidymodels-users@tidymodels-skills
+
+# For R package developers
+/plugin install tidymodels-developers@tidymodels-skills
+```
+
+Once installed, skills are available in your conversation and Claude Code is ready to assist with your task.
 
 ### Example: Building a Predictive Model
 
@@ -77,9 +78,10 @@ Let's walk through using the **Tabular Data ML** skill for a typical modeling wo
    claude
    ```
 
-2. **Load the skill** using the `/plugin` command:
+2. **Install the user skills** (one-time setup):
    ```
-   /plugin https://github.com/[org]/skills-personal/main/users/tabular-data-ml/SKILL.md
+   /plugin marketplace add tidymodels/skills
+   /plugin install tidymodels-users@tidymodels-skills
    ```
 
 3. **Describe your task**:
@@ -92,41 +94,13 @@ Let's walk through using the **Tabular Data ML** skill for a typical modeling wo
    - Evaluating performance with proper metrics
    - Only touching the test set when you explicitly approve
 
-5. **Iterate and refine**: Ask questions, request visualizations, tune hyperparameters, and explore feature engineering—all following tidymodels best practices.
-
-## Prerequisites
-
-### For User Skills (Machine Learning)
-
-To work with tidymodels for analysis and modeling:
-
-- **R** (version 4.1.0 or higher)
-- **tidymodels** packages:
-  ```r
-  install.packages("tidymodels")
-  ```
-- **Your data** in a format R can read (CSV, RDS, database, etc.)
-
-### For Developer Skills (Package Development)
-
-To create tidymodels extensions (custom metrics, recipe steps):
-
-- **R** (version 4.1.0 or higher)
-- **RStudio** (recommended) or another R IDE
-- **Development tools**:
-  - macOS: Xcode Command Line Tools
-  - Windows: Rtools
-  - Linux: r-base-dev
-- **R package development tools**:
-  ```r
-  install.packages(c("devtools", "usethis", "testthat", "roxygen2"))
-  ```
+5. **Iterate and refine**: Ask questions, request visualizations, tune hyperparameters, and explore feature engineering—all following Tidymodels best practices.
 
 ## Available Skills
 
 ### [User Skills](users/index.qmd) - For Data Analysis
 
-- **[Tabular Data Machine Learning](users/tidymodels.qmd)**: Build predictive models with proper validation practices
+- **[Tabular Data Machine Learning](users/tabular-data-ml.qmd)**: Build predictive models with proper validation practices
   - Data splitting and spending
   - Cross-validation and resampling
   - Feature engineering
@@ -140,12 +114,12 @@ To create tidymodels extensions (custom metrics, recipe steps):
 
 ## Key Principles
 
-When working with tidymodels skills, Claude Code follows these principles:
+When working with Tidymodels skills, Claude Code follows these principles:
 
 1. **Test set protection**: Development happens on training data. Test sets are only evaluated with explicit user permission.
 2. **Proper validation**: Uses cross-validation and resampling for honest performance estimates.
 3. **Tidymodels conventions**: Follows ecosystem patterns for consistency and reproducibility.
-4. **Best practices**: Implements approaches recommended by the tidymodels team.
+4. **Best practices**: Implements approaches recommended by the Tidymodels team.
 
 ## Tips for Success
 
@@ -158,5 +132,6 @@ When working with tidymodels skills, Claude Code follows these principles:
 ## Getting Help
 
 - **Skill documentation**: Each skill has detailed reference materials for deeper learning
-- **Claude Code issues**: Report problems at [github.com/anthropics/claude-code/issues](https://github.com/anthropics/claude-code/issues)
+- **Skills issues**: Report issues with Tidymodels skills at [github.com/tidymodels/skills/issues](https://github.com/tidymodels/skills/issues)
+- **Claude Code issues**: Report problems with Claude Code at [github.com/anthropics/claude-code/issues](https://github.com/anthropics/claude-code/issues)
 - **Tidymodels resources**: [tidymodels.org](https://tidymodels.org) for package documentation and tutorials

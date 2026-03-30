@@ -22,7 +22,7 @@ toc: false
 ::: {.hero-section}
 # Claude Code Skills for Tidymodels
 
-Master machine learning with tidymodels and AI-powered guidance. Whether you're building predictive models or creating packages, these skills help you follow best practices and work efficiently.
+Master machine learning with Tidymodels and AI-powered guidance. Whether you're building predictive models or creating packages, these skills help you follow best practices and work efficiently.
 
 ::: {.cta-container}
 [Get Started →](getting-started.qmd){.btn-primary}
@@ -42,7 +42,7 @@ Build predictive models with proper validation and best practices.
 
 ::: {.link-card}
 ### 🔧 For Developers
-Create custom metrics, preprocessing steps, and tidymodels extensions.
+Create custom metrics, preprocessing steps, and Tidymodels extensions.
 
 [Developer Skills →](developers/index.qmd)
 :::

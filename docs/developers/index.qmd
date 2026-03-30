@@ -4,7 +4,7 @@ title: "Developer Skills"
 
 ## Extension Development
 
-These skills help you create new tidymodels packages and contribute to the ecosystem. Each skill provides step-by-step guidance for building specific package components.
+These skills help you create new Tidymodels packages and contribute to the ecosystem. Each skill provides step-by-step guidance for building specific package components.
 
 ## Available Skills
 
