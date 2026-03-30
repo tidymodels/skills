@@ -49,3 +49,5 @@ format:
     toc-depth: 3
     code-copy: true
     code-overflow: wrap
+    filters:
+      - _extensions/transform-links.lua

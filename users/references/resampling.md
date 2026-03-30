@@ -61,7 +61,7 @@ resamples <- vfold_cv(train_data, v = 10, repeats = 5, strata = outcome)
 
 tidymodels treats validation sets like a single resample of the data. 
 
-See the instructions in [references/data-splitting.md](references/data-splitting.md) for making the initial three-way split.
+See the instructions in [data-spending.md](data-spending.md) for making the initial three-way split.
 
 ### tidymodels
 
