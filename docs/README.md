@@ -16,6 +16,31 @@ cd docs
 quarto preview
 ```
 
+## Visual Design
+
+The site uses the tidymodels.org visual design for consistency with the tidymodels ecosystem:
+
+**Color Palette:**
+- Primary (cranberry): #CA225E - Used for headings, links, accents
+- Secondary (blue): #4758AB - Used for code highlighting
+- Neutral colors: white, grey (#DDDDDD), black (#1a162d)
+
+**Typography:**
+- Body text: Lato (Google Fonts)
+- Code: Source Code Pro (Google Fonts)
+- H1: Cranberry, 2.4em, font-weight 400
+- H2: Uppercase, 1.3em, letter-spacing 1.5pt
+
+**Layout:**
+- Body width: 840px
+- Line stretch: 1.6
+- Navbar: Uppercase text, letter-spacing 2pt, border-bottom
+
+**Styling Implementation:**
+- Uses SCSS (`styles.scss`) matching tidymodels.org patterns
+- Custom skill card styling with cranberry borders and hover effects
+- Table styling with cranberry accents in headers
+
 ## Architecture
 
 ### No Content Duplication
