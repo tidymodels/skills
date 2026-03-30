@@ -1,0 +1,110 @@
+---
+title: "Getting Started"
+---
+
+## What are Claude Code Skills?
+
+Claude Code skills are structured prompts that guide Claude Code through complex, domain-specific tasks. Each skill contains:
+
+- Step-by-step instructions for accomplishing a goal
+- Domain knowledge and best practices
+- Code examples and templates
+- Links to reference materials
+
+## Installing Claude Code
+
+Claude Code is Anthropic's official CLI for Claude. To get started:
+
+1. **Install Claude Code**: Follow the installation instructions at [claude.ai/code](https://claude.ai/code)
+2. **Verify Installation**: Run `claude --version` in your terminal
+3. **Authenticate**: Sign in with your Anthropic account
+
+## Using Skills
+
+### Basic Usage
+
+To use a skill in Claude Code:
+
+1. Navigate to your project directory
+2. Start Claude Code with the skill file:
+   ```bash
+   claude -S path/to/SKILL.md
+   ```
+3. Claude Code loads the skill instructions and is ready to assist
+
+### Example: Adding a Yardstick Metric
+
+Let's walk through using the "add-yardstick-metric" skill:
+
+1. **Start with the skill**:
+   ```bash
+   cd my-metrics-package
+   claude -S ../skills-personal/developers/add-yardstick-metric/SKILL.md
+   ```
+
+2. **Describe what you want**:
+   > "I want to create a custom metric called `mae_weighted` that calculates mean absolute error with observation weights."
+
+3. **Claude Code will**:
+   - Generate the metric implementation
+   - Create appropriate tests
+   - Follow tidymodels conventions
+   - Run validation checks
+
+4. **Review and iterate**: Claude Code shows you the code, runs tests, and helps refine the implementation.
+
+## Prerequisites
+
+### For Developer Skills
+
+To use developer skills (creating packages), you need:
+
+- **R** (version 4.1.0 or higher)
+- **RStudio** (recommended) or another R IDE
+- **Development tools**:
+  - macOS: Xcode Command Line Tools
+  - Windows: Rtools
+  - Linux: r-base-dev
+
+Install required R packages:
+```r
+install.packages(c("devtools", "usethis", "testthat", "roxygen2"))
+```
+
+### For User Skills
+
+To use user skills (data analysis), you need:
+
+- **R** (version 4.1.0 or higher)
+- **tidymodels** packages:
+  ```r
+  install.packages("tidymodels")
+  ```
+
+## Skill Structure
+
+Each skill includes:
+
+- **SKILL.md**: Main skill file with instructions for Claude Code
+- **references/**: Detailed documentation and examples
+- **shared-references/**: Common patterns across multiple skills
+
+## Tips for Success
+
+1. **Be specific**: The more specific your request, the better Claude Code can assist
+2. **Iterate**: Start simple, then refine with Claude Code's help
+3. **Review code**: Always review generated code before committing
+4. **Run tests**: Let Claude Code run tests to validate implementations
+5. **Use examples**: Reference the examples in skill documentation
+
+## Next Steps
+
+- Browse [Developer Skills](developers/index.qmd) for package development
+- Explore [User Skills](users/index.qmd) for data analysis *(coming soon)*
+- Check individual skill documentation for detailed workflows
+
+## Getting Help
+
+- **Documentation**: Each skill has comprehensive reference materials
+- **Issues**: Report problems at [github.com/anthropics/claude-code/issues](https://github.com/anthropics/claude-code/issues)
+- **Community**: Join the Claude Code community for discussions and tips

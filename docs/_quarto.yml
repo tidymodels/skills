@@ -1,0 +1,51 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Claude Code Skills"
+  description: "Claude Code skills for tidymodels package development and analysis"
+
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Getting Started"
+        href: getting-started.qmd
+      - text: "Users"
+        href: users/index.qmd
+      - text: "Developers"
+        href: developers/index.qmd
+
+  sidebar:
+    - id: users
+      title: "User Skills"
+      contents:
+        - users/index.qmd
+        - section: "Skills"
+          contents:
+            - users/tidymodels.qmd
+
+    - id: developers
+      title: "Developer Skills"
+      contents:
+        - developers/index.qmd
+        - section: "Skills"
+          contents:
+            - developers/add-yardstick-metric.qmd
+            - developers/add-recipe-step.qmd
+
+  page-footer:
+    left: "Built with [Quarto](https://quarto.org)"
+    right: "Part of the [tidymodels](https://tidymodels.org) ecosystem"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap

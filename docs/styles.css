@@ -1,0 +1,40 @@
+/* Custom styles for Claude Code Skills site */
+
+.skill-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  transition: box-shadow 0.3s;
+}
+
+.skill-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.skill-logo {
+  max-width: 80px;
+  height: auto;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.skill-header-logo {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.path-card {
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 20px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.path-card h3 {
+  color: #007bff;
+  margin-top: 10px;
+}
