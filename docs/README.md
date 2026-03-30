@@ -50,10 +50,10 @@ docs/
 ├── getting-started.qmd            # Getting started guide
 ├── users/
 │   ├── index.qmd                 # User landing page
-│   ├── tidymodels.qmd            # Includes ../../users/SKILL.md
+│   ├── tidymodels.qmd            # Includes ../../users/tabular-data-ml/SKILL.md
 │   └── references/
-│       ├── data-spending.qmd     # Includes ../../../users/references/data-spending.md
-│       ├── resampling.qmd        # Includes ../../../users/references/resampling.md
+│       ├── data-spending.qmd     # Includes ../../../users/tabular-data-ml/references/data-spending.md
+│       ├── resampling.qmd        # Includes ../../../users/tabular-data-ml/references/resampling.md
 │       └── ...                   # Other reference wrappers
 └── developers/
     ├── index.qmd                 # Developer landing page
@@ -64,7 +64,7 @@ docs/
 
 ### For User Skills
 
-1. Create skill in `users/` directory with `SKILL.md` and `references/`
+1. Create skill in `users/skill-name/` directory with `SKILL.md` and `references/`
 2. Ensure `SKILL.md` starts with a markdown header: `# Skill Title`
 3. Create thin wrapper: `docs/users/skill-name.qmd`
    ```markdown
@@ -74,7 +74,7 @@ docs/
    ```
 4. Create wrappers for reference files (1 line each):
    ```markdown
-   {{< include ../../../users/references/file-name.md >}}
+   {{< include ../../../users/skill-name/references/file-name.md >}}
    ```
 5. Add to sidebar in `_quarto.yml` with explicit titles:
    ```yaml

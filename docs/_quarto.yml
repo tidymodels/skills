@@ -25,9 +25,8 @@ website:
       contents:
         - text: "Overview"
           href: users/index.qmd
-        - text: "Tabular Data ML"
+        - section: "Tabular Data ML"
           href: users/tidymodels.qmd
-        - section: "References"
           contents:
             - text: "Data Spending"
               href: users/references/data-spending.qmd
