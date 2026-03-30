@@ -57,6 +57,18 @@ This script:
 
 Fix any errors before committing. This ensures all skills stay in sync and all links work correctly.
 
+### Skill Maintenance Scripts
+
+**⚠️ IMPORTANT**: For skill maintenance tasks, ALWAYS use the scripts in `skill-development/`:
+
+- **Verification**: Use `build-verify.py` to verify all markdown links and file references
+- **File Renaming**: Use `rename-and-update.py` for bulk renaming and updating all references
+- **Text Replacement**: Use `replace-text.py` for surgical text replacement in specific files
+
+**Reference**: See [skill-development/README.md](../skill-development/README.md) for detailed documentation on what each script does, when to use it, and usage examples.
+
+These scripts ensure consistency across the repository and catch broken references automatically. Do not manually rename files or perform bulk text replacements without using these tools.
+
 ### Creating New Developer Skills
 
 When creating a new developer skill (e.g., add-parsnip-model):

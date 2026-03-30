@@ -56,21 +56,27 @@ skill-development/build-verify.py developers/
 - Validating skill size before deployment
 
 ### rename-and-update.py
-**Purpose**: Rename files and update all references across a directory tree.
+**Purpose**: Rename files and update all references across the entire repository.
 
 **What it does**:
-- Recursively searches for files to rename
+- Recursively searches the entire repository for files to rename
 - Updates all text references in .md, .py, .sh, .yml, .yaml, .json files
 - Handles markdown links, file paths, and shell paths
+- Works in all directories: `developers/`, `users/`, `docs/`, etc.
 
 **Usage**:
 ```bash
 ./rename-and-update.py "old-name" "new-name" --dry-run  # Preview
 ./rename-and-update.py "old-name" "new-name"            # Apply
+
+# Examples
+./rename-and-update.py docs/users/old-file.qmd docs/users/new-file.qmd
+./rename-and-update.py developers/old-skill/ developers/new-skill/
 ```
 
 **When to use**:
 - Renaming skills or directories
+- Renaming files in docs/, users/, or developers/
 - Bulk text replacement across multiple files
 - Refactoring file organization
 
@@ -119,5 +125,5 @@ Typical workflow when making structural changes:
 
 - These tools operate on the repository structure, not on tidymodels code
 - Always use `--dry-run` first to preview changes
-- `build-verify.py` is mandatory before committing
-- These tools can be used for both `developers/` and `users/` skills
+- `build-verify.py` is mandatory before committing skills in `developers/` or `users/`
+- `rename-and-update.py` and `replace-text.py` work repository-wide (all folders)

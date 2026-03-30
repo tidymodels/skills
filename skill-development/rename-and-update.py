@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rename files and update all references across the developers/ folder.
+Rename files and update all references across the entire repository.
 
 Usage:
     ./rename-and-update.py <from> <to>
@@ -75,11 +75,19 @@ def build_rename_map(files: List[Path], from_pattern: str, to_pattern: str, root
 
     for old_path in files:
         # Determine new path
+        # Check if to_pattern is a full path or relative subdirectory move
         if len(to_path.parts) > 1:
-            # Moving to a subdirectory
-            # Replace the filename part with the new path
-            parent = old_path.parent
-            new_path = parent / to_path
+            # Check if this is the same directory (e.g., docs/users/old.qmd -> docs/users/new.qmd)
+            # or a move to a different directory (e.g., old.qmd -> subdir/old.qmd)
+            from_parent = from_path.parent if len(from_path.parts) > 1 else Path('.')
+            to_parent = to_path.parent
+
+            if from_parent == to_parent:
+                # Same directory, just different filename
+                new_path = root_dir / to_path
+            else:
+                # Moving to a subdirectory relative to current file
+                new_path = old_path.parent / to_path
         else:
             # Simple rename in same directory
             new_path = old_path.parent / to_path.name
@@ -232,7 +240,7 @@ def rename_files(rename_map: List[Tuple[Path, Path]], dry_run: bool = False) -> 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Rename files and update all references in developers/ folder',
+        description='Rename files and update all references across the entire repository',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__
     )
@@ -242,8 +250,8 @@ def main():
 
     args = parser.parse_args()
 
-    # Get script directory (developers/)
-    script_dir = Path(__file__).parent
+    # Get project root (parent of script directory)
+    script_dir = Path(__file__).parent.parent
 
     log_header("=" * 60)
     log_header("Rename and Update References")

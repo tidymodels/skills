@@ -75,7 +75,7 @@ docs/
 ├── getting-started.qmd            # Getting started guide
 ├── users/
 │   ├── index.qmd                 # User landing page
-│   ├── tidymodels.qmd            # Includes ../../users/tabular-data-ml/SKILL.md
+│   ├── tabular-data-ml.qmd            # Includes ../../users/tabular-data-ml/SKILL.md
 │   └── references/
 │       ├── data-spending.qmd     # Includes ../../../users/tabular-data-ml/references/data-spending.md
 │       ├── resampling.qmd        # Includes ../../../users/tabular-data-ml/references/resampling.md

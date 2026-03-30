@@ -26,7 +26,7 @@ website:
         - text: "Overview"
           href: users/index.qmd
         - section: "Tabular Data ML"
-          href: users/tidymodels.qmd
+          href: users/tabular-data-ml.qmd
           contents:
             - text: "Data Spending"
               href: users/references/data-spending.qmd
