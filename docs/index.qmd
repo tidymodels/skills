@@ -1,64 +1,50 @@
 ---
-title: "Claude Code Skills for tidymodels"
+toc: false
 ---
 
-## Welcome
-
-Claude Code skills help you build tidymodels packages and perform data analysis with AI assistance. These skills guide Claude Code through complex tasks with domain-specific knowledge.
-
-## Choose Your Path
-
-::: {.path-card}
-### 📊 Analysts & Data Scientists
-
-Use tidymodels for machine learning and modeling workflows.
-
-[Explore User Skills →](users/index.qmd)
+::: {.logo-collage}
+![](assets/logos/tidymodels.png){.hex-logo}
+![](assets/logos/parsnip.png){.hex-logo}
+![](assets/logos/recipes.png){.hex-logo}
+![](assets/logos/workflows.png){.hex-logo}
+![](assets/logos/tune.png){.hex-logo}
+![](assets/logos/yardstick.png){.hex-logo}
+![](assets/logos/broom.png){.hex-logo}
+![](assets/logos/dials.png){.hex-logo}
+![](assets/logos/infer.png){.hex-logo}
+![](assets/logos/probably.png){.hex-logo}
+![](assets/logos/hardhat.png){.hex-logo}
+![](assets/logos/embed.png){.hex-logo}
+![](assets/logos/textrecipes.png){.hex-logo}
+![](assets/logos/themis.png){.hex-logo}
 :::
 
-::: {.path-card}
-### 🔧 Extension Developers
+::: {.hero-section}
+# Claude Code Skills for Tidymodels
 
-Create new tidymodels packages and contribute to the ecosystem.
+Master machine learning with tidymodels and AI-powered guidance. Whether you're building predictive models or creating packages, these skills help you follow best practices and work efficiently.
 
-[Explore Developer Skills →](developers/index.qmd)
+::: {.cta-container}
+[Get Started →](getting-started.qmd){.btn-primary}
+:::
 :::
 
-## Featured Skills
+::: {.quick-links}
+## Explore Skills
 
-::: {.skill-card}
-![](assets/logos/tidymodels.png){.skill-logo}
+::: {.link-row}
+::: {.link-card}
+### 📊 For Analysts
+Build predictive models with proper validation and best practices.
 
-**[Tabular Data Machine Learning](users/tidymodels.qmd)**
-
-Build predictive models for tabular data with proper validation practices. Learn data splitting, resampling, feature engineering, and model evaluation.
+[User Skills →](users/index.qmd)
 :::
 
-::: {.skill-card}
-![](assets/logos/yardstick.png){.skill-logo}
+::: {.link-card}
+### 🔧 For Developers
+Create custom metrics, preprocessing steps, and tidymodels extensions.
 
-**[Create Custom Metrics](developers/add-yardstick-metric.qmd)**
-
-Build new performance metrics for evaluating model predictions with the yardstick package.
+[Developer Skills →](developers/index.qmd)
 :::
-
-::: {.skill-card}
-![](assets/logos/recipes.png){.skill-logo}
-
-**[Create Preprocessing Steps](developers/add-recipe-step.qmd)**
-
-Develop custom preprocessing steps for feature engineering with the recipes package.
 :::
-
-## Getting Started
-
-New to Claude Code skills? Start with our [Getting Started Guide](getting-started.qmd) to learn:
-
-- How to install and configure Claude Code
-- How to use skills in your workflow
-- Prerequisites for different skill types
-- Your first skill walkthrough
-
-## About
-
-This site provides Claude Code skills maintained for the [tidymodels](https://tidymodels.org) ecosystem. Each skill contains detailed instructions, examples, and reference materials to help Claude Code assist you effectively.
+:::

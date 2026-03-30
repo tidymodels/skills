@@ -215,6 +215,134 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
 
 // Custom Skills Site Styles ---------------------------------------------------
 
+// Homepage Hero Section
+.hero-section {
+  text-align: center;
+  padding: 10px 20px 30px 20px;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.3em;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    color: rgba($theme-black, 0.8);
+  }
+}
+
+.cta-container {
+  margin-top: 40px;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: $theme-cranberry;
+  color: $theme-white !important;
+  padding: 16px 48px;
+  font-size: 1.2em;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px rgba($theme-cranberry, 0.3);
+
+  &:hover {
+    background-color: darken($theme-cranberry, 8%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($theme-cranberry, 0.4);
+  }
+}
+
+// Logo Collage
+.logo-collage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 20px 10px 20px;
+  margin: 0 0 9px 0;
+  background: linear-gradient(135deg, rgba($theme-cranberry, 0.02) 0%, rgba($theme-blue, 0.02) 100%);
+  border-radius: 12px;
+
+  .hex-logo {
+    width: 100px;
+    height: auto;
+    transition: transform 0.3s, filter 0.3s;
+    filter: grayscale(10%) opacity(0.9);
+
+    &:hover {
+      transform: scale(1.15) rotate(5deg);
+      filter: grayscale(0%) opacity(1);
+    }
+  }
+}
+
+// Quick Links Section
+.quick-links {
+  margin-top: 20px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+}
+
+.link-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.link-card {
+  border: 2px solid rgba($theme-cranberry, 0.2);
+  border-radius: 10px;
+  padding: 30px;
+  background-color: $theme-white;
+  transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s;
+  text-align: center;
+
+  h3 {
+    color: $theme-cranberry;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+  }
+
+  p {
+    margin-bottom: 20px;
+    color: rgba($theme-black, 0.7);
+  }
+
+  a {
+    color: $theme-cranberry;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    font-size: 0.9em;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba($theme-cranberry, 0.15);
+    border-color: rgba($theme-cranberry, 0.4);
+  }
+}
+
+// Legacy Skill Cards (for other pages)
 .skill-card {
   border: 2px solid rgba($theme-cranberry, 0.2);
   border-radius: 8px;
@@ -276,6 +404,41 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
 // Responsive design -----------------------------------------------------------
 
 @media screen and (max-width: 767px) {
+  .hero-section {
+    padding: 40px 15px;
+
+    h1 {
+      font-size: 2em !important;
+    }
+
+    p {
+      font-size: 1.1em;
+    }
+  }
+
+  .btn-primary {
+    padding: 12px 32px;
+    font-size: 1em;
+  }
+
+  .logo-collage {
+    gap: 15px;
+    padding: 30px 15px;
+
+    .hex-logo {
+      width: 70px;
+    }
+  }
+
+  .link-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .link-card {
+    padding: 20px;
+  }
+
   .skill-header-logo {
     max-width: 100px;
   }
