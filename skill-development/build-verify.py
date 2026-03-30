@@ -2,9 +2,10 @@
 """
 Build and verify skills.
 
-This script performs two operations:
+This script performs three operations:
 1. BUILD: Localizes shared files to each skill's references folder
 2. VERIFY: Checks all markdown links and file references
+3. DOCS: Verifies that skills have corresponding .qmd files in docs/
 
 Usage:
     ./build-verify.py [directory]
@@ -159,6 +160,139 @@ class Builder:
             print(f"  ✓ {skill} complete")
             print()
         return len(md_files), script_count
+
+
+class DocsVerifier:
+    """Verifies that skills have corresponding .qmd files in docs/."""
+
+    def __init__(self, root_dir: str):
+        self.root_dir = Path(root_dir).resolve()
+        self.project_root = self.root_dir.parent  # Go up one level to project root
+        self.docs_dir = self.project_root / "docs"
+        self.errors = []
+        self.warnings = []
+
+    def verify_all(self, quiet=False):
+        """Check that skills have corresponding .qmd files."""
+        if quiet:
+            print("DOCS: Checking .qmd files")
+        else:
+            print("=" * 60)
+            print("DOCS: Checking .qmd files")
+            print("=" * 60)
+            print()
+
+        # Determine which folder we're checking (developers or users)
+        folder_name = self.root_dir.name
+        if folder_name not in ['developers', 'users']:
+            if not quiet:
+                print(f"Skipping docs verification (not in developers/ or users/)")
+            return 0
+
+        docs_subdir = self.docs_dir / folder_name
+        if not docs_subdir.exists():
+            self.errors.append(f"docs/{folder_name}/ directory does not exist")
+            return self.report_results(quiet=quiet)
+
+        # Find all skill directories
+        skills = self._discover_skills()
+
+        if not quiet:
+            print(f"Checking {len(skills)} skills in {folder_name}/")
+            print()
+
+        # Check each skill
+        for skill in skills:
+            self.verify_skill_docs(skill, docs_subdir, quiet=quiet)
+
+        return self.report_results(quiet=quiet)
+
+    def _discover_skills(self) -> List[str]:
+        """Discover all skill directories."""
+        skills = []
+        if not self.root_dir.exists():
+            return skills
+
+        for item in self.root_dir.iterdir():
+            # Skip if not a directory or if it's shared-references
+            if not item.is_dir() or item.name == "shared-references":
+                continue
+
+            # A directory is a skill if it contains SKILL.md or references/
+            has_skill_md = (item / "SKILL.md").exists()
+            has_references = (item / "references").exists()
+
+            if has_skill_md or has_references:
+                skills.append(item.name)
+
+        return sorted(skills)
+
+    def verify_skill_docs(self, skill: str, docs_subdir: Path, quiet=False):
+        """Verify that a skill has corresponding .qmd files."""
+        skill_dir = self.root_dir / skill
+
+        # Check 1: Skill should have a corresponding .qmd file
+        expected_qmd = docs_subdir / f"{skill}.qmd"
+        if not expected_qmd.exists():
+            self.errors.append(
+                f"{skill}:\n"
+                f"  Missing docs file: {expected_qmd.relative_to(self.project_root)}\n"
+                f"  Expected .qmd file for skill directory"
+            )
+        elif not quiet:
+            print(f"✓ {skill}.qmd exists")
+
+        # Check 2: Each .md file in references/ should have a corresponding .qmd
+        refs_dir = skill_dir / "references"
+        if refs_dir.exists():
+            docs_refs_dir = docs_subdir / "references"
+            if not docs_refs_dir.exists():
+                self.errors.append(
+                    f"{skill}:\n"
+                    f"  Missing docs/references/ directory: {docs_refs_dir.relative_to(self.project_root)}"
+                )
+                return
+
+            md_files = list(refs_dir.glob("*.md"))
+            for md_file in md_files:
+                # Convert .md to .qmd
+                qmd_name = md_file.stem + ".qmd"
+                expected_ref_qmd = docs_refs_dir / qmd_name
+
+                if not expected_ref_qmd.exists():
+                    self.errors.append(
+                        f"{skill}:\n"
+                        f"  Missing reference doc: {expected_ref_qmd.relative_to(self.project_root)}\n"
+                        f"  For reference file: {md_file.relative_to(self.root_dir)}"
+                    )
+                elif not quiet:
+                    print(f"  ✓ references/{qmd_name} exists")
+
+    def report_results(self, quiet=False):
+        """Print docs verification results."""
+        if quiet and not self.errors:
+            print(f"✓ All skills have corresponding .qmd files")
+            return 0
+
+        if not quiet or self.errors:
+            print()
+            print("=" * 60)
+            print("DOCS VERIFICATION RESULTS")
+            print("=" * 60)
+
+        if self.errors:
+            print(f"✗ ERRORS FOUND: {len(self.errors)}")
+            print("-" * 60)
+            for error in self.errors:
+                print(error)
+                print()
+        else:
+            print("✓ No errors found!")
+
+        if not quiet or self.errors:
+            print("=" * 60)
+
+        return 1 if self.errors else 0
 
 
 class ReferenceVerifier:
@@ -478,14 +612,19 @@ def main():
     verifier = ReferenceVerifier(root_dir)
     verify_exit_code = verifier.verify_all(quiet=True)
 
+    # Step 3: Verify docs (check .qmd files exist)
+    docs_verifier = DocsVerifier(root_dir)
+    docs_exit_code = docs_verifier.verify_all(quiet=True)
+
     # Final summary
-    if verify_exit_code == 0:
+    all_checks_passed = verify_exit_code == 0 and docs_exit_code == 0
+    if all_checks_passed:
         print("✅ BUILD AND VERIFY SUCCESSFUL")
     else:
         print("❌ VERIFICATION FAILED - Fix errors above before committing")
     print()
 
-    sys.exit(verify_exit_code)
+    sys.exit(0 if all_checks_passed else 1)
 
 
 if __name__ == "__main__":

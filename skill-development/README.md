@@ -19,9 +19,9 @@ skill-development/build-verify.py developers/
 **Purpose**: Build and verify skills to ensure all references and links work correctly.
 
 **What it does**:
-- Copies files from `shared-references/` to each skill's `references/` folder
-- Verifies all markdown links resolve correctly
-- Checks that referenced files exist
+- **BUILD**: Copies files from `shared-references/` to each skill's `references/` folder
+- **VERIFY**: Verifies all markdown links resolve correctly and referenced files exist
+- **DOCS**: Confirms that each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 
 **Usage**:
 ```bash
@@ -33,6 +33,7 @@ skill-development/build-verify.py developers/
 - Before committing changes
 - After updating shared references
 - After modifying skill structure
+- After adding or renaming skills
 
 ### count-skill-tokens.py
 **Purpose**: Count lines and estimate tokens for a Claude Code skill directory.

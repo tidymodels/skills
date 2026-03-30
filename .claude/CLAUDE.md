@@ -54,8 +54,9 @@ cd skill-development
 This script:
 1. **Builds**: Copies shared files to each skill's references folder
 2. **Verifies**: Checks all markdown links and file references
+3. **Docs**: Confirms each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 
-Fix any errors before committing. This ensures all skills stay in sync and all links work correctly.
+Fix any errors before committing. This ensures all skills stay in sync, all links work correctly, and documentation is complete.
 
 ### Skill Maintenance Scripts
 
