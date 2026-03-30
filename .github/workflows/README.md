@@ -11,7 +11,7 @@ This workflow tests all three cloning scripts (`clone-tidymodels-repos.sh`, `clo
 ### Triggers
 
 - **Push**: When changes are pushed to `main` or `updates` branches affecting:
-  - `tidymodels/shared-scripts/**`
+  - `developers/shared-references/scripts/**`
   - `.github/workflows/test-clone-scripts.yml`
 - **Pull Request**: When PRs target `main` branch with changes to the above paths
 - **Manual**: Via GitHub Actions UI (workflow_dispatch)
@@ -23,9 +23,9 @@ This workflow tests all three cloning scripts (`clone-tidymodels-repos.sh`, `clo
 | test-bash-macos | macOS | Bash | N/A |
 | test-bash-linux | Ubuntu | Bash | N/A |
 | test-powershell-windows | Windows | PowerShell | N/A |
-| test-python | All (Ubuntu, macOS, Windows) | Python | 3.8, 3.11 |
+| test-python | All (Ubuntu, macOS, Windows) | Python | 3.11 |
 
-**Total test combinations**: 9 (Bash×2 + PowerShell×1 + Python×6)
+**Total test combinations**: 6 (Bash×2 + PowerShell×1 + Python×3)
 
 ### Tests Performed
 
@@ -59,7 +59,7 @@ This workflow tests all three cloning scripts (`clone-tidymodels-repos.sh`, `clo
 - Tests Windows path separators
 
 **All Platforms (Python)**:
-- Tests Python 3.8 and 3.11
+- Tests Python 3.11
 - Verifies cross-platform compatibility
 - Tests line ending handling per platform
 
@@ -119,11 +119,11 @@ If tests fail:
    ```bash
    # macOS/Linux
    cd /tmp && mkdir test && cd test
-   ./tidymodels/shared-scripts/clone-tidymodels-repos.sh yardstick
+   ./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 
    # Windows (PowerShell)
    cd $env:TEMP; New-Item -ItemType Directory test; cd test
-   .\shared-scripts\clone-tidymodels-repos.ps1 yardstick
+   .\developers\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick
    ```
 
 ### Manual Triggering
@@ -150,9 +150,9 @@ When updating scripts:
 - Bash on macOS: ~2-3 minutes
 - Bash on Linux: ~2-3 minutes
 - PowerShell on Windows: ~3-4 minutes
-- Python (6 combinations): ~15-20 minutes total
+- Python (3 combinations): ~8-12 minutes total
 
-**Total workflow time**: ~20-25 minutes (runs in parallel)
+**Total workflow time**: ~12-15 minutes (runs in parallel)
 
 ### Future Enhancements
 
@@ -165,7 +165,6 @@ Potential improvements:
 
 ### Related Documentation
 
-- [Test Clone Scripts Workflow](.github/workflows/test-clone-scripts.yml)
-- [Phase 1 Summary](.github/PHASE_1_SUMMARY.md)
+- [Test Clone Scripts Workflow](test-clone-scripts.yml)
 - [Repository Access Guide](../developers/shared-references/repository-access.md)
-- [Scripts README](../developers/shared-scripts/README.md)
+- [Clone Scripts](../developers/shared-references/scripts/)

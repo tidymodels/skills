@@ -2,26 +2,38 @@
 
 Meta-level tooling for maintaining and building skills in this repository.
 
+**Note**: All commands in this document should be run from the `skill-development/` directory:
+```bash
+cd skill-development
+./build-verify.py ../developers/
+```
+
+Alternatively, from the project root:
+```bash
+skill-development/build-verify.py developers/
+```
+
 ## Tools
 
 ### build-verify.py
 **Purpose**: Build and verify skills to ensure all references and links work correctly.
 
 **What it does**:
-- Copies files from `shared-references/` to each skill's `references/` folder
-- Verifies all markdown links resolve correctly
-- Checks that referenced files exist
+- **BUILD**: Copies files from `shared-references/` to each skill's `references/` folder
+- **VERIFY**: Verifies all markdown links resolve correctly and referenced files exist
+- **DOCS**: Confirms that each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 
 **Usage**:
 ```bash
 ./build-verify.py ../developers/
-./build-verify.py ../users/  # When user skills exist
+./build-verify.py ../users/
 ```
 
 **When to use**:
 - Before committing changes
 - After updating shared references
 - After modifying skill structure
+- After adding or renaming skills
 
 ### count-skill-tokens.py
 **Purpose**: Count lines and estimate tokens for a Claude Code skill directory.
@@ -45,21 +57,27 @@ Meta-level tooling for maintaining and building skills in this repository.
 - Validating skill size before deployment
 
 ### rename-and-update.py
-**Purpose**: Rename files and update all references across a directory tree.
+**Purpose**: Rename files and update all references across the entire repository.
 
 **What it does**:
-- Recursively searches for files to rename
+- Recursively searches the entire repository for files to rename
 - Updates all text references in .md, .py, .sh, .yml, .yaml, .json files
 - Handles markdown links, file paths, and shell paths
+- Works in all directories: `developers/`, `users/`, `docs/`, etc.
 
 **Usage**:
 ```bash
 ./rename-and-update.py "old-name" "new-name" --dry-run  # Preview
 ./rename-and-update.py "old-name" "new-name"            # Apply
+
+# Examples
+./rename-and-update.py docs/users/old-file.qmd docs/users/new-file.qmd
+./rename-and-update.py developers/old-skill/ developers/new-skill/
 ```
 
 **When to use**:
 - Renaming skills or directories
+- Renaming files in docs/, users/, or developers/
 - Bulk text replacement across multiple files
 - Refactoring file organization
 
@@ -108,5 +126,5 @@ Typical workflow when making structural changes:
 
 - These tools operate on the repository structure, not on tidymodels code
 - Always use `--dry-run` first to preview changes
-- `build-verify.py` is mandatory before committing
-- These tools can be used for both `developers/` and `users/` skills
+- `build-verify.py` is mandatory before committing skills in `developers/` or `users/`
+- `rename-and-update.py` and `replace-text.py` work repository-wide (all folders)

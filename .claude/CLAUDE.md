@@ -1,11 +1,11 @@
-# Skills Personal - Claude Code Skills Repository
+# Tidymodels Skills - Claude Code Skills Repository
 
-Personal repository for Claude Code skills for the tidymodels ecosystem, organized by audience.
+Official repository for Claude Code skills for the Tidymodels ecosystem, organized by audience.
 
 ## Repository Structure
 
 ```
-skills-personal/
+skills/
 ├── skill-development/              # Meta-level tooling for skill maintenance
 │   ├── build-verify.py            # Build and verify skills
 │   ├── rename-and-update.py       # Bulk renaming and updates
@@ -21,7 +21,7 @@ skills-personal/
 ├── users/                          # User-facing skills (future)
 │   ├── shared-references/         # User skill references
 │   └── README.md
-├── repos/                          # Cloned tidymodels repositories
+├── repos/                          # Cloned Tidymodels repositories
 │   ├── yardstick/
 │   ├── recipes/
 │   └── ...
@@ -31,13 +31,13 @@ skills-personal/
 ## Audience-Specific Skills
 
 ### Developer Skills (`developers/`)
-For creating tidymodels extensions and contributing to packages:
+For creating Tidymodels extensions and contributing to packages:
 - Building custom yardstick metrics
 - Creating recipes preprocessing steps
 - Package development workflows
 
 ### User Skills (`users/`)
-For using tidymodels in data analysis and modeling:
+For using Tidymodels in data analysis and modeling:
 - *(Coming soon - to be added by content team)*
 
 ## Working in This Repository
@@ -54,8 +54,21 @@ cd skill-development
 This script:
 1. **Builds**: Copies shared files to each skill's references folder
 2. **Verifies**: Checks all markdown links and file references
+3. **Docs**: Confirms each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 
-Fix any errors before committing. This ensures all skills stay in sync and all links work correctly.
+Fix any errors before committing. This ensures all skills stay in sync, all links work correctly, and documentation is complete.
+
+### Skill Maintenance Scripts
+
+**⚠️ IMPORTANT**: For skill maintenance tasks, ALWAYS use the scripts in `skill-development/`:
+
+- **Verification**: Use `build-verify.py` to verify all markdown links and file references
+- **File Renaming**: Use `rename-and-update.py` for bulk renaming and updating all references
+- **Text Replacement**: Use `replace-text.py` for surgical text replacement in specific files
+
+**Reference**: See [skill-development/README.md](../skill-development/README.md) for detailed documentation on what each script does, when to use it, and usage examples.
+
+These scripts ensure consistency across the repository and catch broken references automatically. Do not manually rename files or perform bulk text replacements without using these tools.
 
 ### Creating New Developer Skills
 
@@ -77,10 +90,11 @@ This comprehensive guide covers:
 - **SKILL.md files**: Navigation only, link to references for actual content
 - **Shared references**: Universal patterns in `shared-references/`, skill-specific in `references/`
 - **Extension-first**: Main examples use extension patterns with `package::` prefix
+- **Capitalize "Tidymodels"**: When used as a noun (the project, ecosystem, community, or brand), always capitalize as "Tidymodels". Keep lowercase only for: R package names (`tidymodels packages`), URLs (`tidymodels.org`), repository paths (`tidymodels/skills`), and code identifiers (`tidymodels-users`, `@tidymodels-skills`)
 
 ### Repository Access
 
-The `repos/` directory contains cloned tidymodels repositories for reference. These are optional but recommended for creating high-quality skills.
+The `repos/` directory contains cloned Tidymodels repositories for reference. These are optional but recommended for creating high-quality skills.
 
 ## Quick Links
 

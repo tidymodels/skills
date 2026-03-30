@@ -1,0 +1,3 @@
+![](../assets/logos/recipes.png){.skill-header-logo}
+
+{{< include ../../developers/add-recipe-step/SKILL.md >}}

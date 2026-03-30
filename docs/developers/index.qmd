@@ -1,0 +1,65 @@
+---
+title: "Developer Skills"
+---
+
+## Extension Development
+
+These skills help you create new Tidymodels packages and contribute to the ecosystem. Each skill provides step-by-step guidance for building specific package components.
+
+## Available Skills
+
+### ![](../assets/logos/yardstick.png){.skill-logo} [Create Custom Metrics](add-yardstick-metric.qmd)
+
+Build new performance metrics for evaluating model predictions with the yardstick package.
+
+**What you'll learn:**
+
+- Implementing metric functions with yardstick conventions
+- Creating class-specific and general implementations
+- Writing comprehensive tests
+- Documentation best practices
+
+---
+
+### ![](../assets/logos/recipes.png){.skill-logo} [Create Preprocessing Steps](add-recipe-step.qmd)
+
+Develop custom preprocessing steps for feature engineering with the recipes package.
+
+**What you'll learn:**
+
+- Building step functions with recipes infrastructure
+- Implementing prep and bake methods
+- Handling tidy selection and roles
+- Testing preprocessing transformations
+
+---
+
+## Prerequisites
+
+Before using developer skills, ensure you have:
+
+- R 4.1.0 or higher
+- Development tools (Rtools, Xcode CLI, or r-base-dev)
+- Required packages: `devtools`, `usethis`, `testthat`, `roxygen2`
+
+See the [Getting Started Guide](../getting-started.qmd) for detailed setup instructions.
+
+## Workflow
+
+1. **Choose a skill** based on what you want to build
+2. **Start Claude Code** with the skill file
+3. **Describe your goal** - be specific about the functionality
+4. **Iterate with Claude Code** to refine the implementation
+5. **Review and test** the generated code
+6. **Document** your new package component
+
+## Shared Resources
+
+All developer skills reference common patterns and workflows:
+
+- **Extension Prerequisites**: Package setup and structure
+- **Development Workflow**: Fast iteration cycle with devtools
+- **Testing Patterns**: Writing effective tests for extensions
+- **Documentation Standards**: roxygen2 and pkgdown conventions
+
+These shared references are automatically included when you load a skill.

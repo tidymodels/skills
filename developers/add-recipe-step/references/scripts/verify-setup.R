@@ -3,7 +3,7 @@
 # This script checks setup state and warns about missing components
 # before development starts.
 #
-# Usage: source("path/to/skills-personal/tidymodels/shared-scripts/verify-setup.R")
+# Usage: source("path/to/skills/developers/shared-references/scripts/verify-setup.R")
 
 # Initialize results structure
 results <- list(

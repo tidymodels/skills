@@ -1,0 +1,47 @@
+---
+title: "User Skills"
+---
+
+## Machine Learning with Tidymodels
+
+These skills help you build and evaluate predictive models using Tidymodels for data analysis and machine learning tasks.
+
+## Available Skills
+
+### ![](../assets/logos/tidymodels.png){.skill-logo} [Tabular Data Machine Learning](tidymodels.qmd)
+
+Build predictive models for tabular data with proper validation practices.
+
+**What you'll learn:**
+
+- **Data Spending**: Proper train/test splitting with strict test set protection
+- **Empirical Validation**: Cross-validation and resampling strategies
+- **Performance Metrics**: Classification (ROC-AUC, Brier score) and regression (RMSE, R²)
+- **Feature Engineering**: Preprocessing and transformation techniques
+- **Model Tuning**: Hyperparameter optimization with Tidymodels
+- **Model Evaluation**: Visualization and final test set evaluation
+
+**Key principle**: All model development happens on training data using out-of-sample validation. Test set evaluation only occurs with explicit user permission.
+
+---
+
+## Prerequisites
+
+Before using user skills, ensure you have:
+
+- R 4.1.0 or higher
+- tidymodels packages: `install.packages("tidymodels")`
+
+See the [Getting Started Guide](../getting-started.qmd) for detailed setup instructions.
+
+## Workflow
+
+1. **Load the skill** when starting a modeling project
+2. **Describe your data and goal** - be specific about prediction task
+3. **Iterate with Claude Code** through data splitting, feature engineering, and model development
+4. **Review visualizations and metrics** from cross-validation
+5. **Finalize model** and evaluate on test set (with permission)
+
+## Get Involved
+
+Interested in contributing more user skills? Explore [Developer Skills](../developers/index.qmd) to create Tidymodels extensions.

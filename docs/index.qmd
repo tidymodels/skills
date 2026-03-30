@@ -1,0 +1,53 @@
+---
+toc: false
+---
+
+::: {.logo-collage}
+![](assets/logos/tidymodels.png){.hex-logo}
+![](assets/logos/parsnip.png){.hex-logo}
+![](assets/logos/recipes.png){.hex-logo}
+![](assets/logos/workflows.png){.hex-logo}
+![](assets/logos/tune.png){.hex-logo}
+![](assets/logos/yardstick.png){.hex-logo}
+![](assets/logos/broom.png){.hex-logo}
+![](assets/logos/dials.png){.hex-logo}
+![](assets/logos/infer.png){.hex-logo}
+![](assets/logos/probably.png){.hex-logo}
+![](assets/logos/hardhat.png){.hex-logo}
+![](assets/logos/embed.png){.hex-logo}
+![](assets/logos/textrecipes.png){.hex-logo}
+![](assets/logos/themis.png){.hex-logo}
+:::
+
+::: {.hero-section}
+# Claude Code Skills for Tidymodels
+
+[![Plugin Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tidymodels/skills/main/.claude-plugin/marketplace.json&query=$.metadata.version&label=plugin&color=blue)](https://github.com/tidymodels/skills/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/tidymodels/skills/blob/main/LICENSE)
+
+Master machine learning with Tidymodels and AI-powered guidance. Whether you're building predictive models or creating packages, these skills help you follow best practices and work efficiently.
+
+::: {.cta-container}
+[Get Started →](getting-started.qmd){.btn-primary}
+:::
+:::
+
+::: {.quick-links}
+## Explore Skills
+
+::: {.link-row}
+::: {.link-card}
+### 📊 For Analysts
+Build predictive models with proper validation and best practices.
+
+[User Skills →](users/index.qmd)
+:::
+
+::: {.link-card}
+### 🔧 For Developers
+Create custom metrics, preprocessing steps, and Tidymodels extensions.
+
+[Developer Skills →](developers/index.qmd)
+:::
+:::
+:::
