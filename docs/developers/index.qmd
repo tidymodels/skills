@@ -8,7 +8,10 @@ These skills help you create new Tidymodels packages and contribute to the ecosy
 
 ## Available Skills
 
-### ![](../assets/logos/yardstick.png){.skill-logo} [Create Custom Metrics](add-yardstick-metric.qmd)
+<div class="skill-section">
+  <img src="../assets/logos/yardstick.png" class="skill-logo-inline">
+  <h3><a href="add-yardstick-metric.qmd">Create Custom Metrics</a></h3>
+</div>
 
 Build new performance metrics for evaluating model predictions with the yardstick package.
 
@@ -21,7 +24,10 @@ Build new performance metrics for evaluating model predictions with the yardstic
 
 ---
 
-### ![](../assets/logos/recipes.png){.skill-logo} [Create Preprocessing Steps](add-recipe-step.qmd)
+<div class="skill-section">
+  <img src="../assets/logos/recipes.png" class="skill-logo-inline">
+  <h3><a href="add-recipe-step.qmd">Create Preprocessing Steps</a></h3>
+</div>
 
 Develop custom preprocessing steps for feature engineering with the recipes package.
 

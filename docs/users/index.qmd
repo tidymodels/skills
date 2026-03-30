@@ -8,7 +8,10 @@ These skills help you build and evaluate predictive models using Tidymodels for 
 
 ## Available Skills
 
-### ![](../assets/logos/tidymodels.png){.skill-logo} [Tabular Data Machine Learning](tidymodels.qmd)
+<div class="skill-section">
+  <img src="../assets/logos/tidymodels.png" class="skill-logo-inline">
+  <h3><a href="tabular-data-ml.qmd">Tabular Data Machine Learning</a></h3>
+</div>
 
 Build predictive models for tabular data with proper validation practices.
 

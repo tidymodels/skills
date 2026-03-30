@@ -364,6 +364,26 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
   vertical-align: middle;
 }
 
+// Skill section with inline logo (not part of heading for TOC)
+.skill-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+
+  .skill-logo-inline {
+    width: 80px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    margin: 0;
+    display: inline;
+  }
+}
+
 .skill-header-logo {
   max-width: 150px;
   height: auto;
