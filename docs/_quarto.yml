@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Claude Code Skills"
+  title: "Tidymodels skills"
   description: "Claude Code skills for tidymodels package development and analysis"
 
   navbar:
@@ -44,12 +44,73 @@ website:
       contents:
         - text: "Overview"
           href: developers/index.qmd
-        - section: "Skills"
+        - section: "Add Yardstick Metric"
+          href: developers/add-yardstick-metric.qmd
           contents:
-            - text: "Add Yardstick Metric"
-              href: developers/add-yardstick-metric.qmd
-            - text: "Add Recipe Step"
-              href: developers/add-recipe-step.qmd
+            - section: "Getting Started"
+              contents:
+                - text: "Extension Development"
+                  href: developers/references/extension-guide.qmd
+                - text: "Source Development"
+                  href: developers/references/source-guide.qmd
+                - text: "Prerequisites"
+                  href: developers/references/package-extension-prerequisites.qmd
+                - text: "Development Workflow"
+                  href: developers/references/package-development-workflow.qmd
+            - section: "Metric Types"
+              contents:
+                - text: "Metric System Overview"
+                  href: developers/references/metric-system.qmd
+                - text: "Numeric Metrics"
+                  href: developers/references/numeric-metrics.qmd
+                - text: "Class Metrics"
+                  href: developers/references/class-metrics.qmd
+                - text: "Probability Metrics"
+                  href: developers/references/probability-metrics.qmd
+                - text: "Ordered Probability Metrics"
+                  href: developers/references/ordered-probability-metrics.qmd
+                - text: "Quantile Metrics"
+                  href: developers/references/quantile-metrics.qmd
+                - text: "Static Survival Metrics"
+                  href: developers/references/static-survival-metrics.qmd
+                - text: "Dynamic Survival Metrics"
+                  href: developers/references/dynamic-survival-metrics.qmd
+                - text: "Integrated Survival Metrics"
+                  href: developers/references/integrated-survival-metrics.qmd
+                - text: "Linear Predictor Survival Metrics"
+                  href: developers/references/linear-predictor-survival-metrics.qmd
+            - section: "Features"
+              contents:
+                - text: "Case Weights"
+                  href: developers/references/case-weights.qmd
+                - text: "Confusion Matrix"
+                  href: developers/references/confusion-matrix.qmd
+                - text: "Autoplot"
+                  href: developers/references/autoplot.qmd
+                - text: "Metric Sets"
+                  href: developers/references/metric-set.qmd
+                - text: "Groupwise Metrics"
+                  href: developers/references/groupwise-metrics.qmd
+            - section: "Package Development"
+              contents:
+                - text: "Extension Requirements"
+                  href: developers/references/package-extension-requirements.qmd
+                - text: "Package Imports"
+                  href: developers/references/package-imports.qmd
+                - text: "Roxygen Documentation"
+                  href: developers/references/package-roxygen-documentation.qmd
+                - text: "Repository Access"
+                  href: developers/references/package-repository-access.qmd
+            - section: "Source Development"
+              contents:
+                - text: "Best Practices"
+                  href: developers/references/best-practices-source.qmd
+                - text: "Testing Patterns"
+                  href: developers/references/testing-patterns-source.qmd
+                - text: "Troubleshooting"
+                  href: developers/references/troubleshooting-source.qmd
+        - text: "Add Recipe Step"
+          href: developers/add-recipe-step.qmd
 
   page-footer:
     left: "Built with [Quarto](https://quarto.org)"
