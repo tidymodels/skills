@@ -2,6 +2,17 @@
 
 Meta-level tooling for maintaining and building skills in this repository.
 
+**Note**: All commands in this document should be run from the `skill-development/` directory:
+```bash
+cd skill-development
+./build-verify.py ../developers/
+```
+
+Alternatively, from the project root:
+```bash
+skill-development/build-verify.py developers/
+```
+
 ## Tools
 
 ### build-verify.py
