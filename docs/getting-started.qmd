@@ -48,7 +48,7 @@ On first use, Claude Code will prompt you to authenticate with your Anthropic ac
 
 To use Tidymodels skills in Claude Code, first add the Tidymodels skills marketplace:
 
-```
+```claude
 /plugin marketplace add tidymodels/skills
 ```
 
@@ -62,7 +62,7 @@ Then install the skill collection you need:
 
 Install user skills for building predictive models:
 
-```
+```claude
 /plugin install tidymodels-users@tidymodels-skills
 ```
 
@@ -81,7 +81,7 @@ Install user skills for building predictive models:
 
 Install developer skills for creating Tidymodels extensions:
 
-```
+```claude
 /plugin install tidymodels-developers@tidymodels-skills
 ```
 
@@ -106,13 +106,15 @@ Let's walk through using the **Tabular Data ML** skill for a typical modeling wo
    ```
 
 2. **Install the user skills** (one-time setup):
-   ```
+   ```claude
    /plugin marketplace add tidymodels/skills
    /plugin install tidymodels-users@tidymodels-skills
    ```
 
 3. **Describe your task**:
-   > "I have a CSV file with customer data and want to predict churn. The dataset has 15 features including demographics, usage patterns, and service history."
+   ```claude
+   I have a CSV file with customer data and want to predict churn. The dataset has 15 features including demographics, usage patterns, and service history.
+   ```
 
 4. **Claude Code will guide you through**:
    - Creating an appropriate train/test split

@@ -1,0 +1,73 @@
+---
+title: "Claude Code Block Demo"
+---
+
+This page demonstrates the custom Claude Code block styling. Use ` ```claude` to create styled command blocks.
+
+## Basic Claude Commands
+
+Simple commands without prompts:
+
+```claude
+/plugin marketplace add tidymodels/skills
+```
+
+```claude
+what does this project do?
+```
+
+## Multi-line Commands
+
+Commands with longer descriptions:
+
+```claude
+I have a CSV file with customer data and want to predict churn.
+The dataset has 15 features including demographics, usage patterns,
+and service history.
+```
+
+## Multiple Commands
+
+```claude
+/plugin marketplace add tidymodels/skills
+/plugin install tidymodels-users@tidymodels-skills
+```
+
+## Comparison with Regular Code Blocks
+
+Regular bash block:
+```bash
+cd my-project
+claude
+```
+
+Claude command block:
+```claude
+what technologies does this project use?
+```
+
+Regular R code:
+```r
+library(tidymodels)
+data(mtcars)
+```
+
+Claude command asking about R:
+```claude
+explain how the tidymodels ecosystem works
+```
+
+## Features
+
+The `claude` code block styling includes:
+
+- Dark terminal-inspired background
+- "Claude Code" label in the top right
+- Cranberry accent colors
+- Enhanced copy button styling
+- Subtle gradient and shadow effects
+- Maintains consistency with site design
+
+## Usage
+
+Simply use ` ```claude` instead of ` ``` ` for any Claude Code commands or prompts in your documentation.

@@ -1,0 +1,92 @@
+<script>
+// Add copy buttons to Claude code blocks
+document.addEventListener('DOMContentLoaded', function() {
+  const claudeBlocks = document.querySelectorAll('pre.claude');
+
+  claudeBlocks.forEach(function(pre) {
+    // Skip if already wrapped
+    if (pre.parentElement.classList.contains('claude-code-wrapper')) {
+      return;
+    }
+
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'claude-code-wrapper';
+
+    // Wrap the pre element
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    // Create copy button
+    const button = document.createElement('button');
+    button.className = 'claude-copy-button';
+    button.setAttribute('aria-label', 'Copy code to clipboard');
+    button.innerHTML = `
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="8" height="10" rx="1"></rect>
+        <path d="M11 4V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"></path>
+      </svg>
+    `;
+
+    // Add click handler
+    button.addEventListener('click', function() {
+      const code = pre.querySelector('code');
+      const text = code.textContent;
+
+      navigator.clipboard.writeText(text).then(function() {
+        // Success feedback
+        button.classList.add('copied');
+        const originalHTML = button.innerHTML;
+        button.innerHTML = `
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="13 4 6 11 3 8"></polyline>
+          </svg>
+        `;
+
+        setTimeout(function() {
+          button.classList.remove('copied');
+          button.innerHTML = originalHTML;
+        }, 2000);
+      }).catch(function(err) {
+        console.error('Failed to copy:', err);
+      });
+    });
+
+    wrapper.appendChild(button);
+  });
+
+  // Update bash and powershell copy buttons to use multi doc icon
+  const bashPowershellButtons = document.querySelectorAll('.code-copy-button');
+
+  bashPowershellButtons.forEach(function(button) {
+    // Check if this is a bash or powershell block
+    const codeBlock = button.closest('.code-copy-outer-scaffold');
+    if (codeBlock && (codeBlock.querySelector('pre.sourceCode.bash') || codeBlock.querySelector('pre.sourceCode.powershell'))) {
+      // Replace with multi doc icon
+      button.innerHTML = `
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="8" height="10" rx="1"></rect>
+          <path d="M11 4V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"></path>
+        </svg>
+      `;
+
+      // Update the click handler to show checkmark on copy
+      const originalOnClick = button.onclick;
+      button.onclick = function(e) {
+        if (originalOnClick) originalOnClick.call(button, e);
+
+        const originalHTML = button.innerHTML;
+        button.innerHTML = `
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="13 4 6 11 3 8"></polyline>
+          </svg>
+        `;
+
+        setTimeout(function() {
+          button.innerHTML = originalHTML;
+        }, 2000);
+      };
+    }
+  });
+});
+</script>

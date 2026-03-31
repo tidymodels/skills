@@ -147,6 +147,130 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
     font-weight: 500;
 }
 
+// Claude command blocks (use ```claude)
+pre.claude {
+    background: linear-gradient(135deg, rgba($theme-cranberry, 0.04) 0%, rgba($theme-blue, 0.04) 100%);
+    border: 1.5px solid rgba($theme-cranberry, 0.25);
+    border-radius: 10px;
+    padding: 20px 60px 20px 22px; // Extra right padding for copy button
+    position: relative;
+    box-shadow: 0 2px 6px rgba($theme-cranberry, 0.08);
+    margin: 1.5em 0;
+    white-space: pre-wrap; // Enable text wrapping
+    word-wrap: break-word; // Break long words if needed
+    overflow-wrap: break-word; // Modern alternative
+
+    code {
+        color: $theme-black !important;
+        background: transparent !important;
+        font-size: 15px;
+        line-height: 1.6;
+        font-family: $font-family-monospace;
+        padding: 0;
+        font-weight: 500;
+        white-space: pre-wrap !important; // Enable text wrapping in code
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+}
+
+// Wrapper for Claude blocks with copy button
+.claude-code-wrapper {
+    position: relative;
+    margin: 1.5em 0;
+
+    pre.claude {
+        margin: 0;
+    }
+
+    .claude-copy-button {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: rgba($theme-cranberry, 0.08);
+        border: 1px solid rgba($theme-cranberry, 0.25);
+        color: $theme-cranberry;
+        border-radius: 6px;
+        padding: 7px 8px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+        font-family: $font-family-sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        &:hover {
+            background: rgba($theme-cranberry, 0.12);
+            border-color: rgba($theme-cranberry, 0.35);
+        }
+
+        &.copied {
+            background: $theme-cranberry;
+            border-color: $theme-cranberry;
+            color: #fff;
+        }
+    }
+}
+
+// Apply rounded corners and padding to bash and powershell blocks
+div.sourceCode:has(pre.sourceCode.bash),
+div.sourceCode:has(pre.sourceCode.powershell) {
+    border-radius: 10px;
+    border-color: rgba($theme-black, 0.25) !important; // Darker border
+    overflow: hidden;
+
+    pre.sourceCode {
+        padding: 20px 60px 20px 22px !important; // Same generous padding as claude blocks
+        border-radius: 10px;
+    }
+}
+
+// Style copy buttons for bash and powershell blocks
+.code-copy-outer-scaffold:has(div.sourceCode pre.sourceCode.bash) .code-copy-button,
+.code-copy-outer-scaffold:has(div.sourceCode pre.sourceCode.powershell) .code-copy-button {
+    background: rgba($theme-black, 0.08) !important; // Gray background
+    border: 1px solid rgba($theme-black, 0.2) !important;
+    color: $theme-black !important;
+    border-radius: 6px !important;
+    padding: 7px 8px !important;
+    opacity: 1 !important;
+    transition: background-color 0.15s, border-color 0.15s !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    &:hover {
+        background: rgba($theme-black, 0.12) !important;
+        border-color: rgba($theme-black, 0.3) !important;
+    }
+
+    // When clicked/copied
+    &:active,
+    &[data-copied="true"] {
+        background: $theme-black !important;
+        border-color: $theme-black !important;
+        color: #fff !important;
+    }
+
+    // SVG icon styling
+    svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    // Hide Bootstrap icon if present
+    .bi {
+        display: none !important;
+    }
+}
+
 // Tables as output ------------------------------------------------------------
 
 .cell-output-display table {

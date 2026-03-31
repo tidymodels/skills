@@ -224,5 +224,6 @@ format:
     linestretch: 1.6
     grid:
       body-width: 840px
+    include-in-header: claude-code-blocks-include.html
     filters:
       - _extensions/transform-links.lua
