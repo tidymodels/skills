@@ -2,7 +2,7 @@
 
 **Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
 
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-31
 
 ---
 
@@ -14,7 +14,8 @@ This guide documents the current architecture and patterns for tidymodels skills
 
 - **add-yardstick-metric** - Creating custom performance metrics
 - **add-recipe-step** - Creating preprocessing steps for recipes
-- *(Future: add-parsnip-model, add-dials-parameter, etc.)*
+- **add-dials-parameter** - Creating custom tuning parameters
+- *(Future: add-parsnip-model, etc.)*
 
 ---
 
@@ -1440,7 +1441,7 @@ This script copies shared reference files (package-extension-prerequisites.md, e
 - [ ] Proofread for clarity
 - [ ] **Run `./skill-development/build-verify.py` again and fix all errors**
 
-### Phase 7: Update Website and Landing Pages (1 hour)
+### Phase 7: Update Website, Landing Pages, and Plugin (1-2 hours)
 
 **Create .qmd wrappers:**
 - [ ] Create `docs/developers/your-skill.qmd` (3 lines: logo + include)
@@ -1451,12 +1452,18 @@ This script copies shared reference files (package-extension-prerequisites.md, e
 - [ ] Add skill to `docs/developers/index.qmd` with logo and description
 - [ ] Add skill to `docs/getting-started.qmd` in developer skills list
 - [ ] Verify logo exists in `docs/assets/logos/`
+- [ ] Check capitalization consistency across all files (e.g., "Add Dials Parameter" not "Add dials Parameter")
+
+**Update marketplace plugin:**
+- [ ] Add skill path to `.claude-plugin/marketplace.json` in `tidymodels-developers` skills array
+- [ ] Update plugin description to mention new skill
+- [ ] Bump version (MINOR version for new skill: 0.2.0 → 0.3.0)
 
 **Verify:**
 - [ ] Run `./skill-development/build-verify.py` - should report SUCCESS
 - [ ] Test with `cd docs && quarto render` (optional but recommended)
 
-**Total Time Estimate: 16-24 hours**
+**Total Time Estimate: 16-25 hours**
 
 ---
 
@@ -1741,6 +1748,6 @@ A skill is complete when:
 
 ---
 
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-31
 
 For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.

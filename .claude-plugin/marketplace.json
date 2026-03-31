@@ -5,17 +5,18 @@
   },
   "metadata": {
     "description": "Claude Code skills for tidymodels",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "plugins": [
     {
       "name": "tidymodels-developers",
-      "description": "Development tools and guides for tidymodels ecosystem packages including yardstick metrics and recipes steps",
+      "description": "Development tools and guides for tidymodels ecosystem packages including yardstick metrics, recipes steps, and dials parameters",
       "source": "./",
       "strict": false,
       "skills": [
         "./developers/add-yardstick-metric",
-        "./developers/add-recipe-step"
+        "./developers/add-recipe-step",
+        "./developers/add-dials-parameter"
       ]
     },
     {
