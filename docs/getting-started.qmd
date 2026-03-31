@@ -100,6 +100,7 @@ Once installed, skills are available in your conversation and Claude Code is rea
 Let's walk through using the **Tabular Data ML** skill for a typical modeling workflow:
 
 1. **Start Claude Code** in your project directory:
+
    ```bash
    cd my-analysis-project
    claude

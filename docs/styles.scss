@@ -121,7 +121,31 @@ h3, h4, h5 {
 div.sourceCode {
     background-color: $theme-code-bg;
     border: 1px solid $theme-code-bg;
-    border-radius: 0.25rem
+    border-radius: 0.25rem;
+}
+
+// Bash and powershell blocks - flatten the structure completely
+// Target the wrapper
+div.sourceCode#cb1, div.sourceCode#cb2, div.sourceCode#cb3, div.sourceCode#cb4, div.sourceCode#cb5, div.sourceCode#cb6, div.sourceCode#cb7, div.sourceCode#cb8, div.sourceCode#cb9, div.sourceCode#cb10,
+div.sourceCode:has(pre.bash),
+div.sourceCode:has(pre.powershell) {
+    border-radius: 10px !important;
+    border: 1px solid rgba($theme-black, 0.25) !important;
+    background-color: $theme-code-bg !important;
+    padding: 0 !important;
+    margin: 1em 0 !important;
+    box-shadow: none !important;
+}
+
+// Target pre elements inside bash/powershell blocks
+div.sourceCode pre.sourceCode.bash,
+div.sourceCode pre.sourceCode.powershell {
+    margin: 0 !important;
+    padding: 20px 60px 20px 22px !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 // generic code blocks (no language specified)
@@ -219,28 +243,21 @@ pre.claude {
     }
 }
 
-// Apply rounded corners and padding to bash and powershell blocks
-div.sourceCode:has(pre.sourceCode.bash),
-div.sourceCode:has(pre.sourceCode.powershell) {
-    border-radius: 10px;
-    border-color: rgba($theme-black, 0.25) !important; // Darker border
-    overflow: hidden;
-
-    pre.sourceCode {
-        padding: 20px 60px 20px 22px !important; // Same generous padding as claude blocks
-        border-radius: 10px;
-    }
-}
 
 // Style copy buttons for bash and powershell blocks
-.code-copy-outer-scaffold:has(div.sourceCode pre.sourceCode.bash) .code-copy-button,
-.code-copy-outer-scaffold:has(div.sourceCode pre.sourceCode.powershell) .code-copy-button {
+div.sourceCode:has(pre.bash) ~ .code-copy-button,
+div.sourceCode:has(pre.powershell) ~ .code-copy-button,
+.code-copy-outer-scaffold .code-copy-button {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
     background: rgba($theme-black, 0.08) !important; // Gray background
     border: 1px solid rgba($theme-black, 0.2) !important;
     color: $theme-black !important;
     border-radius: 6px !important;
     padding: 7px 8px !important;
     opacity: 1 !important;
+    margin: 0 !important;
     transition: background-color 0.15s, border-color 0.15s !important;
     display: flex !important;
     align-items: center !important;
