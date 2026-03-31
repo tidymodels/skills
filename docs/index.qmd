@@ -21,11 +21,10 @@ toc: false
 
 ::: {.hero-section}
 # Claude Code Skills for Tidymodels
-
 [![Plugin Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tidymodels/skills/main/.claude-plugin/marketplace.json&query=$.metadata.version&label=plugin&color=blue)](https://github.com/tidymodels/skills/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/tidymodels/skills/blob/main/LICENSE)
 
-Master machine learning with Tidymodels and AI-powered guidance. Whether you're building predictive models or creating packages, these skills help you follow best practices and work efficiently.
+Master machine learning with Tidymodels and AI-powered guidance. Build models or create extensions following best practices.
 
 ::: {.cta-container}
 [Get Started →](getting-started.qmd){.btn-primary}

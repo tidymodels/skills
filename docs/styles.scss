@@ -218,19 +218,19 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
 // Homepage Hero Section
 .hero-section {
   text-align: center;
-  padding: 10px 20px 30px 20px;
+  padding: 0px 20px 30px 20px;
   margin-bottom: 20px;
 
   h1 {
     font-size: 3em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.15em;
   }
 
   p {
     font-size: 1.3em;
     line-height: 1.8;
     max-width: 700px;
-    margin: 0 auto 40px;
+    margin: -5px auto 40px;
     color: rgba($theme-black, 0.8);
   }
 }
@@ -268,7 +268,7 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
   align-items: center;
   gap: 20px;
   padding: 15px 20px 10px 20px;
-  margin: 0 0 9px 0;
+  margin: 0;
   background: linear-gradient(135deg, rgba($theme-cranberry, 0.02) 0%, rgba($theme-blue, 0.02) 100%);
   border-radius: 12px;
 
