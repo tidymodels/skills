@@ -161,7 +161,7 @@ website:
                   href: developers/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
                   href: developers/references/troubleshooting-source.qmd
-        - section: "Add dials Parameter"
+        - section: "Add Dials Parameter"
           href: developers/add-dials-parameter.qmd
           contents:
             - section: "Getting Started"

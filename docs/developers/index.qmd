@@ -51,6 +51,22 @@ Develop custom preprocessing steps for feature engineering with the recipes pack
 
 ---
 
+<div class="skill-section">
+  <img src="../assets/logos/dials.png" class="skill-logo-inline">
+  <h3><a href="add-dials-parameter.qmd">Create Tuning Parameters</a></h3>
+</div>
+
+Define custom hyperparameter objects for model tuning with the dials package.
+
+**What you'll learn:**
+
+- Creating quantitative and qualitative parameters
+- Implementing data-dependent ranges and finalization
+- Using transformations for better grid coverage
+- Integration with tune workflows
+
+---
+
 ## Prerequisites
 
 Before using developer skills, ensure you have:

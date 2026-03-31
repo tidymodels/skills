@@ -27,7 +27,7 @@ This guide is for developers creating new R packages that define custom tuning p
 
 Before creating custom parameters, ensure your R package is properly set up:
 
-**📘 See [Extension Prerequisites](../../shared-references/package-extension-prerequisites.md) for complete setup instructions.**
+**📘 See [Extension Prerequisites](package-extension-prerequisites.md) for complete setup instructions.**
 
 Key requirements:
 - R package structure created with `usethis::create_package()`
@@ -137,7 +137,7 @@ Include complete roxygen documentation:
 #' @export
 ```
 
-See [Roxygen Documentation](../../shared-references/package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](package-roxygen-documentation.md) for complete patterns.
 
 ### Step 4: Export Parameter
 
@@ -179,7 +179,7 @@ test_that("my_parameter works with grid functions", {
 })
 ```
 
-See [Testing Requirements](../../shared-references/package-extension-requirements.md#testing-requirements) for complete testing guide.
+See [Testing Requirements](package-extension-requirements.md#testing-requirements) for complete testing guide.
 
 ---
 
@@ -442,7 +442,7 @@ values_optimizer <- c("adam", "sgd", "rmsprop", "adagrad")
 5. **Generate** docs with `devtools::document()`
 6. **Test** with `devtools::test()`
 
-See [Development Workflow](../../shared-references/package-development-workflow.md) for detailed workflow patterns.
+See [Development Workflow](package-development-workflow.md) for detailed workflow patterns.
 
 ---
 
@@ -463,7 +463,7 @@ Imports:
     dials
 ```
 
-See [Package Imports](../../shared-references/package-imports.md) for managing dependencies.
+See [Package Imports](package-imports.md) for managing dependencies.
 
 ### Using Parameters in Your Package
 
@@ -559,7 +559,7 @@ test_that("my_parameter rejects invalid ranges", {
 })
 ```
 
-See [Testing Requirements](../../shared-references/package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing Requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 ---
 
@@ -567,7 +567,7 @@ See [Testing Requirements](../../shared-references/package-extension-requirement
 
 ### General Best Practices
 
-**📘 See [Best Practices](../../shared-references/package-extension-requirements.md#best-practices) for universal R package patterns.**
+**📘 See [Best Practices](package-extension-requirements.md#best-practices) for universal R package patterns.**
 
 Key practices:
 - Use base pipe `|>` not `%>%`
@@ -591,7 +591,7 @@ Key practices:
 
 ### Common Issues
 
-**📘 See [Common Issues & Solutions](../../shared-references/package-extension-requirements.md#common-issues-solutions) for general troubleshooting.**
+**📘 See [Common Issues & Solutions](package-extension-requirements.md#common-issues-solutions) for general troubleshooting.**
 
 ### Parameter-Specific Issues
 

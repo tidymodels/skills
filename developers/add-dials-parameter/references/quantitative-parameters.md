@@ -742,7 +742,7 @@ test_that("my_parameter rejects invalid ranges", {
 })
 ```
 
-For extension development, see [Testing Requirements](../../shared-references/package-extension-requirements.md#testing-requirements).
+For extension development, see [Testing Requirements](package-extension-requirements.md#testing-requirements).
 
 For source development, see [Testing Patterns (Source)](testing-patterns-source.md).
 

@@ -344,7 +344,7 @@ Show practical usage:
 #' value_sample(penalty(), n = 5)
 ```
 
-See [Roxygen Documentation](../../shared-references/package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](package-roxygen-documentation.md) for complete patterns.
 
 ---
 

@@ -729,7 +729,7 @@ test_that("values_my_parameter is exported and correct", {
 })
 ```
 
-For extension development, see [Testing Requirements](../../shared-references/package-extension-requirements.md#testing-requirements).
+For extension development, see [Testing Requirements](package-extension-requirements.md#testing-requirements).
 
 For source development, see [Testing Patterns (Source)](testing-patterns-source.md).
 

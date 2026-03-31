@@ -1412,9 +1412,24 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Add test data helpers
 
 ### Phase 5: Cross-References (1-2 hours)
+
+**⚠️ CRITICAL: Run `./skill-development/build-verify.py ../developers/` FIRST**
+
+This script copies shared reference files (package-extension-prerequisites.md, etc.) to each skill's references/ folder. You must reference these as **local files** not `../shared-references/`.
+
+**Correct link patterns:**
+- In SKILL.md: `[Extension Prerequisites](references/package-extension-prerequisites.md)`
+- In references/*.md: `[Extension Prerequisites](package-extension-prerequisites.md)`
+
+**NOT:**
+- ❌ `../shared-references/package-extension-prerequisites.md`
+- ❌ `../../shared-references/package-extension-prerequisites.md`
+
+**Tasks:**
+- [ ] Run `./skill-development/build-verify.py ../developers/`
+- [ ] Fix any shared reference links to use local paths
 - [ ] Link all files within skill
-- [ ] Link to shared-references
-- [ ] Update related skills if needed
+- [ ] Update related skills (add cross-references)
 - [ ] Verify all links work
 
 ### Phase 6: Review and Polish (2-3 hours)
@@ -1423,9 +1438,25 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Test all code examples
 - [ ] Check for consistency
 - [ ] Proofread for clarity
-- [ ] **Run `./dev-scripts/build-verify.py` and fix all errors**
+- [ ] **Run `./skill-development/build-verify.py` again and fix all errors**
 
-**Total Time Estimate: 14-22 hours**
+### Phase 7: Update Website and Landing Pages (1 hour)
+
+**Create .qmd wrappers:**
+- [ ] Create `docs/developers/your-skill.qmd` (3 lines: logo + include)
+- [ ] Create .qmd wrappers for skill-specific references in `docs/developers/references/`
+- [ ] Update `docs/_quarto.yml` sidebar with skill section
+
+**Update landing pages:**
+- [ ] Add skill to `docs/developers/index.qmd` with logo and description
+- [ ] Add skill to `docs/getting-started.qmd` in developer skills list
+- [ ] Verify logo exists in `docs/assets/logos/`
+
+**Verify:**
+- [ ] Run `./skill-development/build-verify.py` - should report SUCCESS
+- [ ] Test with `cd docs && quarto render` (optional but recommended)
+
+**Total Time Estimate: 16-24 hours**
 
 ---
 

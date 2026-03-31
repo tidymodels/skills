@@ -1,4 +1,4 @@
-# Add dials Parameter
+# Add Dials Parameter
 
 **Create custom tuning parameters for hyperparameter tuning in Tidymodels**
 
@@ -348,7 +348,7 @@ values_aggregation <- c("none", "min", "max", "mean", "sum")
 
 Before creating custom parameters in a new package, ensure your package is properly set up:
 
-- **R Package Structure**: See [Extension Prerequisites](../shared-references/package-extension-prerequisites.md)
+- **R Package Structure**: See [Extension Prerequisites](references/package-extension-prerequisites.md)
 - **Dependencies**: Add `dials` to DESCRIPTION Imports
 - **Roxygen**: Configure documentation system
 - **Testing**: Set up testthat framework
@@ -389,7 +389,7 @@ For rapid parameter development:
 4. **Document** with roxygen comments
 5. **Verify** with tests
 
-See [Development Workflow](../shared-references/package-development-workflow.md) for details.
+See [Development Workflow](references/package-development-workflow.md) for details.
 
 ### Testing Your Parameters
 
@@ -402,7 +402,7 @@ Essential tests for all parameters:
 - **Edge cases**: Invalid inputs produce errors
 
 See testing guides:
-- Extension: [Testing Requirements](../shared-references/package-extension-requirements.md#testing-requirements)
+- Extension: [Testing Requirements](references/package-extension-requirements.md#testing-requirements)
 - Source: [Testing Patterns (Source)](references/testing-patterns-source.md)
 
 ---
@@ -431,7 +431,7 @@ Use roxygen tags consistently:
 #' @export
 ```
 
-See [Roxygen Documentation](../shared-references/package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete patterns.
 
 ### Creating Companion Values Vectors
 
@@ -454,8 +454,8 @@ This convention is strongly recommended for consistency.
 1. Read [Extension Development Guide](references/extension-guide.md)
 2. Choose your parameter type: [Quantitative](references/quantitative-parameters.md) or [Qualitative](references/qualitative-parameters.md)
 3. Implement your parameter following the examples above
-4. Add tests following [Testing Requirements](../shared-references/package-extension-requirements.md#testing-requirements)
-5. Document with roxygen following [Documentation Guide](../shared-references/package-roxygen-documentation.md)
+4. Add tests following [Testing Requirements](references/package-extension-requirements.md#testing-requirements)
+5. Document with roxygen following [Documentation Guide](references/package-roxygen-documentation.md)
 
 ### For Source Contributors
 

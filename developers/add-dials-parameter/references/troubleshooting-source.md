@@ -403,7 +403,7 @@ Object 'my_function' is imported from 'pkg' but is not used
 
 ## Universal Issues
 
-These issues also apply to extension development. See [Common Issues & Solutions](../../shared-references/package-extension-requirements.md#common-issues-solutions) for details.
+These issues also apply to extension development. See [Common Issues & Solutions](package-extension-requirements.md#common-issues-solutions) for details.
 
 ### Issue: could not find function
 
