@@ -10,7 +10,7 @@ These skills help you create new Tidymodels packages and contribute to the ecosy
 
 To use developer skills, first add the Tidymodels skills marketplace, then install the developer skills collection:
 
-```
+```claude
 /plugin marketplace add tidymodels/skills
 /plugin install tidymodels-developers@tidymodels-skills
 ```

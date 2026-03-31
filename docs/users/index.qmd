@@ -10,7 +10,7 @@ These skills help you build and evaluate predictive models using Tidymodels for 
 
 To use user skills, first add the Tidymodels skills marketplace, then install the user skills collection:
 
-```
+```claude
 /plugin marketplace add tidymodels/skills
 /plugin install tidymodels-users@tidymodels-skills
 ```

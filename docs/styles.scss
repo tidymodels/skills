@@ -244,9 +244,8 @@ pre.claude {
 }
 
 
-// Style copy buttons for bash and powershell blocks
-div.sourceCode:has(pre.bash) ~ .code-copy-button,
-div.sourceCode:has(pre.powershell) ~ .code-copy-button,
+// Style ALL code copy buttons
+.code-copy-button,
 .code-copy-outer-scaffold .code-copy-button {
     position: absolute !important;
     top: 14px !important;
