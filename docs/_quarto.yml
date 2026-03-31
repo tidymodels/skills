@@ -161,6 +161,51 @@ website:
                   href: developers/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
                   href: developers/references/troubleshooting-source.qmd
+        - section: "Add dials Parameter"
+          href: developers/add-dials-parameter.qmd
+          contents:
+            - section: "Getting Started"
+              contents:
+                - text: "Extension Development"
+                  href: developers/references/extension-guide.qmd
+                - text: "Source Development"
+                  href: developers/references/source-guide.qmd
+                - text: "Prerequisites"
+                  href: developers/references/package-extension-prerequisites.qmd
+                - text: "Development Workflow"
+                  href: developers/references/package-development-workflow.qmd
+            - section: "Parameter Types"
+              contents:
+                - text: "Parameter System Overview"
+                  href: developers/references/parameter-system.qmd
+                - text: "Quantitative Parameters"
+                  href: developers/references/quantitative-parameters.qmd
+                - text: "Qualitative Parameters"
+                  href: developers/references/qualitative-parameters.qmd
+                - text: "Transformations"
+                  href: developers/references/transformations.qmd
+                - text: "Data-Dependent Parameters"
+                  href: developers/references/data-dependent-parameters.qmd
+                - text: "Grid Integration"
+                  href: developers/references/grid-integration.qmd
+            - section: "Package Development"
+              contents:
+                - text: "Extension Requirements"
+                  href: developers/references/package-extension-requirements.qmd
+                - text: "Package Imports"
+                  href: developers/references/package-imports.qmd
+                - text: "Roxygen Documentation"
+                  href: developers/references/package-roxygen-documentation.qmd
+                - text: "Repository Access"
+                  href: developers/references/package-repository-access.qmd
+            - section: "Source Development"
+              contents:
+                - text: "Best Practices"
+                  href: developers/references/best-practices-source.qmd
+                - text: "Testing Patterns"
+                  href: developers/references/testing-patterns-source.qmd
+                - text: "Troubleshooting"
+                  href: developers/references/troubleshooting-source.qmd
 
   page-footer:
     left: "Built with [Quarto](https://quarto.org)"
