@@ -1414,7 +1414,38 @@ When creating a new skill (e.g., `add-parsnip-model`):
 
 ### Phase 5: Cross-References (1-2 hours)
 
-**⚠️ CRITICAL: Run `./skill-development/build-verify.py ../developers/` FIRST**
+**⚠️ CRITICAL: If Your Skill References a New Repository**
+
+If your skill guides users to clone a tidymodels repository that's not currently in the clone scripts (e.g., you're creating add-dials-parameter and dials isn't in the scripts yet):
+
+**BEFORE running build-verify.py, add the repository to ALL clone scripts in `shared-references/scripts/`:**
+
+1. **Clone scripts** - Add repository URL and update usage messages:
+   - `clone-tidymodels-repos.sh` (Bash) - Update REPOS array and usage examples
+   - `clone-tidymodels-repos.ps1` (PowerShell) - Update $Repos hashtable and usage examples
+   - `clone-tidymodels-repos.py` (Python) - Update REPOS dict and usage examples
+
+2. **verify-setup.R** - Add package detection:
+   - Add package name to source detection check
+   - Add package detection in Imports section
+   - Add package to repos existence check
+   - Add UUID constants for missing dependencies
+   - Add package-specific dependency validation
+
+3. **README.md** - Update documentation:
+   - Update description to mention new package
+   - Add examples in Quick Start sections
+   - Update disk space requirements
+   - Update directory structure example
+
+4. **Test workflow** (optional but recommended):
+   - Update `.github/workflows/test-clone-scripts.yml` to verify new package in "all" tests
+
+**Why this matters:** build-verify.py copies `shared-references/scripts/*` to each skill's `references/scripts/`. If you run it before adding your new repository to the scripts, the copied scripts won't support your repository.
+
+---
+
+**⚠️ CRITICAL: Run `./skill-development/build-verify.py ../developers/` AFTER updating scripts**
 
 This script copies shared reference files (package-extension-prerequisites.md, etc.) to each skill's references/ folder. You must reference these as **local files** not `../shared-references/`.
 
@@ -1427,6 +1458,7 @@ This script copies shared reference files (package-extension-prerequisites.md, e
 - ❌ `../../shared-references/package-extension-prerequisites.md`
 
 **Tasks:**
+- [ ] **If new repository:** Update all clone scripts and verify-setup.R FIRST (see above)
 - [ ] Run `./skill-development/build-verify.py ../developers/`
 - [ ] Fix any shared reference links to use local paths
 - [ ] Link all files within skill

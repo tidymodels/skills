@@ -4,7 +4,7 @@ Repository cloning scripts for tidymodels development reference.
 
 ## Purpose
 
-These scripts clone tidymodels package repositories (yardstick, recipes) into a local `repos/` directory for development reference. Having local access to the source code helps Claude provide more accurate guidance with real implementation examples during skill execution.
+These scripts clone tidymodels package repositories (yardstick, recipes, dials) into a local `repos/` directory for development reference. Having local access to the source code helps Claude provide more accurate guidance with real implementation examples during skill execution.
 
 ## Scripts
 
@@ -29,8 +29,11 @@ We provide three platform-native scripts for the best user experience:
 # Clone recipes
 ./developers/shared-references/scripts/clone-tidymodels-repos.sh recipes
 
+# Clone dials
+./developers/shared-references/scripts/clone-tidymodels-repos.sh dials
+
 # Clone multiple packages
-./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
+./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes dials
 
 # Clone all packages
 ./developers/shared-references/scripts/clone-tidymodels-repos.sh all
@@ -45,8 +48,11 @@ We provide three platform-native scripts for the best user experience:
 # Clone recipes
 .\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 recipes
 
+# Clone dials
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 dials
+
 # Clone multiple packages
-.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick recipes
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick recipes dials
 
 # Clone all packages
 .\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 all
@@ -98,7 +104,7 @@ All scripts use consistent exit codes:
   - macOS: Install Xcode Command Line Tools or download from https://git-scm.com/downloads
   - Linux: Install via package manager (`apt-get install git`, `yum install git`, etc.)
   - Windows: Download from https://git-scm.com/downloads
-- **Disk Space**: ~5 MB for yardstick, ~8 MB for recipes (shallow clones)
+- **Disk Space**: ~5-8 MB per repository (yardstick, recipes, dials - shallow clones)
 - **Python script only**: Python 3.6 or higher
 
 ## Directory Structure
@@ -115,7 +121,11 @@ my-package/
 │   │   ├── R/
 │   │   ├── tests/
 │   │   └── ...
-│   └── recipes/             # Cloned repository
+│   ├── recipes/             # Cloned repository
+│   │   ├── R/
+│   │   ├── tests/
+│   │   └── ...
+│   └── dials/               # Cloned repository
 │       ├── R/
 │       ├── tests/
 │       └── ...

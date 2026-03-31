@@ -21,10 +21,12 @@ UUID_NO_CLAUDE_MD <- "f9b2e4d7-3456"
 UUID_NO_REPOS <- "c8a7f1b5-7890"
 UUID_MISSING_YARDSTICK <- "d4e8b9c2-1111"
 UUID_MISSING_RECIPES <- "d4e8b9c2-2222"
+UUID_MISSING_DIALS <- "d4e8b9c2-7777"
 UUID_MISSING_RLANG <- "d4e8b9c2-3333"
 UUID_MISSING_CLI <- "d4e8b9c2-4444"
 UUID_MISSING_TIBBLE <- "d4e8b9c2-5555"
 UUID_MISSING_VCTRS <- "d4e8b9c2-6666"
+UUID_MISSING_SCALES <- "d4e8b9c2-8888"
 
 # Helper function to add warning
 add_warning <- function(uuid) {
@@ -50,7 +52,7 @@ if (desc_exists) {
     package_name <- sub("^Package:\\s*", "", package_line[1])
     package_name <- trimws(package_name)
 
-    if (package_name %in% c("recipes", "yardstick")) {
+    if (package_name %in% c("recipes", "yardstick", "dials")) {
       results$context <- "source"
       results$package_type <- package_name
     } else {
@@ -62,6 +64,8 @@ if (desc_exists) {
           results$package_type <- "recipes"
         } else if (grepl("yardstick", imports_line[1])) {
           results$package_type <- "yardstick"
+        } else if (grepl("dials", imports_line[1])) {
+          results$package_type <- "dials"
         } else {
           results$package_type <- "unknown"
         }
@@ -109,13 +113,13 @@ if (results$context != "source") {
   # Check Repository Access (always check unless source development)
   # Check for repos even if package_type is unknown
   has_repos <- FALSE
-  if (results$package_type %in% c("recipes", "yardstick")) {
+  if (results$package_type %in% c("recipes", "yardstick", "dials")) {
     # Check for specific repo
     repo_path <- file.path("repos", results$package_type)
     has_repos <- dir.exists(repo_path)
   } else {
     # Unknown package type - check if ANY tidymodels repos exist
-    has_repos <- dir.exists("repos/yardstick") || dir.exists("repos/recipes")
+    has_repos <- dir.exists("repos/yardstick") || dir.exists("repos/recipes") || dir.exists("repos/dials")
   }
 
   if (!has_repos) {
@@ -123,7 +127,7 @@ if (results$context != "source") {
   }
 
   # Check Dependencies (only if DESCRIPTION exists and package type is known)
-  if (desc_exists && results$package_type %in% c("recipes", "yardstick")) {
+  if (desc_exists && results$package_type %in% c("recipes", "yardstick", "dials")) {
     # Get Imports field
     imports_start <- grep("^Imports:", desc_lines)
     if (length(imports_start) > 0) {
@@ -152,6 +156,11 @@ if (results$context != "source") {
       if (!grepl("cli", imports_text)) add_warning(UUID_MISSING_CLI)
       if (!grepl("tibble", imports_text)) add_warning(UUID_MISSING_TIBBLE)
       if (!grepl("vctrs", imports_text)) add_warning(UUID_MISSING_VCTRS)
+    } else if (results$package_type == "dials") {
+      if (!grepl("dials", imports_text)) add_warning(UUID_MISSING_DIALS)
+      if (!grepl("rlang", imports_text)) add_warning(UUID_MISSING_RLANG)
+      if (!grepl("cli", imports_text)) add_warning(UUID_MISSING_CLI)
+      if (!grepl("scales", imports_text)) add_warning(UUID_MISSING_SCALES)
     }
   }
 }

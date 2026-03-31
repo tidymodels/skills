@@ -3,14 +3,16 @@
 Clone Tidymodels Repositories
 
 Description:
-    Clones tidymodels package repositories (yardstick, recipes) for development
-    reference. Creates repos/ directory, clones with shallow clone for speed,
-    and updates .gitignore and .Rbuildignore to prevent committing cloned code.
+    Clones tidymodels package repositories (yardstick, recipes, dials) for
+    development reference. Creates repos/ directory, clones with shallow clone
+    for speed, and updates .gitignore and .Rbuildignore to prevent committing
+    cloned code.
 
 Usage:
     python3 clone-tidymodels-repos.py yardstick
     python3 clone-tidymodels-repos.py recipes
-    python3 clone-tidymodels-repos.py yardstick recipes
+    python3 clone-tidymodels-repos.py dials
+    python3 clone-tidymodels-repos.py yardstick recipes dials
     python3 clone-tidymodels-repos.py all
 
 Exit Codes:
@@ -34,6 +36,7 @@ from pathlib import Path
 REPOS = {
     "yardstick": "https://github.com/tidymodels/yardstick.git",
     "recipes": "https://github.com/tidymodels/recipes.git",
+    "dials": "https://github.com/tidymodels/dials.git",
 }
 
 # ANSI color codes (fallback to no color on Windows without colorama)
@@ -274,7 +277,7 @@ def main():
     if not packages_to_clone:
         print_error("No valid packages specified")
         print()
-        print("Valid packages: yardstick, recipes, all")
+        print("Valid packages: yardstick, recipes, dials, all")
         sys.exit(1)
 
     # Clone each repository
