@@ -2,7 +2,7 @@
 
 **Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
 
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-31
 
 ---
 
@@ -14,7 +14,8 @@ This guide documents the current architecture and patterns for tidymodels skills
 
 - **add-yardstick-metric** - Creating custom performance metrics
 - **add-recipe-step** - Creating preprocessing steps for recipes
-- *(Future: add-parsnip-model, add-dials-parameter, etc.)*
+- **add-dials-parameter** - Creating custom tuning parameters
+- *(Future: add-parsnip-model, etc.)*
 
 ---
 
@@ -1412,9 +1413,56 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Add test data helpers
 
 ### Phase 5: Cross-References (1-2 hours)
+
+**⚠️ CRITICAL: If Your Skill References a New Repository**
+
+If your skill guides users to clone a tidymodels repository that's not currently in the clone scripts (e.g., you're creating add-dials-parameter and dials isn't in the scripts yet):
+
+**BEFORE running build-verify.py, add the repository to ALL clone scripts in `shared-references/scripts/`:**
+
+1. **Clone scripts** - Add repository URL and update usage messages:
+   - `clone-tidymodels-repos.sh` (Bash) - Update REPOS array and usage examples
+   - `clone-tidymodels-repos.ps1` (PowerShell) - Update $Repos hashtable and usage examples
+   - `clone-tidymodels-repos.py` (Python) - Update REPOS dict and usage examples
+
+2. **verify-setup.R** - Add package detection:
+   - Add package name to source detection check
+   - Add package detection in Imports section
+   - Add package to repos existence check
+   - Add UUID constants for missing dependencies
+   - Add package-specific dependency validation
+
+3. **README.md** - Update documentation:
+   - Update description to mention new package
+   - Add examples in Quick Start sections
+   - Update disk space requirements
+   - Update directory structure example
+
+4. **Test workflow** (optional but recommended):
+   - Update `.github/workflows/test-clone-scripts.yml` to verify new package in "all" tests
+
+**Why this matters:** build-verify.py copies `shared-references/scripts/*` to each skill's `references/scripts/`. If you run it before adding your new repository to the scripts, the copied scripts won't support your repository.
+
+---
+
+**⚠️ CRITICAL: Run `./skill-development/build-verify.py ../developers/` AFTER updating scripts**
+
+This script copies shared reference files (package-extension-prerequisites.md, etc.) to each skill's references/ folder. You must reference these as **local files** not `../shared-references/`.
+
+**Correct link patterns:**
+- In SKILL.md: `[Extension Prerequisites](references/package-extension-prerequisites.md)`
+- In references/*.md: `[Extension Prerequisites](package-extension-prerequisites.md)`
+
+**NOT:**
+- ❌ `../shared-references/package-extension-prerequisites.md`
+- ❌ `../../shared-references/package-extension-prerequisites.md`
+
+**Tasks:**
+- [ ] **If new repository:** Update all clone scripts and verify-setup.R FIRST (see above)
+- [ ] Run `./skill-development/build-verify.py ../developers/`
+- [ ] Fix any shared reference links to use local paths
 - [ ] Link all files within skill
-- [ ] Link to shared-references
-- [ ] Update related skills if needed
+- [ ] Update related skills (add cross-references)
 - [ ] Verify all links work
 
 ### Phase 6: Review and Polish (2-3 hours)
@@ -1423,9 +1471,31 @@ When creating a new skill (e.g., `add-parsnip-model`):
 - [ ] Test all code examples
 - [ ] Check for consistency
 - [ ] Proofread for clarity
-- [ ] **Run `./dev-scripts/build-verify.py` and fix all errors**
+- [ ] **Run `./skill-development/build-verify.py` again and fix all errors**
 
-**Total Time Estimate: 14-22 hours**
+### Phase 7: Update Website, Landing Pages, and Plugin (1-2 hours)
+
+**Create .qmd wrappers:**
+- [ ] Create `docs/developers/your-skill.qmd` (3 lines: logo + include)
+- [ ] Create .qmd wrappers for skill-specific references in `docs/developers/references/`
+- [ ] Update `docs/_quarto.yml` sidebar with skill section
+
+**Update landing pages:**
+- [ ] Add skill to `docs/developers/index.qmd` with logo and description
+- [ ] Add skill to `docs/getting-started.qmd` in developer skills list
+- [ ] Verify logo exists in `docs/assets/logos/`
+- [ ] Check capitalization consistency across all files (e.g., "Add Dials Parameter" not "Add dials Parameter")
+
+**Update marketplace plugin:**
+- [ ] Add skill path to `.claude-plugin/marketplace.json` in `tidymodels-developers` skills array
+- [ ] Update plugin description to mention new skill
+- [ ] Bump version (MINOR version for new skill: 0.2.0 → 0.3.0)
+
+**Verify:**
+- [ ] Run `./skill-development/build-verify.py` - should report SUCCESS
+- [ ] Test with `cd docs && quarto render` (optional but recommended)
+
+**Total Time Estimate: 16-25 hours**
 
 ---
 
@@ -1710,6 +1780,6 @@ A skill is complete when:
 
 ---
 
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-31
 
 For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.

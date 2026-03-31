@@ -703,6 +703,11 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 - Column selection not working → Check `recipes_eval_select()` usage
 - Case weights ignored → Check conversion of hardhat weights
 
+## Related Skills
+
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom recipe steps may generate outputs that need custom metrics
+- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Recipe steps often have tunable parameters that can be optimized
+
 ## Next Steps
 
 **For Extension Development (creating new packages):**

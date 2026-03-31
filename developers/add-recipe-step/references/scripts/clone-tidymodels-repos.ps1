@@ -3,12 +3,13 @@
     Clone Tidymodels Repositories for development reference.
 
 .DESCRIPTION
-    Clones tidymodels package repositories (yardstick, recipes) for development
-    reference. Creates repos\ directory, clones with shallow clone for speed,
-    and updates .gitignore and .Rbuildignore to prevent committing cloned code.
+    Clones tidymodels package repositories (yardstick, recipes, dials) for
+    development reference. Creates repos\ directory, clones with shallow clone
+    for speed, and updates .gitignore and .Rbuildignore to prevent committing
+    cloned code.
 
 .PARAMETER Packages
-    One or more package names to clone: yardstick, recipes, or all
+    One or more package names to clone: yardstick, recipes, dials, or all
 
 .EXAMPLE
     .\clone-tidymodels-repos.ps1 yardstick
@@ -17,7 +18,10 @@
     .\clone-tidymodels-repos.ps1 recipes
 
 .EXAMPLE
-    .\clone-tidymodels-repos.ps1 yardstick recipes
+    .\clone-tidymodels-repos.ps1 dials
+
+.EXAMPLE
+    .\clone-tidymodels-repos.ps1 yardstick recipes dials
 
 .EXAMPLE
     .\clone-tidymodels-repos.ps1 all
@@ -50,6 +54,7 @@ param(
 $Repos = @{
     "yardstick" = "https://github.com/tidymodels/yardstick.git"
     "recipes"   = "https://github.com/tidymodels/recipes.git"
+    "dials"     = "https://github.com/tidymodels/dials.git"
 }
 
 # Function to print colored messages
@@ -193,12 +198,13 @@ function Main {
         Write-Error "No packages specified."
         Write-Host ""
         Write-Host "Usage: .\clone-tidymodels-repos.ps1 PACKAGE [PACKAGE ...]"
-        Write-Host "  Packages: yardstick, recipes, all"
+        Write-Host "  Packages: yardstick, recipes, dials, all"
         Write-Host ""
         Write-Host "Examples:"
         Write-Host "  .\clone-tidymodels-repos.ps1 yardstick"
         Write-Host "  .\clone-tidymodels-repos.ps1 recipes"
-        Write-Host "  .\clone-tidymodels-repos.ps1 yardstick recipes"
+        Write-Host "  .\clone-tidymodels-repos.ps1 dials"
+        Write-Host "  .\clone-tidymodels-repos.ps1 yardstick recipes dials"
         Write-Host "  .\clone-tidymodels-repos.ps1 all"
         exit 1
     }
