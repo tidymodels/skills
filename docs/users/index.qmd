@@ -6,6 +6,17 @@ title: "User Skills"
 
 These skills help you build and evaluate predictive models using Tidymodels for data analysis and machine learning tasks.
 
+## Installation
+
+To use user skills, first add the Tidymodels skills marketplace, then install the user skills collection:
+
+```
+/plugin marketplace add tidymodels/skills
+/plugin install tidymodels-users@tidymodels-skills
+```
+
+See the [Getting Started Guide](../getting-started.qmd) for Claude Code installation and detailed setup instructions.
+
 ## Available Skills
 
 <div class="skill-section">

@@ -6,6 +6,17 @@ title: "Developer Skills"
 
 These skills help you create new Tidymodels packages and contribute to the ecosystem. Each skill provides step-by-step guidance for building specific package components.
 
+## Installation
+
+To use developer skills, first add the Tidymodels skills marketplace, then install the developer skills collection:
+
+```
+/plugin marketplace add tidymodels/skills
+/plugin install tidymodels-developers@tidymodels-skills
+```
+
+See the [Getting Started Guide](../getting-started.qmd) for Claude Code installation and detailed setup instructions.
+
 ## Available Skills
 
 <div class="skill-section">
