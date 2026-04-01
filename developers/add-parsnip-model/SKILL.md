@@ -14,9 +14,9 @@ Before creating a new parsnip model, ensure you have:
 
 **R Package Development:**
 
-- [Extension Prerequisites](../shared-references/extension-prerequisites.md) - Required for extension packages
+- [Extension Prerequisites](../shared-references/package-extension-prerequisites.md) - Required for extension packages
 
-- [Development Workflow](../shared-references/development-workflow.md) - Fast iteration practices
+- [Development Workflow](../shared-references/package-development-workflow.md) - Fast iteration practices
 
 **Parsnip Architecture:**
 
@@ -146,8 +146,6 @@ Configure how formulas are converted:
 
 ## Testing Your Model
 
-Follow [Testing Patterns (Extension)](../shared-references/testing-patterns-extension.md):
-
 **Essential tests:**
 
 - Model constructor creates correct object
@@ -190,7 +188,7 @@ Additional resources for source development:
 
 - [Troubleshooting (Source)](references/troubleshooting-source.md) - Common issues
 
-- [Testing Patterns (Source)](../shared-references/testing-patterns-source.md) - Comprehensive tests
+- [Testing Patterns (Source)](references/testing-patterns-source.md) - Comprehensive tests
 
 **Key differences from extensions:**
 
