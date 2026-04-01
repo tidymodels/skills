@@ -20,6 +20,7 @@ skill-development/build-verify.py developers/
 
 **What it does**:
 - **BUILD**: Copies files from `shared-references/` to each skill's `references/` folder
+- **FORMAT**: Runs `add-blank-lines.py` on all markdown files in the directory (including `users/`, `developers/`, and `shared-references/` folders) to add blank lines before bullet points for improved readability
 - **VERIFY**: Verifies all markdown links resolve correctly and referenced files exist
 - **DOCS**: Confirms that each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 

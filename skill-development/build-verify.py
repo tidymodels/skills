@@ -2,10 +2,11 @@
 """
 Build and verify skills.
 
-This script performs three operations:
+This script performs four operations:
 1. BUILD: Localizes shared files to each skill's references folder
-2. VERIFY: Checks all markdown links and file references
-3. DOCS: Verifies that skills have corresponding .qmd files in docs/
+2. FORMAT: Adds blank lines before bullets in all markdown files for readability
+3. VERIFY: Checks all markdown links and file references
+4. DOCS: Verifies that skills have corresponding .qmd files in docs/
 
 Usage:
     ./build-verify.py [directory]
@@ -21,6 +22,7 @@ import os
 import re
 import sys
 import shutil
+import subprocess
 from pathlib import Path
 from typing import List, Tuple, Set
 from collections import defaultdict
@@ -637,6 +639,59 @@ class ReferenceVerifier:
         return 1 if self.errors else 0
 
 
+def format_markdown_files(root_dir: Path, quiet=False):
+    """Run add-blank-lines.py on all markdown files in the directory."""
+    if quiet:
+        print("FORMAT: Adding blank lines before bullets")
+    else:
+        print("=" * 60)
+        print("FORMAT: Adding blank lines before bullets")
+        print("=" * 60)
+        print()
+
+    # Path to add-blank-lines.py script (same directory as this script)
+    script_dir = Path(__file__).parent
+    blank_lines_script = script_dir / "add-blank-lines.py"
+
+    if not blank_lines_script.exists():
+        print(f"Warning: add-blank-lines.py not found at {blank_lines_script}")
+        return 0
+
+    try:
+        # Run add-blank-lines.py on the root directory
+        result = subprocess.run(
+            [sys.executable, str(blank_lines_script), str(root_dir)],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        if quiet:
+            # Parse output to show summary
+            output_lines = result.stdout.strip().split('\n')
+            # Look for "Completed: X/Y files processed successfully" line
+            for line in output_lines:
+                if "Completed:" in line or "files processed" in line:
+                    print(f"✓ {line.strip()}")
+                    break
+            else:
+                # If no summary found, just show success
+                print("✓ Markdown files formatted")
+        else:
+            print(result.stdout)
+
+        return 0
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error running add-blank-lines.py: {e}")
+        if e.stderr:
+            print(e.stderr)
+        return 1
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return 1
+
+
 def main():
     # Determine root directory
     if len(sys.argv) > 1:
@@ -658,18 +713,23 @@ def main():
         print("Build failed. Skipping verification.")
         sys.exit(1)
 
-    # Step 2: Verify (check references)
+    # Step 2: Format (add blank lines before bullets)
+    format_exit_code = format_markdown_files(Path(root_dir), quiet=True)
+
+    # Step 3: Verify (check references)
     verifier = ReferenceVerifier(root_dir)
     verify_exit_code = verifier.verify_all(quiet=True)
 
-    # Step 3: Verify docs (check .qmd files exist)
+    # Step 4: Verify docs (check .qmd files exist)
     docs_verifier = DocsVerifier(root_dir)
     docs_exit_code = docs_verifier.verify_all(quiet=True)
 
     # Final summary
-    all_checks_passed = verify_exit_code == 0 and docs_exit_code == 0
+    all_checks_passed = (format_exit_code == 0 and
+                         verify_exit_code == 0 and
+                         docs_exit_code == 0)
     if all_checks_passed:
-        print("✅ BUILD AND VERIFY SUCCESSFUL")
+        print("✅ BUILD, FORMAT, AND VERIFY SUCCESSFUL")
     else:
         print("❌ VERIFICATION FAILED - Fix errors above before committing")
     print()

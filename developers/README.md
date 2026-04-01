@@ -40,11 +40,17 @@ developers/
 ## Key Features
 
 - **Comprehensive coverage** of all metric and step types
+
 - **Complete code examples** with testing patterns
+
 - **Claude Code integration** - Optional `usethis::use_claude_code()` setup for tidyverse R package development patterns that complement tidymodels-specific guidance
+
 - **Skill composition** - Automatically incorporates tidyverse team's general R patterns when available, keeping tidymodels skills focused on domain-specific guidance
+
 - **Automatic repository cloning** - When building extensions, skills can clone tidymodels source repositories with your permission, providing direct access to canonical implementations for more accurate guidance
+
 - **Platform-agnostic scripts** for enhanced development workflow
+
 - **Extensive reference documentation** for deep dives
 
 ## Future Development
