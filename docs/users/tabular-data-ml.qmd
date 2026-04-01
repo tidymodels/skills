@@ -1,3 +1,0 @@
-![](../assets/logos/tidymodels.png){.skill-header-logo}
-
-{{< include ../../users/tabular-data-ml/SKILL.md >}}

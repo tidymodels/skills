@@ -31,7 +31,7 @@ website:
         - text: "Overview"
           href: users/index.qmd
         - section: "Tabular Data ML"
-          href: users/tabular-data-ml.qmd
+          href: users/index.qmd
           contents:
             - text: "Data Spending"
               href: users/references/data-spending.qmd
@@ -50,7 +50,7 @@ website:
         - text: "Overview"
           href: developers/index.qmd
         - section: "Add Yardstick Metric"
-          href: developers/add-yardstick-metric.qmd
+          href: developers/index.qmd
           contents:
             - section: "Getting Started"
               contents:
@@ -115,7 +115,7 @@ website:
                 - text: "Troubleshooting"
                   href: developers/references/troubleshooting-source.qmd
         - section: "Add Recipe Step"
-          href: developers/add-recipe-step.qmd
+          href: developers/index.qmd
           contents:
             - section: "Getting Started"
               contents:
@@ -162,7 +162,7 @@ website:
                 - text: "Troubleshooting"
                   href: developers/references/troubleshooting-source.qmd
         - section: "Add Dials Parameter"
-          href: developers/add-dials-parameter.qmd
+          href: developers/index.qmd
           contents:
             - section: "Getting Started"
               contents:
