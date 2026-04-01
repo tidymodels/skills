@@ -35,6 +35,34 @@ skill-development/build-verify.py developers/
 - After modifying skill structure
 - After adding or renaming skills
 
+### create-docs-wrappers.py
+**Purpose**: Generate thin wrapper .qmd files in docs/ that include source .md files.
+
+**What it does**:
+- Recursively walks through skill references/ directories
+- Creates 1-line wrapper .qmd files with correct include paths
+- Handles arbitrary nesting depth (calculates correct ../ count)
+- Skips scripts/ subdirectories
+- Validates source files exist
+
+**Usage**:
+```bash
+./create-docs-wrappers.py --skill users/tabular-data-ml --dry-run  # Preview
+./create-docs-wrappers.py --skill users/tabular-data-ml            # Apply
+./create-docs-wrappers.py --all                                    # All skills
+./create-docs-wrappers.py --skill developers/add-yardstick-metric --force  # Overwrite
+```
+
+**When to use**:
+- After adding a new skill to the repository
+- After adding new reference files to a skill
+- When restructuring docs/ folder
+- After running build-verify.py (which copies shared references)
+
+**Example wrapper output**:
+- Flat reference: `{{< include ../../../../users/tabular-data-ml/references/data-spending.md >}}`
+- Nested reference: `{{< include ../../../../../users/tabular-data-ml/references/feature-engineering/categorical.md >}}`
+
 ### count-skill-tokens.py
 **Purpose**: Count lines and estimate tokens for a Claude Code skill directory.
 
