@@ -21,7 +21,7 @@ See the [Getting Started Guide](../getting-started.qmd) for Claude Code installa
 
 <div class="skill-section">
   <img src="../assets/logos/yardstick.png" class="skill-logo-inline">
-  <h3><a href="add-yardstick-metric.qmd">Create Custom Metrics</a></h3>
+  <h3><a href="add-yardstick-metric/index.qmd">Create Custom Metrics</a></h3>
 </div>
 
 Build new performance metrics for evaluating model predictions with the yardstick package.
@@ -37,7 +37,7 @@ Build new performance metrics for evaluating model predictions with the yardstic
 
 <div class="skill-section">
   <img src="../assets/logos/recipes.png" class="skill-logo-inline">
-  <h3><a href="add-recipe-step.qmd">Create Preprocessing Steps</a></h3>
+  <h3><a href="add-recipe-step/index.qmd">Create Preprocessing Steps</a></h3>
 </div>
 
 Develop custom preprocessing steps for feature engineering with the recipes package.
@@ -53,7 +53,7 @@ Develop custom preprocessing steps for feature engineering with the recipes pack
 
 <div class="skill-section">
   <img src="../assets/logos/dials.png" class="skill-logo-inline">
-  <h3><a href="add-dials-parameter.qmd">Create Tuning Parameters</a></h3>
+  <h3><a href="add-dials-parameter/index.qmd">Create Tuning Parameters</a></h3>
 </div>
 
 Define custom hyperparameter objects for model tuning with the dials package.

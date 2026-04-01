@@ -21,7 +21,7 @@ See the [Getting Started Guide](../getting-started.qmd) for Claude Code installa
 
 <div class="skill-section">
   <img src="../assets/logos/tidymodels.png" class="skill-logo-inline">
-  <h3><a href="tabular-data-ml.qmd">Tabular Data Machine Learning</a></h3>
+  <h3><a href="tabular-data-ml/index.qmd">Tabular Data Machine Learning</a></h3>
 </div>
 
 Build predictive models for tabular data with proper validation practices.

@@ -68,7 +68,7 @@ Install user skills for building predictive models:
 
 **Available skills:**
 
-- **[Tabular Data Machine Learning](users/tabular-data-ml.qmd)**: Build predictive models with proper validation practices
+- **[Tabular Data Machine Learning](users/tabular-data-ml/index.qmd)**: Build predictive models with proper validation practices
   - Data splitting and spending
   - Cross-validation and resampling
   - Feature engineering
@@ -87,9 +87,9 @@ Install developer skills for creating Tidymodels extensions:
 
 **Available skills:**
 
-- **[Add Yardstick Metric](developers/add-yardstick-metric.qmd)**: Create custom performance metrics
-- **[Add Recipe Step](developers/add-recipe-step.qmd)**: Create custom preprocessing steps
-- **[Add Dials Parameter](developers/add-dials-parameter.qmd)**: Create custom tuning parameters
+- **[Add Yardstick Metric](developers/add-yardstick-metric/index.qmd)**: Create custom performance metrics
+- **[Add Recipe Step](developers/add-recipe-step/index.qmd)**: Create custom preprocessing steps
+- **[Add Dials Parameter](developers/add-dials-parameter/index.qmd)**: Create custom tuning parameters
 
 :::
 
