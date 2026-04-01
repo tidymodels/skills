@@ -11,8 +11,11 @@ For extension development (creating new packages), see [Testing Patterns (Extens
 ## When to Use Internal Test Helpers
 
 When developing recipes itself, you have access to internal test data and helper functions. Use them to:
+
 - Maintain consistency with existing tests
+
 - Leverage well-tested recipe structures
+
 - Match the testing style of the package
 
 ## Recipes Internal Test Helpers
@@ -120,11 +123,13 @@ Recipes organizes tests by step name:
 ### Test File Names
 
 - **Step files**: `tests/testthat/test-[step_name].R`
+
   - Example: `test-center.R`, `test-normalize.R`, `test-pca.R`
 
 ### Match Source File Names
 
 - `R/center.R` → `tests/testthat/test-center.R`
+
 - `R/normalize.R` → `tests/testthat/test-normalize.R`
 
 ## Test Organization in Recipes
@@ -526,5 +531,7 @@ devtools::test(filter = "center")
 ## Next Steps
 
 - Review [Best Practices (Source)](best-practices-source.md) for recipes coding standards
+
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
+
 - See existing test files in `tests/testthat/` for more examples

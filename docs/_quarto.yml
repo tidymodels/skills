@@ -206,6 +206,104 @@ website:
                   href: developers/add-dials-parameter/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
                   href: developers/add-dials-parameter/references/troubleshooting-source.qmd
+        - section: "Add Parsnip Model"
+          href: developers/add-parsnip-model/index.qmd
+          contents:
+            - section: "Getting Started"
+              contents:
+                - text: "Extension Development"
+                  href: developers/add-parsnip-model/references/extension-guide.qmd
+                - text: "Source Development"
+                  href: developers/add-parsnip-model/references/source-guide.qmd
+                - text: "Prerequisites"
+                  href: developers/add-parsnip-model/references/package-extension-prerequisites.qmd
+                - text: "Development Workflow"
+                  href: developers/add-parsnip-model/references/package-development-workflow.qmd
+            - section: "Core Concepts"
+              contents:
+                - text: "Model Specification System"
+                  href: developers/add-parsnip-model/references/model-specification-system.qmd
+                - text: "Model Constructors"
+                  href: developers/add-parsnip-model/references/model-constructors.qmd
+                - text: "Registration Sequence"
+                  href: developers/add-parsnip-model/references/registration-sequence.qmd
+                - text: "Argument Design"
+                  href: developers/add-parsnip-model/references/argument-design.qmd
+            - section: "Implementation"
+              contents:
+                - text: "Fit and Predict Methods"
+                  href: developers/add-parsnip-model/references/fit-predict-methods.qmd
+                - text: "Prediction Types"
+                  href: developers/add-parsnip-model/references/prediction-types.qmd
+                - text: "Mode Handling"
+                  href: developers/add-parsnip-model/references/mode-handling.qmd
+                - text: "Encoding Options"
+                  href: developers/add-parsnip-model/references/encoding-options.qmd
+            - section: "Package Development"
+              contents:
+                - text: "Extension Requirements"
+                  href: developers/add-parsnip-model/references/package-extension-requirements.qmd
+                - text: "Package Imports"
+                  href: developers/add-parsnip-model/references/package-imports.qmd
+                - text: "Roxygen Documentation"
+                  href: developers/add-parsnip-model/references/package-roxygen-documentation.qmd
+                - text: "Repository Access"
+                  href: developers/add-parsnip-model/references/package-repository-access.qmd
+            - section: "Source Development"
+              contents:
+                - text: "Best Practices"
+                  href: developers/add-parsnip-model/references/best-practices-source.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-parsnip-model/references/testing-patterns-source.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-parsnip-model/references/troubleshooting-source.qmd
+        - section: "Add Parsnip Engine"
+          href: developers/add-parsnip-engine/index.qmd
+          contents:
+            - section: "Getting Started"
+              contents:
+                - text: "Extension Development"
+                  href: developers/add-parsnip-engine/references/extension-guide.qmd
+                - text: "Source Development"
+                  href: developers/add-parsnip-engine/references/source-guide.qmd
+                - text: "Prerequisites"
+                  href: developers/add-parsnip-engine/references/package-extension-prerequisites.qmd
+                - text: "Development Workflow"
+                  href: developers/add-parsnip-engine/references/package-development-workflow.qmd
+            - section: "Core Concepts"
+              contents:
+                - text: "Model Specification System"
+                  href: developers/add-parsnip-engine/references/model-specification-system.qmd
+                - text: "Engine Implementation"
+                  href: developers/add-parsnip-engine/references/engine-implementation.qmd
+                - text: "Fit and Predict Methods"
+                  href: developers/add-parsnip-engine/references/fit-predict-methods.qmd
+            - section: "Implementation"
+              contents:
+                - text: "Prediction Types"
+                  href: developers/add-parsnip-engine/references/prediction-types.qmd
+                - text: "Mode Handling"
+                  href: developers/add-parsnip-engine/references/mode-handling.qmd
+                - text: "Encoding Options"
+                  href: developers/add-parsnip-engine/references/encoding-options.qmd
+            - section: "Package Development"
+              contents:
+                - text: "Extension Requirements"
+                  href: developers/add-parsnip-engine/references/package-extension-requirements.qmd
+                - text: "Package Imports"
+                  href: developers/add-parsnip-engine/references/package-imports.qmd
+                - text: "Roxygen Documentation"
+                  href: developers/add-parsnip-engine/references/package-roxygen-documentation.qmd
+                - text: "Repository Access"
+                  href: developers/add-parsnip-engine/references/package-repository-access.qmd
+            - section: "Source Development"
+              contents:
+                - text: "Best Practices"
+                  href: developers/add-parsnip-engine/references/best-practices-source.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-parsnip-engine/references/testing-patterns-source.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-parsnip-engine/references/troubleshooting-source.qmd
 
   page-footer:
     left: "Built with [Quarto](https://quarto.org)"

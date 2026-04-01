@@ -5,13 +5,19 @@ Ordered probability metrics evaluate predicted probabilities for ordered factor 
 ## Overview
 
 **Use when:**
+
 - Truth is an **ordered factor** (e.g., `ordered(c("low", "medium", "high"))`)
+
 - Predictions are **probabilities** for each ordered class
+
 - The ordering of classes matters (e.g., severity ratings, performance levels)
 
 **Key differences from regular probability metrics:**
+
 - Uses cumulative probabilities to respect ordering
+
 - Penalizes predictions that are "further away" in the ordering
+
 - No averaging types (works the same for any number of classes)
 
 **Examples:** Ranked Probability Score (RPS)
@@ -201,9 +207,13 @@ check_ordered_prob_metric(truth, estimate, case_weights, estimator)
 ```
 
 This validates:
+
 - `truth` is an ordered factor
+
 - `estimate` is a matrix with correct dimensions
+
 - `case_weights` are valid (if provided)
+
 - Estimator type is appropriate
 
 ## Input Format
@@ -332,5 +342,7 @@ cum_ind <- cumulative_rows(inds)
 ## See Also
 
 - [Probability Metrics](probability-metrics.md) - Regular (nominal) probability metrics
+
 - [Metric System](metric-system.md) - Understanding metric architecture
+
 - [Testing Patterns](package-extension-requirements.md#testing-requirements) - Comprehensive test guide

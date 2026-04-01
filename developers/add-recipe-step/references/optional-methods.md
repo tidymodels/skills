@@ -7,20 +7,31 @@ Beyond the required methods (`prep`, `bake`, `print`, `tidy`), recipe steps can 
 ## Overview
 
 Optional methods:
+
 - **`tunable()`**: Declares parameters that can be tuned with the tune package
+
 - **`required_pkgs()`**: Declares external package dependencies
+
 - **`.recipes_preserve_sparsity()`**: Indicates if sparse data stays sparse
+
 - **`.recipes_estimate_sparsity()`**: Estimates sparsity for new columns created
 
 **Reference implementations in recipes:**
+
 - Tunable parameters: `R/spline_natural.R` (deg_free tuning), `R/pca.R` (num_comp tuning), `R/normalize.R` (method parameter)
+
 - Package dependencies: `R/umap.R` (requires uwot), `R/kpca.R` (requires kernlab), `R/ica.R` (requires fastICA)
+
 - Sparsity preservation: `R/scale.R` (preserves sparsity), `R/normalize.R` (preserves sparsity)
+
 - Sparsity estimation: `R/dummy.R` (estimates new column sparsity), `R/interact.R` (estimates interaction sparsity)
 
 **Test patterns:**
+
 - Tunable tests: `tests/testthat/test-tunable.R`
+
 - Package requirement tests: `tests/testthat/test-required_pkgs.R`
+
 - Sparsity tests: `tests/testthat/test-sparsity.R`
 
 ## tunable() - Hyperparameter Tuning Support
@@ -28,8 +39,11 @@ Optional methods:
 ### When to implement
 
 Implement `tunable()` if your step has parameters that:
+
 - Have reasonable ranges to explore
+
 - Significantly affect model performance
+
 - Users would want to optimize
 
 ### Implementation pattern
@@ -53,9 +67,13 @@ tunable.step_yourname <- function(x, ...) {
 ### Column descriptions
 
 - **`name`**: Character vector of parameter names (must match step parameters)
+
 - **`call_info`**: List of lists specifying dials function for each parameter
+
 - **`source`**: Always `"recipe"` for recipe steps
+
 - **`component`**: Step name (e.g., `"step_yourname"`)
+
 - **`component_id`**: Unique step identifier (`x$id`)
 
 ### Example: step_spline_natural
@@ -85,8 +103,11 @@ recipe(mpg ~ ., data = mtcars) |>
 ### Dials integration
 
 The `call_info` references dials parameter objects:
+
 - `dials::spline_degree()`: Range for spline degrees of freedom
+
 - `dials::num_comp()`: Number of components (PCA, PLS)
+
 - `dials::threshold()`: Threshold values
 
 If no suitable dials function exists, you may need to create one in your package.
@@ -96,8 +117,11 @@ If no suitable dials function exists, you may need to create one in your package
 ### When to implement
 
 Implement `required_pkgs()` if your step:
+
 - Uses functions from packages not in Imports
+
 - Depends on optional packages (in Suggests)
+
 - Needs specific packages at runtime
 
 ### Implementation pattern
@@ -161,8 +185,11 @@ The package check happens when the step is **added** to the recipe, not when it'
 ### When to implement
 
 Implement this if your step:
+
 - Takes sparse matrices as input
+
 - Can perform its operation without densifying
+
 - Returns sparse output
 
 **Note:** This is for steps that **preserve** sparsity in existing columns, not steps that create new sparse columns.
@@ -202,8 +229,11 @@ The `.recipes_preserve_sparsity()` method is **internal** (note the leading dot)
 ### When to implement
 
 Implement this if your step:
+
 - **Creates new columns** (not modifies existing)
+
 - Creates columns that are likely sparse
+
 - Examples: dummy variables, one-hot encoding, interaction terms
 
 **Note:** This is for create-new-columns steps only. See [create-new-columns-steps.md](create-new-columns-steps.md) for more details.
@@ -236,7 +266,9 @@ Implement this if your step:
 ### Return value
 
 Must return a list with:
+
 - **`n_cols`**: Integer, number of columns that will be created
+
 - **`sparsity`**: Numeric between 0 and 1, estimated proportion of zeros
 
 ### Example: step_dummy
@@ -269,8 +301,11 @@ Must return a list with:
 ### Why this matters
 
 The recipes infrastructure uses sparsity estimates to:
+
 - Decide whether to use sparse matrix representations
+
 - Optimize memory usage for large datasets
+
 - Choose efficient algorithms for sparse operations
 
 ## When to Skip Optional Methods
@@ -278,21 +313,29 @@ The recipes infrastructure uses sparsity estimates to:
 ### tunable()
 
 Skip if:
+
 - Your step has no tunable parameters
+
 - Parameters are deterministic (e.g., column names)
+
 - Parameters have obvious single best values
 
 ### required_pkgs()
 
 Skip if:
+
 - All dependencies are in your package's Imports
+
 - Your step uses only base R and recipes functions
 
 ### Sparsity methods
 
 Skip if:
+
 - Your step only works with dense data
+
 - Sparsity preservation is unclear or complex
+
 - Your step modifies values in place (not creating columns)
 
 ## Testing Optional Methods
@@ -372,7 +415,11 @@ Document optional methods in your main step documentation:
 ## Next Steps
 
 - Understand architecture: [step-architecture.md](step-architecture.md)
+
 - Implement basic steps: [modify-in-place-steps.md](modify-in-place-steps.md), [create-new-columns-steps.md](create-new-columns-steps.md)
+
 - Learn helper functions: [helper-functions.md](helper-functions.md)
+
 - Document thoroughly: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Test comprehensively: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

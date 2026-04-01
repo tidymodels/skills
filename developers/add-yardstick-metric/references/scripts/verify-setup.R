@@ -22,6 +22,7 @@ UUID_NO_REPOS <- "c8a7f1b5-7890"
 UUID_MISSING_YARDSTICK <- "d4e8b9c2-1111"
 UUID_MISSING_RECIPES <- "d4e8b9c2-2222"
 UUID_MISSING_DIALS <- "d4e8b9c2-7777"
+UUID_MISSING_PARSNIP <- "d4e8b9c2-9999"
 UUID_MISSING_RLANG <- "d4e8b9c2-3333"
 UUID_MISSING_CLI <- "d4e8b9c2-4444"
 UUID_MISSING_TIBBLE <- "d4e8b9c2-5555"
@@ -52,7 +53,7 @@ if (desc_exists) {
     package_name <- sub("^Package:\\s*", "", package_line[1])
     package_name <- trimws(package_name)
 
-    if (package_name %in% c("recipes", "yardstick", "dials")) {
+    if (package_name %in% c("recipes", "yardstick", "dials", "parsnip")) {
       results$context <- "source"
       results$package_type <- package_name
     } else {
@@ -66,6 +67,8 @@ if (desc_exists) {
           results$package_type <- "yardstick"
         } else if (grepl("dials", imports_line[1])) {
           results$package_type <- "dials"
+        } else if (grepl("parsnip", imports_line[1])) {
+          results$package_type <- "parsnip"
         } else {
           results$package_type <- "unknown"
         }
@@ -113,13 +116,13 @@ if (results$context != "source") {
   # Check Repository Access (always check unless source development)
   # Check for repos even if package_type is unknown
   has_repos <- FALSE
-  if (results$package_type %in% c("recipes", "yardstick", "dials")) {
+  if (results$package_type %in% c("recipes", "yardstick", "dials", "parsnip")) {
     # Check for specific repo
     repo_path <- file.path("repos", results$package_type)
     has_repos <- dir.exists(repo_path)
   } else {
     # Unknown package type - check if ANY tidymodels repos exist
-    has_repos <- dir.exists("repos/yardstick") || dir.exists("repos/recipes") || dir.exists("repos/dials")
+    has_repos <- dir.exists("repos/yardstick") || dir.exists("repos/recipes") || dir.exists("repos/dials") || dir.exists("repos/parsnip")
   }
 
   if (!has_repos) {
@@ -127,7 +130,7 @@ if (results$context != "source") {
   }
 
   # Check Dependencies (only if DESCRIPTION exists and package type is known)
-  if (desc_exists && results$package_type %in% c("recipes", "yardstick", "dials")) {
+  if (desc_exists && results$package_type %in% c("recipes", "yardstick", "dials", "parsnip")) {
     # Get Imports field
     imports_start <- grep("^Imports:", desc_lines)
     if (length(imports_start) > 0) {
@@ -161,6 +164,10 @@ if (results$context != "source") {
       if (!grepl("rlang", imports_text)) add_warning(UUID_MISSING_RLANG)
       if (!grepl("cli", imports_text)) add_warning(UUID_MISSING_CLI)
       if (!grepl("scales", imports_text)) add_warning(UUID_MISSING_SCALES)
+    } else if (results$package_type == "parsnip") {
+      if (!grepl("parsnip", imports_text)) add_warning(UUID_MISSING_PARSNIP)
+      if (!grepl("rlang", imports_text)) add_warning(UUID_MISSING_RLANG)
+      if (!grepl("cli", imports_text)) add_warning(UUID_MISSING_CLI)
     }
   }
 }

@@ -13,14 +13,21 @@ For extension development (creating new packages), see [Best Practices (Extensio
 ### When to Use Internal Functions
 
 ✅ **Use internal functions when:**
+
 - Shared logic exists between multiple metrics
+
 - Complex calculations are already implemented
+
 - Consistency with existing metrics is needed
+
 - Avoiding code duplication
 
 ❌ **Don't use internal functions when:**
+
 - Simple logic can be written inline
+
 - The internal function doesn't quite fit your needs
+
 - It would make code less readable
 
 ### Finding Existing Internal Functions
@@ -56,8 +63,11 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 ```
 
 **Why use it:**
+
 - Handles case weights consistently
+
 - Converts hardhat weights automatically
+
 - Matches behavior of other metrics
 
 #### `finalize_estimator_internal()` - Estimator Selection
@@ -81,8 +91,11 @@ accuracy.data.frame <- function(data, truth, estimate,
 ```
 
 **What it does:**
+
 - Auto-detects binary vs multiclass
+
 - Validates estimator parameter
+
 - Provides consistent error messages
 
 #### `yardstick_remove_missing()` - NA Handling
@@ -136,23 +149,29 @@ Yardstick organizes code by metric type:
 ### Source File Names
 
 - **Numeric metrics**: `R/num-[name].R`
+
   - Examples: `num-mae.R`, `num-rmse.R`, `num-huber_loss.R`
 
 - **Class metrics**: `R/class-[name].R`
+
   - Examples: `class-accuracy.R`, `class-precision.R`, `class-recall.R`
 
 - **Probability metrics**: `R/prob-[name].R`
+
   - Examples: `prob-roc_auc.R`, `prob-mn_log_loss.R`, `prob-brier_class.R`
 
 - **Survival metrics**: `R/surv-[name].R`
+
   - Examples: `surv-concordance_survival.R`, `surv-brier_survival.R`
 
 - **Quantile metrics**: `R/quant-[name].R`
+
   - Examples: `quant-weighted_interval_score.R`
 
 ### Test File Names Match Source
 
 - `R/num-mae.R` → `tests/testthat/test-num-mae.R`
+
 - `R/class-accuracy.R` → `tests/testthat/test-class-accuracy.R`
 
 ## Documentation Patterns
@@ -290,9 +309,13 @@ prob_metric_summarizer(name = "roc_auc", fn = roc_auc_vec, ...)
 ```
 
 These handle:
+
 - NSE (non-standard evaluation)
+
 - Grouped data frames
+
 - Case weights
+
 - Error handling
 
 ## Creating New Internal Helpers
@@ -300,15 +323,21 @@ These handle:
 ### When to Create Internal Helpers
 
 Create a new internal helper when:
+
 - Logic is shared by 2+ metrics
+
 - Complex calculation that's hard to understand inline
+
 - Abstraction improves code clarity
 
 ### Naming Convention
 
 Internal helpers are NOT exported and typically:
+
 - Start with `yardstick_` for utility functions
+
 - Have descriptive names (e.g., `yardstick_mean`, `yardstick_table`)
+
 - Are documented with roxygen but use `@keywords internal`
 
 ### Example Internal Helper
@@ -341,8 +370,11 @@ yardstick_mean <- function(x, case_weights = NULL) {
 ### Don't Export Internal Helpers
 
 Internal helpers should:
+
 - Have `@keywords internal`
+
 - Use `@noRd` to skip documentation generation
+
 - NOT have `@export`
 
 ## Error Messages
@@ -463,8 +495,11 @@ fn <- xtab[2, 1]  # False negatives
 ### Study Similar Metrics
 
 Before implementing, study similar existing metrics:
+
 - For numeric metrics: Look at `R/num-mae.R`, `R/num-rmse.R`
+
 - For class metrics: Look at `R/class-accuracy.R`, `R/class-precision.R`
+
 - For probability metrics: Look at `R/prob-roc_auc.R`
 
 ### Match Parameter Names and Order
@@ -487,8 +522,11 @@ metric_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,
 ### Use Standard Return Format
 
 All metrics return a tibble with:
+
 - `.metric`: Character, metric name
+
 - `.estimator`: Character, estimator type
+
 - `.estimate`: Numeric, metric value
 
 ```r
@@ -539,6 +577,9 @@ if (na_rm) {
 ## Next Steps
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
+
 - Study existing metrics in the yardstick repository
+
 - Follow the [Extension Guide](package-extension-requirements.md#best-practices) for code style basics

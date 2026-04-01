@@ -96,9 +96,13 @@ new_data <- map(columns, \(col) transform(new_data[[col]]))
 ```
 
 **Why prefer for-loops:**
+
 - Better error messages (shows which iteration failed)
+
 - More familiar to most R users
+
 - Easier to debug with `browser()`
+
 - Consistent with tidymodels style
 
 #### Minimal comments
@@ -116,8 +120,11 @@ centered <- sweep(data, 2, means, "-")
 ```
 
 Write clear code that doesn't need comments. Add comments only for:
+
 - Complex algorithms
+
 - Non-obvious optimization tricks
+
 - Warnings about edge cases
 
 ### Error Messages
@@ -161,8 +168,11 @@ cli::cli_abort("Found {length(x)} error{?s}.")  # Handles 1 vs many
 #### Error message guidelines
 
 - Be specific about what's wrong
+
 - Tell users what they can do to fix it
+
 - Include actual values when helpful
+
 - Use proper English grammar
 
 ```r
@@ -185,15 +195,21 @@ stop("Invalid threshold")
 ```
 
 **Include:**
+
 - Type (numeric, logical, character, factor)
+
 - Valid range or options
+
 - Default value
+
 - Effect on function behavior
 
 #### US English
 
 - Use American spelling: "normalize" not "normalise"
+
 - Use sentence case: "Calculate the mean" not "calculate the mean"
+
 - Be consistent throughout
 
 #### Wrap roxygen at 80 characters
@@ -249,10 +265,15 @@ total / length(truth)
 ```
 
 **Vectorized functions:**
+
 - Arithmetic: `+`, `-`, `*`, `/`, `^`
+
 - Comparisons: `==`, `!=`, `>`, `<`, `>=`, `<=`
+
 - Logical: `&`, `|`, `!`
+
 - Math: `abs()`, `sqrt()`, `log()`, `exp()`, `sin()`, `cos()`
+
 - Aggregations: `sum()`, `mean()`, `max()`, `min()`, `median()`
 
 #### Use matrix operations
@@ -353,13 +374,19 @@ profvis::profvis({
 #### When performance doesn't matter
 
 **Don't optimize unnecessarily:**
+
 - Functions typically called once or few times per evaluation
+
 - Calculation is usually fast compared to model fitting
+
 - Readability and correctness are more important
 
 **Do optimize when:**
+
 - Function called thousands of times (tuning, cross-validation)
+
 - Working with very large datasets (millions of observations)
+
 - Profiling shows the function is the bottleneck
 
 ### Code Validation
@@ -418,7 +445,9 @@ prep.step_center <- function(x, training, ...) {
 #### Consider memory usage for large data
 
 - Store statistics/parameters, not raw data
+
 - Use sparse matrices when appropriate
+
 - Consider memory-mapped files for very large data
 
 ### Code Formatting
@@ -451,7 +480,9 @@ Or use RStudio: Code → Reformat Code (Cmd/Ctrl + Shift + A)
 #### Commit frequency
 
 - Commit after each logical unit of work
+
 - Commit working, tested code
+
 - Don't commit broken code (except on branches)
 
 ---
@@ -465,6 +496,7 @@ Comprehensive guide to testing R packages in the tidymodels ecosystem using test
 #### File naming conventions
 
 - **Source files**: `R/yourfile.R`
+
 - **Test files**: `tests/testthat/test-yourfile.R`
 
 The test file name should match the source file name with `test-` prefix.
@@ -818,9 +850,13 @@ test_that("empty printing", {
 ```
 
 **Also required (follow similar patterns):**
+
 - Empty selection prep/bake is a no-op
+
 - Empty selection tidy method returns empty tibble
+
 - Printing with selected columns
+
 - 0 and 1 row data work in bake method
 
 ### Edge Case Tests
@@ -990,8 +1026,11 @@ covr::report()
 ```
 
 **Aim for:**
+
 - 90%+ coverage of main functions
+
 - 100% coverage of critical paths
+
 - Don't obsess over 100% - some code is hard to test
 
 ---
@@ -1175,8 +1214,11 @@ devtools::test()
 **Cause:** Test relies on local environment
 
 **Solution:** Make tests self-contained:
+
 - Don't assume specific working directory
+
 - Don't rely on installed packages not in DESCRIPTION
+
 - Don't use external files without checking they exist
 
 #### Floating point comparison failures
@@ -1201,8 +1243,11 @@ testthat::snapshot_accept()
 #### Tests are slow
 
 **Solution:**
+
 - Use smaller test datasets
+
 - Skip slow tests with `skip_if_not(interactive())`
+
 - Profile tests to find bottlenecks
 
 ### Documentation Errors
@@ -1236,8 +1281,11 @@ Warning: Link to unknown function 'some_function'
 **Cause:** Documentation references function that doesn't exist or isn't imported
 
 **Solution:**
+
 - Check spelling
+
 - Make sure function is exported
+
 - Link to correct package: `[package::function()]`
 
 ### Method and S3 Errors
@@ -1313,7 +1361,9 @@ usethis::use_package("xxx")
 ```
 
 **Unused dependencies:**
+
 - "Namespace dependencies not required" → Remove unused imports from package-level doc
+
 - "All declared Imports should be used" → Remove from DESCRIPTION or add `@importFrom`
 
 Then run `devtools::document()` to update NAMESPACE
@@ -1364,9 +1414,13 @@ See [package-development-workflow.md](package-development-workflow.md) for detai
 **Problem:** Running out of memory
 
 **Solution:**
+
 - Don't store entire datasets in objects
+
 - Store only necessary parameters/statistics
+
 - Consider sparse matrices for appropriate data
+
 - Process data in chunks if necessary
 
 ### Git and Workflow Issues
@@ -1430,9 +1484,13 @@ browser()  # Add this line in function code
 #### External resources
 
 - [R Packages book](https://r-pkgs.org/) - Comprehensive guide
+
 - [Tidymodels developer guide](https://www.tidymodels.org/learn/develop/)
+
 - Package documentation (yardstick, recipes, etc.)
+
 - Stack Overflow with tag `[r]`
+
 - RStudio Community
 
 #### When to ask for help
@@ -1463,18 +1521,29 @@ reprex::reprex()
 ### Development Checklist
 
 #### Before First Commit
+
 - [ ] All functions documented with roxygen2
+
 - [ ] Tests written for all exported functions
+
 - [ ] `devtools::document()` runs without errors
+
 - [ ] `devtools::load_all()` loads successfully
+
 - [ ] `devtools::test()` passes all tests
+
 - [ ] Code follows tidymodels style (base pipe, for-loops, cli errors)
 
 #### Before Release
+
 - [ ] `devtools::check()` passes with no errors, warnings, or notes
+
 - [ ] All examples run successfully
+
 - [ ] Test coverage at 90%+
+
 - [ ] NEWS.md updated
+
 - [ ] Version bumped in DESCRIPTION
 
 ### Essential Commands
@@ -1496,6 +1565,9 @@ browser()            # Add breakpoint in code
 ### Next Steps
 
 - Complete setup: [package-extension-prerequisites.md](package-extension-prerequisites.md)
+
 - Follow workflow: [package-development-workflow.md](package-development-workflow.md)
+
 - Document functions: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Manage dependencies: [package-imports.md](package-imports.md)

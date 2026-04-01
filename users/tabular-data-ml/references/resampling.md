@@ -17,8 +17,11 @@ Splits training data into V folds; iteratively holds out each fold for validatio
 **When to use**: Default choice for small to medium datasets.
 
 **Considerations**:
+
 - V=10 is standard; V=5 for very small data or expensive models
+
 - Stratified CV maintains outcome distribution in each fold
+
 - Each observation appears in exactly one held-out fold
 
 ### tidymodels
@@ -45,7 +48,9 @@ Runs V-fold CV multiple times with different random splits, then averages result
 **When to use**: Final model assessment when variance reduction matters; comparing close models.
 
 **Considerations**:
+
 - 5-fold repeated 5 times or 10-fold repeated 3 times are common
+
 - Multiplies computation time by the number of repeats
 
 ### tidymodels
@@ -85,8 +90,11 @@ For time-dependent data, uses expanding or sliding windows that respect temporal
 **When to use**: Time series or temporal data where random splits would cause data leakage.
 
 **Considerations**:
+
 - Never use future data to predict the past
+
 - `initial` sets minimum training size; `assess` sets forecast horizon
+
 - requires the data to have a column that has a date or date-time class.
 
 ### tidymodels

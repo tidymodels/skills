@@ -5,14 +5,21 @@ Quantile metrics evaluate quantile predictions (probabilistic forecasts represen
 ## Overview
 
 **Use when:**
+
 - Truth is **numeric** (observed values)
+
 - Predictions are **quantile predictions** (`hardhat::quantile_pred` objects)
+
 - You want to evaluate probabilistic forecasts represented as quantiles
 
 **Key characteristics:**
+
 - Works with quantile-based distributional predictions
+
 - Handles missing quantiles (implicit or explicit)
+
 - Supports imputation of missing quantiles
+
 - Returns `.estimator = "standard"`
 
 **Examples:** Weighted Interval Score (WIS), Pinball Loss
@@ -300,9 +307,13 @@ check_quantile_metric(truth, estimate, case_weights)
 ```
 
 This validates:
+
 - `truth` is a numeric vector
+
 - `estimate` is a `hardhat::quantile_pred` object
+
 - Lengths match
+
 - `case_weights` are valid (if provided)
 
 ## Input Format
@@ -363,7 +374,9 @@ estimate <- hardhat::impute_quantiles(estimate, desired_quantiles)
 ```
 
 Use when:
+
 - You need specific quantile levels that weren't predicted
+
 - Interpolation is reasonable for your data
 
 ### 2. Drop (`quantile_estimate_nas = "drop"`)
@@ -374,7 +387,9 @@ Use when:
 ```
 
 Use when:
+
 - Some quantiles are explicitly NA
+
 - You want to average over available quantiles only
 
 ### 3. Propagate (`quantile_estimate_nas = "propagate"`)
@@ -385,7 +400,9 @@ Use when:
 ```
 
 Use when:
+
 - Missing quantiles indicate prediction failure
+
 - You want to be conservative
 
 ## Testing
@@ -571,8 +588,11 @@ The factor of 2 scales it to match interval-based scoring.
 ## Common Metrics
 
 - **Weighted Interval Score (WIS)**: Quantile-based CRPS approximation
+
 - **Pinball Loss**: Loss for single quantile level
+
 - **Interval Score**: Score for single prediction interval
+
 - **Quantile Coverage**: Proportion of observations within intervals
 
 ## Dependencies
@@ -593,5 +613,7 @@ Imports:
 ## See Also
 
 - [Numeric Metrics](numeric-metrics.md) - Point prediction metrics
+
 - [Metric System](metric-system.md) - Understanding metric architecture
+
 - [Testing Patterns](package-extension-requirements.md#testing-requirements) - Comprehensive test guide

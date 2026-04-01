@@ -90,6 +90,8 @@ Install developer skills for creating Tidymodels extensions:
 - **[Add Yardstick Metric](developers/add-yardstick-metric/index.qmd)**: Create custom performance metrics
 - **[Add Recipe Step](developers/add-recipe-step/index.qmd)**: Create custom preprocessing steps
 - **[Add Dials Parameter](developers/add-dials-parameter/index.qmd)**: Create custom tuning parameters
+- **[Add Parsnip Model](developers/add-parsnip-model/index.qmd)**: Create new model specifications
+- **[Add Parsnip Engine](developers/add-parsnip-engine/index.qmd)**: Add engines to existing models
 
 :::
 

@@ -3,8 +3,11 @@
 ## Overview
 
 Highly correlated predictors can cause problems:
+
 - Unstable coefficient estimates in linear models
+
 - Inflated variance in predictions
+
 - Redundant information consuming model capacity
 
 Two main strategies: **remove** correlated predictors or **extract** new features that combine them.
@@ -16,8 +19,11 @@ Removes predictors that are highly correlated with others, keeping the one with 
 **When to use**: Want interpretable features; correlation is the main concern.
 
 **Considerations**:
+
 - Threshold typically 0.7-0.9
+
 - Only addresses pairwise linear correlation
+
 - Which predictor is kept can be somewhat arbitrary
 
 ### tidymodels
@@ -43,9 +49,13 @@ Transforms correlated predictors into uncorrelated principal components. Compone
 **When to use**: Many correlated predictors; willing to sacrifice interpretability for dimensionality reduction.
 
 **Considerations**:
+
 - Requires centering and scaling first
+
 - Must decide how many components to retain
+
 - Components are linear combinations—not directly interpretable
+
 - Works well for neural networks, regularized regression
 
 ### tidymodels

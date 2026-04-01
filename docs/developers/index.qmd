@@ -67,8 +67,40 @@ Define custom hyperparameter objects for model tuning with the dials package.
 
 ---
 
-## Prerequisitecd my-analysis-project
-claude
+<div class="skill-section">
+  <img src="../assets/logos/parsnip.png" class="skill-logo-inline">
+  <h3><a href="add-parsnip-model/index.qmd">Create Model Specifications</a></h3>
+</div>
+
+Build entirely new model types for the parsnip package with full constructor and registration support.
+
+**What you'll learn:**
+
+- Designing model specification constructors
+- Implementing registration sequences
+- Supporting multiple modes and prediction types
+- Creating extensible model architectures
+
+---
+
+<div class="skill-section">
+  <img src="../assets/logos/parsnip.png" class="skill-logo-inline">
+  <h3><a href="add-parsnip-engine/index.qmd">Add Model Engines</a></h3>
+</div>
+
+Add new computational engines to existing parsnip models without creating new model types.
+
+**What you'll learn:**
+
+- Registering engines for existing models
+- Implementing fit and prediction methods
+- Handling argument translation
+- Supporting multiple interfaces (formula, matrix, xy)
+
+---
+
+## Prerequisites
+
 Before using developer skills, ensure you have:
 
 - R 4.1.0 or higher

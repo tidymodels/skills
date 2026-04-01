@@ -7,18 +7,27 @@ This template is for steps that add, remove, or filter rows from the data.
 ## Overview
 
 Row-operation steps:
+
 - Change the number of rows in the dataset
+
 - Often used only during training (not on new data)
+
 - Typically have `skip = TRUE` by default
+
 - Examples: `step_filter`, `step_sample`, `step_naomit`, `step_slice`
 
 **Canonical implementations in recipes:**
+
 - Filtering: `R/filter.R` (conditional filtering), `R/filter_missing.R`
+
 - Sampling: `R/sample.R` (random sampling)
+
 - Row removal: `R/naomit.R` (remove NAs), `R/slice.R` (select rows by position)
 
 **Test patterns:**
+
 - Skip behavior: `tests/testthat/test-filter.R`
+
 - Sampling: `tests/testthat/test-sample.R`
 
 ## Key Characteristics
@@ -42,8 +51,11 @@ recipe(y ~ ., data = train) |>
 ```
 
 **Typical skip = TRUE cases:**
+
 - Removing outliers (we want to predict for outliers in new data)
+
 - Sampling rows (we want all new data, not a sample)
+
 - Filtering based on criteria (new data may not meet the criteria)
 
 ## When skip = FALSE Makes Sense
@@ -51,6 +63,7 @@ recipe(y ~ ., data = train) |>
 Rare cases where row operations should apply to new data:
 
 - Removing rows that are mathematically impossible to process
+
 - Enforcing data quality requirements that apply universally
 
 **Use skip = FALSE cautiously** - usually better to handle at the data preparation stage.
@@ -358,8 +371,11 @@ recipe(y ~ ., data = train) |>
 ### Sampling considerations
 
 Random sampling steps should consider:
+
 - Setting seeds for reproducibility
+
 - Stratification if needed
+
 - Sample size vs data size
 
 ## When Not to Use Row Operations
@@ -374,9 +390,15 @@ Consider alternatives in these cases:
 ## Next Steps
 
 - Understand architecture: [step-architecture.md](step-architecture.md)
+
 - Modify in place: [modify-in-place-steps.md](modify-in-place-steps.md)
+
 - Create new columns: [create-new-columns-steps.md](create-new-columns-steps.md)
+
 - Add optional methods: [optional-methods.md](optional-methods.md)
+
 - Learn helper functions: [helper-functions.md](helper-functions.md)
+
 - Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

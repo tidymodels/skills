@@ -14,8 +14,11 @@ Splits the entire data set into three partitions.
 **When to use**: At the very beginning of the modeling process.
 
 **Considerations**:
+
 - When the number of data points is large (say >= 10,000), ask the user if they want this type of split.
+
   - If not, use a basic training/testing split.
+
 - Stratified splitting maintains outcome distribution in each fold
 
 ### tidymodels
@@ -38,6 +41,7 @@ Splits the entire data set into two partitions.
 **When to use**: At the very beginning of the modeling process.
 
 **Considerations**:
+
 - Stratified splitting maintains outcome distribution in each fold
 
 ### tidymodels

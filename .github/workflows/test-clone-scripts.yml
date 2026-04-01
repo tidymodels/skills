@@ -117,7 +117,7 @@ jobs:
       - name: Verify all packages cloned
         run: |
           cd /tmp/test-all
-          if [ ! -d "repos/yardstick" ] || [ ! -d "repos/recipes" ] || [ ! -d "repos/dials" ]; then
+          if [ ! -d "repos/yardstick" ] || [ ! -d "repos/recipes" ] || [ ! -d "repos/dials" ] || [ ! -d "repos/parsnip" ]; then
             echo "✗ Not all packages cloned"
             exit 1
           fi
@@ -279,7 +279,7 @@ jobs:
           $testDir = "$env:TEMP\test-all"
           Set-Location $testDir
 
-          if (!(Test-Path "repos\yardstick") -or !(Test-Path "repos\recipes") -or !(Test-Path "repos\dials")) {
+          if (!(Test-Path "repos\yardstick") -or !(Test-Path "repos\recipes") -or !(Test-Path "repos\dials") -or !(Test-Path "repos\parsnip")) {
             Write-Error "Not all packages cloned"
             exit 1
           }

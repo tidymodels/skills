@@ -4,7 +4,7 @@ Repository cloning scripts for tidymodels development reference.
 
 ## Purpose
 
-These scripts clone tidymodels package repositories (yardstick, recipes, dials) into a local `repos/` directory for development reference. Having local access to the source code helps Claude provide more accurate guidance with real implementation examples during skill execution.
+These scripts clone tidymodels package repositories (yardstick, recipes, dials, parsnip) into a local `repos/` directory for development reference. Having local access to the source code helps Claude provide more accurate guidance with real implementation examples during skill execution.
 
 ## Scripts
 
@@ -32,8 +32,11 @@ We provide three platform-native scripts for the best user experience:
 # Clone dials
 ./developers/shared-references/scripts/clone-tidymodels-repos.sh dials
 
+# Clone parsnip
+./developers/shared-references/scripts/clone-tidymodels-repos.sh parsnip
+
 # Clone multiple packages
-./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes dials
+./developers/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes dials parsnip
 
 # Clone all packages
 ./developers/shared-references/scripts/clone-tidymodels-repos.sh all
@@ -51,8 +54,11 @@ We provide three platform-native scripts for the best user experience:
 # Clone dials
 .\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 dials
 
+# Clone parsnip
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 parsnip
+
 # Clone multiple packages
-.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick recipes dials
+.\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 yardstick recipes dials parsnip
 
 # Clone all packages
 .\tidymodels\shared-references\scripts\clone-tidymodels-repos.ps1 all
@@ -101,10 +107,15 @@ All scripts use consistent exit codes:
 ## Requirements
 
 - **Git**: Must be installed and available in PATH
+
   - macOS: Install Xcode Command Line Tools or download from https://git-scm.com/downloads
+
   - Linux: Install via package manager (`apt-get install git`, `yum install git`, etc.)
+
   - Windows: Download from https://git-scm.com/downloads
-- **Disk Space**: ~5-8 MB per repository (yardstick, recipes, dials - shallow clones)
+
+- **Disk Space**: ~5-8 MB per repository (yardstick, recipes, dials, parsnip - shallow clones)
+
 - **Python script only**: Python 3.6 or higher
 
 ## Directory Structure
@@ -125,7 +136,11 @@ my-package/
 │   │   ├── R/
 │   │   ├── tests/
 │   │   └── ...
-│   └── dials/               # Cloned repository
+│   ├── dials/               # Cloned repository
+│   │   ├── R/
+│   │   ├── tests/
+│   │   └── ...
+│   └── parsnip/             # Cloned repository
 │       ├── R/
 │       ├── tests/
 │       └── ...
@@ -138,9 +153,13 @@ The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildi
 ## Features
 
 - **Shallow clones**: Uses `git clone --depth 1` for speed and disk space efficiency
+
 - **Idempotent**: Safe to run multiple times (skips existing repositories)
+
 - **No duplicates**: Checks before adding entries to ignore files
+
 - **Clear output**: Color-coded progress messages
+
 - **Error handling**: Detailed error messages with troubleshooting hints
 
 ## Troubleshooting
@@ -148,22 +167,31 @@ The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildi
 ### Git not found
 
 If git is not installed:
+
 - **macOS**: Install Xcode Command Line Tools or visit https://git-scm.com/downloads
+
 - **Linux**: Use package manager (e.g., `sudo apt-get install git`)
+
 - **Windows**: Download from https://git-scm.com/downloads
 
 ### Permission denied
 
 If you get permission errors:
+
 - Check that you have write permissions in the current directory
+
 - On Windows, try running PowerShell as Administrator
+
 - On Unix-like systems, check directory ownership with `ls -la`
 
 ### Network issues
 
 If cloning fails:
+
 - Check your internet connection
+
 - Verify you can access github.com in your browser
+
 - Try again later (GitHub may be temporarily unavailable)
 
 ### Repository already exists

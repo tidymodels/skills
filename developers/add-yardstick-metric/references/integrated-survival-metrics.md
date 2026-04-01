@@ -5,14 +5,21 @@ Integrated survival metrics aggregate time-dependent performance across all eval
 ## Overview
 
 **Use when:**
+
 - Truth is a **Surv object** (from the survival package)
+
 - Predictions are **survival probabilities** at multiple time points
+
 - You want **one overall value** that summarizes performance across time
 
 **Key characteristics:**
+
 - Builds on dynamic survival metrics
+
 - Uses area-under-curve integration (trapezoidal rule)
+
 - Normalizes by max evaluation time
+
 - Returns `.estimator = "standard"`
 
 **Examples:** Integrated Brier Score, Integrated ROC AUC
@@ -227,7 +234,9 @@ check_dynamic_survival_metric(truth, estimate, case_weights)
 Integrated metrics use the same validation as dynamic metrics since they operate on the same input format.
 
 **Additional validation:**
+
 - At least 2 evaluation times are required for integration
+
 - All observations must have the same evaluation times
 
 ## Input Format
@@ -278,8 +287,11 @@ integrated_score <- area / max(eval_times)
 ```
 
 This normalization ensures:
+
 - Same scale as the underlying dynamic metric (e.g., 0-1 for Brier)
+
 - Comparable across different time ranges
+
 - Interpretable as "average" performance over time
 
 ## Testing
@@ -421,8 +433,11 @@ Integrated Metric → Single value (across all times)
 ```
 
 Think of integrated metrics as:
+
 - **Time-averaged** performance
+
 - **Area under the performance curve**
+
 - **Overall summary** of time-specific metrics
 
 ## Best Practices
@@ -438,7 +453,9 @@ Think of integrated metrics as:
 ## Common Metrics
 
 - **Integrated Brier Score**: Average Brier score across time
+
 - **Integrated ROC AUC**: Average AUC across time
+
 - **Integrated Calibration**: Average calibration across time
 
 ## Helper Functions
@@ -460,5 +477,7 @@ auc <- function(x, y) {
 ## See Also
 
 - [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Base time-dependent metrics
+
 - [Static Survival Metrics](static-survival-metrics.md) - Overall metrics without time
+
 - [Metric System](metric-system.md) - Understanding metric architecture

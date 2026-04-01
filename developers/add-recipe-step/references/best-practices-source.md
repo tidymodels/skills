@@ -13,14 +13,21 @@ For extension development (creating new packages), see [Best Practices (Extensio
 ### When to Use Internal Functions
 
 ✅ **Use internal functions when:**
+
 - Standard operations like variable selection or validation
+
 - Complex calculations already implemented
+
 - Consistency with existing steps is needed
+
 - Avoiding code duplication
 
 ❌ **Don't use internal functions when:**
+
 - Simple logic can be written inline
+
 - The internal function doesn't quite fit
+
 - It would make code less readable
 
 ### Finding Existing Internal Functions
@@ -56,8 +63,11 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 ```
 
 **Use for:**
+
 - Converting `all_numeric()` to actual numeric column names
+
 - Converting `all_predictors()` to predictor names
+
 - Resolving manual selections like `c(disp, hp)`
 
 #### `get_case_weights()` - Extract Case Weights
@@ -80,8 +90,11 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 ```
 
 **Handles:**
+
 - Finding case_weights role in recipe
+
 - Extracting weight column
+
 - Converting to appropriate format
 
 #### `check_type()` - Validate Column Types
@@ -99,9 +112,13 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 ```
 
 **Common type checks:**
+
 - `c("double", "integer")` - Numeric data
+
 - `c("factor", "ordered")` - Categorical data
+
 - `"character"` - Text data
+
 - `"logical"` - Boolean data
 
 #### `check_new_data()` - Validate Columns Exist in New Data
@@ -119,7 +136,9 @@ bake.step_center <- function(object, new_data, ...) {
 ```
 
 **Provides:**
+
 - Clear error message if columns missing
+
 - Consistent error format across steps
 
 #### `remove_original_cols()` - Handle keep_original_cols
@@ -193,11 +212,13 @@ Recipes organizes steps by name (less strict than yardstick):
 ### Source File Names
 
 - **Step files**: `R/[step_name].R`
+
   - Examples: `center.R`, `normalize.R`, `pca.R`, `dummy.R`
 
 ### Test File Names Match Source
 
 - `R/center.R` → `tests/testthat/test-center.R`
+
 - `R/normalize.R` → `tests/testthat/test-normalize.R`
 
 ## Documentation Patterns
@@ -231,9 +252,13 @@ step_center <- function(
 ```
 
 **Common inheritParams sources:**
+
 - `step_normalize` - For normalization-type steps
+
 - `step_center` - For centering-type steps
+
 - `step_pca` - For dimension reduction steps
+
 - `step_dummy` - For encoding steps
 
 ### Standard Parameter Documentation
@@ -425,8 +450,11 @@ bake.step_center <- function(object, new_data, ...) {
 ```
 
 **Key points:**
+
 - Use column names from trained object (not from x$terms)
+
 - Validate before transforming
+
 - Return the modified data frame
 
 ## Step Type Best Practices
@@ -488,15 +516,21 @@ bake.step_filter <- function(object, new_data, ...) {
 ### When to Create Internal Helpers
 
 Create internal helpers when:
+
 - Logic is shared by 2+ steps
+
 - Complex operation used repeatedly
+
 - Abstraction improves clarity
 
 ### Naming Conventions
 
 Internal helpers typically:
+
 - Have descriptive names
+
 - Are NOT exported
+
 - Use `@keywords internal` and `@noRd`
 
 ### Example Internal Helper
@@ -571,12 +605,19 @@ col_names <- dplyr::select(training, !!!x$terms) |> names()
 ### Support All Standard Selectors
 
 Your step should work with:
+
 - `all_numeric()`
+
 - `all_numeric_predictors()`
+
 - `all_nominal()`
+
 - `all_predictors()`
+
 - `all_outcomes()`
+
 - `has_role("predictor")`
+
 - Manual selection: `c(disp, hp)`
 
 Test all of these!
@@ -652,9 +693,13 @@ new_data <- new_data |>
 ### Study Similar Steps
 
 Before implementing:
+
 - For normalization: `R/center.R`, `R/scale.R`, `R/normalize.R`
+
 - For encoding: `R/dummy.R`, `R/novel.R`
+
 - For dimension reduction: `R/pca.R`, `R/ica.R`
+
 - For filtering: `R/filter.R`, `R/sample.R`
 
 ### Match Parameter Patterns
@@ -678,6 +723,9 @@ step_name <- function(
 ## Next Steps
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
+
 - Study existing steps in the recipes repository
+
 - Follow [Extension Best Practices](package-extension-requirements.md#best-practices) for code style basics

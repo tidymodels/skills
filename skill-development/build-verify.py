@@ -33,6 +33,7 @@ class Builder:
         self.root_dir = Path(root_dir).resolve()
         self.skills = self._discover_skills()
         self.shared_dir = self.root_dir / "shared-references"
+        self.shared_parsnip_dir = self.root_dir / "shared-references-parsnip"
         self.errors = []
 
     def _discover_skills(self) -> List[str]:
@@ -43,7 +44,7 @@ class Builder:
 
         for item in self.root_dir.iterdir():
             # Skip if not a directory or if it's shared-references
-            if not item.is_dir() or item.name == "shared-references":
+            if not item.is_dir() or item.name in ["shared-references", "shared-references-parsnip"]:
                 continue
 
             # A directory is a skill if it contains SKILL.md or references/
@@ -138,6 +139,34 @@ class Builder:
                 print(f"  ERROR: {error}")
                 return None, None
 
+        # Copy shared-references-parsnip/*.md files (for parsnip skills only)
+        parsnip_md_count = 0
+        if "parsnip" in skill and self.shared_parsnip_dir.exists():
+            if not quiet:
+                print(f"  Copying shared-references-parsnip/*.md → {refs_dir.name}/")
+            parsnip_md_files = list(self.shared_parsnip_dir.glob("*.md"))
+
+            for md_file in parsnip_md_files:
+                try:
+                    dest = (refs_dir / md_file.name).resolve()
+                    # Validate destination is within root_dir
+                    try:
+                        dest.relative_to(self.root_dir)
+                    except ValueError:
+                        error = f"{skill}: Destination path outside project: {dest}"
+                        self.errors.append(error)
+                        print(f"  ERROR: {error}")
+                        return None, None
+                    shutil.copy2(md_file, dest)
+                    parsnip_md_count += 1
+                    if not quiet:
+                        print(f"    {md_file.name}")
+                except Exception as e:
+                    error = f"{skill}: Failed to copy {md_file.name} - {e}"
+                    self.errors.append(error)
+                    print(f"  ERROR: {error}")
+                    return None, None
+
         # Create scripts subdirectory
         scripts_dir = refs_dir / "scripts"
         scripts_dir.mkdir(exist_ok=True)
@@ -175,7 +204,7 @@ class Builder:
         if not quiet:
             print(f"  ✓ {skill} complete")
             print()
-        return len(md_files), script_count
+        return len(md_files) + parsnip_md_count, script_count
 
 
 class DocsVerifier:
@@ -231,7 +260,7 @@ class DocsVerifier:
 
         for item in self.root_dir.iterdir():
             # Skip if not a directory or if it's shared-references
-            if not item.is_dir() or item.name == "shared-references":
+            if not item.is_dir() or item.name in ["shared-references", "shared-references-parsnip"]:
                 continue
 
             # A directory is a skill if it contains SKILL.md or references/
@@ -333,8 +362,8 @@ class ReferenceVerifier:
             if part.startswith('.'):
                 return True
 
-        # Skip shared-references directory
-        if 'shared-references' in file_path.parts:
+        # Skip shared-references directories
+        if 'shared-references' in file_path.parts or 'shared-references-parsnip' in file_path.parts:
             return True
 
         # Skip SKILL_IMPLEMENTATION_GUIDE.md

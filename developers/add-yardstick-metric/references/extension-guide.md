@@ -20,13 +20,19 @@ Complete guide for creating new packages that extend yardstick with custom metri
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
+
 - Creating a **new R package** that adds custom metrics
+
 - Building on yardstick's foundation without modifying yardstick itself
+
 - Publishing metrics to CRAN or sharing privately
+
 - Want to avoid tight coupling with yardstick internals
 
 ❌ **Don't use this guide if you are:**
+
 - Contributing a PR directly to the yardstick package → Use [Source Development Guide](source-guide.md)
+
 - Working inside the yardstick repository → Use [Source Development Guide](source-guide.md)
 
 ---
@@ -68,25 +74,41 @@ if (is.null(case_weights)) {
 ```
 
 **Why?**
+
 - Internal functions are not guaranteed to be stable
+
 - They can change without notice
+
 - Your package will fail CRAN checks
+
 - Users will get cryptic errors
 
 ### ✅ Only Use Exported Functions
 
 Safe to use:
+
 - `yardstick::new_numeric_metric()`
+
 - `yardstick::new_class_metric()`
+
 - `yardstick::new_prob_metric()`
+
 - `yardstick::check_numeric_metric()`
+
 - `yardstick::check_class_metric()`
+
 - `yardstick::check_prob_metric()`
+
 - `yardstick::yardstick_remove_missing()`
+
 - `yardstick::yardstick_any_missing()`
+
 - `yardstick::numeric_metric_summarizer()`
+
 - `yardstick::class_metric_summarizer()`
+
 - `yardstick::prob_metric_summarizer()`
+
 - `yardstick::yardstick_table()` (for confusion matrices)
 
 ### ✅ Self-Contained Implementations
@@ -119,10 +141,15 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 ### Step 1: Choose Your Metric Type
 
 See the decision tree in the main [SKILL.md](../SKILL.md#choosing-your-metric-type) to determine:
+
 - Numeric metric (regression)
+
 - Class metric (classification with classes)
+
 - Probability metric (classification with probabilities)
+
 - Survival metric (time-to-event)
+
 - Quantile metric (uncertainty quantification)
 
 ### Step 2: Create Implementation Function
@@ -235,10 +262,15 @@ mae.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 ### Step 5: Document Your Metric
 
 Key roxygen tags:
+
 - `@family` - Group with related metrics
+
 - `@param` - Document all parameters
+
 - `@return` - Describe return value
+
 - `@examples` - Provide working examples
+
 - `@export` - Make function available to users
 
 ### Step 6: Test Your Metric
@@ -463,10 +495,15 @@ See [Testing Patterns (Extension)](package-extension-requirements.md#testing-req
 See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
+
 - Use base pipe `|>` not magrittr pipe `%>%`
+
 - Prefer for-loops over `purrr::map()`
+
 - Use `cli::cli_abort()` for error messages
+
 - Keep functions focused on single responsibility
+
 - Validate early (in `_vec`), trust data in `_impl`
 
 ---
@@ -476,9 +513,13 @@ See [Best Practices (Extension)](package-extension-requirements.md#best-practice
 See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
+
 - "No visible global function definition" → Add to package imports
+
 - "Object not found" in tests → Use `devtools::load_all()` before testing
+
 - NA handling bugs → Check both `na_rm = TRUE` and `FALSE` cases
+
 - Case weights not working → Convert hardhat weights to numeric
 
 ---
@@ -486,25 +527,41 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 ## Reference Documentation
 
 ### Metric Types
+
 - [Numeric Metrics](numeric-metrics.md) - Regression metrics
+
 - [Class Metrics](class-metrics.md) - Classification metrics
+
 - [Probability Metrics](probability-metrics.md) - Probability-based metrics
+
 - [Ordered Probability Metrics](ordered-probability-metrics.md) - Ordinal metrics
+
 - [Survival Metrics](static-survival-metrics.md) - Time-to-event metrics
+
 - [Quantile Metrics](quantile-metrics.md) - Uncertainty metrics
 
 ### Core Concepts
+
 - [Metric System Architecture](metric-system.md)
+
 - [Combining Metrics](metric-set.md)
+
 - [Confusion Matrix](confusion-matrix.md)
+
 - [Case Weights](case-weights.md)
 
 ### Shared References
+
 - [Extension Prerequisites](package-extension-prerequisites.md)
+
 - [Development Workflow](package-development-workflow.md)
+
 - [Testing Patterns](package-extension-requirements.md#testing-requirements)
+
 - [Roxygen Documentation](package-roxygen-documentation.md)
+
 - [Best Practices](package-extension-requirements.md#best-practices)
+
 - [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
 
 ---
@@ -523,6 +580,9 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 ## Getting Help
 
 - Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
+
 - Review existing examples in reference documentation
+
 - Study the main [yardstick SKILL.md](../SKILL.md) for more details
+
 - Search GitHub issues: https://github.com/tidymodels/yardstick/issues

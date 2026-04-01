@@ -13,19 +13,29 @@ This guide covers how to create parameters whose ranges depend on dataset charac
 Data-dependent parameters have ranges that cannot be determined until the training dataset is available. They use `unknown()` placeholders and finalization functions to resolve bounds based on data characteristics.
 
 **Reference implementations in dials:**
+
 - Predictor-dependent: `R/param_mtry.R` (uses `get_p` for number of predictors), `R/param_num_comp.R` (PCA components)
+
 - Observation-dependent: `R/param_sample_size.R` (uses `get_n` for number of observations), `R/param_min_n.R` (minimum node size)
+
 - Term-dependent: `R/param_num_terms.R` (uses `get_p` for model terms)
 
 **Finalization functions:**
+
 - `get_p`: Resolves to number of predictors in dataset
+
 - `get_n`: Resolves to number of observations in dataset
+
 - `get_n_frac`: Resolves to fraction of observations
+
 - `get_n_frac_range`: Resolves range based on observation fraction
+
 - `get_rbf_range`: Resolves radial basis function range
 
 **Test patterns:**
+
 - Finalization tests: `tests/testthat/test-param_mtry.R` (demonstrates `finalize()` usage)
+
 - Unknown handling: `tests/testthat/test-unknown.R` (placeholder behavior)
 
 ---
@@ -60,7 +70,9 @@ mtry()
 Some parameters depend on dataset properties:
 
 - **Number of predictors**: Can't sample more features than exist
+
 - **Number of observations**: Sample size must be ≤ dataset size
+
 - **Number of columns**: PCA components ≤ number of variables
 
 Without seeing the data, we can't set sensible upper bounds.
@@ -86,8 +98,11 @@ Use `unknown()` and finalization when:
 **Examples**:
 
 - `mtry()`: Randomly selected predictors in random forests
+
 - `num_comp()`: Number of PCA components
+
 - `max_features`: Maximum features to select
+
 - `num_terms()`: Number of model terms based on predictors
 
 **Reason**: Can't select more features than exist in the dataset
@@ -111,7 +126,9 @@ mtry <- function(range = c(1L, dials::unknown()), trans = NULL) {
 **Examples**:
 
 - `sample_size()`: Rows to sample
+
 - `min_n()`: Minimum observations in node
+
 - `bootstrap_sample()`: Bootstrap sample size
 
 **Reason**: Sample size must be ≤ number of rows
@@ -134,7 +151,9 @@ sample_size <- function(range = c(dials::unknown(), dials::unknown())) {
 **Examples**:
 
 - `num_initial_terms()`: MARS terms based on earth package formula
+
 - Custom bounds based on multiple data properties
+
 - Heuristic-based range adjustment
 
 **Reason**: Upper bound follows package-specific or domain-specific rules
@@ -195,8 +214,11 @@ finalize_function <- function(object, x) {
 **Key points**:
 
 - Takes parameter object and predictor data
+
 - Examines data properties (ncol, nrow, etc.)
+
 - Updates the parameter's range
+
 - Returns modified parameter object
 
 ---
@@ -799,12 +821,15 @@ test_that("my_param handles single column", {
 ### Learn More
 
 - **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
+
 - **Parameter system**: [Parameter System Overview](parameter-system.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ---

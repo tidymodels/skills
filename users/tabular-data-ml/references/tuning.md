@@ -42,7 +42,9 @@ Evaluates all combinations of parameter values in a predefined grid.
 **When to use**: Almost all cases.
 
 **Considerations**:
+
 - Space-filling designs cover parameter space more efficiently
+
 - Typical grid sizes: 10-50 configurations
 
 ### tidymodels
@@ -77,8 +79,11 @@ Starts with all configurations, then eliminates poor performers after initial re
 **When to use**: Wide grids; want efficiency without giving up grid search's coverage.
 
 **Considerations**:
+
 - Requires enough resamples for statistical comparison (≥5 resamples)
+
 - Can't use with validation sets (only one assessment—no racing possible)
+
 - ANOVA racing is most common; simulated annealing racing also available
 
 ### tidymodels
@@ -103,6 +108,7 @@ tune_results <- tune_race_anova(
 Unless the user is interested in a specific model, we suggest starting with two disparate models: 
 
 - A regularized model that is linear in its parameters, such as linear regression, logistic regression, or multinomial regression. 
+
 - A boosted tree that uses early stopping.
 
 Generally, do not suggest models that are similar to ones already considered. For example, do not suggest random forest after a different tree ensemble has been evaluated. 

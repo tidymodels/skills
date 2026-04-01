@@ -17,12 +17,14 @@ This skill supports **two distinct development contexts**:
 **Creating a new R package** that extends yardstick with custom metrics.
 
 - ✅ Use this for: New packages, standalone metrics, CRAN submissions
+
 - ⚠️ **Constraint**: Can only use exported functions (no `:::`)
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to yardstick** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/yardstick repository
+
 - ✨ **Benefit**: Can use internal functions and package infrastructure
 
 ---
@@ -51,12 +53,19 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 ## Overview
 
 Creating a custom yardstick metric provides:
+
 - Standardization with existing metrics
+
 - Automatic error handling for types and lengths
+
 - Support for multiclass implementations
+
 - NA handling
+
 - Grouped data frame support
+
 - Integration with `metric_set()`
+
 - Optional autoplot support for visualization (curves and confusion matrices)
 
 ## Repository Access (Optional but Recommended)
@@ -64,25 +73,41 @@ Creating a custom yardstick metric provides:
 **INSTRUCTIONS FOR CLAUDE:** Check if `repos/yardstick/` exists in the current working directory. Use this to guide development:
 
 **If `repos/yardstick/` exists:**
+
 - ✅ Use it as a reference throughout development
+
 - Read source files (e.g., `repos/yardstick/R/prob-brier_class.R`) to study implementation patterns
+
 - Read test files (e.g., `repos/yardstick/tests/testthat/test-prob-roc_auc.R`) for testing patterns
+
 - Reference these files when answering complex questions or solving problems
+
 - Look at actual code structure, validation patterns, and edge case handling
 
 **If `repos/yardstick/` does NOT exist:**
+
 - Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+
 - This is **optional but strongly recommended** for high-quality development
+
 - If the user declines, reference files using GitHub URLs:
+
   - Format: `https://github.com/tidymodels/yardstick/blob/main/R/[file-name].R`
+
   - Example: https://github.com/tidymodels/yardstick/blob/main/R/prob-brier_class.R
+
   - This allows users to click through to see implementations
 
 **When to use repository references:**
+
 - Complex implementation questions (e.g., "How does yardstick handle multiclass averaging?")
+
 - Debugging issues (compare user's code to working implementation)
+
 - Understanding patterns (study similar metrics)
+
 - Test design (see how yardstick tests edge cases)
+
 - Architecture decisions (understand internal structure)
 
 See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
@@ -90,38 +115,65 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 ## Quick Navigation
 
 **Development Guides:**
+
 - [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend yardstick
+
 - [Source Development Guide](references/source-guide.md) - Contributing PRs to yardstick itself
 
 **Reference Files:**
+
 - [Metric System Architecture](references/metric-system.md) - How new_*_metric() works, .estimator column, design considerations
+
 - [Combining Metrics](references/metric-set.md) - Using metric_set() to combine multiple metrics
+
 - [Groupwise Metrics](references/groupwise-metrics.md) - Creating disparity/fairness metrics
+
 - [Numeric Metrics](references/numeric-metrics.md) - Regression metrics (MAE, RMSE, MSE)
+
 - [Class Metrics](references/class-metrics.md) - Classification metrics (accuracy, precision, recall)
+
 - [Probability Metrics](references/probability-metrics.md) - Probability-based metrics (ROC AUC, log loss)
+
 - [Ordered Probability Metrics](references/ordered-probability-metrics.md) - Ordinal classification metrics (Ranked Probability Score)
+
 - [Static Survival Metrics](references/static-survival-metrics.md) - Overall survival metrics (Concordance Index)
+
 - [Dynamic Survival Metrics](references/dynamic-survival-metrics.md) - Time-dependent survival metrics (Brier Survival)
+
 - [Integrated Survival Metrics](references/integrated-survival-metrics.md) - Integrated survival metrics (Integrated Brier)
+
 - [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md) - Linear predictor metrics (Royston's D)
+
 - [Quantile Metrics](references/quantile-metrics.md) - Quantile prediction metrics (Weighted Interval Score)
+
 - [Confusion Matrix](references/confusion-matrix.md) - Working with yardstick_table()
+
 - [Case Weights](references/case-weights.md) - Handling weighted observations
+
 - [Autoplot Support](references/autoplot.md) - Optional visualization (curves, confusion matrices)
 
 **Shared References (Extension Development):**
+
 - [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+
 - [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+
 - [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+
 - [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
+
 - [Package Imports](references/package-imports.md) - Managing dependencies
+
 - [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+
 - [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
+
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal test helpers
+
 - [Best Practices (Source)](references/best-practices-source.md) - Using internal functions
+
 - [Troubleshooting (Source)](references/troubleshooting-source.md) - Source-specific issues
 
 ## Development Workflow
@@ -183,27 +235,43 @@ See [Development Workflow](references/package-development-workflow.md) for compl
         │            │                   │               │         │
         ▼            ▼                   ▼               ▼         ▼
   Examples:     Examples:          Examples:      Examples:  Examples:
+
   - MAE         - Accuracy         - ROC AUC      - Concordance - WIS
+
   - RMSE        - Precision        - Log Loss     - Brier       - Pinball
+
   - R²          - F1 Score         - PR AUC       - Royston's D - Coverage
                 - Ranked Prob Score
 
   Survival Metrics Breakdown:
+
   - STATIC: Single overall value (e.g., Concordance)
+
   - DYNAMIC: Value per time point (e.g., Time-dependent Brier)
+
   - INTEGRATED: Averaged across time (e.g., Integrated Brier)
+
   - LINEAR PRED: From Cox models (e.g., Royston's D)
 ```
 
 **Decision guide:**
+
 - **Numeric metric**: Truth and predictions are continuous numbers → [Numeric Metrics](references/numeric-metrics.md)
+
 - **Class metric**: Truth and predictions are unordered factor classes → [Class Metrics](references/class-metrics.md)
+
 - **Probability metric**: Truth is unordered factor, predictions are probabilities → [Probability Metrics](references/probability-metrics.md)
+
 - **Ordered probability metric**: Truth is ordered factor, predictions are probabilities → [Ordered Probability Metrics](references/ordered-probability-metrics.md)
+
 - **Static survival metric**: Truth is Surv object, single numeric prediction → [Static Survival Metrics](references/static-survival-metrics.md)
+
 - **Dynamic survival metric**: Truth is Surv object, time-dependent predictions → [Dynamic Survival Metrics](references/dynamic-survival-metrics.md)
+
 - **Integrated survival metric**: Truth is Surv object, integrated across time → [Integrated Survival Metrics](references/integrated-survival-metrics.md)
+
 - **Linear predictor survival metric**: Truth is Surv object, linear predictor from Cox model → [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md)
+
 - **Quantile metric**: Truth is numeric, predictions are quantiles → [Quantile Metrics](references/quantile-metrics.md)
 
 ## Complete Example: Numeric Metric (MAE)
@@ -213,15 +281,23 @@ For a complete, step-by-step implementation of a numeric metric (MAE), see the c
 👉 **[Numeric Metrics Reference](references/numeric-metrics.md)**
 
 This reference includes:
+
 - Implementation function (`mae_impl`) with case weights handling
+
 - Vector interface (`mae_vec`) with validation and NA handling
+
 - Data frame method with `new_numeric_metric()` wrapper
+
 - Complete test suite covering correctness, NA handling, input validation, and case weights
+
 - Working examples you can adapt for your own metrics
 
 **Quick preview of the pattern:**
+
 - `_impl()` function: Core calculation logic
+
 - `_vec()` function: Validation and NA handling
+
 - `.data.frame()` method: Integration with yardstick system
 
 See also [Extension Development Guide](references/extension-guide.md) for the complete implementation walkthrough.
@@ -237,16 +313,23 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Numeric Metrics](references/numeric-metrics.md)
 
 **Key points:**
+
 - Always use `check_numeric_metric()` for validation
+
 - Handle case weights with `weighted.mean()`
+
 - Use `yardstick_remove_missing()` for NA handling
+
 - Return `.estimator = "standard"`
 
 **Examples:** MAE, RMSE, MSE, Huber Loss, R-squared
 
 **Reference implementations:**
+
 - Simple metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+
 - Parameterized metrics: `R/num-huber_loss.R` (has delta parameter)
+
 - Complex metrics: `R/num-ccc.R` (correlation-based)
 
 ### Class Metrics
@@ -258,16 +341,23 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Class Metrics](references/class-metrics.md)
 
 **Key points:**
+
 - Use `yardstick_table()` to create weighted confusion matrix
+
 - Implement separate `_binary` and `_estimator_impl` functions
+
 - Handle factor level ordering with `event_level` parameter
+
 - Support multiclass with macro, micro, macro_weighted averaging
 
 **Examples:** Accuracy, Precision, Recall, F1, Specificity
 
 **Reference implementations:**
+
 - Simple metrics: `R/class-accuracy.R`, `R/class-precision.R`, `R/class-recall.R`
+
 - Combined metrics: `R/class-f_meas.R` (F1 score)
+
 - Balanced metrics: `R/class-bal_accuracy.R` (handles class imbalance)
 
 ### Probability Metrics
@@ -279,15 +369,21 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Probability Metrics](references/probability-metrics.md)
 
 **Key points:**
+
 - Truth is factor, estimate is probabilities
+
 - Convert factor to binary for binary metrics
+
 - Handle multiple probability columns for multiclass
+
 - Use `check_prob_metric()` for validation
 
 **Examples:** ROC AUC, Log Loss, Brier Score, PR AUC
 
 **Reference implementations:**
+
 - Curve-based: `R/prob-roc_auc.R`, `R/prob-pr_auc.R`
+
 - Scoring rules: `R/prob-brier_class.R`, `R/prob-mn_log_loss.R`
 
 ### Ordered Probability Metrics
@@ -299,9 +395,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Ordered Probability Metrics](references/ordered-probability-metrics.md)
 
 **Key points:**
+
 - Truth must be ordered factor
+
 - Uses cumulative probabilities to respect ordering
+
 - Use `check_ordered_prob_metric()` for validation
+
 - No averaging types (works same for any number of classes)
 
 **Examples:** Ranked Probability Score (RPS)
@@ -315,9 +415,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Static Survival Metrics](references/static-survival-metrics.md)
 
 **Key points:**
+
 - Truth is Surv object from survival package
+
 - Estimate is single numeric per observation
+
 - Handles right-censoring with comparable pairs
+
 - Use `check_static_survival_metric()` for validation
 
 **Examples:** Concordance Index (C-index)
@@ -331,9 +435,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Dynamic Survival Metrics](references/dynamic-survival-metrics.md)
 
 **Key points:**
+
 - Truth is Surv object
+
 - Estimate is list-column of data.frames with `.eval_time`, `.pred_survival`, `.weight_censored`
+
 - Returns multiple rows (one per eval_time)
+
 - Uses inverse probability of censoring weights (IPCW)
 
 **Examples:** Time-dependent Brier Score, Time-dependent ROC AUC
@@ -347,9 +455,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Integrated Survival Metrics](references/integrated-survival-metrics.md)
 
 **Key points:**
+
 - Same input format as dynamic survival metrics
+
 - Integrates across time using trapezoidal rule
+
 - Normalizes by max evaluation time
+
 - Requires at least 2 evaluation times
 
 **Examples:** Integrated Brier Score, Integrated ROC AUC
@@ -363,9 +475,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Linear Predictor Survival Metrics](references/linear-predictor-survival-metrics.md)
 
 **Key points:**
+
 - Truth is Surv object
+
 - Estimate is linear predictor values (unbounded)
+
 - Often uses transformations (e.g., normal scores)
+
 - Use `check_linear_pred_survival_metric()` for validation
 
 **Examples:** Royston's D statistic, R²_D
@@ -379,9 +495,13 @@ See also [Extension Development Guide](references/extension-guide.md) for the co
 **Complete guide:** [Quantile Metrics](references/quantile-metrics.md)
 
 **Key points:**
+
 - Truth is numeric
+
 - Estimate is `hardhat::quantile_pred` object
+
 - Handles missing quantiles (impute, drop, or propagate)
+
 - Uses `fn_options` for additional parameters
 
 **Examples:** Weighted Interval Score (WIS), Pinball Loss
@@ -472,9 +592,13 @@ my_metrics(data, truth = y, estimate = y_pred)
 ```
 
 **Key benefits:**
+
 - Calculate multiple metrics at once
+
 - More efficient (shared calculations)
+
 - Integrates with tune package
+
 - Works with grouped data
 
 See [Combining Metrics](references/metric-set.md) for complete guide.
@@ -495,8 +619,11 @@ accuracy_diff_by_group(data, truth, estimate)
 ```
 
 **Use cases:**
+
 - Fairness analysis across demographic groups
+
 - Performance consistency across segments
+
 - Disparity quantification
 
 See [Groupwise Metrics](references/groupwise-metrics.md) for complete guide.
@@ -508,17 +635,25 @@ If you're contributing to yardstick itself, you have access to internal function
 ### File Naming Conventions
 
 Yardstick uses strict naming patterns:
+
 - Numeric: `R/num-[name].R` → `R/num-mae.R`
+
 - Class: `R/class-[name].R` → `R/class-accuracy.R`
+
 - Probability: `R/prob-[name].R` → `R/prob-roc_auc.R`
+
 - Tests: `tests/testthat/test-num-mae.R`
 
 ### Internal Functions Available
 
 When developing yardstick itself, you can use:
+
 - `yardstick_mean()` - Weighted mean with case weight handling
+
 - `finalize_estimator_internal()` - Estimator selection for multiclass
+
 - `check_numeric_metric()`, `check_class_metric()`, `check_prob_metric()` - Validation
+
 - Test helpers: `data_altman()`, `data_three_class()`, `data_hpc_cv1()`
 
 ### Documentation Templates
@@ -575,10 +710,15 @@ mae <- function(data, ...) {
 See [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
+
 - Use base pipe `|>` not magrittr pipe `%>%`
+
 - Prefer for-loops over `purrr::map()` for better error messages
+
 - Use `cli::cli_abort()` for error messages
+
 - Keep functions focused on single responsibility
+
 - Validate early (in `_vec`), trust data in `_impl`
 
 ## Troubleshooting
@@ -586,15 +726,24 @@ See [Best Practices (Extension)](references/package-extension-requirements.md#be
 See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
+
 - "No visible global function definition" → Add to package imports
+
 - "Object not found" in tests → Use `devtools::load_all()` before testing
+
 - NA handling bugs → Check both `na_rm = TRUE` and `FALSE` cases
+
 - Case weights not working → Convert hardhat weights to numeric
 
 ## Related Skills
 
 - [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps may generate outputs that need custom metrics
+
 - [add-dials-parameter](../add-dials-parameter/SKILL.md) - Custom metrics may require custom tuning parameters for hyperparameter optimization
+
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Metrics evaluate predictions from model specifications
+
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Metrics evaluate predictions from model engines
 
 ## Next Steps
 

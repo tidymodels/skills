@@ -15,8 +15,11 @@ This skill supports **two distinct development contexts** with different capabil
 **Use when:** Creating a new R package that defines custom tuning parameters
 
 - ✅ Build new packages extending Tidymodels with custom parameters
+
 - ✅ Use all exported dials functions with `dials::` prefix
+
 - ❌ Cannot use internal functions (`:::`)
+
 - 📘 **Start here:** [Extension Development Guide](references/extension-guide.md)
 
 **Package detection:** DESCRIPTION file does NOT have `Package: dials`
@@ -26,9 +29,13 @@ This skill supports **two distinct development contexts** with different capabil
 **Use when:** Contributing parameter definitions directly to tidymodels/dials repository
 
 - ✅ Contribute parameters to dials package itself
+
 - ✅ Access internal helper functions without `dials::` prefix
+
 - ✅ Use validation helpers (`check_type()`, `check_range()`)
+
 - ✅ Create custom finalize functions with `range_get()`/`range_set()`
+
 - 📗 **Start here:** [Source Development Guide](references/source-guide.md)
 
 **Package detection:** DESCRIPTION file has `Package: dials`
@@ -56,8 +63,11 @@ usethis::create_package("myextension")
 **dials** is the tuning parameter infrastructure package for Tidymodels. It provides:
 
 - Parameter object definitions (quantitative and qualitative)
+
 - Parameter range specifications and transformations
+
 - Grid generation methods (regular, random, space-filling)
+
 - Integration with tune, parsnip, recipes, and workflows packages
 
 The name reflects the idea that tuning predictive models can be like turning a set of dials on a complex machine.
@@ -76,25 +86,41 @@ The name reflects the idea that tuning predictive models can be like turning a s
 **INSTRUCTIONS FOR CLAUDE:** Check if `repos/dials/` exists in the current working directory. Use this to guide development:
 
 **If `repos/dials/` exists:**
+
 - ✅ Use it as a reference throughout development
+
 - Read source files (e.g., `repos/dials/R/param_mtry.R`) to study implementation patterns
+
 - Read test files (e.g., `repos/dials/tests/testthat/test-param_mtry.R`) for testing patterns
+
 - Reference these files when answering complex questions or solving problems
+
 - Look at actual code structure, validation patterns, and edge case handling
 
 **If `repos/dials/` does NOT exist:**
+
 - Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+
 - This is **optional but strongly recommended** for high-quality development
+
 - If the user declines, reference files using GitHub URLs:
+
   - Format: `https://github.com/tidymodels/dials/blob/main/R/[file-name].R`
+
   - Example: https://github.com/tidymodels/dials/blob/main/R/param_mtry.R
+
   - This allows users to click through to see implementations
 
 **When to use repository references:**
+
 - Complex implementation questions (e.g., "How does dials handle finalization?")
+
 - Debugging issues (compare user's code to working implementation)
+
 - Understanding patterns (study similar parameters)
+
 - Test design (see how dials tests edge cases)
+
 - Architecture decisions (understand internal structure)
 
 See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
@@ -137,8 +163,11 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 **Decision guide:**
 
 - **Quantitative, simple range**: Fixed numeric bounds, no transformation → [Quantitative Parameters](references/quantitative-parameters.md)
+
 - **Quantitative, transformed**: Log scale or other transformation → [Quantitative Parameters](references/quantitative-parameters.md) + [Transformations](references/transformations.md)
+
 - **Quantitative, data-dependent**: Upper bound depends on dataset → [Quantitative Parameters](references/quantitative-parameters.md) + [Data-Dependent Parameters](references/data-dependent-parameters.md)
+
 - **Qualitative**: Discrete categorical options → [Qualitative Parameters](references/qualitative-parameters.md)
 
 ---
@@ -353,21 +382,29 @@ values_aggregation <- c("none", "min", "max", "mean", "sum")
 ### Core Guides
 
 - [Extension Development Guide](references/extension-guide.md) - Creating new packages with custom parameters
+
 - [Source Development Guide](references/source-guide.md) - Contributing to dials package
 
 ### Parameter Types
 
 - [Parameter System Overview](references/parameter-system.md) - Architecture and parameter classes
+
 - [Quantitative Parameters](references/quantitative-parameters.md) - Creating numeric parameters
+
 - [Qualitative Parameters](references/qualitative-parameters.md) - Creating categorical parameters
+
 - [Transformations](references/transformations.md) - Using log scale and custom transformations
+
 - [Data-Dependent Parameters](references/data-dependent-parameters.md) - Using unknown() and finalization
+
 - [Grid Integration](references/grid-integration.md) - How parameters work with grids
 
 ### Source Development
 
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - dials-specific testing
+
 - [Best Practices (Source)](references/best-practices-source.md) - dials conventions and patterns
+
 - [Troubleshooting (Source)](references/troubleshooting-source.md) - Common issues in dials
 
 ---
@@ -379,8 +416,11 @@ values_aggregation <- c("none", "min", "max", "mean", "sum")
 Before creating custom parameters in a new package, ensure your package is properly set up:
 
 - **R Package Structure**: See [Extension Prerequisites](references/package-extension-prerequisites.md)
+
 - **Dependencies**: Add `dials` to DESCRIPTION Imports
+
 - **Roxygen**: Configure documentation system
+
 - **Testing**: Set up testthat framework
 
 ### For Source Development
@@ -426,13 +466,19 @@ See [Development Workflow](references/package-development-workflow.md) for detai
 Essential tests for all parameters:
 
 - **Range validation**: Parameter accepts valid ranges
+
 - **Type checking**: Correct type enforcement
+
 - **Grid integration**: Works with `grid_regular()`, `grid_random()`
+
 - **Value utilities**: `value_sample()` and `value_seq()` work correctly
+
 - **Edge cases**: Invalid inputs produce errors
 
 See testing guides:
+
 - Extension: [Testing Requirements](references/package-extension-requirements.md#testing-requirements)
+
 - Source: [Testing Patterns (Source)](references/testing-patterns-source.md)
 
 ---
@@ -444,7 +490,9 @@ See testing guides:
 dials follows strict naming conventions:
 
 - Parameter files: `R/param_[name].R`
+
 - Test files: `tests/testthat/test-params.R` (shared), `test-constructors.R`
+
 - One parameter per file (usually)
 
 ### Documentation Patterns
@@ -499,7 +547,12 @@ This convention is strongly recommended for consistency.
 ### Related Skills
 
 - [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom metrics may need custom tuning parameters
+
 - [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps often have tunable parameters
+
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Model specifications have tunable main arguments
+
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Model engines have tunable parameters
 
 ---
 

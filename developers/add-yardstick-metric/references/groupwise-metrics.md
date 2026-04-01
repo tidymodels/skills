@@ -7,31 +7,47 @@ Groupwise metrics quantify the disparity in metric values across groups. They ar
 ## Overview
 
 **Use when:**
+
 - You want to measure disparity in performance across groups (e.g., demographic groups)
+
 - You need fairness metrics for ML models
+
 - You want to quantify how much a metric differs between subsets of your data
 
 **Key characteristics:**
+
 - Built on top of existing yardstick metrics
+
 - Automatically groups by a specified column
+
 - Aggregates group-specific metrics into a single disparity measure
+
 - Returns zero when metric is equal across all groups
 
 **Examples:** Demographic parity, equal opportunity, accuracy difference
 
 **Implementation:**
+
 - Groupwise constructor: `R/groupwise.R` (implements `new_groupwise_metric()`)
+
 - Built-in groupwise metrics: `R/groupwise-accuracy_diff.R`, `R/groupwise-accuracy_ratio.R`
+
 - Aggregation functions: Range, difference, ratio calculations
 
 **Common patterns:**
+
 - Fairness metrics: Measure performance disparities across demographic groups
+
 - Batch effects: Quantify variation across experimental batches
+
 - Temporal stability: Track metric consistency over time periods
 
 **Test patterns:**
+
 - Groupwise creation: `tests/testthat/test-groupwise.R`
+
 - Aggregation tests: Validates difference, ratio, range calculations
+
 - Integration tests: Tests with grouped data and resampling
 
 ## Important Distinction: Group-Aware vs Groupwise
@@ -191,8 +207,11 @@ first_vs_rest <- function(x) {
 ### Aggregation Function Requirements
 
 The `aggregate` function must:
+
 - Accept metric results as first argument (tibble with `.estimate` column)
+
 - Return a **single numeric value**
+
 - Handle variable number of groups gracefully
 
 ```r
@@ -475,23 +494,35 @@ test_that("groupwise metric works with existing groups", {
 ## Common Use Cases
 
 ### Fairness Analysis
+
 - Demographic parity across protected attributes
+
 - Equal opportunity across sensitive features
+
 - Equalized odds for fair classification
 
 ### Model Monitoring
+
 - Performance drift across customer segments
+
 - Accuracy consistency across geographic regions
+
 - Reliability across product categories
 
 ### A/B Testing
+
 - Outcome differences between treatment groups
+
 - Consistency of effects across subpopulations
+
 - Heterogeneous treatment effects
 
 ### Quality Control
+
 - Performance variation across manufacturing batches
+
 - Consistency across different operators
+
 - Stability over time periods
 
 ## Limitations and Considerations
@@ -505,6 +536,9 @@ test_that("groupwise metric works with existing groups", {
 ## See Also
 
 - [Metric System](metric-system.md) - Understanding basic metric architecture
+
 - [Class Metrics](class-metrics.md) - Base metrics for classification
+
 - [Combining Metrics](metric-set.md) - Using metric_set() with groupwise metrics
+
 - `vignette("grouping", "yardstick")` - Detailed vignette on grouping behavior

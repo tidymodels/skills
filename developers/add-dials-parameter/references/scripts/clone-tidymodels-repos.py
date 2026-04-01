@@ -3,16 +3,17 @@
 Clone Tidymodels Repositories
 
 Description:
-    Clones tidymodels package repositories (yardstick, recipes, dials) for
-    development reference. Creates repos/ directory, clones with shallow clone
-    for speed, and updates .gitignore and .Rbuildignore to prevent committing
-    cloned code.
+    Clones tidymodels package repositories (yardstick, recipes, dials, parsnip)
+    for development reference. Creates repos/ directory, clones with shallow
+    clone for speed, and updates .gitignore and .Rbuildignore to prevent
+    committing cloned code.
 
 Usage:
     python3 clone-tidymodels-repos.py yardstick
     python3 clone-tidymodels-repos.py recipes
     python3 clone-tidymodels-repos.py dials
-    python3 clone-tidymodels-repos.py yardstick recipes dials
+    python3 clone-tidymodels-repos.py parsnip
+    python3 clone-tidymodels-repos.py yardstick recipes dials parsnip
     python3 clone-tidymodels-repos.py all
 
 Exit Codes:
@@ -37,6 +38,7 @@ REPOS = {
     "yardstick": "https://github.com/tidymodels/yardstick.git",
     "recipes": "https://github.com/tidymodels/recipes.git",
     "dials": "https://github.com/tidymodels/dials.git",
+    "parsnip": "https://github.com/tidymodels/parsnip.git",
 }
 
 # ANSI color codes (fallback to no color on Windows without colorama)
@@ -220,7 +222,9 @@ def main():
         epilog="Examples:\n"
                "  python3 clone-tidymodels-repos.py yardstick\n"
                "  python3 clone-tidymodels-repos.py recipes\n"
-               "  python3 clone-tidymodels-repos.py yardstick recipes\n"
+               "  python3 clone-tidymodels-repos.py dials\n"
+               "  python3 clone-tidymodels-repos.py parsnip\n"
+               "  python3 clone-tidymodels-repos.py yardstick recipes dials parsnip\n"
                "  python3 clone-tidymodels-repos.py all",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -228,7 +232,7 @@ def main():
         "packages",
         nargs="+",
         metavar="PACKAGE",
-        help="Package(s) to clone: yardstick, recipes, or all"
+        help="Package(s) to clone: yardstick, recipes, dials, parsnip, or all"
     )
 
     args = parser.parse_args()
@@ -277,7 +281,7 @@ def main():
     if not packages_to_clone:
         print_error("No valid packages specified")
         print()
-        print("Valid packages: yardstick, recipes, dials, all")
+        print("Valid packages: yardstick, recipes, dials, parsnip, all")
         sys.exit(1)
 
     # Clone each repository

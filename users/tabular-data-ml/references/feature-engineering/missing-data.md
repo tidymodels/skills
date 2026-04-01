@@ -15,7 +15,9 @@ Replaces missing values with a single summary statistic.
 **Mode imputation**: For categorical variables, replace with most frequent level.
 
 **Considerations**:
+
 - Distorts distributions and underestimates variance
+
 - Appropriate when missingness is low (<5%) and mechanism is MCAR
 
 ### tidymodels
@@ -50,8 +52,11 @@ Imputes missing values using the mean (numeric) or mode (categorical) of the K n
 **When to use**: When relationships between predictors matter; missingness may be MAR.
 
 **Considerations**:
+
 - Computationally more expensive than simple imputation
+
 - Requires scaling predictors for distance calculation
+
 - Typical K values: 5-10
 
 ### tidymodels
@@ -68,7 +73,9 @@ Uses bagged decision trees to predict missing values from other predictors.
 **When to use**: When relationships between predictors are complex or nonlinear; can handle mixed predictor types.
 
 **Considerations**:
+
 - More computationally expensive than KNN
+
 - Often produces better imputations for complex data
 
 ### tidymodels

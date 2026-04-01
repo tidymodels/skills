@@ -314,9 +314,13 @@ Missing link or links in documentation object 'my_parameter.Rd':
 **Guidelines**:
 
 - Add entry under "Development" section
+
 - Use backticks for code
+
 - Include PR number in parentheses
+
 - Keep entries concise
+
 - Use present tense
 
 ---
@@ -685,14 +689,23 @@ devtools::spell_check()
 When encountering an issue:
 
 - [ ] Read error message completely
+
 - [ ] Check parameter structure with `str(param)`
+
 - [ ] Test interactively with `devtools::load_all()`
+
 - [ ] Review similar existing parameters
+
 - [ ] Check roxygen documentation is complete
+
 - [ ] Verify tests are in correct file
+
 - [ ] Run `devtools::check()` for all issues
+
 - [ ] Search GitHub issues for similar problems
+
 - [ ] Create minimal reproducible example
+
 - [ ] Ask for help with complete information
 
 ---
@@ -702,13 +715,17 @@ When encountering an issue:
 ### Learn More
 
 - **Best practices**: [Best Practices (Source)](best-practices-source.md)
+
 - **Testing**: [Testing Patterns (Source)](testing-patterns-source.md)
+
 - **Source guide**: [Source Development Guide](source-guide.md)
 
 ### External Resources
 
 - [dials GitHub Issues](https://github.com/tidymodels/dials/issues)
+
 - [R Packages Book - Debugging](https://r-pkgs.org/code.html#debugging)
+
 - [Tidymodels Community](https://community.rstudio.com/c/ml/15)
 
 ---

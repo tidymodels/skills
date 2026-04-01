@@ -11,14 +11,19 @@ This guide is for developers creating new R packages that define custom tuning p
 **Use extension development when:**
 
 - Creating a new R package with custom tuning parameters
+
 - Your package DESCRIPTION has `Package: yourpackage` (NOT `Package: dials`)
+
 - You need to define parameters for custom models, recipe steps, or workflows
+
 - You want to extend Tidymodels with domain-specific tuning parameters
 
 **Do NOT use this guide when:**
 
 - Contributing parameters directly to tidymodels/dials repository
+
 - Your DESCRIPTION has `Package: dials`
+
 - → Use [Source Development Guide](source-guide.md) instead
 
 ---
@@ -30,9 +35,13 @@ Before creating custom parameters, ensure your R package is properly set up:
 **📘 See [Extension Prerequisites](package-extension-prerequisites.md) for complete setup instructions.**
 
 Key requirements:
+
 - R package structure created with `usethis::create_package()`
+
 - DESCRIPTION file configured with dependencies
+
 - Roxygen2 documentation system enabled
+
 - testthat testing framework installed
 
 ---
@@ -44,22 +53,31 @@ When developing in an extension package:
 ### ✅ You CAN:
 
 - Use all exported dials functions
+
 - Create quantitative and qualitative parameters
+
 - Define custom finalize functions
+
 - Use transformations from scales package
+
 - Test parameters with grid generation functions
 
 ### ❌ You CANNOT:
 
 - Use internal dials functions with `:::`
+
 - Access unexported helper functions like `check_type()` or `check_range()`
+
 - Directly manipulate parameter internals
 
 ### 📋 You MUST:
 
 - Always use `dials::` prefix for all dials functions
+
 - Export your parameter functions with `@export`
+
 - Document with roxygen2 comments
+
 - Test parameter behavior with grid functions
 
 ---
@@ -71,13 +89,19 @@ When developing in an extension package:
 Decide whether you need a quantitative or qualitative parameter:
 
 **Quantitative (`dials::new_quant_param()`)**: Numeric values (continuous or integer)
+
 - Examples: penalties, thresholds, counts, rates
+
 - Has range, type (double/integer), optional transformation
+
 - Can have data-dependent bounds with `dials::unknown()`
 
 **Qualitative (`dials::new_qual_param()`)**: Categorical options
+
 - Examples: methods, algorithms, activation functions
+
 - Has discrete values, type (character/logical)
+
 - Rarely needs finalization
 
 See [Parameter System Overview](parameter-system.md) for detailed comparison.
@@ -570,9 +594,13 @@ See [Testing Requirements](package-extension-requirements.md#testing-requirement
 **📘 See [Best Practices](package-extension-requirements.md#best-practices) for universal R package patterns.**
 
 Key practices:
+
 - Use base pipe `|>` not `%>%`
+
 - Prefer for-loops over `purrr::map()`
+
 - Use `cli::cli_abort()` for errors
+
 - Follow tidyverse style guide
 
 ### Parameter-Specific Best Practices

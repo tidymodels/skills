@@ -5,19 +5,29 @@ Class metrics are more complex than numeric metrics due to multiclass support an
 ## Overview
 
 Class metrics are used for classification problems where predictions and truth are categorical (factor) variables. Examples include:
+
 - Accuracy
+
 - Precision / Recall / Sensitivity / Specificity
+
 - F1 Score / F-measure
+
 - Matthews Correlation Coefficient (MCC)
 
 **Canonical implementations in yardstick:**
+
 - Simple binary metrics: `R/class-accuracy.R`, `R/class-precision.R`, `R/class-recall.R`
+
 - F-measure family: `R/class-f_meas.R` (combines precision and recall)
+
 - Balanced metrics: `R/class-bal_accuracy.R` (handles class imbalance)
+
 - Complex metrics: `R/class-mcc.R` (Matthews Correlation Coefficient)
 
 **Test patterns:**
+
 - Binary classification: `tests/testthat/test-class-accuracy.R`
+
 - Multiclass averaging: `tests/testthat/test-class-f_meas.R`
 
 ## Implementation Steps
@@ -27,7 +37,9 @@ Class metrics are used for classification problems where predictions and truth a
 Start with the binary case - this is the foundation.
 
 **Reference implementations:**
+
 - Simple confusion matrix metrics: `R/class-accuracy.R`, `R/class-precision.R`
+
 - Metrics with event_level handling: `R/class-recall.R`, `R/class-f_meas.R`
 
 ```r
@@ -49,9 +61,13 @@ miss_rate_binary <- function(data, event_level) {
 ```
 
 **Key points:**
+
 - Take confusion matrix and event_level as inputs
+
 - Use `event_level` to determine which class is "positive"
+
 - Extract TP, FP, FN, TN from the matrix
+
 - Return single numeric value
 
 ### Step 2: Multiclass implementation (optional)
@@ -59,7 +75,9 @@ miss_rate_binary <- function(data, event_level) {
 If your metric extends to multiclass.
 
 **Reference implementations with averaging:**
+
 - Macro/micro averaging: `R/class-precision.R`, `R/class-recall.R`
+
 - Balanced accuracy: `R/class-bal_accuracy.R` (handles imbalanced classes)
 
 ```r
@@ -84,8 +102,11 @@ miss_rate_multiclass <- function(data, estimator) {
 ```
 
 **Estimator types:**
+
 - **macro**: Calculate per-class, average with equal weights
+
 - **macro_weighted**: Calculate per-class, average weighted by class frequency
+
 - **micro**: Aggregate first, then calculate (treats all observations equally)
 
 ### Step 3: Estimator implementation
@@ -119,8 +140,11 @@ miss_rate_impl <- function(truth, estimate, estimator, event_level, case_weights
 ```
 
 **Pattern:**
+
 - Binary: use binary implementation
+
 - Multiclass: calculate per-class, then apply weighting strategy
+
 - Main impl function creates confusion matrix once, passes to estimator function
 
 ### Step 4: Vector function
@@ -158,10 +182,15 @@ miss_rate_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,
 ```
 
 **Required elements:**
+
 - Validate `na_rm` parameter
+
 - Use `abort_if_class_pred()` and `as_factor_from_class_pred()` for class_pred handling
+
 - Call `finalize_estimator()` to determine appropriate estimator
+
 - Use `check_class_metric()` for validation
+
 - Handle NAs with `yardstick_remove_missing()`
 
 ### Step 5: Data frame method
@@ -197,8 +226,11 @@ miss_rate.data.frame <- function(data, truth, estimate, estimator = NULL,
 ```
 
 **Key points:**
+
 - Use `new_class_metric()` instead of `new_numeric_metric()`
+
 - Use `class_metric_summarizer()` instead of `numeric_metric_summarizer()`
+
 - Include `estimator` and `event_level` parameters
 
 ### Step 6: Restrict estimator (optional)
@@ -245,7 +277,9 @@ yardstick::yardstick_table(truth, estimate)
 ```
 
 **The order matches the levels:**
+
 - First level ("yes") = first row and column
+
 - Second level ("no") = second row and column
 
 ### Binary classification: which level is "positive"?
@@ -266,8 +300,11 @@ For binary metrics, the "positive" class depends on **both** factor order and `e
 ### Multiclass: affects per-class calculations
 
 For multiclass metrics, factor level order determines:
+
 - Which class corresponds to which row/column in the confusion matrix
+
 - The order of per-class metric calculations
+
 - How averaging is applied
 
 ```r
@@ -396,7 +433,9 @@ test_that("metric respects event_level parameter", {
 ### Common mistakes
 
 - Assuming alphabetical factor order (levels are explicit, not alphabetical)
+
 - Not using `event_level` in asymmetric metric calculations
+
 - Poor documentation of what `event_level` does
 
 ## Multiclass Averaging Strategies
@@ -486,6 +525,7 @@ test_that("event_level works correctly", {
 ## File Naming
 
 - **Source file**: `R/class-accuracy.R` (or `R/class-your-metric.R`)
+
 - **Test file**: `tests/testthat/test-class-accuracy.R`
 
 Use `class-` prefix to indicate classification metrics.
@@ -493,6 +533,9 @@ Use `class-` prefix to indicate classification metrics.
 ## Next Steps
 
 - Understand confusion matrices: [confusion-matrix.md](confusion-matrix.md)
+
 - Handle case weights: [case-weights.md](case-weights.md)
+
 - Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

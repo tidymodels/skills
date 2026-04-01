@@ -19,17 +19,25 @@ dials parameters are designed to work seamlessly with:
 5. **Tuning functions**: `tune_grid()`, `tune_bayes()` from tune package
 
 **Grid generation implementations:**
+
 - Regular grids: `R/grid_regular.R` (factorial combinations with `value_seq()`)
+
 - Random sampling: `R/grid_random.R` (random sampling with `value_sample()`)
+
 - Latin hypercube: `R/grid_latin_hypercube.R` (space-filling design)
+
 - Maximum entropy: `R/grid_max_entropy.R` (space-filling design)
 
 **Parameter sets:**
+
 - Parameter collections: `R/parameters.R` (implements `parameters()` for combining)
+
 - Workflow extraction: `R/extract_parameter_set_dials.R` (extracts params from workflows)
 
 **Test patterns:**
+
 - Grid tests: `tests/testthat/test-grids.R` (grid generation validation)
+
 - Parameter set tests: `tests/testthat/test-parameters.R` (collection behavior)
 
 ---
@@ -148,8 +156,11 @@ grid_space_filling(param1, param2, ..., size = 5, type = "latin_hypercube")
 **Options for `type`**:
 
 - `"latin_hypercube"`: Latin hypercube sampling (default)
+
 - `"max_entropy"`: Maximum entropy design
+
 - `"audze_eglais"`: Audze-Eglais criterion
+
 - `"uniform"`: Uniform design
 
 **Example**:
@@ -175,7 +186,9 @@ grid
 **Benefits**:
 
 - Better coverage of parameter space than random
+
 - Avoids clustering of grid points
+
 - Good for small grid sizes
 
 ---
@@ -674,29 +687,43 @@ updated <- finalized |>
 ### Grid Size Selection
 
 **Regular grids**: Grows exponentially with parameters
+
 - 2 parameters × 5 levels = 25 combinations
+
 - 3 parameters × 5 levels = 125 combinations
+
 - 4 parameters × 5 levels = 625 combinations
 
 **Recommendation**:
+
 - Use fewer levels for many parameters
+
 - Consider random or space-filling for 4+ parameters
 
 ### Grid Type Selection
 
 **Use `grid_regular()` when**:
+
 - Few parameters (1-3)
+
 - Want complete factorial coverage
+
 - Interpretable grid structure
 
 **Use `grid_random()` when**:
+
 - Many parameters (4+)
+
 - Want to control total grid size
+
 - Computational budget is fixed
 
 **Use `grid_space_filling()` when**:
+
 - Need better coverage than random
+
 - Small grid sizes
+
 - Quality over quantity
 
 ### Parameter Combinations
@@ -778,19 +805,25 @@ param <- new_quant_param(
 ### Learn More
 
 - **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+
 - **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+
 - **Data-dependent parameters**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+
 - **Transformations**: [Transformations Guide](transformations.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ### External Resources
 
 - [tune package documentation](https://tune.tidymodels.org/)
+
 - [Grid search tutorial](https://www.tidymodels.org/learn/work/tune-svm/)
+
 - [Bayesian optimization](https://www.tidymodels.org/learn/work/bayes-opt/)
 
 ---
