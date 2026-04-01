@@ -4,7 +4,7 @@ $theme-blue: #4758AB;
 $theme-white: #FFFFFF;
 $theme-grey: #DDDDDD;
 $theme-black: #1a162d;
-$theme-code-bg: rgba(233,236,239,.3);
+$theme-code-bg: #f5f6f7;
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Source+Code+Pro&display=swap');
 
@@ -124,13 +124,22 @@ div.sourceCode {
     border-radius: 0.25rem;
 }
 
+// Ensure nested elements don't compound backgrounds
+div.sourceCode pre.sourceCode {
+    background: transparent !important;
+}
+
+div.sourceCode code.sourceCode {
+    background: transparent !important;
+}
+
 // Bash and powershell blocks - flatten the structure completely
 // Target the wrapper
 div.sourceCode#cb1, div.sourceCode#cb2, div.sourceCode#cb3, div.sourceCode#cb4, div.sourceCode#cb5, div.sourceCode#cb6, div.sourceCode#cb7, div.sourceCode#cb8, div.sourceCode#cb9, div.sourceCode#cb10,
 div.sourceCode:has(pre.bash),
 div.sourceCode:has(pre.powershell) {
     border-radius: 10px !important;
-    border: 1px solid rgba($theme-black, 0.25) !important;
+    border: 1px solid #d0d0d0 !important;
     background-color: $theme-code-bg !important;
     padding: 0 !important;
     margin: 1em 0 !important;
@@ -150,8 +159,8 @@ div.sourceCode pre.sourceCode.powershell {
 
 // generic code blocks (no language specified)
 pre:not(.sourceCode) {
-    background-color: rgba($theme-black, 0.05);
-    border: 1px solid rgba($theme-cranberry, 0.15);
+    background-color: #f5f6f7;
+    border: 1px solid #e8d4dc;
     border-radius: 0.25rem;
     padding: 0.8em;
 
@@ -164,7 +173,7 @@ pre:not(.sourceCode) {
 
 // in-line code
 p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
-    background-color: rgba($theme-black, 0.05);
+    background-color: #f5f6f7;
     padding: 0.2em 0.4em;
     border-radius: 0.2rem;
     color: $theme-black;
