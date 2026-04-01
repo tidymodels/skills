@@ -4,6 +4,30 @@
 
 This guide covers how to create parameters whose ranges depend on dataset characteristics using `unknown()` and the finalization system.
 
+> **Note for Source Development:** If contributing to dials, you can use internal finalization functions. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+
+---
+
+## Overview
+
+Data-dependent parameters have ranges that cannot be determined until the training dataset is available. They use `unknown()` placeholders and finalization functions to resolve bounds based on data characteristics.
+
+**Reference implementations in dials:**
+- Predictor-dependent: `R/param_mtry.R` (uses `get_p` for number of predictors), `R/param_num_comp.R` (PCA components)
+- Observation-dependent: `R/param_sample_size.R` (uses `get_n` for number of observations), `R/param_min_n.R` (minimum node size)
+- Term-dependent: `R/param_num_terms.R` (uses `get_p` for model terms)
+
+**Finalization functions:**
+- `get_p`: Resolves to number of predictors in dataset
+- `get_n`: Resolves to number of observations in dataset
+- `get_n_frac`: Resolves to fraction of observations
+- `get_n_frac_range`: Resolves range based on observation fraction
+- `get_rbf_range`: Resolves radial basis function range
+
+**Test patterns:**
+- Finalization tests: `tests/testthat/test-param_mtry.R` (demonstrates `finalize()` usage)
+- Unknown handling: `tests/testthat/test-unknown.R` (placeholder behavior)
+
 ---
 
 ## Understanding unknown()

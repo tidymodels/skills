@@ -4,6 +4,24 @@
 
 This guide covers how to use transformations to improve grid coverage and parameter sampling for quantitative parameters that span multiple orders of magnitude.
 
+> **Note for Source Development:** If contributing to dials, you can use internal transformation utilities. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+
+---
+
+## Overview
+
+Transformations apply scale changes to parameter sampling, ensuring even exploration across multiple orders of magnitude. The scales package provides transformation objects that dials integrates into quantitative parameters.
+
+**Reference implementations in dials:**
+- Log10 transformations: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+- Log2 transformations: `R/param_sample_size.R` (sample size proportion)
+- Reciprocal transformations: `R/param_deg_free.R` (degrees of freedom)
+- Identity (no transform): `R/param_num_trees.R` (tree count)
+
+**Test patterns:**
+- Transformation tests: `tests/testthat/test-param_penalty.R` (log10 scale validation)
+- Value conversion: `tests/testthat/test-value_transform.R` (transform/inverse behavior)
+
 ---
 
 ## Why Transformations Are Useful

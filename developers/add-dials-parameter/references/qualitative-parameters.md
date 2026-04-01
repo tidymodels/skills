@@ -4,6 +4,24 @@
 
 This guide covers everything you need to create qualitative parameters with `new_qual_param()`.
 
+> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+
+---
+
+## Overview
+
+Qualitative parameters represent categorical choices where options have no inherent numeric ordering. These parameters define discrete sets of alternatives for algorithm configuration.
+
+**Reference implementations in dials:**
+- Simple qualitative: `R/param_weight_func.R` (weight function choices), `R/param_activation.R` (activation functions)
+- Multiple parameters: `R/param_activation.R` (contains `activation()` and `activation_2()`)
+- Preprocessing methods: `R/param_normalize.R` (normalization methods)
+- Algorithm choices: `R/param_degree_svm.R` (SVM kernel degree)
+
+**Test patterns:**
+- Basic qualitative tests: `tests/testthat/test-param_weight_func.R`
+- Multiple parameter tests: `tests/testthat/test-param_activation.R`
+
 ---
 
 ## When to Use Qualitative Parameters
