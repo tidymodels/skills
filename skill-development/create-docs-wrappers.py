@@ -42,7 +42,20 @@ class DocsWrapperGenerator:
         Returns:
             True if successful, False if errors occurred
         """
-        skill_full_path = self.project_root / skill_path
+        skill_full_path = (self.project_root / skill_path).resolve()
+
+        # Validate skill_full_path is within project_root
+        try:
+            skill_full_path.relative_to(self.project_root)
+        except ValueError:
+            self._add_error(
+                f"Skill path is outside project directory\n"
+                f"  Skill: {skill_path}\n"
+                f"  Resolved to: {skill_full_path}\n"
+                f"  Project root: {self.project_root}"
+            )
+            return False
+
         if not skill_full_path.exists():
             self._add_error(f"Skill directory does not exist: {skill_path}")
             return False
@@ -166,6 +179,19 @@ class DocsWrapperGenerator:
         # Validate source file exists (should always be true, but check anyway)
         if not md_file.exists():
             self._add_error(f"Source file does not exist: {md_file}")
+            return
+
+        # Validate qmd_path is within project_root
+        qmd_path_resolved = qmd_path.resolve()
+        try:
+            qmd_path_resolved.relative_to(self.project_root)
+        except ValueError:
+            self._add_error(
+                f"Output path is outside project directory\n"
+                f"  QMD path: {qmd_path}\n"
+                f"  Resolved to: {qmd_path_resolved}\n"
+                f"  Project root: {self.project_root}"
+            )
             return
 
         # Create wrapper content

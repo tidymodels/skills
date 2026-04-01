@@ -120,7 +120,15 @@ class Builder:
 
         for md_file in md_files:
             try:
-                dest = refs_dir / md_file.name
+                dest = (refs_dir / md_file.name).resolve()
+                # Validate destination is within root_dir
+                try:
+                    dest.relative_to(self.root_dir)
+                except ValueError:
+                    error = f"{skill}: Destination path outside project: {dest}"
+                    self.errors.append(error)
+                    print(f"  ERROR: {error}")
+                    return None, None
                 shutil.copy2(md_file, dest)
                 if not quiet:
                     print(f"    {md_file.name}")
@@ -145,7 +153,15 @@ class Builder:
             for script_file in script_files:
                 if script_file.is_file():
                     try:
-                        dest = scripts_dir / script_file.name
+                        dest = (scripts_dir / script_file.name).resolve()
+                        # Validate destination is within root_dir
+                        try:
+                            dest.relative_to(self.root_dir)
+                        except ValueError:
+                            error = f"{skill}: Destination path outside project: {dest}"
+                            self.errors.append(error)
+                            print(f"  ERROR: {error}")
+                            return None, None
                         shutil.copy2(script_file, dest)
                         script_count += 1
                         if not quiet:
