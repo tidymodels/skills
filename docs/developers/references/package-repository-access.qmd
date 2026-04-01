@@ -1,1 +1,0 @@
-{{< include ../../../developers/add-yardstick-metric/references/package-repository-access.md >}}
