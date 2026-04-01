@@ -2,6 +2,8 @@
 
 This is the simplest type of step. It transforms existing columns without creating new ones.
 
+> **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal helpers directly (no `recipes::` prefix needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 Modify-in-place steps:
@@ -19,8 +21,6 @@ Modify-in-place steps:
 **Test patterns:**
 - Basic transformations: `tests/testthat/test-center.R`, `tests/testthat/test-scale.R`
 - Parameterized steps: `tests/testthat/test-normalize.R`
-
-> **Source Development:** When contributing to recipes itself, you can use internal helpers directly (no `recipes::` prefix needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See [Best Practices (Source)](best-practices-source.md).
 
 ## Characteristics
 

@@ -4,6 +4,26 @@ Before creating metrics, understanding how yardstick's metric system works helps
 
 > **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal helper functions like `yardstick_mean()`, `finalize_estimator_internal()`, and validation helpers. See the [Source Development Guide](source-guide.md) for details.
 
+## Overview
+
+The yardstick metric system provides a consistent interface for creating, composing, and evaluating performance metrics across different prediction types.
+
+**Core system implementations:**
+- Metric constructors: `R/metric.R` (defines `new_numeric_metric()`, `new_class_metric()`, `new_prob_metric()`, etc.)
+- Metric composition: `R/metric_set.R` (implements `metric_set()` for combining metrics)
+- Estimator finalization: `R/finalize_estimator.R` (determines binary/macro/micro/etc.)
+- Data frame methods: `R/num_metric.R`, `R/class_metric.R`, `R/prob_metric.R` (metric summarizers)
+
+**Integration patterns:**
+- Metric sets: `R/metric_set.R` (combines multiple metrics)
+- Direction attributes: Used by tune package for optimization
+- Range attributes: Used for validation and visualization
+
+**Test patterns:**
+- Constructor tests: `tests/testthat/test-metric.R`
+- Metric set tests: `tests/testthat/test-metric_set.R`
+- Estimator tests: `tests/testthat/test-finalize_estimator.R`
+
 ## What `new_*_metric()` does
 
 When you wrap your metric function with `new_numeric_metric()`, `new_class_metric()`, or `new_prob_metric()`, it:

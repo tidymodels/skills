@@ -2,6 +2,27 @@
 
 Case weights allow different observations to contribute differently to metric calculations. Understanding how to handle them properly is important for creating robust metrics.
 
+> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use `yardstick_mean()` which automatically handles hardhat weights. See the [Source Development Guide](source-guide.md) for details.
+
+## Overview
+
+Case weights enable weighted metric calculations where different observations have different importance or represent different frequencies.
+
+**Implementation examples:**
+- Numeric metrics with weights: `R/num-mae.R` (uses `weighted.mean()`), `R/num-rmse.R`
+- Class metrics with weights: `R/class-accuracy.R` (passes to `yardstick_table()`)
+- Survival metrics with weights: `R/surv-concordance_survival.R` (uses survival package weights)
+
+**Weight handling utilities:**
+- Table weighting: `R/table.R` (implements weighted confusion matrices)
+- NA removal with weights: `R/yardstick_remove_missing.R` (preserves weight correspondence)
+- Weight validation: `R/check.R` (validates weight vectors)
+
+**Test patterns:**
+- Weighted numeric metrics: `tests/testthat/test-num-mae.R`
+- Weighted class metrics: `tests/testthat/test-class-accuracy.R`
+- Weight edge cases: `tests/testthat/test-yardstick_remove_missing.R`
+
 ## What Are Case Weights?
 
 Case weights assign importance to individual observations:

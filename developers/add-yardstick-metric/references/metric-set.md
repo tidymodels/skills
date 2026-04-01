@@ -2,6 +2,8 @@
 
 `metric_set()` allows you to combine multiple yardstick metrics into a single function that calculates all of them at once. This is more efficient than calling metrics individually and integrates seamlessly with tidymodels workflows.
 
+> **Note for Source Development:** If you're contributing directly to the yardstick package, see how `metric_set()` validates and combines metrics internally. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 **Use when:**
@@ -15,6 +17,21 @@
 - **Convenience**: One function call instead of many
 - **Integration**: Works with tune package for model tuning
 - **Consistency**: All metrics use same data preprocessing
+
+**Implementation:**
+- Metric set creation: `R/metric_set.R` (implements `metric_set()` and validation)
+- Compatibility checking: Validates metric types can be combined
+- Function generation: Creates composite function that calls each metric
+
+**Usage in tidymodels:**
+- Tune integration: Used by `tune_grid()`, `tune_bayes()` for model evaluation
+- Resampling: Applied consistently across all resamples
+- Workflow integration: Works with `fit_resamples()`, `last_fit()`
+
+**Test patterns:**
+- Metric set creation: `tests/testthat/test-metric_set.R`
+- Compatibility validation: Tests for valid/invalid metric combinations
+- Integration tests: Tests with tune and workflows packages
 
 ## Basic Usage
 

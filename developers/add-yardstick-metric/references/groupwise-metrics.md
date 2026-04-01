@@ -2,6 +2,8 @@
 
 Groupwise metrics quantify the disparity in metric values across groups. They are especially useful for fairness analysis but can be applied to any situation where you want to measure how much a metric varies across subgroups.
 
+> **Note for Source Development:** If you're contributing directly to the yardstick package, see internal groupwise infrastructure. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 **Use when:**
@@ -16,6 +18,21 @@ Groupwise metrics quantify the disparity in metric values across groups. They ar
 - Returns zero when metric is equal across all groups
 
 **Examples:** Demographic parity, equal opportunity, accuracy difference
+
+**Implementation:**
+- Groupwise constructor: `R/groupwise.R` (implements `new_groupwise_metric()`)
+- Built-in groupwise metrics: `R/groupwise-accuracy_diff.R`, `R/groupwise-accuracy_ratio.R`
+- Aggregation functions: Range, difference, ratio calculations
+
+**Common patterns:**
+- Fairness metrics: Measure performance disparities across demographic groups
+- Batch effects: Quantify variation across experimental batches
+- Temporal stability: Track metric consistency over time periods
+
+**Test patterns:**
+- Groupwise creation: `tests/testthat/test-groupwise.R`
+- Aggregation tests: Validates difference, ratio, range calculations
+- Integration tests: Tests with grouped data and resampling
 
 ## Important Distinction: Group-Aware vs Groupwise
 

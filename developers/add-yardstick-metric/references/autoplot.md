@@ -2,6 +2,28 @@
 
 **Note:** Autoplot is optional functionality. Only implement if your metric produces multi-dimensional data that benefits from visualization.
 
+> **Note for Source Development:** If you're contributing directly to the yardstick package, see existing autoplot implementations for patterns. See the [Source Development Guide](source-guide.md) for details.
+
+## Overview
+
+Autoplot provides visualization methods for metrics that produce multi-dimensional results like curves or confusion matrices.
+
+**Implementation examples:**
+- Curve visualization: `R/prob-roc_curve.R` (ROC curve autoplot), `R/prob-pr_curve.R` (PR curve autoplot)
+- Confusion matrix: `R/class-conf_mat.R` (heatmap and mosaic plot autoplots)
+- Calibration plots: `R/prob-cal_plot_breaks.R` (calibration curve visualization)
+- Gain/lift curves: `R/prob-gain_curve.R`, `R/prob-lift_curve.R`
+
+**Common patterns:**
+- Curve metrics: Line plots with threshold information
+- Matrix metrics: Heatmaps showing confusion patterns
+- Calibration: Scatter/line plots of predicted vs observed
+- Multi-group: Faceted plots for different groups/resamples
+
+**Test patterns:**
+- Autoplot tests: `tests/testthat/test-prob-roc_curve.R` (includes autoplot validation)
+- ggplot2 dependency: Tests check for graceful failure when ggplot2 not available
+
 ## When to Implement Autoplot
 
 ### Autoplot is appropriate for:

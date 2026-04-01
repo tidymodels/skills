@@ -2,6 +2,8 @@
 
 Beyond the required methods (`prep`, `bake`, `print`, `tidy`), recipe steps can implement optional methods to support additional functionality.
 
+> **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal tunable and sparsity infrastructure. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 Optional methods:
@@ -9,6 +11,17 @@ Optional methods:
 - **`required_pkgs()`**: Declares external package dependencies
 - **`.recipes_preserve_sparsity()`**: Indicates if sparse data stays sparse
 - **`.recipes_estimate_sparsity()`**: Estimates sparsity for new columns created
+
+**Reference implementations in recipes:**
+- Tunable parameters: `R/spline_natural.R` (deg_free tuning), `R/pca.R` (num_comp tuning), `R/normalize.R` (method parameter)
+- Package dependencies: `R/umap.R` (requires uwot), `R/kpca.R` (requires kernlab), `R/ica.R` (requires fastICA)
+- Sparsity preservation: `R/scale.R` (preserves sparsity), `R/normalize.R` (preserves sparsity)
+- Sparsity estimation: `R/dummy.R` (estimates new column sparsity), `R/interact.R` (estimates interaction sparsity)
+
+**Test patterns:**
+- Tunable tests: `tests/testthat/test-tunable.R`
+- Package requirement tests: `tests/testthat/test-required_pkgs.R`
+- Sparsity tests: `tests/testthat/test-sparsity.R`
 
 ## tunable() - Hyperparameter Tuning Support
 
