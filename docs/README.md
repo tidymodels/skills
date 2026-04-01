@@ -47,9 +47,9 @@ The site uses the tidymodels.org visual design for consistency with the tidymode
 
 This site uses Quarto's `{{< include >}}` feature to include source content directly from the repository, with zero duplication:
 
-- **User skills**: `docs/users/*.qmd` includes from `../users/` (3 lines: logo + include)
-- **Developer skills**: `docs/developers/*.qmd` includes from `../developers/` (Phase 3)
-- **Reference files**: Minimal 1-line wrappers that include original markdown
+- **Skill index files**: `docs/{audience}/{skill}/index.qmd` includes from `../../../{audience}/{skill}/SKILL.md` (3 lines: logo + include)
+- **Reference files**: Minimal 1-line wrappers in `docs/{audience}/{skill}/references/` that include original markdown files
+- **Automated generation**: Use `skill-development/create-docs-wrappers.py` to generate all reference wrappers
 
 **No YAML front matter** - headers come from the included markdown to avoid duplication.
 
@@ -74,15 +74,24 @@ docs/
 ├── index.qmd                      # Homepage
 ├── getting-started.qmd            # Getting started guide
 ├── users/
-│   ├── index.qmd                 # User landing page
-│   ├── index.qmd            # Includes ../../users/tabular-data-ml/SKILL.md
-│   └── references/
-│       ├── data-spending.qmd     # Includes ../../../users/tabular-data-ml/references/data-spending.md
-│       ├── resampling.qmd        # Includes ../../../users/tabular-data-ml/references/resampling.md
-│       └── ...                   # Other reference wrappers
+│   ├── index.qmd                      # User landing page
+│   └── tabular-data-ml/
+│       ├── index.qmd                  # Includes ../../../users/tabular-data-ml/SKILL.md
+│       └── references/
+│           ├── data-spending.qmd      # Includes ../../../../users/tabular-data-ml/references/data-spending.md
+│           ├── resampling.qmd         # Includes ../../../../users/tabular-data-ml/references/resampling.md
+│           └── ...                    # Other reference wrappers
 └── developers/
-    ├── index.qmd                 # Developer landing page
-    └── ...                       # Phase 3
+    ├── index.qmd                      # Developer landing page
+    ├── add-yardstick-metric/
+    │   ├── index.qmd                  # Includes ../../../developers/add-yardstick-metric/SKILL.md
+    │   └── references/                # 26 reference wrappers
+    ├── add-recipe-step/
+    │   ├── index.qmd
+    │   └── references/                # 17 reference wrappers
+    └── add-dials-parameter/
+        ├── index.qmd
+        └── references/                # 17 reference wrappers
 ```
 
 ## Adding New Skills
@@ -91,24 +100,24 @@ docs/
 
 1. Create skill in `users/skill-name/` directory with `SKILL.md` and `references/`
 2. Ensure `SKILL.md` starts with a markdown header: `# Skill Title`
-3. Create thin wrapper: `docs/users/skill-name.qmd`
+3. Create skill subfolder and index: `docs/users/skill-name/index.qmd`
    ```markdown
-   ![](../assets/logos/package.png){.skill-header-logo}
+   ![](../../assets/logos/package.png){.skill-header-logo}
 
-   {{< include ../../users/skill-name/SKILL.md >}}
+   {{< include ../../../users/skill-name/SKILL.md >}}
    ```
-4. Create wrappers for reference files (1 line each):
+4. Create wrappers for reference files in `docs/users/skill-name/references/` (1 line each):
    ```markdown
-   {{< include ../../../users/skill-name/references/file-name.md >}}
+   {{< include ../../../../users/skill-name/references/file-name.md >}}
    ```
+   **Tip:** Use `skill-development/create-docs-wrappers.py --skill users/skill-name` to automatically generate all reference wrappers.
 5. Add to sidebar in `_quarto.yml` with explicit titles:
    ```yaml
-   - text: "Skill Name"
-     href: users/skill-name.qmd
-   - section: "References"
+   - section: "Skill Name"
+     href: users/skill-name/index.qmd
      contents:
        - text: "Reference Title"
-         href: users/references/reference-name.qmd
+         href: users/skill-name/references/reference-name.qmd
    ```
    **Note:** Use `text:` and `href:` since wrapper files have no YAML front matter.
 
