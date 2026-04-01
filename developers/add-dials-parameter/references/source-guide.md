@@ -11,14 +11,19 @@ This guide is for developers contributing parameters directly to the dials packa
 **Use source development when:**
 
 - Contributing parameters to tidymodels/dials repository
+
 - Your working directory has `Package: dials` in DESCRIPTION
+
 - You're adding universal parameters like `num_features()` to dials itself
+
 - You need to use internal helper functions
 
 **Do NOT use this guide when:**
 
 - Creating a new R package with custom parameters
+
 - Your DESCRIPTION has `Package: yourpackage`
+
 - → Use [Extension Development Guide](extension-guide.md) instead
 
 ---
@@ -81,8 +86,11 @@ R/
 **Key principles:**
 
 - One parameter per file (usually): `R/param_[name].R`
+
 - Infrastructure files prefixed with `aaa_` to load first
+
 - Core constructors in dedicated file
+
 - Helper functions grouped by functionality
 
 ### Core Constructors
@@ -113,7 +121,9 @@ new_qual_param(
 Files prefixed with `aaa_` provide core functionality:
 
 - `aaa_unknown.R`: `unknown()` placeholder for data-dependent ranges
+
 - `aaa_utils.R`: Internal utility functions
+
 - `aaa_globals.R`: Global variables and constants
 
 These load before other files due to R's alphabetical loading order.
@@ -241,8 +251,11 @@ value_seq(param, n = 5)
 Located in `R/finalize.R`:
 
 - `get_p()`: Set upper bound to number of predictors
+
 - `get_n()`: Set upper bound to number of observations
+
 - `get_n_frac()`: Set upper bound to fraction of observations
+
 - `get_log_p()`: Set upper bound to log of predictors
 
 Example usage:
@@ -269,9 +282,13 @@ mtry <- function(range = c(1L, unknown()), trans = NULL) {
 Pattern: `R/param_[name].R`
 
 Examples:
+
 - `R/param_penalty.R`
+
 - `R/param_learn_rate.R`
+
 - `R/param_mtry.R`
+
 - `R/param_activation.R`
 
 **One parameter per file** (usually). Related parameters may share a file:
@@ -283,8 +300,11 @@ Examples:
 Tests for parameters go in **shared test files**:
 
 - `tests/testthat/test-params.R`: Range validation for all parameters
+
 - `tests/testthat/test-constructors.R`: Constructor argument validation
+
 - `tests/testthat/test-finalize.R`: Finalization tests
+
 - `tests/testthat/test-grids.R`: Grid generation tests
 
 **Not** `test-param_name.R` like in extension packages.
@@ -305,7 +325,9 @@ Inherit parameter documentation from constructors:
 ```
 
 Common inherited parameters:
+
 - From `new_quant_param`: `trans`, `label`, `finalize`
+
 - From `new_qual_param`: `label`, `finalize`
 
 ### Use @seealso
@@ -541,26 +563,39 @@ Before submitting your pull request:
 ### Code
 
 - [ ] Parameter function follows naming conventions
+
 - [ ] File named `R/param_[name].R`
+
 - [ ] Uses appropriate constructor (`new_quant_param` or `new_qual_param`)
+
 - [ ] Includes `@export` tag
+
 - [ ] No `dials::` prefix needed (source development)
 
 ### Documentation
 
 - [ ] Complete roxygen documentation
+
 - [ ] Uses `@inheritParams` for common arguments
+
 - [ ] Includes `@details` explaining usage
+
 - [ ] Includes `@examples` with practical usage
+
 - [ ] Uses `@seealso` to link related parameters
+
 - [ ] Runs `devtools::document()` successfully
 
 ### Testing
 
 - [ ] Tests added to `tests/testthat/test-params.R`
+
 - [ ] Constructor validation tests in `test-constructors.R`
+
 - [ ] Tests for finalization (if applicable) in `test-finalize.R`
+
 - [ ] All tests pass with `devtools::test()`
+
 - [ ] Snapshots accepted if needed
 
 See [Testing Patterns (Source)](testing-patterns-source.md) for complete testing guide.
@@ -568,7 +603,9 @@ See [Testing Patterns (Source)](testing-patterns-source.md) for complete testing
 ### Package Checks
 
 - [ ] `devtools::check()` passes with no errors, warnings, or notes
+
 - [ ] `devtools::spell_check()` passes
+
 - [ ] NEWS.md updated with new parameter
 
 ### NEWS.md Format
@@ -584,8 +621,11 @@ Add entry under "Development" section:
 ### Git
 
 - [ ] Commit messages follow package conventions
+
 - [ ] Branch named descriptively (e.g., `add-my-parameter`)
+
 - [ ] PR description explains the need for new parameter
+
 - [ ] PR references any related issues
 
 ---
@@ -607,7 +647,9 @@ Add entry under "Development" section:
 ### Get Help
 
 - **Issues**: [Troubleshooting (Source)](troubleshooting-source.md)
+
 - **Questions**: Ask in tidymodels GitHub discussions
+
 - **Examples**: Study `repos/dials/` cloned repository
 
 ---

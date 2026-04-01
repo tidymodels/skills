@@ -9,11 +9,15 @@ Guide for contributing engines directly to the tidymodels/parsnip package (sourc
 Use this guide when:
 
 - Contributing an engine to tidymodels/parsnip via PR
+
 - The engine is broadly useful to the community
+
 - You're working inside the parsnip repository
 
 **Don't use this guide for:**
+
 - Adding engines in your own package → See [extension-guide.md](extension-guide.md)
+
 - Creating new model types → See [../../add-parsnip-model](../../add-parsnip-model/SKILL.md)
 
 ---
@@ -100,9 +104,13 @@ Update `NEWS.md`:
 4. Better discovery by users
 
 **Responsibilities:**
+
 - Follow parsnip conventions
+
 - Comprehensive testing
+
 - Maintain for releases
+
 - Respond to issues
 
 ---
@@ -110,8 +118,11 @@ Update `NEWS.md`:
 ## File Organization
 
 **Where to add:**
+
 - Registration: `R/[model]_data.R`
+
 - Tests: `tests/testthat/test-[model].R` or `test-[model]-[engine].R`
+
 - Documentation stub: `R/[model]_[engine].R` (optional)
 
 ---
@@ -157,11 +168,17 @@ test_that("my_engine formula and xy equivalent", {
 ## PR Checklist
 
 - [ ] Engine registered in `R/[model]_data.R`
+
 - [ ] All prediction types implemented
+
 - [ ] Tests added for engine
+
 - [ ] Formula and xy interfaces tested
+
 - [ ] NEWS.md updated
+
 - [ ] `devtools::check()` passes
+
 - [ ] Snapshot tests for errors (if applicable)
 
 ---
@@ -169,7 +186,11 @@ test_that("my_engine formula and xy equivalent", {
 ## Additional Resources
 
 See:
+
 - [Engine Implementation](engine-implementation.md) - Complete registration guide
+
 - [Best Practices (Source)](best-practices-source.md) - Parsnip conventions
+
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
+
 - [Testing Patterns (Source)](testing-patterns-source.md) - Testing guide

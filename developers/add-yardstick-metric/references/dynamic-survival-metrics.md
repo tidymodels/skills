@@ -5,20 +5,29 @@ Dynamic survival metrics evaluate time-dependent survival predictions at specifi
 ## Overview
 
 **Use when:**
+
 - Truth is a **Surv object** (from the survival package)
+
 - Predictions are **survival probabilities** at specific time points
+
 - You want metrics at each evaluation time (e.g., `.eval_time = 100, 200, 300`)
 
 **Key characteristics:**
+
 - Returns multiple rows (one per `.eval_time`)
+
 - Uses inverse probability of censoring weights (IPCW)
+
 - Automatically groups by `.eval_time`
+
 - Returns `.estimator = "standard"`
 
 **Examples:** Time-dependent Brier Score, Time-dependent ROC AUC
 
 **Reference implementations:**
+
 - Time-dependent Brier: `R/surv-brier_survival.R`
+
 - Time-dependent ROC AUC: `R/surv-roc_auc_survival.R`
 
 ## Pattern: Three-Function Approach
@@ -234,9 +243,13 @@ check_dynamic_survival_metric(truth, estimate, case_weights)
 ```
 
 This validates:
+
 - `truth` is a Surv object
+
 - `estimate` is a list-column of data.frames
+
 - Each data.frame has required columns: `.eval_time`, `.pred_survival`, `.weight_censored`
+
 - `case_weights` are valid (if provided)
 
 ## Input Format
@@ -289,7 +302,9 @@ Inverse probability of censoring weights can be created with:
 IPCW (Inverse Probability of Censoring Weighting) adjusts for censoring bias:
 
 - Observations censored before eval_time cannot be classified as events
+
 - IPCW up-weights similar uncensored observations to compensate
+
 - Based on the censoring distribution (Graf et al., 1999)
 
 ```r
@@ -413,11 +428,15 @@ dplyr::bind_rows(estimate) |>
 ## Common Metrics
 
 - **Brier Survival Score**: Mean squared error at each time
+
 - **ROC AUC Survival**: Time-dependent ROC curve area
+
 - **Time-dependent sensitivity/specificity**: Classification at each time
 
 ## See Also
 
 - [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated over time
+
 - [Static Survival Metrics](static-survival-metrics.md) - Overall metrics
+
 - [Metric System](metric-system.md) - Understanding metric architecture

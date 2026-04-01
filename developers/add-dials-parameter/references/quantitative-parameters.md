@@ -13,14 +13,21 @@ This guide covers everything you need to create quantitative parameters with `ne
 Quantitative parameters represent numeric values that can vary continuously or discretely across a defined range. These are the most common type of tuning parameters in machine learning.
 
 **Reference implementations in dials:**
+
 - Simple quantitative: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+
 - With transformations: `R/param_penalty.R` (log10 transformation), `R/param_sample_size.R` (log2 transformation)
+
 - Data-dependent: `R/param_mtry.R` (finalize with `get_p`), `R/param_num_comp.R` (finalize with `get_p`)
+
 - Integer parameters: `R/param_num_trees.R`, `R/param_num_terms.R`
 
 **Test patterns:**
+
 - Basic parameter tests: `tests/testthat/test-param_penalty.R`
+
 - Finalization tests: `tests/testthat/test-param_mtry.R`
+
 - Transformation tests: `tests/testthat/test-param_learn_rate.R`
 
 ---
@@ -30,23 +37,33 @@ Quantitative parameters represent numeric values that can vary continuously or d
 Use quantitative parameters when your tuning parameter:
 
 - ✅ Takes **numeric values** (continuous or integer)
+
 - ✅ Has a **natural ordering** (more vs less makes sense)
+
 - ✅ Can be **interpolated** (values between bounds are meaningful)
+
 - ✅ Benefits from **regular spacing** in grid search
 
 **Common examples**:
 
 - Regularization amounts (penalty, cost, lambda)
+
 - Learning rates and decay factors
+
 - Number of features, neighbors, trees, layers
+
 - Thresholds and cutoffs
+
 - Proportions, fractions, mixtures
+
 - Degrees of freedom, polynomial degrees
 
 **When NOT to use**:
 
 - ❌ Categorical choices (use [Qualitative Parameters](qualitative-parameters.md))
+
 - ❌ Text-based options (method names, algorithms)
+
 - ❌ Unordered discrete options
 
 ---
@@ -86,12 +103,15 @@ my_parameter <- function(range = c(lower, upper), trans = NULL) {
 **Standard arguments**:
 
 - `range`: Allow users to customize bounds
+
 - `trans`: Allow users to change or remove transformation
 
 **Default values**:
 
 - Choose sensible defaults that work for most cases
+
 - Wide ranges are better (users can narrow)
+
 - Match transformations to how parameter is used in practice
 
 ---
@@ -110,13 +130,17 @@ type = "integer"  # Discrete whole numbers
 **Use "double" for**:
 
 - Continuous parameters (penalties, rates, proportions)
+
 - Parameters that can take any real value
+
 - When precision matters (learning rates, tolerances)
 
 **Use "integer" for**:
 
 - Count-based parameters (number of trees, neighbors, features)
+
 - Parameters that must be whole numbers
+
 - When fractional values don't make sense
 
 **Examples**:
@@ -140,8 +164,11 @@ range = c(lower, upper)
 **Rules**:
 
 - Must be two-element vector
+
 - `lower` must be less than `upper`
+
 - Can include `unknown()` for data-dependent bounds
+
 - If `trans` is provided, range is in **transformed space**
 
 **Fixed range examples**:
@@ -172,8 +199,11 @@ inclusive = c(lower_inclusive, upper_inclusive)
 **Options**:
 
 - `c(TRUE, TRUE)`: Both endpoints included (most common)
+
 - `c(FALSE, FALSE)`: Both endpoints excluded
+
 - `c(TRUE, FALSE)`: Lower included, upper excluded
+
 - `c(FALSE, TRUE)`: Lower excluded, upper included
 
 **Common patterns**:
@@ -214,7 +244,9 @@ trans = scales::transform_sqrt()  # Square root
 **When to use transformations**:
 
 - Parameter spans multiple orders of magnitude
+
 - Equal steps in transformed space are more meaningful
+
 - Literature commonly discusses parameter on that scale
 
 **Key point**: When `trans` is provided, `range` is in **transformed space**
@@ -252,14 +284,19 @@ finalize = custom_fn      # Custom finalize function
 **When to use**:
 
 - Upper bound depends on dataset size
+
 - Number of features/observations matters
+
 - Parameter meaningfulness depends on data dimensions
 
 **Built-in finalize functions**:
 
 - `get_p()`: Number of predictors (ncol)
+
 - `get_n()`: Number of observations (nrow)
+
 - `get_n_frac()`: Fraction of observations
+
 - `get_log_p()`: Log of predictors
 
 See [Data-Dependent Parameters](data-dependent-parameters.md) for details.
@@ -275,8 +312,11 @@ label = c(parameter_name = "Display Label")
 **Conventions**:
 
 - Name matches function name
+
 - Label uses title case
+
 - Concise but descriptive
+
 - Describes what parameter controls
 
 **Examples**:
@@ -772,17 +812,21 @@ For source development, see [Testing Patterns (Source)](testing-patterns-source.
 ### Learn Advanced Features
 
 - **Transformations**: [Transformations Guide](transformations.md)
+
 - **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
 ### Explore Related Topics
 
 - **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+
 - **Parameter system**: [Parameter System Overview](parameter-system.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ---

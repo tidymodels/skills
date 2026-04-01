@@ -42,8 +42,11 @@ yardstick:::yardstick_mean
 4. Add tests to prevent future breakage
 
 **Prevention:**
+
 - Document WHY you're using an internal (in comments)
+
 - Add tests that would catch internal changes
+
 - Prefer stable internals (e.g., `yardstick_mean`)
 
 ### Internal Function Not Found
@@ -213,7 +216,9 @@ result <- metrics(df, truth, estimate)
 **Cause:** Metrics in a set must have compatible estimators.
 
 **Solution:**
+
 - For binary data: All metrics will use "binary"
+
 - For multiclass data: Specify estimator explicitly
 
 ```r
@@ -341,8 +346,11 @@ Examples with CPU time > 2.5 times elapsed time
 **Problem:** Test suite takes too long.
 
 **Solution:** Make tests faster:
+
 - Use smaller test datasets
+
 - Skip slow tests on CRAN: `skip_on_cran()`
+
 - Parallelize independent tests
 
 ### Check Fails: Snapshot Changes
@@ -624,19 +632,27 @@ https://github.com/tidymodels/yardstick/issues
 ### Ask Tidymodels Team
 
 For yardstick-specific questions:
+
 - Open an issue on GitHub
+
 - Ask in tidymodels Slack (if you have access)
+
 - Tag maintainers in your PR
 
 ### Reference Existing Metrics
 
 Study similar metrics in the codebase:
+
 - Look at `R/num-mae.R` for simple numeric metrics
+
 - Look at `R/class-accuracy.R` for class metrics
+
 - Look at `R/prob-roc_auc.R` for probability metrics
 
 ## Next Steps
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
+
 - See [Extension Troubleshooting](package-extension-requirements.md#common-issues-solutions) for common R package issues

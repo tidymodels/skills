@@ -610,14 +610,21 @@ testthat::snapshot_accept()
 ### When to Use Snapshots
 
 **Use `expect_snapshot()` for**:
+
 - Error messages
+
 - Warning messages
+
 - Complex printed output
+
 - Messages that should stay consistent
 
 **Don't use snapshots for**:
+
 - Simple value comparisons (`expect_equal()` is better)
+
 - Numeric tests (`expect_true()`, `expect_equal()`)
+
 - Tests that might have platform-specific output
 
 ---
@@ -728,8 +735,11 @@ devtools::check()  # Runs all tests plus R CMD check
 ### 1. Add Tests to Correct Files
 
 - **Range validation** → `test-params.R`
+
 - **Invalid arguments** → `test-constructors.R`
+
 - **Finalization** → `test-finalize.R`
+
 - **Grid generation** → `test-grids.R`
 
 ### 2. Keep Alphabetical Order
@@ -743,8 +753,11 @@ Always test `grid_regular()`, `grid_random()`, and `grid_space_filling()`.
 ### 4. Test Edge Cases
 
 - Single-value ranges
+
 - Very small ranges
+
 - Unknown bounds
+
 - Empty qualitative values
 
 ### 5. Use Snapshots for Errors
@@ -766,20 +779,35 @@ Always use `set.seed()` before random grid generation in tests.
 When adding a new parameter, ensure tests cover:
 
 - [ ] Range validation in `test-params.R`
+
 - [ ] Invalid argument errors in `test-constructors.R`
+
 - [ ] Grid generation in `test-grids.R`
+
   - [ ] `grid_regular()`
+
   - [ ] `grid_random()`
+
   - [ ] `grid_space_filling()`
+
 - [ ] Value utilities work
+
   - [ ] `value_sample()`
+
   - [ ] `value_seq()`
+
 - [ ] Transformation (if applicable)
+
 - [ ] Finalization (if applicable) in `test-finalize.R`
+
 - [ ] Edge cases handled
+
 - [ ] Companion `values_*` vector (if qualitative)
+
 - [ ] All tests pass: `devtools::test()`
+
 - [ ] Package check passes: `devtools::check()`
+
 - [ ] Snapshots accepted: `testthat::snapshot_accept()`
 
 ---
@@ -789,12 +817,15 @@ When adding a new parameter, ensure tests cover:
 ### Learn More
 
 - **Best practices**: [Best Practices (Source)](best-practices-source.md)
+
 - **Troubleshooting**: [Troubleshooting (Source)](troubleshooting-source.md)
+
 - **Source guide**: [Source Development Guide](source-guide.md)
 
 ### External Resources
 
 - [testthat package documentation](https://testthat.r-lib.org/)
+
 - [Testing chapter in R Packages book](https://r-pkgs.org/testing-basics.html)
 
 ---

@@ -7,7 +7,9 @@ Centers predictors to mean zero and scales to unit variance. Essential for model
 **When to use**: KNN, SVM, neural networks, regularized regression (lasso, ridge, elastic net), PCA.
 
 **Considerations**:
+
 - Compute mean and SD from training data only; apply same values to test data
+
 - Not needed for tree-based models
 
 ### tidymodels
@@ -33,8 +35,11 @@ Transforms skewed predictors to approximate symmetry. Can improve performance fo
 **When to use**: Numeric predictors with heavy skew; particularly helpful for linear models and neural networks.
 
 **Options**:
+
 - **Yeo-Johnson**: Handles zero and negative values
+
 - **Box-Cox**: Requires strictly positive values
+
 - **orderNorm**: Transforms to approximate normality via rank ordering
 
 ### tidymodels
@@ -67,8 +72,11 @@ Creates basis functions to model nonlinear relationships between a predictor and
 **When to use**: Suspected nonlinear relationship between a numeric predictor and outcome; using a linear model.
 
 **Considerations**:
+
 - Degrees of freedom (df) controls flexibility; higher df = more wiggly
+
 - Start with df = 3-5 and tune if needed
+
 - Not needed for tree-based models or GAMs (they handle nonlinearity internally)
 
 ### tidymodels
@@ -92,8 +100,11 @@ Creates products of predictors to model joint effects. Use when the effect of on
 **When to use**: Domain knowledge suggests interaction; exploratory analysis shows effect modification.
 
 **Considerations**:
+
 - Can dramatically increase feature count
+
 - Tree-based models capture interactions automatically
+
 - For linear models, specify interactions based on domain knowledge
 
 ### tidymodels

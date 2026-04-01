@@ -42,8 +42,11 @@ your_function(test_data)
 ```
 
 This tight feedback loop lets you:
+
 - Catch errors immediately
+
 - Test interactively
+
 - Iterate quickly on design
 
 ## Final Validation (Run Once at End)
@@ -55,24 +58,37 @@ This tight feedback loop lets you:
 ### Why avoid check() during development?
 
 - Takes 1-2 minutes (sometimes longer)
+
 - Runs many validations unnecessary during development
+
 - Interrupts your flow
+
 - Everything it checks is validated by the fast cycle
 
 ### When to run check()
 
 **Only run check() once at the very end:**
+
 - Before submitting to CRAN
+
 - Before creating a release
+
 - Before final code review
+
 - After all development is complete
 
 `check()` validates:
+
 - Package structure
+
 - Documentation completeness
+
 - Code quality
+
 - Examples run correctly
+
 - Tests pass
+
 - No NOTEs or WARNINGs
 
 ## Interactive Development
@@ -161,24 +177,37 @@ devtools::document()
 Speed up your workflow with keyboard shortcuts:
 
 - `Cmd/Ctrl + Shift + D` - `devtools::document()`
+
 - `Cmd/Ctrl + Shift + L` - `devtools::load_all()`
+
 - `Cmd/Ctrl + Shift + T` - `devtools::test()`
+
 - `Cmd/Ctrl + Shift + E` - `devtools::check()`
 
 ## Best Practices
 
 ### DO:
+
 - Run the fast cycle (document, load, test) frequently
+
 - Test interactively in console
+
 - Write tests as you develop
+
 - Fix issues immediately when found
+
 - Use `browser()` for complex debugging
 
 ### DON'T:
+
 - Run `check()` during development (only at end)
+
 - Skip writing tests "for later" (write them now)
+
 - Ignore warnings from `document()` or `test()`
+
 - Make many changes before testing
+
 - Commit broken code to git
 
 ## Troubleshooting
@@ -205,8 +234,11 @@ devtools::load_all()  # Load updated package
 **Problem:** Test environment differs from interactive environment
 
 **Solution:**
+
 - Check test data setup
+
 - Verify all required packages loaded in tests
+
 - Use `devtools::load_all()` before interactive testing
 
 ### "no visible binding for global variable"
@@ -316,5 +348,7 @@ git log --oneline
 ## Next Steps
 
 - Learn testing patterns: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+
 - Set up proper documentation: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Follow best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)

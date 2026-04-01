@@ -9,32 +9,49 @@
 Autoplot provides visualization methods for metrics that produce multi-dimensional results like curves or confusion matrices.
 
 **Implementation examples:**
+
 - Curve visualization: `R/prob-roc_curve.R` (ROC curve autoplot), `R/prob-pr_curve.R` (PR curve autoplot)
+
 - Confusion matrix: `R/class-conf_mat.R` (heatmap and mosaic plot autoplots)
+
 - Calibration plots: `R/prob-cal_plot_breaks.R` (calibration curve visualization)
+
 - Gain/lift curves: `R/prob-gain_curve.R`, `R/prob-lift_curve.R`
 
 **Common patterns:**
+
 - Curve metrics: Line plots with threshold information
+
 - Matrix metrics: Heatmaps showing confusion patterns
+
 - Calibration: Scatter/line plots of predicted vs observed
+
 - Multi-group: Faceted plots for different groups/resamples
 
 **Test patterns:**
+
 - Autoplot tests: `tests/testthat/test-prob-roc_curve.R` (includes autoplot validation)
+
 - ggplot2 dependency: Tests check for graceful failure when ggplot2 not available
 
 ## When to Implement Autoplot
 
 ### Autoplot is appropriate for:
+
 - **Confusion matrices**: Binary or multiclass classification results (heatmaps, mosaic plots)
+
 - **Curve metrics**: ROC curves, PR curves, gain/lift curves
+
 - **Calibration plots**: Predicted vs observed probabilities
+
 - **Multi-threshold metrics**: Metrics calculated across threshold values
 
 ### Skip autoplot for:
+
 - Simple scalar metrics (accuracy, MSE, etc.)
+
 - Metrics without natural visual representation
+
 - Metrics where visualization adds little value
 
 ## Dependencies
@@ -88,9 +105,13 @@ autoplot.roc_curve <- function(object, ...) {
 ```
 
 **Key points:**
+
 - Check ggplot2 is installed with `rlang::check_installed()`
+
 - Return a ggplot object
+
 - Use descriptive labels and titles
+
 - Consider appropriate themes and scales
 
 ### For confusion matrices
@@ -147,8 +168,11 @@ autoplot.your_metric <- function(object, ...) {
 ```
 
 **Common uses of `...`:**
+
 - `type` parameter to control plot type
+
 - Aesthetic parameters to pass to ggplot layers
+
 - Theme parameters
 
 ## Handling the `type` Parameter
@@ -241,9 +265,13 @@ autoplot.your_metric <- function(object, type = "default", ...) {
 ## When to Skip Autoplot
 
 Don't implement autoplot if:
+
 - Your metric returns a single scalar value
+
 - Visualization doesn't add insight
+
 - The metric is simple and self-explanatory
+
 - Your time is better spent on core functionality
 
 **Focus on correctness first, visualization second.**
@@ -304,18 +332,27 @@ autoplot.roc_curve <- function(object, ...) {
 ## Best Practices
 
 - **Check package availability**: Always use `rlang::check_installed("ggplot2")`
+
 - **Return ggplot objects**: Don't print, return the object
+
 - **Use sensible defaults**: Good labels, appropriate scales
+
 - **Document parameters**: Especially `type` if supported
+
 - **Test with skip**: `skip_if_not_installed("ggplot2")`
+
 - **Keep it simple**: Don't over-complicate visualizations
 
 ## Next Steps
 
 - Implement core metric functionality first
+
 - Add autoplot only if it adds value
+
 - Test thoroughly
+
 - Document clearly
+
 - Consider user customization needs
 
 For most metrics, autoplot is optional. Focus on correctness and completeness of the metric calculation first.

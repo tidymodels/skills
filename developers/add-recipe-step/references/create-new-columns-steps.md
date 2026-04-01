@@ -7,19 +7,29 @@ This template is for steps that create new columns from existing ones.
 ## Overview
 
 Create-new-columns steps:
+
 - Generate new columns based on existing columns
+
 - Can optionally keep or remove original columns
+
 - Assign roles to new columns
+
 - Examples: `step_dummy`, `step_pca`, `step_interact`, `step_poly`
 
 **Canonical implementations in recipes:**
+
 - Encoding: `R/dummy.R` (one-hot encoding), `R/bin2factor.R`
+
 - Dimension reduction: `R/pca.R`, `R/ica.R`, `R/kpca.R`
+
 - Feature engineering: `R/interact.R`, `R/poly.R`, `R/bs.R` (basis splines)
+
 - Date features: `R/date.R`, `R/holiday.R`
 
 **Test patterns:**
+
 - Encoding tests: `tests/testthat/test-dummy.R`
+
 - Dimension reduction: `tests/testthat/test-pca.R`
 
 ## Key Differences from Modify-in-Place
@@ -265,7 +275,9 @@ tidy.step_yournewcols <- function(x, ...) {
 ### Column naming
 
 - **Use descriptive, consistent naming conventions**
+
 - **Consider providing a `naming` parameter** for custom naming functions
+
 - **Validate that new names don't conflict** with existing columns using `recipes::check_name()`
 
 Example naming pattern:
@@ -283,7 +295,9 @@ new_col_names <- paste(col1, col2, sep = "_x_")
 ### Sparsity support
 
 - **If your step creates sparse columns** (like dummy variables), implement `.recipes_estimate_sparsity()`
+
 - **This allows workflows to optimize sparse data handling**
+
 - **Return a list** with `n_cols` (integer) and `sparsity` (numeric 0-1)
 
 Example:
@@ -304,6 +318,7 @@ Example:
 ### keep_original_cols
 
 - **Always use `remove_original_cols()` in `bake()`** to handle this parameter
+
 - **Don't implement the logic yourself** - the helper does it correctly
 
 ```r
@@ -317,8 +332,11 @@ if (!object$keep_original_cols) {
 ```
 
 The helper correctly handles:
+
 - Preserving column order
+
 - Handling role assignments
+
 - Edge cases with column names
 
 ## Common Patterns
@@ -423,9 +441,15 @@ test_that("tidy returns correct information", {
 ## Next Steps
 
 - Understand architecture: [step-architecture.md](step-architecture.md)
+
 - Modify in place: [modify-in-place-steps.md](modify-in-place-steps.md)
+
 - Row operations: [row-operation-steps.md](row-operation-steps.md)
+
 - Add optional methods: [optional-methods.md](optional-methods.md)
+
 - Learn helper functions: [helper-functions.md](helper-functions.md)
+
 - Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -7,7 +7,9 @@ Converts a categorical variable with K levels into K-1 binary columns (one level
 **When to use**: Most models except tree-based methods, Cubist, and Naive Bayes.
 
 **Considerations**:
+
 - Reference level choice affects coefficient interpretation but not predictions
+
 - High-cardinality variables create many columns—consider target encoding instead
 
 ### tidymodels
@@ -33,8 +35,11 @@ Replaces categorical levels with a numeric value based on the outcome. Useful fo
 **When to use**: Categorical predictors with many levels (e.g., ZIP codes, product IDs).
 
 **Considerations**:
+
 - Risk of data leakage if not done within resampling
+
 - Smoothing/regularization helps with rare levels
+
 - For classification, encodes the probability of the positive class; for regression, encodes the mean outcome
 
 ### tidymodels

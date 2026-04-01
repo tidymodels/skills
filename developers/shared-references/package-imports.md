@@ -5,7 +5,9 @@ Guide to properly importing functions from other packages and managing your pack
 ## The NAMESPACE File
 
 The `NAMESPACE` file controls:
+
 - Which functions your package exports (makes available to users)
+
 - Which functions your package imports from other packages
 
 **Important:** Never edit `NAMESPACE` directly. Let roxygen2 generate it via `devtools::document()`.
@@ -31,8 +33,11 @@ Replace `{packagename}` with your actual package name (e.g., `R/mymetrics-packag
 ### What this does
 
 - `@keywords internal` - Marks as internal documentation
+
 - `@importFrom stats weighted.mean` - Imports `weighted.mean` from stats
+
 - `"_PACKAGE"` - Roxygen directive for package-level docs
+
 - `## usethis namespace:` - Markers for usethis to add content
 
 ## Common Import Patterns
@@ -131,8 +136,11 @@ result <- dplyr::filter(data, condition)
 ```
 
 **When to use:**
+
 - Functions used infrequently
+
 - Clarity about where function comes from
+
 - Avoiding namespace conflicts
 
 ### Option 2: Import and use directly (recommended for frequent use)
@@ -147,8 +155,11 @@ result <- filter(data, condition) |>
 ```
 
 **When to use:**
+
 - Functions used frequently
+
 - Cleaner, more readable code
+
 - Functions are core to your package
 
 ## Special Cases
@@ -240,7 +251,9 @@ Only use `@import` for packages designed for it (like rlang):
 **Problem:** NSE variables not declared (common with dplyr/ggplot2)
 
 **Solution:** Either:
+
 - Use `.data$column` pronoun: `mutate(.data$new_col = value)`
+
 - Or add `utils::globalVariables()` to package-level doc:
   ```r
   utils::globalVariables(c("column_name", "another_column"))
@@ -255,15 +268,23 @@ Only use `@import` for packages designed for it (like rlang):
 ## Best Practices
 
 ### DO:
+
 - Use `@importFrom` to import specific functions
+
 - Add all packages to DESCRIPTION first
+
 - Run `devtools::document()` after changes
+
 - Use `::` for infrequently-used functions
 
 ### DON'T:
+
 - Edit NAMESPACE directly
+
 - Use `@import` for most packages
+
 - Import internal functions with `:::`
+
 - Forget to add packages to DESCRIPTION
 
 ## Example Package-Level Doc
@@ -289,12 +310,17 @@ devtools::check()
 ```
 
 Look for:
+
 - "no visible global function definition" - add import
+
 - "Namespace dependencies not required" - remove import
+
 - "All declared Imports should be used" - remove unused package
 
 ## Next Steps
 
 - Write roxygen documentation: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Follow best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)
+
 - Set up testing: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -18,13 +18,19 @@ Complete guide for creating new packages that extend recipes with custom preproc
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
+
 - Creating a **new R package** that adds custom recipe steps
+
 - Building on recipes' foundation without modifying recipes itself
+
 - Publishing steps to CRAN or sharing privately
+
 - Want to avoid tight coupling with recipes internals
 
 ❌ **Don't use this guide if you are:**
+
 - Contributing a PR directly to the recipes package → Use [Source Development Guide](source-guide.md)
+
 - Working inside the recipes repository → Use [Source Development Guide](source-guide.md)
 
 ---
@@ -58,25 +64,41 @@ recipes::recipes_eval_select(terms, data, info)
 ```
 
 **Why?**
+
 - Internal functions are not guaranteed to be stable
+
 - They can change without notice
+
 - Your package will fail CRAN checks
+
 - Users will get cryptic errors
 
 ### ✅ Only Use Exported Functions
 
 Safe to use:
+
 - `recipes::recipes_eval_select()`
+
 - `recipes::get_case_weights()`
+
 - `recipes::are_weights_used()`
+
 - `recipes::check_type()`
+
 - `recipes::check_new_data()`
+
 - `recipes::add_step()`
+
 - `recipes::step()`
+
 - `recipes::print_step()`
+
 - `recipes::sel2char()`
+
 - `recipes::is_trained()`
+
 - `recipes::rand_id()`
+
 - `recipes::remove_original_cols()` (for create-new-columns steps)
 
 ---
@@ -88,21 +110,29 @@ Choose based on what your step does:
 ### Modify-in-Place Steps
 
 Transforms existing columns (e.g., centering, scaling):
+
 - Use `role = NA`
+
 - No `keep_original_cols` parameter
+
 - Columns keep their names
 
 ### Create-New-Columns Steps
 
 Generates new columns (e.g., dummy variables, PCA):
+
 - Use `role = "predictor"`
+
 - Include `keep_original_cols` parameter
+
 - Original columns typically removed
 
 ### Row-Operation Steps
 
 Filters or removes rows (e.g., filtering, sampling):
+
 - Default `skip = TRUE`
+
 - Usually only applied to training data
 
 See [Step Architecture](step-architecture.md) for detailed decision tree.
@@ -539,10 +569,15 @@ See [Testing Patterns (Extension)](package-extension-requirements.md#testing-req
 See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
+
 - Use base pipe `|>` not `%>%`
+
 - Prefer for-loops over `purrr::map()`
+
 - Use `cli::cli_abort()` for error messages
+
 - Validate early (in prep), trust data in bake
+
 - Use recipes helpers instead of reimplementing
 
 ---
@@ -552,9 +587,13 @@ See [Best Practices (Extension)](package-extension-requirements.md#best-practice
 See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
+
 - Column selection not working → Check `recipes_eval_select()` usage
+
 - Type errors in bake() → Add validation in prep()
+
 - Case weights ignored → Check conversion of hardhat weights
+
 - "Object not found" → Use `devtools::load_all()` before testing
 
 ---
@@ -562,21 +601,33 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 ## Reference Documentation
 
 ### Step Types
+
 - [Step Architecture](step-architecture.md) - Three-function pattern
+
 - [Modify-in-Place Steps](modify-in-place-steps.md)
+
 - [Create-New-Columns Steps](create-new-columns-steps.md)
+
 - [Row-Operation Steps](row-operation-steps.md)
 
 ### Core Concepts
+
 - [Helper Functions](helper-functions.md)
+
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
+
 - [Extension Prerequisites](package-extension-prerequisites.md)
+
 - [Development Workflow](package-development-workflow.md)
+
 - [Testing Patterns](package-extension-requirements.md#testing-requirements)
+
 - [Roxygen Documentation](package-roxygen-documentation.md)
+
 - [Best Practices](package-extension-requirements.md#best-practices)
+
 - [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
 
 ---
@@ -595,6 +646,9 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 ## Getting Help
 
 - Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
+
 - Review [Step Architecture](step-architecture.md)
+
 - Study the main [recipes SKILL.md](../SKILL.md) for more details
+
 - Search GitHub issues: https://github.com/tidymodels/recipes/issues

@@ -44,8 +44,11 @@ recipes:::recipes_eval_select
 4. Add regression tests
 
 **Prevention:**
+
 - Document WHY you're using an internal function
+
 - Add tests that would catch interface changes
+
 - Use stable internals when possible
 
 ### Internal Function Not Found
@@ -412,7 +415,9 @@ prepped$var_info |>
 ```
 
 **Solution:**
+
 - Use `role = NA` for modify-in-place steps
+
 - Document role behavior clearly
 
 ### Original Columns Not Removed
@@ -552,8 +557,11 @@ prep(rec2)  # Fails
 ```
 
 **Common causes:**
+
 - Your step expects data in certain format
+
 - Your step modifies data unexpectedly
+
 - Your step doesn't preserve required columns
 
 ### Grouped Data Issues
@@ -753,14 +761,19 @@ test_that("step respects case weights", {
 ### "Use internal helper"
 
 Reviewer suggests existing internal function:
+
 - Check if it exists
+
 - Review its implementation
+
 - Refactor to use it
 
 ### "Match style of existing steps"
 
 - Look at similar steps
+
 - Match their structure
+
 - Use same helper functions
 
 ## Getting Help
@@ -773,18 +786,25 @@ https://github.com/tidymodels/recipes/issues
 ### Study Existing Steps
 
 Look at similar steps:
+
 - Normalization: `R/center.R`, `R/scale.R`
+
 - Encoding: `R/dummy.R`, `R/novel.R`
+
 - Filtering: `R/filter.R`
 
 ### Ask Tidymodels Team
 
 - Open GitHub issue
+
 - Ask in tidymodels forums
+
 - Tag maintainers in PR
 
 ## Next Steps
 
 - Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
+
 - See [Extension Troubleshooting](package-extension-requirements.md#common-issues-solutions) for general R package issues

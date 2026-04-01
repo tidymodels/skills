@@ -7,26 +7,39 @@ This is the simplest type of step. It transforms existing columns without creati
 ## Overview
 
 Modify-in-place steps:
+
 - Transform existing columns
+
 - Don't create new columns
+
 - Preserve column names and roles
+
 - Examples: `step_center`, `step_scale`, `step_normalize`, `step_log`
 
 **Canonical implementations in recipes:**
+
 - Simple location/scale: `R/center.R`, `R/scale.R`, `R/normalize.R`
+
 - Math transformations: `R/log.R`, `R/sqrt.R`, `R/logit.R`, `R/invlogit.R`
+
 - Power transformations: `R/BoxCox.R` (Box-Cox with lambda parameter)
+
 - Trigonometric: `R/hyperbolic.R`, `R/harmonic.R`
 
 **Test patterns:**
+
 - Basic transformations: `tests/testthat/test-center.R`, `tests/testthat/test-scale.R`
+
 - Parameterized steps: `tests/testthat/test-normalize.R`
 
 ## Characteristics
 
 - **`role = NA`**: Preserves existing column roles
+
 - **No `keep_original_cols`**: Not needed since columns are modified in place
+
 - **Returns same columns**: Modified values but same column structure
+
 - **Simpler than create-new-columns**: Fewer parameters to handle
 
 ## Complete Template
@@ -289,28 +302,39 @@ tidy.step_yourname <- function(x, ...) {
 ### For prep()
 
 - **Always use `recipes_eval_select()`** to resolve variable selections
+
 - **Use `check_type()`** to validate column types early
+
 - **Handle case weights** with `get_case_weights()` and `are_weights_used()`
+
 - **Use for-loops, not `map()`** for better error messages
+
 - **Return a new step object** (don't modify in place)
+
 - **Set `trained = TRUE`** in the returned object
 
 ### For bake()
 
 - **Always validate** with `check_new_data()`
+
 - **Use for-loops** for applying transformations
+
 - **Work with columns in place** (modify `new_data` directly)
+
 - **Return the modified data frame**
 
 ### For print()
 
 - **Use the `print_step()` helper** function
+
 - **Pass `case_weights`** if your step supports them
 
 ### For tidy()
 
 - **Return a tibble** with at minimum: `terms`, relevant value columns, and `id`
+
 - **Handle both trained and untrained states**
+
 - **Use `sel2char()`** to convert untrained term selections to strings
 
 ## Common Patterns
@@ -389,8 +413,13 @@ test_that("working correctly", {
 ## Next Steps
 
 - Understand architecture: [step-architecture.md](step-architecture.md)
+
 - Create new columns: [create-new-columns-steps.md](create-new-columns-steps.md)
+
 - Add optional methods: [optional-methods.md](optional-methods.md)
+
 - Learn helper functions: [helper-functions.md](helper-functions.md)
+
 - Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

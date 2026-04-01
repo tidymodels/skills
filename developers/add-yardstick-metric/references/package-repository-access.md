@@ -9,14 +9,19 @@ Having access to tidymodels package source code significantly improves the quali
 When you clone the source repositories locally:
 
 - **Real Examples**: See actual implementations instead of generic patterns
+
 - **Test Patterns**: Learn from existing test files and edge cases
+
 - **Architecture**: Understand package structure and conventions
+
 - **Up-to-date**: Reference current implementation details
+
 - **Searchable**: Grep through code for specific patterns
 
 ### What Gets Cloned
 
 - **yardstick**: Performance metrics package (~5 MB shallow clone)
+
 - **recipes**: Preprocessing steps package (~8 MB shallow clone)
 
 Total disk space: ~15 MB
@@ -24,8 +29,11 @@ Total disk space: ~15 MB
 ### What Gets Modified
 
 The cloning scripts will automatically:
+
 - Create `repos/` directory in your package root
+
 - Add `repos/` to your `.gitignore` (won't be committed)
+
 - Add `^repos$` to your `.Rbuildignore` (won't be built into package)
 
 ## Prerequisites
@@ -251,8 +259,11 @@ echo "^repos$" >> .Rbuildignore
 **Symptom**: Script exits with "Failed to create repos/ directory (permission denied)".
 
 **Solutions**:
+
 - Check that you're running the script from a directory where you have write permissions
+
 - On Windows, try running PowerShell as Administrator
+
 - On Unix-like systems, check directory ownership: `ls -la`
 
 ### Network issues / Clone failed
@@ -260,9 +271,13 @@ echo "^repos$" >> .Rbuildignore
 **Symptom**: Script exits with "Failed to clone" message.
 
 **Solutions**:
+
 - Check your internet connection
+
 - Verify you can access github.com in your browser
+
 - Check if you're behind a firewall or proxy
+
 - Try again later (GitHub may be temporarily unavailable)
 
 ### Insufficient disk space
@@ -270,8 +285,11 @@ echo "^repos$" >> .Rbuildignore
 **Symptom**: Clone fails with disk space error.
 
 **Solution**: Free up disk space. Requirements:
+
 - yardstick: ~5 MB
+
 - recipes: ~8 MB
+
 - Total for both: ~15 MB
 
 ### Repository already exists
@@ -310,13 +328,19 @@ Once repositories are cloned, Claude will automatically detect them and use them
 When working with cloned repositories, you can reference files directly:
 
 **Yardstick examples:**
+
 - `repos/yardstick/R/num-mae.R` - Simple numeric metric
+
 - `repos/yardstick/R/class-accuracy.R` - Simple class metric
+
 - `repos/yardstick/tests/testthat/test-num-mae.R` - Test patterns
 
 **Recipes examples:**
+
 - `repos/recipes/R/center.R` - Modify-in-place step
+
 - `repos/recipes/R/step_dummy.R` - Create-new-columns step
+
 - `repos/recipes/tests/testthat/test-step_center.R` - Test patterns
 
 ### Searching for Examples
@@ -381,22 +405,31 @@ No. The scripts automatically add `^repos$` to `.Rbuildignore`, excluding them f
 ### How often should I update the cloned repositories?
 
 Update frequency depends on your needs:
+
 - **Active development**: Weekly or monthly
+
 - **Stable reference**: Once per project
+
 - **Latest features**: Before starting new features
 
 ### Can I clone repositories to a different location?
 
 Yes, but you'll need to modify the scripts. The default `repos/` location is recommended because:
+
 - It's easy to add to ignore files
+
 - It's in the package root (accessible from R/ and tests/)
+
 - It's a common convention
 
 ### Why use shallow clones?
 
 Shallow clones (`--depth 1`) include only the latest commit, reducing:
+
 - Clone time (faster download)
+
 - Disk space (90% reduction)
+
 - Complexity (no history to navigate)
 
 For reference purposes, you typically only need the current code, not the full history.
@@ -415,8 +448,11 @@ git clone https://github.com/tidymodels/yardstick.git
 ### Can I modify the cloned repositories?
 
 You can, but it's not recommended because:
+
 - Your changes won't be tracked
+
 - Updates (git pull) may conflict
+
 - They're meant for reference only
 
 If you want to contribute to tidymodels, fork the repository on GitHub instead.
@@ -424,8 +460,11 @@ If you want to contribute to tidymodels, fork the repository on GitHub instead.
 ### Why three different scripts?
 
 Platform-native scripts provide the best user experience:
+
 - **Bash**: Native to Unix-like systems (macOS, Linux)
+
 - **PowerShell**: Native to Windows (pre-installed)
+
 - **Python**: Universal fallback (works everywhere)
 
 Users can use whichever is most comfortable for their platform.
@@ -433,7 +472,9 @@ Users can use whichever is most comfortable for their platform.
 ## Related Documentation
 
 - **Scripts README**: `scripts/README.md` - Script usage and quick reference
+
 - **Yardstick skill**: `add-yardstick-metric/SKILL.md` - Creating metrics
+
 - **Recipes skill**: `add-recipe-step/SKILL.md` - Creating recipe steps
 
 ## Support

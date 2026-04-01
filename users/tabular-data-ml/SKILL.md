@@ -12,10 +12,13 @@ This skill guides the process of developing predictive models for tabular data w
 Always partition data into:
 
 - **Training set**: Used for all feature engineering, feature selection, and model development
+
 - **Test set**: Reserved for final model evaluation only—requires explicit user permission before use
 
 A common split is 75% training / 25% testing. Use stratified sampling:
+
 - Classification: stratify by outcome class
+
 - Regression: create temporary quartile groups and stratify by those
 
 See [references/data-spending.md](references/data-spending.md) for specific instructions for data splitting.
@@ -23,9 +26,13 @@ See [references/data-spending.md](references/data-spending.md) for specific inst
 ### Test Set Rules
 
 - **NEVER** predict on test data during model development
+
 - **NEVER** calculate test set metrics without explicit user permission
+
 - **NEVER** use test data to compare models or tune hyperparameters
+
 - **DO** ask: *"If you have completed model development, may I evaluate the final model on the test set?"*
+
 - **DO** wait for explicit confirmation before proceeding
 
 **Self-check**: If you're writing `predict(..., test_data)` without prior user permission, STOP—you're making an error.
@@ -37,6 +44,7 @@ See [references/data-spending.md](references/data-spending.md) for specific inst
 Always use out-of-sample predictions to measure performance:
 
 - **Large datasets (≥10,000 rows)**: Use a single validation set
+
 - **Small to medium datasets**: Use 10-fold cross-validation or appropriate resampling
 
 See [references/resampling.md](references/resampling.md) for resampling methods and implementation.
@@ -44,7 +52,9 @@ See [references/resampling.md](references/resampling.md) for resampling methods 
 ### Validation Rules
 
 - **NEVER** directly predict on training data to measure performance
+
 - **DO** develop and compare models using only CV or validation set results
+
 - **DO** select final model(s) based on out-of-sample performance
 
 ## Performance Metrics
@@ -54,7 +64,9 @@ See [references/evaluation.md](references/evaluation.md) for specific instructio
 ### Classification
 
 Ask the user whether they prioritize:
+
 - **Class separation**: Use ROC-AUC or PR-AUC
+
 - **Calibrated probabilities**: Use Brier score
 
 Default set: ROC-AUC, Brier score, and accuracy.
@@ -62,7 +74,9 @@ Default set: ROC-AUC, Brier score, and accuracy.
 ### Regression
 
 - **RMSE**: Primary accuracy metric (sensitive to outliers)
+
 - **MAE**: Accuracy metric less sensitive to outliers
+
 - **R²**: Measures variance explained (supplement to RMSE/MAE, not a replacement)
 
 Default set: RMSE and R².
@@ -80,22 +94,31 @@ All steps must be validated using out-of-sample data.
 ### Optimization Rules
 
 - **NEVER** use data outside the training set to determine feature engineering steps
+
 - **NEVER** engineer features, then evaluate directly on training data
+
 - **DO** treat feature engineering and model training as a single process
+
 - **DO** use CV or validation set to measure combined feature engineering + model performance
+
 - **DO** use CV or validation set to select best tuning parameters
 
 ## Feature Engineering
 
 See [references/feature-engineering.md](references/feature-engineering.md) for:
+
 - Common feature engineering techniques
+
 - Model-specific requirements (mandatory vs. helpful transformations)
 
 ## Model Tuning
 
 - Use parameter ranges provided by the modeling framework
+
 - Use space-filling designs for grid search when available
+
 - Use racing methods for efficiency (except with validation sets)
+
 - Visualize tuning results to show performance vs. parameter relationships
 
 It is a good idea to propose two models to the user: 
@@ -115,17 +138,23 @@ See [references/tuning.md](references/tuning.md) for details on tuning methods a
 **With tuning**: Select metric to optimize, identify optimal tuning parameters.
 
 For the best model, present:
+
 - Numeric metric results
+
 - Appropriate visualizations (see below)
 
 ### Evaluation Visualizations
 
 **Classification**:
+
 - ROC or PR curves
+
 - Calibration curves
 
 **Regression**:
+
 - Observed vs. predicted plots
+
 - Residual plots
 
 See [references/evaluation.md](references/evaluation.md) for metrics, visualizations, and implementation.
@@ -137,5 +166,7 @@ Once the user selects a final model, fit it on the entire training set.
 ## Test Set Evaluation
 
 After receiving user permission, evaluate on the test set with:
+
 - Numeric metrics
+
 - Same visualizations as model evaluation (ROC/PR curves, calibration, observed vs. predicted, residuals)

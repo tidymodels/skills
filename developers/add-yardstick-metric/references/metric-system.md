@@ -9,19 +9,29 @@ Before creating metrics, understanding how yardstick's metric system works helps
 The yardstick metric system provides a consistent interface for creating, composing, and evaluating performance metrics across different prediction types.
 
 **Core system implementations:**
+
 - Metric constructors: `R/metric.R` (defines `new_numeric_metric()`, `new_class_metric()`, `new_prob_metric()`, etc.)
+
 - Metric composition: `R/metric_set.R` (implements `metric_set()` for combining metrics)
+
 - Estimator finalization: `R/finalize_estimator.R` (determines binary/macro/micro/etc.)
+
 - Data frame methods: `R/num_metric.R`, `R/class_metric.R`, `R/prob_metric.R` (metric summarizers)
 
 **Integration patterns:**
+
 - Metric sets: `R/metric_set.R` (combines multiple metrics)
+
 - Direction attributes: Used by tune package for optimization
+
 - Range attributes: Used for validation and visualization
 
 **Test patterns:**
+
 - Constructor tests: `tests/testthat/test-metric.R`
+
 - Metric set tests: `tests/testthat/test-metric_set.R`
+
 - Estimator tests: `tests/testthat/test-finalize_estimator.R`
 
 ## What `new_*_metric()` does
@@ -53,8 +63,11 @@ metrics <- metric_set(accuracy, precision, recall)
 ```
 
 The metric class hierarchy allows `metric_set()` to:
+
 - Verify all metrics are compatible
+
 - Group results by `.estimator` appropriately
+
 - Apply metrics to data correctly
 
 ### For direction and range
@@ -66,8 +79,11 @@ attr(accuracy, "range")       # c(0, 1)
 ```
 
 Tools can use this to:
+
 - Know if higher is better or worse
+
 - Validate metric values are in expected range
+
 - Create appropriate visualizations
 
 ## The `.estimator` column
@@ -99,7 +115,9 @@ accuracy(df_multiclass, truth, estimate)
 ### The estimator value comes from `finalize_estimator()`
 
 - Binary classification → "binary"
+
 - Multiclass with 3+ levels → "macro", "micro", or "macro_weighted"
+
 - Numeric/regression → "standard"
 
 ### Why it matters
@@ -131,15 +149,23 @@ Before implementing a new metric, consider whether you actually need to create o
 ### When to create a new metric
 
 **Create a new metric when:**
+
 - It measures a genuinely different aspect of model performance
+
 - It's commonly used in your domain and not available in yardstick
+
 - It has a well-defined formula or calculation method
+
 - You'll use it repeatedly across multiple projects
 
 **Don't create a new metric if:**
+
 - It's just a transformation of an existing metric (use `metric_tweak()` instead)
+
 - It can be composed from existing metrics
+
 - It's a one-off calculation for a specific analysis
+
 - It's too domain-specific for general use
 
 ### Using `metric_tweak()` for variations
@@ -160,13 +186,19 @@ This is much simpler than creating a full new metric.
 ### Naming conventions
 
 **Follow yardstick patterns:**
+
 - Use lowercase with underscores: `mean_squared_error` → `mse`
+
 - Avoid camelCase or PascalCase
+
 - Be consistent with existing naming
 
 **Abbreviations vs full names:**
+
 - Well-known abbreviations: `rmse`, `mae`, `auc` (widely recognized)
+
 - Full names for clarity: `accuracy`, `precision`, `recall` (already short)
+
 - When in doubt, use the full name
 
 **Avoid conflicts:**
@@ -181,8 +213,11 @@ classification_metric()
 ```
 
 **Examples of good names:**
+
 - `miss_rate` (clear, descriptive)
+
 - `huber_loss` (named after the technique)
+
 - `roc_auc` (standard abbreviation)
 
 ### Parameter design
@@ -200,8 +235,11 @@ classification_cost(data, truth, estimate, costs = c(1, 2))
 ```
 
 **What should NOT be arguments:**
+
 - Constants that are part of the metric definition
+
 - Values that would break the metric's meaning
+
 - Options that should be separate metrics
 
 **Keep parameters minimal:**
@@ -247,8 +285,11 @@ metrics(data, truth, estimate)
 ### Scope and reusability
 
 **Design for general use:**
+
 - Avoid hard-coded domain-specific values
+
 - Make assumptions explicit in documentation
+
 - Allow customization through parameters when appropriate
 
 **Example:**
@@ -268,11 +309,17 @@ Many yardstick helper functions are INTERNAL and not exported. Using them will c
 ### ❌ Don't Use (Internal/Not Exported)
 
 - `yardstick_mean()` - NOT EXPORTED
+
 - `get_weights()` - NOT EXPORTED
+
 - `metric_range()` - NOT EXPORTED
+
 - `metric_optimal()` - NOT EXPORTED
+
 - `metric_direction()` - NOT EXPORTED
+
 - `data_altman()` - NOT EXPORTED (test helper)
+
 - `data_three_class()` - NOT EXPORTED (test helper)
 
 ### ✅ Use Instead
@@ -297,25 +344,43 @@ if (is.null(case_weights)) {
 ### EXPORTED yardstick functions you CAN safely use
 
 - `check_numeric_metric()` ✓
+
 - `check_class_metric()` ✓
+
 - `check_prob_metric()` ✓
+
 - `yardstick_remove_missing()` ✓
+
 - `yardstick_any_missing()` ✓
+
 - `yardstick_table()` ✓
+
 - `finalize_estimator()` ✓
+
 - `validate_estimator()` ✓
+
 - `abort_if_class_pred()` ✓
+
 - `as_factor_from_class_pred()` ✓
+
 - `numeric_metric_summarizer()` ✓
+
 - `class_metric_summarizer()` ✓
+
 - `prob_metric_summarizer()` ✓
+
 - `new_numeric_metric()` ✓
+
 - `new_class_metric()` ✓
+
 - `new_prob_metric()` ✓
 
 ## Next Steps
 
 - Create numeric metrics: [numeric-metrics.md](numeric-metrics.md)
+
 - Create class metrics: [class-metrics.md](class-metrics.md)
+
 - Create probability metrics: [probability-metrics.md](probability-metrics.md)
+
 - Understand confusion matrices: [confusion-matrix.md](confusion-matrix.md)

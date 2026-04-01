@@ -5,8 +5,11 @@ Before implementing a recipe step, understand the recipe step architecture and w
 > **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal helper functions like `recipes_eval_select()`, `check_type()`, and `get_case_weights()` without the `recipes::` prefix. See the [Source Development Guide](source-guide.md) for details.
 
 **Reference implementations showing complete architecture:**
+
 - Simple steps: `R/center.R`, `R/scale.R` (modify-in-place pattern)
+
 - Complex steps: `R/dummy.R`, `R/pca.R` (create-new-columns pattern)
+
 - Row operations: `R/filter.R`, `R/sample.R` (skip behavior)
 
 ## The Three-Function Pattern
@@ -16,8 +19,11 @@ Every recipe step consists of three functions:
 ### 1. Step constructor (e.g., `step_center()`)
 
 User-facing function that:
+
 - Captures user arguments
+
 - Uses `enquos(...)` to capture variable selections
+
 - Returns recipe with step added via `add_step()`
 
 ```r
@@ -42,7 +48,9 @@ step_center <- function(recipe, ..., role = NA, trained = FALSE,
 ### 2. Step initialization (e.g., `step_center_new()`)
 
 Internal constructor that:
+
 - Is a minimal function with no defaults
+
 - Calls `step(subclass = "name", ...)` to create S3 object
 
 ```r
@@ -65,8 +73,11 @@ step_center_new <- function(terms, role, trained, means, na_rm, skip, id) {
 Required methods for every step:
 
 - **`prep.step_*()`** - Estimates parameters from training data
+
 - **`bake.step_*()`** - Applies transformation to new data
+
 - **`print.step_*()`** - Displays step in recipe summary
+
 - **`tidy.step_*()`** - Returns step information as tibble
 
 ## The prep/bake Workflow
@@ -101,10 +112,15 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 ```
 
 **prep() responsibilities:**
+
 - Resolve variable selections (e.g., `all_numeric()` → actual column names)
+
 - Validate column types
+
 - Compute statistics/parameters from training data
+
 - Store learned parameters in step object
+
 - Return updated step with `trained = TRUE`
 
 ### bake() - Application phase
@@ -130,9 +146,13 @@ bake.step_center <- function(object, new_data, ...) {
 ```
 
 **bake() responsibilities:**
+
 - Takes trained step and new data
+
 - Validates required columns exist
+
 - Applies transformation using stored parameters
+
 - Returns transformed data
 
 ### Example workflow
@@ -165,9 +185,13 @@ Choose the appropriate template based on what your step does:
 **Use when:** Your step transforms existing columns without creating new ones
 
 **Characteristics:**
+
 - `role = NA` (preserves existing roles)
+
 - No `keep_original_cols` parameter
+
 - Returns tibble with same columns (but modified values)
+
 - Examples: `step_center`, `step_scale`, `step_normalize`, `step_log`
 
 **Template:** See [modify-in-place-steps.md](modify-in-place-steps.md)
@@ -177,10 +201,15 @@ Choose the appropriate template based on what your step does:
 **Use when:** Your step creates new columns from existing ones
 
 **Characteristics:**
+
 - `role = "predictor"` (default, assigns role to new columns)
+
 - Includes `keep_original_cols` parameter (default `FALSE`)
+
 - Uses `remove_original_cols()` in bake()
+
 - May need `.recipes_estimate_sparsity()` if creating sparse columns
+
 - Examples: `step_dummy`, `step_pca`, `step_interact`, `step_poly`
 
 **Template:** See [create-new-columns-steps.md](create-new-columns-steps.md)
@@ -190,9 +219,13 @@ Choose the appropriate template based on what your step does:
 **Use when:** Your step filters or removes rows
 
 **Characteristics:**
+
 - Default `skip = TRUE` (usually not applied during bake on new data)
+
 - Affects number of rows returned
+
 - Often used for training data only
+
 - Examples: `step_filter`, `step_sample`, `step_naomit`, `step_slice`
 
 **Template:** See [row-operation-steps.md](row-operation-steps.md)
@@ -222,25 +255,37 @@ The `prep()` method resolves these selections to actual column names.
 ### Roles
 
 Columns in recipes have roles:
+
 - `"predictor"` - Used as features
+
 - `"outcome"` - Used as target variable
+
 - `NA` - No specific role
 
 Steps can:
+
 - Preserve roles (`role = NA`)
+
 - Assign roles to new columns (`role = "predictor"`)
+
 - Filter by role (`all_predictors()`)
 
 ### Training vs Application
 
 **Training (prep):**
+
 - Learn parameters from training data
+
 - Store parameters in step object
+
 - Happens once
 
 **Application (bake):**
+
 - Apply stored parameters to new data
+
 - Can be called multiple times
+
 - Uses parameters from prep, doesn't relearn
 
 ## Common Patterns
@@ -286,7 +331,11 @@ new_data[[col]] <- new_data[[col]] - means[[col]]
 ## Next Steps
 
 - Implement modify-in-place steps: [modify-in-place-steps.md](modify-in-place-steps.md)
+
 - Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
+
 - Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
+
 - Learn helper functions: [helper-functions.md](helper-functions.md)
+
 - Add optional methods: [optional-methods.md](optional-methods.md)

@@ -9,24 +9,35 @@ Case weights allow different observations to contribute differently to metric ca
 Case weights enable weighted metric calculations where different observations have different importance or represent different frequencies.
 
 **Implementation examples:**
+
 - Numeric metrics with weights: `R/num-mae.R` (uses `weighted.mean()`), `R/num-rmse.R`
+
 - Class metrics with weights: `R/class-accuracy.R` (passes to `yardstick_table()`)
+
 - Survival metrics with weights: `R/surv-concordance_survival.R` (uses survival package weights)
 
 **Weight handling utilities:**
+
 - Table weighting: `R/table.R` (implements weighted confusion matrices)
+
 - NA removal with weights: `R/yardstick_remove_missing.R` (preserves weight correspondence)
+
 - Weight validation: `R/check.R` (validates weight vectors)
 
 **Test patterns:**
+
 - Weighted numeric metrics: `tests/testthat/test-num-mae.R`
+
 - Weighted class metrics: `tests/testthat/test-class-accuracy.R`
+
 - Weight edge cases: `tests/testthat/test-yardstick_remove_missing.R`
 
 ## What Are Case Weights?
 
 Case weights assign importance to individual observations:
+
 - **Frequency weights**: Observation occurs multiple times
+
 - **Importance weights**: Observation has different importance
 
 ## Parameter Signature
@@ -288,12 +299,17 @@ Negative weights are mathematically possible but uncommon. Your validation (`che
 ## Performance Tips
 
 - Convert hardhat weights once, not in loops
+
 - Pass weights to vectorized functions rather than implementing manual weighting
+
 - Use `weighted.mean()` rather than manual `sum(x * w) / sum(w)`
 
 ## Next Steps
 
 - Understand metric system: [metric-system.md](metric-system.md)
+
 - Create numeric metrics: [numeric-metrics.md](numeric-metrics.md)
+
 - Create class metrics: [class-metrics.md](class-metrics.md)
+
 - Test comprehensively: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

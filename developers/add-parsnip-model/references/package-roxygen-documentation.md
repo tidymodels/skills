@@ -39,9 +39,13 @@ your_function <- function(parameter_name) {
 ```
 
 **Guidelines:**
+
 - Start with the type (e.g., "A data frame", "A logical value", "A string")
+
 - Explain what it contains or controls
+
 - Note default values if not obvious
+
 - For `...`, state if it's used or not
 
 ### @return - Return value documentation
@@ -58,8 +62,11 @@ your_function <- function(parameter_name) {
 ```
 
 **Guidelines:**
+
 - Describe the structure returned
+
 - Note special behavior (grouped data, NA handling)
+
 - Be specific about column names and types
 
 ### @export - Make function available to users
@@ -70,12 +77,17 @@ your_function <- function() { ... }
 ```
 
 **When to export:**
+
 - User-facing functions (metrics, steps, utilities)
+
 - S3 methods that users might call
 
 **When NOT to export:**
+
 - Internal helpers
+
 - Implementation functions (`*_impl`, `*_new`)
+
 - Functions users shouldn't call directly
 
 ### @examples - Usage examples
@@ -105,9 +117,13 @@ your_function <- function() { ... }
 ```
 
 **Guidelines:**
+
 - Show common use cases
+
 - Include comments explaining what's happening
+
 - Keep examples simple and self-contained
+
 - Use `@examplesIf` for optional dependencies
 
 ## Optional but Useful Tags
@@ -501,7 +517,9 @@ devtools::document()
 ```
 
 This creates:
+
 - `man/*.Rd` files (documentation)
+
 - Updates `NAMESPACE` with exports and imports
 
 ## Previewing Documentation
@@ -518,5 +536,7 @@ devtools::load_all()
 ## Next Steps
 
 - Learn about package imports: [package-imports.md](package-imports.md)
+
 - Follow best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)
+
 - Set up testing: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

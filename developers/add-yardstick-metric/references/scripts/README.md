@@ -107,10 +107,15 @@ All scripts use consistent exit codes:
 ## Requirements
 
 - **Git**: Must be installed and available in PATH
+
   - macOS: Install Xcode Command Line Tools or download from https://git-scm.com/downloads
+
   - Linux: Install via package manager (`apt-get install git`, `yum install git`, etc.)
+
   - Windows: Download from https://git-scm.com/downloads
+
 - **Disk Space**: ~5-8 MB per repository (yardstick, recipes, dials, parsnip - shallow clones)
+
 - **Python script only**: Python 3.6 or higher
 
 ## Directory Structure
@@ -148,9 +153,13 @@ The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildi
 ## Features
 
 - **Shallow clones**: Uses `git clone --depth 1` for speed and disk space efficiency
+
 - **Idempotent**: Safe to run multiple times (skips existing repositories)
+
 - **No duplicates**: Checks before adding entries to ignore files
+
 - **Clear output**: Color-coded progress messages
+
 - **Error handling**: Detailed error messages with troubleshooting hints
 
 ## Troubleshooting
@@ -158,22 +167,31 @@ The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildi
 ### Git not found
 
 If git is not installed:
+
 - **macOS**: Install Xcode Command Line Tools or visit https://git-scm.com/downloads
+
 - **Linux**: Use package manager (e.g., `sudo apt-get install git`)
+
 - **Windows**: Download from https://git-scm.com/downloads
 
 ### Permission denied
 
 If you get permission errors:
+
 - Check that you have write permissions in the current directory
+
 - On Windows, try running PowerShell as Administrator
+
 - On Unix-like systems, check directory ownership with `ls -la`
 
 ### Network issues
 
 If cloning fails:
+
 - Check your internet connection
+
 - Verify you can access github.com in your browser
+
 - Try again later (GitHub may be temporarily unavailable)
 
 ### Repository already exists

@@ -7,13 +7,19 @@ Complete guide for contributing new metrics to the yardstick package itself.
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
+
 - Contributing a PR directly to the yardstick package
+
 - Working inside the yardstick repository
+
 - Adding metrics that should be part of yardstick core
+
 - Modifying existing yardstick metrics
 
 ❌ **Don't use this guide if you are:**
+
 - Creating a new package that extends yardstick → Use [Extension Development Guide](extension-guide.md)
+
 - Building standalone metrics → Use [Extension Development Guide](extension-guide.md)
 
 ---
@@ -68,12 +74,17 @@ yardstick/
 ### File Naming Conventions
 
 **Source files must follow strict naming:**
+
 - Numeric: `R/num-[name].R` → `R/num-mae.R`
+
 - Class: `R/class-[name].R` → `R/class-accuracy.R`
+
 - Probability: `R/prob-[name].R` → `R/prob-roc_auc.R`
+
 - Survival: `R/surv-[name].R` → `R/surv-concordance_survival.R`
 
 **Test files must match:**
+
 - `R/num-mae.R` → `tests/testthat/test-num-mae.R`
 
 ---
@@ -163,9 +174,13 @@ See [Best Practices (Source)](best-practices-source.md) for complete guide to in
 ### Step 1: Choose Your Metric Type
 
 Determine which category your metric falls into:
+
 - Numeric (regression)
+
 - Class (classification with classes)
+
 - Probability (classification with probabilities)
+
 - Survival (time-to-event)
 
 See the main [SKILL.md](../SKILL.md) for the complete decision tree.
@@ -333,8 +348,11 @@ devtools::check()
 ```
 
 Available templates (in `man-roxygen/`):
+
 - `@template return` - Standard return value
+
 - `@template event_first` - Event level for class metrics
+
 - `@template multiclass` - Multiclass documentation
 
 ### Using @templateVar
@@ -464,8 +482,11 @@ testthat::snapshot_accept()
 ### Study Similar Metrics
 
 Before implementing:
+
 - For numeric: `R/num-mae.R`, `R/num-rmse.R`
+
 - For class: `R/class-accuracy.R`, `R/class-precision.R`
+
 - For probability: `R/prob-roc_auc.R`
 
 ### Match Function Structure
@@ -507,8 +528,11 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 ### When to Create
 
 Create internal helpers when:
+
 - Logic is shared by 2+ metrics
+
 - Complex calculation used repeatedly
+
 - Abstraction improves clarity
 
 ### Naming and Documentation
@@ -528,8 +552,11 @@ yardstick_mean <- function(x, case_weights = NULL) {
 ```
 
 Use:
+
 - `@keywords internal` to mark as internal
+
 - `@noRd` to skip documentation generation
+
 - Don't use `@export`
 
 ---
@@ -588,10 +615,15 @@ Always pass `call` parameter for better error context.
 ### Review Process
 
 The tidymodels team will review your PR. Common feedback:
+
 - Add more tests
+
 - Match existing documentation style
+
 - Use internal helpers
+
 - Add examples
+
 - Fix code style issues
 
 See [Troubleshooting (Source)](troubleshooting-source.md) for common review feedback.
@@ -601,24 +633,37 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 ## Reference Documentation
 
 ### Source Development
+
 - [Testing Patterns (Source)](testing-patterns-source.md) - Testing with internal helpers
+
 - [Best Practices (Source)](best-practices-source.md) - Code style and internal functions
+
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
 ### Metric Types
+
 - [Numeric Metrics](numeric-metrics.md)
+
 - [Class Metrics](class-metrics.md)
+
 - [Probability Metrics](probability-metrics.md)
+
 - [Survival Metrics](static-survival-metrics.md)
 
 ### Core Concepts
+
 - [Metric System Architecture](metric-system.md)
+
 - [Confusion Matrix](confusion-matrix.md)
+
 - [Case Weights](case-weights.md)
 
 ### Shared References
+
 - [Extension Prerequisites](package-extension-prerequisites.md)
+
 - [Development Workflow](package-development-workflow.md)
+
 - [Roxygen Documentation](package-roxygen-documentation.md)
 
 ---
@@ -637,7 +682,11 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 ## Getting Help
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md)
+
 - Study existing metrics in the repository
+
 - Review [Best Practices (Source)](best-practices-source.md)
+
 - Open an issue on GitHub for questions
+
 - Tag maintainers in your PR

@@ -7,21 +7,33 @@ The recipes package provides helper functions to standardize common operations i
 ## Overview
 
 **Helper function implementations in recipes:**
+
 - Variable selection: `R/recipes_eval_select.R` (tidyselect resolution)
+
 - Validation functions: `R/check.R` (type checking, new data validation)
+
 - Case weights: `R/case_weights.R` (weight extraction and checking)
+
 - Column operations: `R/remove_original_cols.R` (handle keep_original_cols)
+
 - Utilities: `R/misc.R` (rand_id, print_step, sel2char, is_trained)
 
 **Examples in step implementations:**
+
 - Variable selection: `R/center.R` (uses `recipes_eval_select()`)
+
 - Type checking: `R/normalize.R` (uses `check_type()`)
+
 - Case weights: `R/pca.R` (uses `get_case_weights()`)
+
 - Column removal: `R/dummy.R` (uses `remove_original_cols()`)
+
 - Name checking: `R/interact.R` (uses `check_name()`)
 
 **Test patterns:**
+
 - Helper function tests: `tests/testthat/test-misc.R`
+
 - Selection tests: `tests/testthat/test-selections.R`
 
 ## Overview
@@ -57,8 +69,11 @@ recipes_eval_select(quos, data, info)
 ```
 
 **Arguments:**
+
 - `quos`: Quosures from `rlang::enquos(...)`
+
 - `data`: Training data frame
+
 - `info`: Recipe info object (from `prep()` parameter)
 
 **Example:**
@@ -112,7 +127,9 @@ check_type(dat, types = NULL)
 ```
 
 **Arguments:**
+
 - `dat`: Data frame subset with columns to check
+
 - `types`: Character vector of allowed types
 
 **Example:**
@@ -132,10 +149,15 @@ prep.step_yourname <- function(x, training, info = NULL, ...) {
 ```
 
 **Common type values:**
+
 - `"double"`: Numeric values
+
 - `"integer"`: Integer values
+
 - `"factor"`: Factor/categorical
+
 - `"logical"`: Boolean
+
 - `"character"`: Text
 
 **Behavior:** Throws error if any column doesn't match allowed types.
@@ -152,8 +174,11 @@ check_new_data(col_names, object, new_data)
 ```
 
 **Arguments:**
+
 - `col_names`: Character vector of required column names
+
 - `object`: The trained step object
+
 - `new_data`: New data frame to validate
 
 **Example:**
@@ -183,9 +208,13 @@ check_name(new_names, data, object, newname)
 ```
 
 **Arguments:**
+
 - `new_names`: Character vector of proposed new column names
+
 - `data`: Data frame where columns will be added
+
 - `object`: Step object
+
 - `newname`: Alternative name to suggest if conflict exists
 
 **Example:**
@@ -222,7 +251,9 @@ get_case_weights(info, data)
 ```
 
 **Arguments:**
+
 - `info`: Recipe info object
+
 - `data`: Training data
 
 **Example:**
@@ -257,7 +288,9 @@ are_weights_used(wts, unsupervised = FALSE)
 ```
 
 **Arguments:**
+
 - `wts`: Weights from `get_case_weights()`
+
 - `unsupervised`: Whether this is an unsupervised operation (TRUE for most recipe steps)
 
 **Example:**
@@ -344,8 +377,11 @@ remove_original_cols(data, object, col_names)
 ```
 
 **Arguments:**
+
 - `data`: Data frame with both original and new columns
+
 - `object`: Trained step object (must have `keep_original_cols` field)
+
 - `col_names`: Character vector of original column names
 
 **Example:**
@@ -412,11 +448,17 @@ print_step(col_names, terms, trained, title, width, case_weights = NULL)
 ```
 
 **Arguments:**
+
 - `col_names`: Resolved column names (if trained) or NULL
+
 - `terms`: Original quosures from step
+
 - `trained`: Whether step is trained
+
 - `title`: Description of operation
+
 - `width`: Maximum width for printing
+
 - `case_weights`: Whether case weights were used
 
 **Example:**
@@ -547,8 +589,11 @@ When contributing to recipes itself, all the helpers listed above can be used **
 When developing recipes source code, you may also encounter:
 
 - **Variable selection internals**: Functions that support `recipes_eval_select()`
+
 - **Type checking internals**: Extended validation beyond `check_type()`
+
 - **Column name utilities**: Functions for managing column names and conflicts
+
 - **Role management**: Functions for assigning and updating column roles
 
 ### Usage in Source Development
@@ -579,8 +624,13 @@ See the [Source Development Guide](source-guide.md) for complete patterns and ex
 ## Next Steps
 
 - Understand step architecture: [step-architecture.md](step-architecture.md)
+
 - Implement modify-in-place steps: [modify-in-place-steps.md](modify-in-place-steps.md)
+
 - Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
+
 - Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
+
 - Add optional methods: [optional-methods.md](optional-methods.md)
+
 - Review best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)

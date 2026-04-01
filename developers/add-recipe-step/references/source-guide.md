@@ -7,13 +7,19 @@ Complete guide for contributing new preprocessing steps to the recipes package i
 ## When to Use This Guide
 
 ✅ **Use this guide if you are:**
+
 - Contributing a PR directly to the recipes package
+
 - Working inside the recipes repository
+
 - Adding steps that should be part of recipes core
+
 - Modifying existing recipes steps
 
 ❌ **Don't use this guide if you are:**
+
 - Creating a new package that extends recipes → Use [Extension Development Guide](extension-guide.md)
+
 - Building standalone steps → Use [Extension Development Guide](extension-guide.md)
 
 ---
@@ -68,9 +74,11 @@ recipes/
 ### File Naming Conventions
 
 **Source files:** `R/[step_name].R`
+
 - Examples: `center.R`, `normalize.R`, `pca.R`, `dummy.R`
 
 **Test files:** `tests/testthat/test-[step_name].R`
+
 - Examples: `test-center.R`, `test-normalize.R`
 
 ---
@@ -158,8 +166,11 @@ See [Best Practices (Source)](best-practices-source.md) for complete guide to in
 ### Step 1: Choose Your Step Type
 
 Determine which category your step falls into:
+
 - **Modify-in-place**: Transforms existing columns
+
 - **Create-new-columns**: Generates new columns
+
 - **Row-operation**: Filters or removes rows
 
 See [Step Architecture](step-architecture.md) for decision tree.
@@ -552,8 +563,11 @@ if (object$skip) {
 ### When to Create
 
 Create internal helpers when:
+
 - Logic is shared by 2+ steps
+
 - Complex operation used repeatedly
+
 - Abstraction improves clarity
 
 ### Example Internal Helper
@@ -582,8 +596,11 @@ weighted_mean_na <- function(x, wts = NULL, na_rm = TRUE) {
 ```
 
 Use:
+
 - `@keywords internal`
+
 - `@noRd`
+
 - Don't export
 
 ---
@@ -650,10 +667,15 @@ prep.step_center <- function(x, training, info = NULL, ...,
 ### Review Process
 
 Common feedback:
+
 - Add tests for all selectors
+
 - Match existing documentation style
+
 - Use internal helpers
+
 - Add more examples
+
 - Fix code style issues
 
 See [Troubleshooting (Source)](troubleshooting-source.md) for common review feedback.
@@ -663,23 +685,35 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 ## Reference Documentation
 
 ### Source Development
+
 - [Testing Patterns (Source)](testing-patterns-source.md) - Testing with internal helpers
+
 - [Best Practices (Source)](best-practices-source.md) - Code style and internal functions
+
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
 ### Step Types
+
 - [Step Architecture](step-architecture.md)
+
 - [Modify-in-Place Steps](modify-in-place-steps.md)
+
 - [Create-New-Columns Steps](create-new-columns-steps.md)
+
 - [Row-Operation Steps](row-operation-steps.md)
 
 ### Core Concepts
+
 - [Helper Functions](helper-functions.md)
+
 - [Optional Methods](optional-methods.md)
 
 ### Shared References
+
 - [Extension Prerequisites](package-extension-prerequisites.md)
+
 - [Development Workflow](package-development-workflow.md)
+
 - [Roxygen Documentation](package-roxygen-documentation.md)
 
 ---
@@ -698,7 +732,11 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 ## Getting Help
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md)
+
 - Study existing steps in the repository
+
 - Review [Best Practices (Source)](best-practices-source.md)
+
 - Open an issue on GitHub for questions
+
 - Tag maintainers in your PR

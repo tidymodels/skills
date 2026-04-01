@@ -13,13 +13,19 @@ This guide covers how to use transformations to improve grid coverage and parame
 Transformations apply scale changes to parameter sampling, ensuring even exploration across multiple orders of magnitude. The scales package provides transformation objects that dials integrates into quantitative parameters.
 
 **Reference implementations in dials:**
+
 - Log10 transformations: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+
 - Log2 transformations: `R/param_sample_size.R` (sample size proportion)
+
 - Reciprocal transformations: `R/param_deg_free.R` (degrees of freedom)
+
 - Identity (no transform): `R/param_num_trees.R` (tree count)
 
 **Test patterns:**
+
 - Transformation tests: `tests/testthat/test-param_penalty.R` (log10 scale validation)
+
 - Value conversion: `tests/testthat/test-value_transform.R` (transform/inverse behavior)
 
 ---
@@ -90,21 +96,29 @@ grid$penalty
 **Use transformations when**:
 
 - Parameter spans multiple orders of magnitude
+
 - Relative changes are more meaningful than absolute changes
+
 - Equal steps in transformed space make scientific sense
+
 - Literature commonly discusses parameter on that scale
 
 **Common use cases**:
 
 - Regularization parameters (penalties, costs)
+
 - Learning rates and decay factors
+
 - Small probability parameters
+
 - Parameters with exponential relationships
 
 **Don't use transformations when**:
 
 - Parameter has narrow range (e.g., 0 to 1)
+
 - Absolute changes are meaningful (e.g., number of neighbors from 1 to 15)
+
 - Linear scale is natural for the domain
 
 ---
@@ -136,8 +150,11 @@ penalty <- function(range = c(-10, 0), trans = scales::transform_log10()) {
 ```
 
 **When to use**:
+
 - Penalties, costs, regularization amounts
+
 - Parameters spanning 2+ orders of magnitude
+
 - When powers of 10 are natural units
 
 ### transform_log()
@@ -163,8 +180,11 @@ decay_rate <- function(range = c(-10, 0), trans = scales::transform_log()) {
 ```
 
 **When to use**:
+
 - Parameters with natural exponential relationships
+
 - When literature uses natural log
+
 - Continuous decay processes
 
 ### transform_log2()
@@ -190,8 +210,11 @@ buffer_size <- function(range = c(4, 12), trans = scales::transform_log2()) {
 ```
 
 **When to use**:
+
 - Computer science parameters (buffer sizes, cache sizes)
+
 - When powers of 2 are natural (binary systems)
+
 - When doubling/halving is meaningful
 
 ### transform_log1p()
@@ -216,8 +239,11 @@ small_penalty <- function(range = c(0, 2), trans = scales::transform_log1p()) {
 ```
 
 **When to use**:
+
 - Parameters that include or are near zero
+
 - Avoid log(0) = -Inf issues
+
 - Count data that might be zero
 
 ### transform_reciprocal()
@@ -242,8 +268,11 @@ time_scale <- function(range = c(0.01, 1), trans = scales::transform_reciprocal(
 ```
 
 **When to use**:
+
 - Inverse relationships (frequency ↔ period)
+
 - Rate parameters
+
 - When 1/x is more natural than x
 
 ### transform_sqrt()
@@ -268,8 +297,11 @@ variance_param <- function(range = c(1, 100), trans = scales::transform_sqrt()) 
 ```
 
 **When to use**:
+
 - Variance parameters (standard deviation ↔ variance)
+
 - Parameters with quadratic relationships
+
 - Moderate range compression
 
 ---
@@ -652,12 +684,15 @@ my_trans <- scales::new_transform(...)
 ### Learn More
 
 - **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+
 - **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ---

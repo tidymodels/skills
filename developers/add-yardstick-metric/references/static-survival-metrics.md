@@ -5,13 +5,19 @@ Static survival metrics evaluate a single numeric prediction against right-censo
 ## Overview
 
 **Use when:**
+
 - Truth is a **Surv object** (from the survival package)
+
 - Predictions are **single numeric values** (e.g., predicted time, risk score)
+
 - You want one overall metric value (not time-dependent)
 
 **Key characteristics:**
+
 - Works with right-censored data
+
 - Handles comparable pairs (accounts for censoring)
+
 - Returns `.estimator = "standard"`
 
 **Examples:** Concordance Index
@@ -183,9 +189,13 @@ check_static_survival_metric(truth, estimate, case_weights)
 ```
 
 This validates:
+
 - `truth` is a Surv object
+
 - `estimate` is a numeric vector
+
 - Lengths match
+
 - `case_weights` are valid (if provided)
 
 ## Input Format
@@ -216,7 +226,9 @@ Two observations are comparable if:
 2. The observation with shorter time experienced an event
 
 A pair is concordant if:
+
 - Higher risk score → shorter survival time (for risk predictions)
+
 - Lower predicted time → shorter actual time (for time predictions)
 
 ```r
@@ -352,12 +364,17 @@ Imports:
 ## Common Metrics
 
 - **Concordance Index (C-index)**: Proportion of concordant pairs
+
 - **Somers' D**: Related to concordance, ranges from -1 to 1
+
 - **Royston's D**: See [linear-predictor-survival-metrics.md](linear-predictor-survival-metrics.md)
 
 ## See Also
 
 - [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent metrics
+
 - [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated over time
+
 - [Linear Predictor Survival Metrics](linear-predictor-survival-metrics.md) - Using linear predictors
+
 - [Metric System](metric-system.md) - Understanding metric architecture

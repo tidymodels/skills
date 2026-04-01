@@ -5,19 +5,29 @@ Numeric metrics are the simplest to implement. They measure continuous predictio
 ## Overview
 
 Numeric metrics are used for regression problems where both truth and predictions are continuous values. Examples include:
+
 - Mean Squared Error (MSE)
+
 - Root Mean Squared Error (RMSE)
+
 - Mean Absolute Error (MAE)
+
 - R-squared
 
 **Canonical implementations in yardstick:**
+
 - Simple error metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+
 - Percentage error metrics: `R/num-mape.R` (Mean Absolute Percentage Error)
+
 - Robust metrics: `R/num-huber_loss.R` (has tuning parameter for outliers)
+
 - Correlation-based: `R/num-ccc.R` (Concordance Correlation Coefficient)
 
 **Test patterns:**
+
 - Basic testing: `tests/testthat/test-num-mae.R`
+
 - Parameterized metrics: `tests/testthat/test-num-huber_loss.R`
 
 ## Step 1: Define the implementation function
@@ -25,8 +35,11 @@ Numeric metrics are used for regression problems where both truth and prediction
 Create the core calculation function. Use the `_impl` suffix.
 
 **Reference implementations:**
+
 - Simple calculation: `R/num-mae.R` (mean absolute error)
+
 - Squared errors: `R/num-mse.R`, `R/num-rmse.R`
+
 - With parameters: `R/num-huber_loss.R` (has delta parameter for robust loss)
 
 ```r
@@ -50,9 +63,13 @@ mse_impl <- function(truth, estimate, case_weights = NULL) {
 ```
 
 **Key patterns:**
+
 - Take `truth`, `estimate`, and optionally `case_weights`
+
 - Return a single numeric value
+
 - Use `weighted.mean()` for weighted calculations
+
 - Handle hardhat weight classes by converting to numeric
 
 > **Source Development:** When contributing to yardstick itself, you can use `yardstick_mean()` instead of manually handling case weights. This internal helper automatically handles hardhat weights and unweighted cases. See [Best Practices (Source)](best-practices-source.md).
@@ -84,9 +101,13 @@ mse_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
 ```
 
 **Required elements:**
+
 - Validate `na_rm` parameter explicitly
+
 - Use `check_numeric_metric()` for validation
+
 - Handle NA values consistently using `yardstick_remove_missing()`
+
 - Return `NA_real_` if `na_rm = FALSE` and NAs present
 
 ## Step 3: Create the data frame method
@@ -119,10 +140,15 @@ mse.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 ```
 
 **Key patterns:**
+
 - Use `new_numeric_metric()` to create the metric function
+
 - Set `direction` to "minimize", "maximize", or "zero"
+
 - Specify `range` as `c(min, max)` (use `Inf` or `-Inf` for unbounded)
+
 - Use `rlang::enquo()` and `!!` for NSE support
+
 - Export the data frame method with `@export`
 
 ### Direction values
@@ -328,7 +354,9 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
 
 **Reference test files:**
+
 - Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling, weights)
+
 - Edge cases: `tests/testthat/test-num-huber_loss.R` (parameter validation, robustness)
 
 ### Key tests for numeric metrics
@@ -370,6 +398,7 @@ test_that("case weights work correctly", {
 ## File Naming
 
 - **Source file**: `R/num-mae.R` (or `R/num-your-metric.R`)
+
 - **Test file**: `tests/testthat/test-num-mae.R`
 
 Use `num-` prefix to indicate numeric metrics.
@@ -377,6 +406,9 @@ Use `num-` prefix to indicate numeric metrics.
 ## Next Steps
 
 - Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+
 - Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+
 - Understand metric system: [metric-system.md](metric-system.md)
+
 - Add visualization (optional): [autoplot.md](autoplot.md)

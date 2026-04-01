@@ -7,30 +7,47 @@
 ## Overview
 
 **Use when:**
+
 - You want to calculate multiple metrics on the same data
+
 - You're using tidymodels workflows (tune, recipes, workflows)
+
 - You want to avoid repeating metric calculations
+
 - You need consistent metric evaluation across resamples
 
 **Key benefits:**
+
 - **Efficiency**: Shared calculations performed once (e.g., confusion matrix)
+
 - **Convenience**: One function call instead of many
+
 - **Integration**: Works with tune package for model tuning
+
 - **Consistency**: All metrics use same data preprocessing
 
 **Implementation:**
+
 - Metric set creation: `R/metric_set.R` (implements `metric_set()` and validation)
+
 - Compatibility checking: Validates metric types can be combined
+
 - Function generation: Creates composite function that calls each metric
 
 **Usage in tidymodels:**
+
 - Tune integration: Used by `tune_grid()`, `tune_bayes()` for model evaluation
+
 - Resampling: Applied consistently across all resamples
+
 - Workflow integration: Works with `fit_resamples()`, `last_fit()`
 
 **Test patterns:**
+
 - Metric set creation: `tests/testthat/test-metric_set.R`
+
 - Compatibility validation: Tests for valid/invalid metric combinations
+
 - Integration tests: Tests with tune and workflows packages
 
 ## Basic Usage
@@ -426,9 +443,13 @@ metrics(data, truth, estimate)
 ```
 
 **Shared calculations:**
+
 - Confusion matrices (for class metrics)
+
 - ROC curves (for ROC-based metrics)
+
 - Group-by operations
+
 - Missing value handling
 
 ## Advanced Patterns
@@ -560,6 +581,9 @@ fairness_set <- metric_set(
 ## See Also
 
 - [Metric System](metric-system.md) - Understanding basic metric architecture
+
 - [Groupwise Metrics](groupwise-metrics.md) - Creating disparity metrics
+
 - [metric_tweak()](metric-system.md#using-metric_tweak-for-variations) - Customizing metric parameters
+
 - `?metric_set` - Full documentation

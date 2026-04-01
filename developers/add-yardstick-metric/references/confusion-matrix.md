@@ -9,16 +9,23 @@ Understanding how to work with confusion matrices is essential for implementing 
 Confusion matrices are the foundation for classification metrics. The `yardstick_table()` function creates weighted confusion matrices that all classification metrics use.
 
 **Implementation:**
+
 - Confusion matrix creation: `R/table.R` (implements `yardstick_table()`)
+
 - Matrix extraction: Used by all class metrics in `R/class-*.R`
 
 **Usage examples in metrics:**
+
 - Binary metrics: `R/class-accuracy.R`, `R/class-precision.R` (extract TP/FP/TN/FN)
+
 - Multiclass metrics: `R/class-f_meas.R` (per-class calculations)
+
 - Balanced metrics: `R/class-bal_accuracy.R` (uses diagonals and marginals)
 
 **Test patterns:**
+
 - Table creation tests: `tests/testthat/test-table.R`
+
 - Weight handling: `tests/testthat/test-class-accuracy.R` (validates weighted confusion matrices)
 
 ## Creating Confusion Matrices
@@ -48,8 +55,11 @@ dimnames(xtab)
 ```
 
 **Structure:**
+
 - Rows represent actual truth values
+
 - Columns represent predicted estimate values
+
 - Cell values are counts (or weighted counts if case_weights provided)
 
 ## How Case Weights are Incorporated
@@ -102,8 +112,11 @@ tn <- xtab[control, control]  # True negatives: actual control, predicted contro
 ```
 
 **Remember:**
+
 - First index (row) = actual truth
+
 - Second index (column) = prediction
+
 - Format: `xtab[truth_value, predicted_value]`
 
 ## Confusion Matrix for Multiclass
@@ -328,5 +341,7 @@ test_that("confusion matrix indexing works correctly", {
 ## Next Steps
 
 - Implement class metrics: [class-metrics.md](class-metrics.md)
+
 - Handle case weights: [case-weights.md](case-weights.md)
+
 - Understand the metric system: [metric-system.md](metric-system.md)

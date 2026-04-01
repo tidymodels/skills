@@ -13,19 +13,29 @@ This document provides a deep dive into how dials implements the tuning paramete
 The dials parameter system provides type-safe tuning parameter definitions with flexible ranges, transformations, and integration with Tidymodels workflows.
 
 **Core implementation files:**
+
 - Parameter constructors: `R/constructor.R` (defines `new_quant_param()` and `new_qual_param()`)
+
 - Value generation: `R/value.R` (implements `value_sample()`, `value_seq()`, `value_set()`)
+
 - Finalization system: `R/finalize.R` (implements `finalize()` and finalization functions)
+
 - Parameter sets: `R/parameters.R` (implements `parameters()` for parameter collections)
 
 **Grid generation:**
+
 - Regular grids: `R/grid_regular.R` (factorial combinations)
+
 - Random grids: `R/grid_random.R` (random sampling)
+
 - Space-filling: `R/grid_latin_hypercube.R`, `R/grid_max_entropy.R`
 
 **Test patterns:**
+
 - Constructor tests: `tests/testthat/test-constructors.R`
+
 - Value generation: `tests/testthat/test-value.R`
+
 - Grid generation: `tests/testthat/test-grids.R`
 
 ---
@@ -51,8 +61,11 @@ parsnip/recipes  →  dials  →  tune  →  workflows
 ### Design Philosophy
 
 - **Type-safe**: Parameters enforce type constraints (integer, double, character, logical)
+
 - **Flexible ranges**: Fixed or data-dependent bounds
+
 - **Scale-aware**: Transformations ensure proper sampling across scales
+
 - **Integration-ready**: Seamless workflow with tune, parsnip, recipes, workflows
 
 ---
@@ -84,18 +97,27 @@ structure(
 **Properties**:
 
 - `type`: Data type - `"double"` for continuous, `"integer"` for discrete
+
 - `range`: Two-element list with `lower` and `upper` bounds
+
 - `inclusive`: Whether endpoints can be sampled `c(lower_inclusive, upper_inclusive)`
+
 - `trans`: Optional transformation from scales package
+
 - `label`: Named character for display purposes
+
 - `finalize`: Optional function to resolve data-dependent ranges
 
 **Common Use Cases**:
 
 - Regularization amounts (penalty, cost)
+
 - Learning rates and decay factors
+
 - Number of features, neighbors, trees
+
 - Thresholds and cutoffs
+
 - Proportions and fractions
 
 ### 2. Qualitative Parameters (`qual_param`)
@@ -120,17 +142,25 @@ structure(
 **Properties**:
 
 - `type`: Data type - `"character"` for text, `"logical"` for TRUE/FALSE
+
 - `values`: Vector of all possible options
+
 - `default`: Default value (defaults to first value in `values` if NULL)
+
 - `label`: Named character for display purposes
+
 - `finalize`: Rarely used (usually NULL for categorical)
 
 **Common Use Cases**:
 
 - Activation functions (relu, sigmoid, tanh)
+
 - Optimization algorithms (adam, sgd, rmsprop)
+
 - Aggregation methods (mean, median, sum)
+
 - Distance metrics (euclidean, manhattan, cosine)
+
 - Model variants or modes
 
 ---
@@ -229,21 +259,29 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 **For quantitative parameters**:
 
 - `"double"`: Continuous numeric values (floating-point)
+
   - Examples: penalties, rates, proportions
+
   - Can take any value within range
 
 - `"integer"`: Discrete whole numbers
+
   - Examples: counts, tree depths, neighbors
+
   - Values rounded to nearest integer when sampling
 
 **For qualitative parameters**:
 
 - `"character"`: Text-based options
+
   - Examples: method names, algorithm choices
+
   - Most common qualitative type
 
 - `"logical"`: TRUE/FALSE options
+
   - Examples: binary flags, boolean settings
+
   - Rare in practice (usually use character with two values)
 
 ### range
@@ -280,13 +318,17 @@ inclusive = c(FALSE, TRUE)  # Lower excluded, upper included
 **Common patterns**:
 
 - `c(TRUE, TRUE)`: Default for most parameters
+
 - `c(FALSE, FALSE)`: Probabilities strictly between 0 and 1
+
 - `c(TRUE, FALSE)`: Rates where upper bound is exclusive
 
 **Impact on integer ranges**:
 
 With `c(FALSE, FALSE)` and `range = c(1L, 3L)`:
+
 - Only value 2 is valid
+
 - Be careful with small integer ranges!
 
 ### trans
@@ -296,10 +338,15 @@ With `c(FALSE, FALSE)` and `range = c(1L, 3L)`:
 **Common transformations** (from scales package):
 
 - `transform_log10()`: Base-10 logarithm
+
 - `transform_log()`: Natural logarithm
+
 - `transform_log2()`: Base-2 logarithm
+
 - `transform_log1p()`: log(1 + x), for values near zero
+
 - `transform_reciprocal()`: 1/x
+
 - `transform_sqrt()`: Square root
 
 **Example with transformation**:
@@ -332,8 +379,11 @@ label = c(parameter_name = "Display Label")
 **Conventions**:
 
 - Name should match parameter function name
+
 - Label uses title case
+
 - Describe what the parameter controls
+
 - Keep concise (under 50 characters)
 
 **Examples**:
@@ -362,8 +412,11 @@ finalize_function <- function(object, x) {
 **Built-in finalize functions**:
 
 - `get_p()`: Set upper bound to number of predictors (ncol)
+
 - `get_n()`: Set upper bound to number of observations (nrow)
+
 - `get_n_frac()`: Set upper bound to fraction of observations
+
 - `get_log_p()`: Set upper bound to log of predictors
 
 **Custom finalize example**:
@@ -522,8 +575,11 @@ workflow() |>
 **Use quantitative when:**
 
 - Parameter has natural ordering (more vs less)
+
 - Values form a continuous or discrete numeric range
+
 - Interpolation makes sense
+
 - Grid search benefits from regular spacing
 
 **Examples**: penalty, learning rate, number of trees, threshold
@@ -531,8 +587,11 @@ workflow() |>
 **Use qualitative when:**
 
 - Parameter represents discrete categorical choices
+
 - No natural ordering exists
+
 - Values are non-numeric or symbolic
+
 - Each option is fundamentally different
 
 **Examples**: activation function, optimizer, distance metric, aggregation method
@@ -567,15 +626,21 @@ range = c(0, 1)
 **Use transformations when:**
 
 - Parameter spans multiple orders of magnitude
+
 - Equal steps in transformed space are more meaningful
+
 - Literature commonly discusses parameter on transformed scale
+
 - Grid coverage needs to be uniform in transformed space
 
 **Examples**:
 
 - **Penalties**: Log scale (10^-6, 10^-3, 1 are equally spaced)
+
 - **Learning rates**: Log scale (magnitudes matter more than absolute differences)
+
 - **Counts**: Usually linear (1, 2, 3, 4 are naturally equally spaced)
+
 - **Proportions**: Usually linear (0.2, 0.4, 0.6, 0.8 are meaningful)
 
 ### Data-Dependent vs Fixed Ranges
@@ -583,7 +648,9 @@ range = c(0, 1)
 **Use fixed ranges when:**
 
 - Bounds are universal across datasets
+
 - Domain knowledge provides clear limits
+
 - Parameter behavior doesn't depend on data size
 
 **Examples**: penalty (0 to ∞), mixture (0 to 1), activation (fixed set)
@@ -591,7 +658,9 @@ range = c(0, 1)
 **Use data-dependent ranges when:**
 
 - Upper bound depends on dataset characteristics
+
 - Number of features/observations matters
+
 - Parameter meaningfulness depends on data dimensions
 
 **Examples**: mtry (≤ # predictors), num_comp (≤ # columns), sample_size (≤ # rows)
@@ -603,14 +672,19 @@ range = c(0, 1)
 ### Learn More
 
 - **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+
 - **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+
 - **Transformations**: [Transformations Guide](transformations.md)
+
 - **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ---

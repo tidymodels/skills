@@ -11,8 +11,11 @@ For extension development (creating new packages), see [Testing Patterns (Extens
 ## When to Use Internal Test Helpers
 
 When developing yardstick itself, you have access to internal test data and helpers. Use them to:
+
 - Maintain consistency with existing tests
+
 - Leverage well-tested data structures
+
 - Match the testing style of the package
 
 ## Yardstick Internal Test Helpers
@@ -44,16 +47,23 @@ data <- hpc_cv
 ### When to Use Each
 
 **`data_altman()`** - Binary classification
+
 - Use for: accuracy, sensitivity, specificity, ppv, npv
+
 - Has: 251 observations, well-balanced classes
 
 **`data_three_class()`** - Multiclass classification
+
 - Use for: multiclass metrics with estimator variants
+
 - Has: obs (truth), pred (estimate), probabilities for 3 classes
+
 - Good for testing macro, micro, macro_weighted averaging
 
 **`hpc_cv`** - Cross-validation data
+
 - Use for: metrics with resamples
+
 - Has: multiple folds for grouped calculations
 
 ## Snapshot Testing in Yardstick
@@ -63,15 +73,23 @@ Yardstick uses snapshot testing extensively with `testthat::expect_snapshot()`.
 ### When to Use Snapshots
 
 ✅ **Use snapshots for:**
+
 - Full metric output (tibbles with .metric, .estimator, .estimate)
+
 - Error messages
+
 - Warning messages
+
 - Print output from metric objects
+
 - Complex multiclass outputs
 
 ❌ **Don't use snapshots for:**
+
 - Simple numeric comparisons (use `expect_equal()`)
+
 - Testing specific values (use assertions)
+
 - Edge cases that need explicit checks
 
 ### Snapshot Testing Examples
@@ -132,21 +150,27 @@ Yardstick organizes tests by metric type:
 ### Test File Names
 
 - **Numeric metrics**: `tests/testthat/test-num-[name].R`
+
   - Example: `test-num-mae.R`, `test-num-rmse.R`
 
 - **Class metrics**: `tests/testthat/test-class-[name].R`
+
   - Example: `test-class-accuracy.R`, `test-class-precision.R`
 
 - **Probability metrics**: `tests/testthat/test-prob-[name].R`
+
   - Example: `test-prob-roc_auc.R`, `test-prob-mn_log_loss.R`
 
 - **Survival metrics**: `tests/testthat/test-surv-[name].R`
+
   - Example: `test-surv-concordance_survival.R`
 
 ### Match Source File Names
 
 Test files should match source file names:
+
 - `R/num-mae.R` → `tests/testthat/test-num-mae.R`
+
 - `R/class-accuracy.R` → `tests/testthat/test-class-accuracy.R`
 
 ## Test Organization in Yardstick
@@ -425,5 +449,7 @@ testthat::snapshot_review()
 ## Next Steps
 
 - Review [Best Practices (Source)](best-practices-source.md) for yardstick coding standards
+
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
+
 - See existing test files in `tests/testthat/` for more examples

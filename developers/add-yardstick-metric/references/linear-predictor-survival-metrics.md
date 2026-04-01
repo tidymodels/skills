@@ -5,14 +5,21 @@ Linear predictor survival metrics evaluate linear predictor values (from Cox mod
 ## Overview
 
 **Use when:**
+
 - Truth is a **Surv object** (from the survival package)
+
 - Predictions are **linear predictor values** from a survival model
+
 - You want to measure prognostic separation or explained variation
 
 **Key characteristics:**
+
 - Similar structure to static survival metrics
+
 - Predictions are unbounded (not probabilities)
+
 - Typically used with Cox proportional hazards models
+
 - Returns `.estimator = "standard"`
 
 **Examples:** Royston's D statistic, R² based on D
@@ -226,9 +233,13 @@ check_linear_pred_survival_metric(truth, estimate, case_weights)
 ```
 
 This validates:
+
 - `truth` is a Surv object
+
 - `estimate` is a numeric vector
+
 - Lengths match
+
 - `case_weights` are valid (if provided)
 
 ## Input Format
@@ -258,8 +269,11 @@ estimate <- c(-0.5, 0.2, 0.8, 1.2)
 ## Understanding Linear Predictors
 
 Linear predictors from Cox models represent:
+
 - **Log hazard ratio** relative to baseline
+
 - **Prognostic index**: higher values = higher risk
+
 - **Unbounded**: can be any real number
 
 ```r
@@ -291,8 +305,11 @@ normal_score_blom <- function(x, case_weights) {
 ```
 
 This transformation:
+
 - Removes dependence on scale of linear predictor
+
 - Makes metric more robust
+
 - Focuses on rank ordering rather than absolute values
 
 ## Testing
@@ -403,8 +420,11 @@ normal_scores <- normal_score_blom(estimate, case_weights)
 ### Royston's D Statistic
 
 - Measures prognostic separation in survival models
+
 - Related to standard deviation of prognostic index
+
 - R²_D represents explained variation on log hazard scale
+
 - D = β * κ where β is coefficient, κ is scaling constant
 
 ### Interpretation
@@ -429,7 +449,9 @@ normal_scores <- normal_score_blom(estimate, case_weights)
 ## Common Metrics
 
 - **Royston's D**: Prognostic separation statistic
+
 - **R²_D**: Explained variation based on D
+
 - **Somers' D**: Rank correlation (can also use concordance)
 
 ## Dependencies
@@ -453,5 +475,7 @@ Imports:
 ## See Also
 
 - [Static Survival Metrics](static-survival-metrics.md) - Other overall survival metrics
+
 - [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent metrics
+
 - [Metric System](metric-system.md) - Understanding metric architecture

@@ -17,12 +17,14 @@ This skill supports **two distinct development contexts**:
 **Creating a new R package** that extends recipes with custom steps.
 
 - ✅ Use this for: New packages, standalone steps, CRAN submissions
+
 - ⚠️ **Constraint**: Must use `recipes::` prefix for all functions
 
 ### 🔧 Source Development (Advanced)
 **Contributing directly to recipes** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/recipes repository
+
 - ✨ **Benefit**: Can use internal functions directly (no prefix needed)
 
 
@@ -52,12 +54,19 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 ## Overview
 
 Creating a custom recipe step provides:
+
 - Integration with the recipes preprocessing pipeline
+
 - Automatic handling of variable selection and roles
+
 - Support for case weights
+
 - Consistent prep/bake workflow
+
 - Integration with tune for hyperparameter optimization
+
 - Proper handling of grouped data frames
+
 - Sparse data support (when applicable)
 
 ## Repository Access (Optional but Recommended)
@@ -65,25 +74,41 @@ Creating a custom recipe step provides:
 **INSTRUCTIONS FOR CLAUDE:** Check if `repos/recipes/` exists in the current working directory. Use this to guide development:
 
 **If `repos/recipes/` exists:**
+
 - ✅ Use it as a reference throughout development
+
 - Read source files (e.g., `repos/recipes/R/center.R`) to study implementation patterns
+
 - Read test files (e.g., `repos/recipes/tests/testthat/test-step_center.R`) for testing patterns
+
 - Reference these files when answering complex questions or solving problems
+
 - Look at actual code structure, validation patterns, and edge case handling
 
 **If `repos/recipes/` does NOT exist:**
+
 - Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+
 - This is **optional but strongly recommended** for high-quality development
+
 - If the user declines, reference files using GitHub URLs:
+
   - Format: `https://github.com/tidymodels/recipes/blob/main/R/[file-name].R`
+
   - Example: https://github.com/tidymodels/recipes/blob/main/R/center.R
+
   - This allows users to click through to see implementations
 
 **When to use repository references:**
+
 - Complex implementation questions (e.g., "How does recipes handle variable roles?")
+
 - Debugging issues (compare user's code to working implementation)
+
 - Understanding patterns (study similar steps)
+
 - Test design (see how recipes tests edge cases)
+
 - Architecture decisions (understand internal structure)
 
 See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
@@ -91,29 +116,47 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 ## Quick Navigation
 
 **Development Guides:**
+
 - [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend recipes
+
 - [Source Development Guide](references/source-guide.md) - Contributing PRs to recipes itself
 
 **Reference Files:**
+
 - [Step Architecture](references/step-architecture.md) - Three-function pattern, prep/bake workflow, step types
+
 - [Modify-in-Place Steps](references/modify-in-place-steps.md) - Transform existing columns
+
 - [Create-New-Columns Steps](references/create-new-columns-steps.md) - Generate new columns
+
 - [Row-Operation Steps](references/row-operation-steps.md) - Filter or remove rows
+
 - [Optional Methods](references/optional-methods.md) - tunable(), required_pkgs(), sparsity methods
+
 - [Helper Functions](references/helper-functions.md) - recipes helper function reference
 
 **Shared References (Extension Development):**
+
 - [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+
 - [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+
 - [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+
 - [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
+
 - [Package Imports](references/package-imports.md) - Managing dependencies
+
 - [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+
 - [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
 
 **Source Development Specific:**
+
 - [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal helpers
+
 - [Best Practices (Source)](references/best-practices-source.md) - Using internal functions
+
 - [Troubleshooting (Source)](references/troubleshooting-source.md) - Source-specific issues
 
 ## Development Workflow
@@ -158,16 +201,25 @@ Every recipe step consists of three functions:
 ### The prep/bake Workflow
 
 **prep() - Training phase:**
+
 - Resolves variable selections (e.g., `all_numeric()` → actual column names)
+
 - Validates column types
+
 - Computes statistics/parameters from training data
+
 - Stores learned parameters in step object
+
 - Returns updated step with `trained = TRUE`
 
 **bake() - Application phase:**
+
 - Takes trained step and new data
+
 - Validates required columns exist
+
 - Applies transformation using stored parameters
+
 - Returns transformed data
 
 **Example workflow:**
@@ -212,15 +264,22 @@ Choose the appropriate template based on what your step does:
         │                   │                   │
         ▼                   ▼                   ▼
   Examples:           Examples:           Examples:
+
   - center            - dummy             - filter
+
   - scale             - pca               - sample
+
   - normalize         - interact          - naomit
+
   - log               - poly              - slice
 ```
 
 **Decision guide:**
+
 - **Modify-in-place**: Transforms existing columns → [Modify-in-Place Steps](references/modify-in-place-steps.md)
+
 - **Create new columns**: Generates new columns from existing → [Create-New-Columns Steps](references/create-new-columns-steps.md)
+
 - **Row operations**: Filters or removes rows → [Row-Operation Steps](references/row-operation-steps.md)
 
 ## Complete Example: Modify-in-Place Step (Centering)
@@ -545,16 +604,23 @@ See [Testing Patterns](references/package-extension-requirements.md#testing-requ
 **Complete guide:** [Modify-in-Place Steps](references/modify-in-place-steps.md)
 
 **Key points:**
+
 - Preserve existing column roles with `role = NA`
+
 - Use `recipes_eval_select()` to resolve selections
+
 - Validate with `check_type()` in prep()
+
 - Apply transformation in place in bake()
 
 **Examples:** center, scale, normalize, log
 
 **Reference implementations:**
+
 - Simple transformations: `R/center.R`, `R/scale.R`, `R/normalize.R`
+
 - Math transformations: `R/log.R`, `R/sqrt.R`, `R/logit.R`
+
 - With parameters: `R/BoxCox.R` (power transformation with lambda)
 
 ### Create-New-Columns Steps
@@ -566,16 +632,23 @@ See [Testing Patterns](references/package-extension-requirements.md#testing-requ
 **Complete guide:** [Create-New-Columns Steps](references/create-new-columns-steps.md)
 
 **Key points:**
+
 - Assign role to new columns with `role = "predictor"`
+
 - Include `keep_original_cols` parameter (default FALSE)
+
 - Use `remove_original_cols()` helper in bake()
+
 - Consider implementing `.recipes_estimate_sparsity()` for sparse columns
 
 **Examples:** dummy, pca, interact, poly
 
 **Reference implementations:**
+
 - Encoding: `R/dummy.R` (one-hot encoding)
+
 - Dimension reduction: `R/pca.R`, `R/ica.R`
+
 - Feature engineering: `R/interact.R`, `R/poly.R`
 
 ### Row-Operation Steps
@@ -587,16 +660,23 @@ See [Testing Patterns](references/package-extension-requirements.md#testing-requ
 **Complete guide:** [Row-Operation Steps](references/row-operation-steps.md)
 
 **Key points:**
+
 - Default `skip = TRUE` since row ops usually only for training
+
 - prep() typically doesn't learn parameters
+
 - bake() applies filtering logic
+
 - Respect skip parameter in bake()
 
 **Examples:** filter, sample, naomit, slice
 
 **Reference implementations:**
+
 - Filtering: `R/filter.R`, `R/filter_missing.R`
+
 - Sampling: `R/sample.R`
+
 - Row removal: `R/naomit.R`, `R/slice.R`
 
 ## Helper Functions
@@ -604,13 +684,21 @@ See [Testing Patterns](references/package-extension-requirements.md#testing-requ
 See [Helper Functions](references/helper-functions.md) for complete reference.
 
 **Essential helpers:**
+
 - `recipes_eval_select()` - Convert selections to column names (prep)
+
 - `check_type()` - Validate column types (prep)
+
 - `check_new_data()` - Verify columns exist (bake)
+
 - `get_case_weights()` - Extract case weights (prep)
+
 - `are_weights_used()` - Check if weights apply (prep)
+
 - `remove_original_cols()` - Handle keep_original_cols (bake)
+
 - `print_step()` - Standard printing (print)
+
 - `sel2char()` - Convert selections to strings (tidy)
 
 ## Optional Methods
@@ -618,9 +706,13 @@ See [Helper Functions](references/helper-functions.md) for complete reference.
 See [Optional Methods](references/optional-methods.md) for complete details.
 
 **Optional S3 methods:**
+
 - `tunable()` - Declare parameters for tune package
+
 - `required_pkgs()` - Declare external package dependencies
+
 - `.recipes_preserve_sparsity()` - Indicate sparse preservation
+
 - `.recipes_estimate_sparsity()` - Estimate sparsity of new columns
 
 ## Documentation
@@ -658,21 +750,33 @@ If you're contributing to recipes itself, you have access to internal functions 
 ### File Naming Conventions
 
 Recipes organizes steps by category:
+
 - Normalization: `R/center.R`, `R/scale.R`, `R/normalize.R`
+
 - Encoding: `R/dummy.R`, `R/novel.R`, `R/other.R`
+
 - Dimension reduction: `R/pca.R`, `R/ica.R`
+
 - Row operations: `R/filter.R`, `R/sample.R`
+
 - Tests: `tests/testthat/test-center.R`
 
 ### Internal Functions Available
 
 When developing recipes itself, you can use functions directly (no `recipes::` prefix):
+
 - `recipes_eval_select()` - Variable selection
+
 - `get_case_weights()`, `are_weights_used()` - Case weight handling
+
 - `check_type()` - Column type validation
+
 - `check_new_data()` - Verify columns exist in new data
+
 - `remove_original_cols()` - Handle keep_original_cols
+
 - `print_step()` - Standard printing
+
 - `sel2char()` - Convert selections to strings
 
 ### Documentation Patterns
@@ -715,10 +819,15 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 See [Best Practices](references/package-extension-requirements.md#best-practices) for complete guide.
 
 **Key principles:**
+
 - Use base pipe `|>` not magrittr pipe `%>%`
+
 - Prefer for-loops over `purrr::map()` for better error messages
+
 - Use `cli::cli_abort()` for error messages
+
 - Validate early (in prep), trust data in bake
+
 - Use recipes helpers instead of reimplementing
 
 ## Troubleshooting
@@ -726,16 +835,23 @@ See [Best Practices](references/package-extension-requirements.md#best-practices
 See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
 
 **Common issues:**
+
 - "No visible global function definition" → Add to package imports
+
 - "Object not found" in tests → Use `devtools::load_all()` before testing
+
 - Column selection not working → Check `recipes_eval_select()` usage
+
 - Case weights ignored → Check conversion of hardhat weights
 
 ## Related Skills
 
 - [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom recipe steps may generate outputs that need custom metrics
+
 - [add-dials-parameter](../add-dials-parameter/SKILL.md) - Recipe steps often have tunable parameters that can be optimized
+
 - [add-parsnip-model](../add-parsnip-model/SKILL.md) - Preprocessed data flows into model specifications
+
 - [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Recipe steps prepare data for model engines
 
 ## Next Steps

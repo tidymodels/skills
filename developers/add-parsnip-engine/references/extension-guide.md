@@ -9,11 +9,15 @@ Step-by-step guide for adding engines to existing parsnip models in your own R p
 Use this guide when:
 
 - Adding an engine to an existing parsnip model in your own package
+
 - The model type already exists (e.g., `linear_reg()`, `boost_tree()`)
+
 - You want to connect it to a new computational backend
 
 **Don't use this guide for:**
+
 - Creating new model types → See [add-parsnip-model](../../add-parsnip-model/SKILL.md)
+
 - Contributing to parsnip source → See [source-guide.md](source-guide.md)
 
 ---
@@ -21,11 +25,15 @@ Use this guide when:
 ## Prerequisites
 
 **R Package Setup:**
+
 - [Extension Prerequisites](./package-extension-prerequisites.md)
+
 - Basic R package development knowledge
 
 **Parsnip Knowledge:**
+
 - [Engine Implementation](engine-implementation.md) - Core concepts
+
 - Which model you're extending
 
 ---
@@ -135,8 +143,13 @@ test_that("my_engine works", {
 ## Additional Resources
 
 See main skill references:
+
 - [Engine Implementation](engine-implementation.md) - Complete guide
+
 - [Fit and Predict Methods](fit-predict-methods.md) - Implementation details
+
 - [Prediction Types](prediction-types.md) - All prediction types
+
 - [Mode Handling](mode-handling.md) - Multi-mode support
+
 - [Encoding Options](encoding-options.md) - Interface types

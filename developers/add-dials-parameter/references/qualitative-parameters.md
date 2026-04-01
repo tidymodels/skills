@@ -13,13 +13,19 @@ This guide covers everything you need to create qualitative parameters with `new
 Qualitative parameters represent categorical choices where options have no inherent numeric ordering. These parameters define discrete sets of alternatives for algorithm configuration.
 
 **Reference implementations in dials:**
+
 - Simple qualitative: `R/param_weight_func.R` (weight function choices), `R/param_activation.R` (activation functions)
+
 - Multiple parameters: `R/param_activation.R` (contains `activation()` and `activation_2()`)
+
 - Preprocessing methods: `R/param_normalize.R` (normalization methods)
+
 - Algorithm choices: `R/param_degree_svm.R` (SVM kernel degree)
 
 **Test patterns:**
+
 - Basic qualitative tests: `tests/testthat/test-param_weight_func.R`
+
 - Multiple parameter tests: `tests/testthat/test-param_activation.R`
 
 ---
@@ -29,23 +35,33 @@ Qualitative parameters represent categorical choices where options have no inher
 Use qualitative parameters when your tuning parameter:
 
 - ✅ Represents **discrete categorical choices**
+
 - ✅ Has **no natural ordering** (options are not "more" or "less")
+
 - ✅ Uses **non-numeric values** or symbolic names
+
 - ✅ Consists of **fundamentally different options**
 
 **Common examples**:
 
 - Activation functions (relu, sigmoid, tanh, softmax)
+
 - Optimization algorithms (adam, sgd, rmsprop, adagrad)
+
 - Distance metrics (euclidean, manhattan, cosine)
+
 - Aggregation methods (mean, median, min, max, sum)
+
 - Model modes or variants (classification, regression)
+
 - Loss functions (cross-entropy, mse, hinge)
 
 **When NOT to use**:
 
 - ❌ Numeric values with ordering (use [Quantitative Parameters](quantitative-parameters.md))
+
 - ❌ Counts or continuous values
+
 - ❌ Parameters where interpolation makes sense
 
 ---
@@ -93,6 +109,7 @@ values_my_parameter <- c("option1", "option2", "option3")
 **Default values**:
 
 - Reference companion `values_*` vector
+
 - Let users subset or replace options
 
 ---
@@ -111,13 +128,17 @@ type = "logical"    # TRUE/FALSE options (rare)
 **Use "character" for**:
 
 - Method names (activation functions, optimizers)
+
 - Algorithm choices (distance metrics, aggregation methods)
+
 - Most categorical parameters
 
 **Use "logical" for**:
 
 - Binary flags
+
 - TRUE/FALSE settings
+
 - Very rare in practice (usually use character with two values instead)
 
 **Examples**:
@@ -149,8 +170,11 @@ values = c("option1", "option2", "option3")
 **Rules**:
 
 - Must be non-empty
+
 - Type must match `type` argument
+
 - All values must be unique
+
 - Order matters (first value is default if `default` not specified)
 
 **Best practice**: Create companion `values_*` vector:
@@ -170,9 +194,13 @@ my_parameter <- function(values = values_my_parameter) {
 ```
 
 This pattern:
+
 - ✅ Documents options clearly
+
 - ✅ Allows users to see available values
+
 - ✅ Enables subsetting: `my_parameter(values = values_my_parameter[1:2])`
+
 - ✅ Follows dials package conventions
 
 ---
@@ -191,6 +219,7 @@ default = NULL              # Use first value in `values` (default)
 **Behavior**:
 
 - If `default = NULL` (the default), first value in `values` is used
+
 - If explicit default provided, must be in `values`
 
 **Examples**:
@@ -222,13 +251,17 @@ values_aggregation <- c("mean", "median", "min", "max")
 **When to use explicit default**:
 
 - Default is not the first value alphabetically
+
 - Want to emphasize recommended option
+
 - Documentation clarity
 
 **When to use implicit default**:
 
 - First value in `values` is the desired default
+
 - Simpler code
+
 - Most common pattern in dials
 
 ### label
@@ -242,8 +275,11 @@ label = c(parameter_name = "Display Label")
 **Conventions**:
 
 - Name matches function name
+
 - Label uses title case
+
 - Concise but descriptive
+
 - Describes what parameter controls
 
 **Examples**:
@@ -328,16 +364,23 @@ activation(values = values_activation[1:4])
 **For package maintainers**:
 
 - Single source of truth for options
+
 - Easy to update available values
+
 - Clear documentation
+
 - Consistent with dials conventions
 
 ### Naming Convention
 
 - Vector name: `values_[parameter_name]`
+
 - If parameter is `activation()`, vector is `values_activation`
+
 - If parameter is `weight_func()`, vector is `values_weight_func`
+
 - Export both with `@export` tag
+
 - Link with `@rdname` for shared documentation
 
 ---
@@ -758,12 +801,15 @@ For source development, see [Testing Patterns (Source)](testing-patterns-source.
 ### Learn Related Topics
 
 - **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+
 - **Parameter system**: [Parameter System Overview](parameter-system.md)
+
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
 ### Implementation Guides
 
 - **Extension development**: [Extension Development Guide](extension-guide.md)
+
 - **Source development**: [Source Development Guide](source-guide.md)
 
 ---

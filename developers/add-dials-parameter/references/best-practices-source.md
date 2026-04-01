@@ -25,7 +25,9 @@ R/
 **Rules**:
 
 - Use lowercase with underscores
+
 - One parameter per file (usually)
+
 - Related parameters may share a file (e.g., `activation()` and `activation_2()`)
 
 **Examples**:
@@ -82,8 +84,11 @@ weight_func()       # Weight function
 **Guidelines**:
 
 - Use underscores for multi-word names
+
 - Abbreviate when commonly understood (`mtry`, `deg_free`)
+
 - Match terminology used in literature and practice
+
 - Keep concise but clear
 
 ### Avoid Redundancy
@@ -187,10 +192,15 @@ label = c(activation = "Activation Function")
 **Guidelines**:
 
 - Use title case
+
 - Start with noun or count (#)
+
 - Be concise but descriptive
+
 - Avoid articles ("the", "a")
+
 - Use # for counts
+
 - Match parameter semantics
 
 **Examples**:
@@ -241,7 +251,9 @@ my_param <- function(range = c(0, 1), trans = NULL) {
 Common inherited parameters:
 
 - `trans`: Transformation object
+
 - `label`: Display name
+
 - `finalize`: Finalization function
 
 ### Use @seealso for Related Parameters
@@ -470,8 +482,11 @@ stop("The range is invalid")
 ### Follow Tidyverse Style Guide
 
 - Use snake_case for functions and variables
+
 - Use 2-space indentation
+
 - Limit line length to 80 characters
+
 - Use meaningful variable names
 
 See [Tidyverse Style Guide](https://style.tidyverse.org/) for complete guidelines.
@@ -592,8 +607,11 @@ The upper bound is finalized using [method].
 Include:
 
 - What parameter was added
+
 - Why it's needed
+
 - Example usage
+
 - Related issues
 
 ---
@@ -690,37 +708,61 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 Before submitting PR:
 
 **Code**:
+
 - [ ] File named `R/param_[name].R`
+
 - [ ] Function name matches convention
+
 - [ ] Uses appropriate constructor
+
 - [ ] Range in correct units (transformed if applicable)
+
 - [ ] Includes `@export` tag
+
 - [ ] No `dials::` prefix (source development)
 
 **Documentation**:
+
 - [ ] Uses `@inheritParams` for common arguments
+
 - [ ] Includes `@details` explaining usage
+
 - [ ] Includes `@examples` with practical usage
+
 - [ ] Uses `@seealso` for related parameters
+
 - [ ] Label follows "{Noun} {Descriptor}" pattern
+
 - [ ] Companion `values_*` vector for qualitative (with `@rdname`)
 
 **Testing**:
+
 - [ ] Tests in `test-params.R`
+
 - [ ] Invalid argument tests in `test-constructors.R`
+
 - [ ] Finalization tests if applicable
+
 - [ ] Grid integration tests
+
 - [ ] All tests pass: `devtools::test()`
 
 **Package Checks**:
+
 - [ ] `devtools::check()` passes
+
 - [ ] `devtools::spell_check()` passes
+
 - [ ] NEWS.md updated
+
 - [ ] Snapshots accepted
 
 **Git**:
+
 - [ ] Descriptive commit messages
+
 - [ ] Branch named clearly
+
 - [ ] PR description complete
 
 ---
@@ -730,13 +772,17 @@ Before submitting PR:
 ### Learn More
 
 - **Testing**: [Testing Patterns (Source)](testing-patterns-source.md)
+
 - **Troubleshooting**: [Troubleshooting (Source)](troubleshooting-source.md)
+
 - **Source guide**: [Source Development Guide](source-guide.md)
 
 ### External Resources
 
 - [Tidyverse Style Guide](https://style.tidyverse.org/)
+
 - [R Packages Book](https://r-pkgs.org/)
+
 - [roxygen2 Documentation](https://roxygen2.r-lib.org/)
 
 ---
