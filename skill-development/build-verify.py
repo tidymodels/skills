@@ -231,33 +231,38 @@ class DocsVerifier:
         """Verify that a skill has corresponding .qmd files."""
         skill_dir = self.root_dir / skill
 
-        # Check 1: Skill should have a corresponding .qmd file
-        expected_qmd = docs_subdir / f"{skill}.qmd"
+        # Check 1: Skill should have index.qmd in its subfolder
+        skill_docs_dir = docs_subdir / skill
+        expected_qmd = skill_docs_dir / "index.qmd"
         if not expected_qmd.exists():
             self.errors.append(
                 f"{skill}:\n"
                 f"  Missing docs file: {expected_qmd.relative_to(self.project_root)}\n"
-                f"  Expected .qmd file for skill directory"
+                f"  Expected index.qmd file in skill subfolder"
             )
         elif not quiet:
-            print(f"✓ {skill}.qmd exists")
+            print(f"✓ {skill}/index.qmd exists")
 
         # Check 2: Each .md file in references/ should have a corresponding .qmd
         refs_dir = skill_dir / "references"
         if refs_dir.exists():
-            docs_refs_dir = docs_subdir / "references"
+            docs_refs_dir = skill_docs_dir / "references"
             if not docs_refs_dir.exists():
                 self.errors.append(
                     f"{skill}:\n"
-                    f"  Missing docs/references/ directory: {docs_refs_dir.relative_to(self.project_root)}"
+                    f"  Missing docs/{skill}/references/ directory: {docs_refs_dir.relative_to(self.project_root)}"
                 )
                 return
 
-            md_files = list(refs_dir.glob("*.md"))
+            md_files = list(refs_dir.rglob("*.md"))
             for md_file in md_files:
-                # Convert .md to .qmd
-                qmd_name = md_file.stem + ".qmd"
-                expected_ref_qmd = docs_refs_dir / qmd_name
+                # Skip files in scripts/ subdirectories
+                if "scripts" in md_file.parts:
+                    continue
+
+                # Get relative path from refs_dir and convert .md to .qmd
+                rel_path = md_file.relative_to(refs_dir)
+                expected_ref_qmd = docs_refs_dir / rel_path.with_suffix('.qmd')
 
                 if not expected_ref_qmd.exists():
                     self.errors.append(
@@ -266,7 +271,7 @@ class DocsVerifier:
                         f"  For reference file: {md_file.relative_to(self.root_dir)}"
                     )
                 elif not quiet:
-                    print(f"  ✓ references/{qmd_name} exists")
+                    print(f"  ✓ {skill}/references/{rel_path.with_suffix('.qmd')} exists")
 
     def report_results(self, quiet=False):
         """Print docs verification results."""
