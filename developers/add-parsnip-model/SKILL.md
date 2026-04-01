@@ -355,6 +355,13 @@ test_that("sparse_reg fits and predicts", {
 
 ---
 
+## Related Skills
+
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Add computational engines to your new model
+- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Define tunable parameters for model arguments
+- [add-recipe-step](../add-recipe-step/SKILL.md) - Preprocess data before model fitting
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Evaluate model predictions with custom metrics
+
 ## Next Steps
 
 After creating your model:

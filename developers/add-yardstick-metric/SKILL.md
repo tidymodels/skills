@@ -595,6 +595,8 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 
 - [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps may generate outputs that need custom metrics
 - [add-dials-parameter](../add-dials-parameter/SKILL.md) - Custom metrics may require custom tuning parameters for hyperparameter optimization
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Metrics evaluate predictions from model specifications
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Metrics evaluate predictions from model engines
 
 ## Next Steps
 

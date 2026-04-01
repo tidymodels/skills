@@ -735,6 +735,8 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 
 - [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom recipe steps may generate outputs that need custom metrics
 - [add-dials-parameter](../add-dials-parameter/SKILL.md) - Recipe steps often have tunable parameters that can be optimized
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Preprocessed data flows into model specifications
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Recipe steps prepare data for model engines
 
 ## Next Steps
 

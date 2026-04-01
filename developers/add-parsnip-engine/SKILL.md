@@ -500,6 +500,13 @@ spec$args
 
 ---
 
+## Related Skills
+
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Create new model specifications (if model doesn't exist yet)
+- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Define tunable parameters for engine arguments
+- [add-recipe-step](../add-recipe-step/SKILL.md) - Preprocess data before model fitting
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Evaluate engine predictions with custom metrics
+
 ## Next Steps
 
 After adding your engine:

@@ -500,6 +500,8 @@ This convention is strongly recommended for consistency.
 
 - [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom metrics may need custom tuning parameters
 - [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps often have tunable parameters
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Model specifications have tunable main arguments
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Model engines have tunable parameters
 
 ---
 
