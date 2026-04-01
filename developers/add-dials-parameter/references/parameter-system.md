@@ -4,7 +4,7 @@
 
 This document provides a deep dive into how dials implements the tuning parameter system for Tidymodels.
 
-> **Note for Source Development:** If contributing to dials, you can use internal infrastructure and helper functions. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use internal infrastructure and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
 
 ---
 

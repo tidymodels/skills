@@ -4,7 +4,7 @@
 
 This guide covers how to use transformations to improve grid coverage and parameter sampling for quantitative parameters that span multiple orders of magnitude.
 
-> **Note for Source Development:** If contributing to dials, you can use internal transformation utilities. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use internal transformation utilities. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
 
 ---
 

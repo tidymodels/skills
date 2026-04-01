@@ -4,7 +4,7 @@
 
 This guide covers how to create parameters whose ranges depend on dataset characteristics using `unknown()` and the finalization system.
 
-> **Note for Source Development:** If contributing to dials, you can use internal finalization functions. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use internal finalization functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
 
 ---
 

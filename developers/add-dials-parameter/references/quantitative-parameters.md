@@ -4,7 +4,7 @@
 
 This guide covers everything you need to create quantitative parameters with `new_quant_param()`.
 
-> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](../source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
 
 ---
 
