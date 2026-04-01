@@ -84,6 +84,28 @@ skill-development/build-verify.py developers/
 - Identifying which files contribute most to token count
 - Validating skill size before deployment
 
+### add-blank-lines.py
+**Purpose**: Add blank lines before bullet points in markdown files for readability.
+
+**What it does**:
+- Scans markdown files for bullet points (lines starting with `-` or `  -`)
+- Adds blank lines before bullets that don't already have them
+- Improves markdown readability when rendered
+- Preserves existing formatting and spacing
+
+**Usage**:
+```bash
+./add-blank-lines.py <markdown-file>
+./add-blank-lines.py ../developers/add-parsnip-model/SKILL.md
+./add-blank-lines.py ../.github/planning/add-parsnip-model-plan.md
+```
+
+**When to use**:
+- After creating or editing planning documents
+- When markdown lists appear cramped when rendered
+- Before committing documentation files
+- To ensure consistent formatting across markdown files
+
 ### rename-and-update.py
 **Purpose**: Rename files and update all references across the entire repository.
 
