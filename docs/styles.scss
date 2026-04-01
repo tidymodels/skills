@@ -122,11 +122,14 @@ div.sourceCode {
     background-color: $theme-code-bg;
     border: 1px solid $theme-code-bg;
     border-radius: 0.25rem;
+    padding: 1em;
 }
 
 // Ensure nested elements don't compound backgrounds
 div.sourceCode pre.sourceCode {
     background: transparent !important;
+    margin: 0 !important;
+    padding: 1em 3.5em 1em 1.2em !important;
 }
 
 div.sourceCode code.sourceCode {
@@ -150,7 +153,7 @@ div.sourceCode:has(pre.powershell) {
 div.sourceCode pre.sourceCode.bash,
 div.sourceCode pre.sourceCode.powershell {
     margin: 0 !important;
-    padding: 20px 60px 20px 22px !important;
+    padding: 1em 3.5em 1em 1.2em !important;
     border: none !important;
     background: transparent !important;
     border-radius: 0 !important;
@@ -185,7 +188,7 @@ pre.claude {
     background: linear-gradient(135deg, rgba($theme-cranberry, 0.04) 0%, rgba($theme-blue, 0.04) 100%);
     border: 1.5px solid rgba($theme-cranberry, 0.25);
     border-radius: 10px;
-    padding: 20px 60px 20px 22px; // Extra right padding for copy button
+    padding: 1em 3.5em 1em 1.2em; // Extra right padding for copy button
     position: relative;
     box-shadow: 0 2px 6px rgba($theme-cranberry, 0.08);
     margin: 1.5em 0;
@@ -218,8 +221,8 @@ pre.claude {
 
     .claude-copy-button {
         position: absolute;
-        top: 14px;
-        right: 14px;
+        top: 6px;
+        right: 6px;
         background: rgba($theme-cranberry, 0.08);
         border: 1px solid rgba($theme-cranberry, 0.25);
         color: $theme-cranberry;
@@ -257,8 +260,8 @@ pre.claude {
 .code-copy-button,
 .code-copy-outer-scaffold .code-copy-button {
     position: absolute !important;
-    top: 14px !important;
-    right: 14px !important;
+    top: 6px !important;
+    right: 6px !important;
     background: rgba($theme-black, 0.08) !important; // Gray background
     border: 1px solid rgba($theme-black, 0.2) !important;
     color: $theme-black !important;
