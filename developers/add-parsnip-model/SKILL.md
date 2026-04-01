@@ -14,9 +14,9 @@ Before creating a new parsnip model, ensure you have:
 
 **R Package Development:**
 
-- [Extension Prerequisites](../shared-references/package-extension-prerequisites.md) - Required for extension packages
+- [Extension Prerequisites](references/package-extension-prerequisites.md) - Required for extension packages
 
-- [Development Workflow](../shared-references/package-development-workflow.md) - Fast iteration practices
+- [Development Workflow](references/package-development-workflow.md) - Fast iteration practices
 
 **Parsnip Architecture:**
 

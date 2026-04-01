@@ -28,7 +28,7 @@ Before starting, ensure you have:
 
 **R Package Setup:**
 
-- [Extension Prerequisites](../../shared-references/package-extension-prerequisites.md) - Package structure, DESCRIPTION, etc.
+- [Extension Prerequisites](./package-extension-prerequisites.md) - Package structure, DESCRIPTION, etc.
 
 - Basic R package development knowledge
 
@@ -573,7 +573,7 @@ fit <- fit(spec, mpg ~ ., mtcars)
 predict(fit, mtcars[1:3, ])
 ```
 
-See [Development Workflow](../../shared-references/package-development-workflow.md) for more details.
+See [Development Workflow](./package-development-workflow.md) for more details.
 
 ---
 
@@ -702,6 +702,6 @@ After creating your model:
 
 **Best practices:**
 
-- [Extension Prerequisites](../../shared-references/package-extension-prerequisites.md) - Package setup
+- [Extension Prerequisites](./package-extension-prerequisites.md) - Package setup
 
-- [Development Workflow](../../shared-references/package-development-workflow.md) - Iteration cycle
+- [Development Workflow](./package-development-workflow.md) - Iteration cycle

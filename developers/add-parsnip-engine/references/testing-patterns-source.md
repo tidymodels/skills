@@ -571,6 +571,6 @@ test_that("debug test", {
 
 - [Engine Implementation](engine-implementation.md) - Implementation guide
 
-- [Best Practices (Source)](../../shared-references-parsnip/best-practices-source.md) - Code conventions
+- [Best Practices (Source)](./best-practices-source.md) - Code conventions
 
-- [Troubleshooting (Source)](../../shared-references-parsnip/troubleshooting-source.md) - Common issues
+- [Troubleshooting (Source)](./troubleshooting-source.md) - Common issues

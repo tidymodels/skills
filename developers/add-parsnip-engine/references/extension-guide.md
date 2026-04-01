@@ -21,7 +21,7 @@ Use this guide when:
 ## Prerequisites
 
 **R Package Setup:**
-- [Extension Prerequisites](../../shared-references/package-extension-prerequisites.md)
+- [Extension Prerequisites](./package-extension-prerequisites.md)
 - Basic R package development knowledge
 
 **Parsnip Knowledge:**

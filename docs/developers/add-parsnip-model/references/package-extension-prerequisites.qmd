@@ -1,0 +1,1 @@
+{{< include ../../../../developers/add-parsnip-model/references/package-extension-prerequisites.md >}}
