@@ -71,6 +71,36 @@ The name reflects the idea that tuning predictive models can be like turning a s
 
 ---
 
+## Repository Access (Optional but Recommended)
+
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/dials/` exists in the current working directory. Use this to guide development:
+
+**If `repos/dials/` exists:**
+- ✅ Use it as a reference throughout development
+- Read source files (e.g., `repos/dials/R/param_mtry.R`) to study implementation patterns
+- Read test files (e.g., `repos/dials/tests/testthat/test-param_mtry.R`) for testing patterns
+- Reference these files when answering complex questions or solving problems
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/dials/` does NOT exist:**
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- This is **optional but strongly recommended** for high-quality development
+- If the user declines, reference files using GitHub URLs:
+  - Format: `https://github.com/tidymodels/dials/blob/main/R/[file-name].R`
+  - Example: https://github.com/tidymodels/dials/blob/main/R/param_mtry.R
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+- Complex implementation questions (e.g., "How does dials handle finalization?")
+- Debugging issues (compare user's code to working implementation)
+- Understanding patterns (study similar parameters)
+- Test design (see how dials tests edge cases)
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+
+---
+
 ## Parameter Type Decision Tree
 
 ```

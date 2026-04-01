@@ -270,7 +270,31 @@ This skill supports **two distinct development contexts**:
 
 ## Repository Access (Optional but Recommended)
 
-[Standard repository access section - see existing skills for template]
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/[package]/` exists in the current working directory. Use this to guide development:
+
+**If `repos/[package]/` exists:**
+- ✅ Use it as a reference throughout development
+- Read source files (e.g., `repos/[package]/R/[example-file].R`) to study implementation patterns
+- Read test files (e.g., `repos/[package]/tests/testthat/test-[example-file].R`) for testing patterns
+- Reference these files when answering complex questions or solving problems
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/[package]/` does NOT exist:**
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- This is **optional but strongly recommended** for high-quality development
+- If the user declines, reference files using GitHub URLs:
+  - Format: `https://github.com/tidymodels/[package]/blob/main/R/[file-name].R`
+  - Example: https://github.com/tidymodels/[package]/blob/main/R/[example-file].R
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+- Complex implementation questions (e.g., "How does [package] handle [specific pattern]?")
+- Debugging issues (compare user's code to working implementation)
+- Understanding patterns (study similar [features])
+- Test design (see how [package] tests edge cases)
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
 
 ## Quick Navigation
 
@@ -350,6 +374,7 @@ If you're contributing to [package] itself, you have access to internal function
 **Key Principles:**
 - Start with frontmatter for Claude Code skill registration
 - Clearly distinguish extension vs source from the beginning
+- Include Repository Access section with instructions for Claude to check `repos/[package]/`
 - Provide complete examples using extension patterns (most users)
 - Link extensively to other documents
 - Keep main content focused on extension development
@@ -357,6 +382,14 @@ If you're contributing to [package] itself, you have access to internal function
 - **NEVER duplicate code across SKILL.md and reference files** - SKILL.md should only link to references, not repeat their content
 - Prerequisites section should link to package-extension-prerequisites.md, NOT include abbreviated setup code
 - Single source of truth: all setup instructions live in shared-references/package-extension-prerequisites.md
+
+**Repository Access Pattern:**
+- **Always include** a "Repository Access" section in SKILL.md after "Overview"
+- Instructs Claude to check for `repos/[package]/` directory
+- If present: Use local files as reference for complex questions
+- If absent: Suggest cloning OR provide GitHub URLs as fallback
+- This enables Claude to read actual implementations when available
+- Benefits: Better code quality, real-world examples, edge case handling
 
 ---
 
@@ -1493,20 +1526,21 @@ When you add a new skill, update related skills:
 ### ✅ Do:
 1. **Use references as single source of truth** - SKILL.md links, references contain content
 2. **Make SKILL.md purely navigational** - Overview + links, no duplicated code blocks
-3. **Link to package-extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
-4. **Centralize setup commands exclusively in package-extension-prerequisites.md** - Prevents premature execution
-5. **Write "INSTRUCTIONS FOR CLAUDE" for autonomous execution** - Claude should run commands via Bash tool
-6. **Avoid "optional" labels that Claude ignores** - Be explicit about importance and consequences
-7. **Force reference reading** - Only show "See [reference]" links, never partial content
-8. **Start with SKILL.md structure from existing skills** - Copy, then adapt
-9. **Test all code examples** - They should run as shown
-10. **Link generously** - Help users navigate
-11. **Be explicit about constraints** - Extension development has limits
-12. **Provide both extension and source examples** - When patterns differ significantly
-13. **Update related skills** - Add cross-references when appropriate
-14. **Follow naming conventions** - Consistent with existing skills
-15. **Include troubleshooting** - Anticipate common problems
-16. **Run build-verify.py before committing** - Ensures files are synced and verified
+3. **Include Repository Access section in SKILL.md** - Instructs Claude to check `repos/[package]/` and use as reference
+4. **Link to package-extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
+5. **Centralize setup commands exclusively in package-extension-prerequisites.md** - Prevents premature execution
+6. **Write "INSTRUCTIONS FOR CLAUDE" for autonomous execution** - Claude should run commands via Bash tool
+7. **Avoid "optional" labels that Claude ignores** - Be explicit about importance and consequences
+8. **Force reference reading** - Only show "See [reference]" links, never partial content
+9. **Start with SKILL.md structure from existing skills** - Copy, then adapt
+10. **Test all code examples** - They should run as shown
+11. **Link generously** - Help users navigate
+12. **Be explicit about constraints** - Extension development has limits
+13. **Provide both extension and source examples** - When patterns differ significantly
+14. **Update related skills** - Add cross-references when appropriate
+15. **Follow naming conventions** - Consistent with existing skills
+16. **Include troubleshooting** - Anticipate common problems
+17. **Run build-verify.py before committing** - Ensures files are synced and verified
    - Run `cd tidymodels && ./dev-scripts/build-verify.py` after any skill changes
    - Fix all errors before committing
    - This is CRITICAL for maintaining quality
@@ -1527,6 +1561,7 @@ When creating a new skill (e.g., `add-parsnip-model`):
 ### Phase 2: Core Structure (3-4 hours)
 - [ ] Create skill directory: `developers/add-[package]-[feature]/`
 - [ ] Write SKILL.md from template
+- [ ] Include "Repository Access" section in SKILL.md (after "Overview", before "Quick Navigation")
 - [ ] Create extension-guide.md
 - [ ] Create source-guide.md
 - [ ] Add references/ directory

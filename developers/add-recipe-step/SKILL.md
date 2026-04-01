@@ -60,6 +60,34 @@ Creating a custom recipe step provides:
 - Proper handling of grouped data frames
 - Sparse data support (when applicable)
 
+## Repository Access (Optional but Recommended)
+
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/recipes/` exists in the current working directory. Use this to guide development:
+
+**If `repos/recipes/` exists:**
+- ✅ Use it as a reference throughout development
+- Read source files (e.g., `repos/recipes/R/center.R`) to study implementation patterns
+- Read test files (e.g., `repos/recipes/tests/testthat/test-step_center.R`) for testing patterns
+- Reference these files when answering complex questions or solving problems
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/recipes/` does NOT exist:**
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- This is **optional but strongly recommended** for high-quality development
+- If the user declines, reference files using GitHub URLs:
+  - Format: `https://github.com/tidymodels/recipes/blob/main/R/[file-name].R`
+  - Example: https://github.com/tidymodels/recipes/blob/main/R/center.R
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+- Complex implementation questions (e.g., "How does recipes handle variable roles?")
+- Debugging issues (compare user's code to working implementation)
+- Understanding patterns (study similar steps)
+- Test design (see how recipes tests edge cases)
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+
 ## Quick Navigation
 
 **Development Guides:**
