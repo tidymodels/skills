@@ -9,9 +9,14 @@ function Link(el)
     target = target:gsub("%.md", ".qmd")
   end
 
-  -- Handle cross-skill SKILL references: ../add-xxx/SKILL.qmd -> add-xxx.qmd
+  -- Handle same-skill SKILL references: ../SKILL.qmd -> ../index.qmd (with or without anchors)
+  if target:match("%.%./SKILL%.qmd") then
+    target = target:gsub("%.%./SKILL%.qmd", "../index.qmd")
+  end
+
+  -- Handle cross-skill SKILL references: ../add-xxx/SKILL.qmd -> ../add-xxx/index.qmd
   if target:match("%.%./[^/]+/SKILL%.qmd") then
-    target = target:gsub("%.%./([^/]+)/SKILL%.qmd", "%1.qmd")
+    target = target:gsub("%.%./([^/]+)/SKILL%.qmd", "../%1/index.qmd")
   end
 
   -- Handle cross-skill reference files from references/ folder:
@@ -26,8 +31,10 @@ function Link(el)
     target = target:gsub("^add%-[^/]+/references/", "references/")
   end
 
-  -- Remove developers/ prefix
-  target = target:gsub("^developers/", "")
+  -- Remove developers/ prefix (but preserve links to developer skill pages and developers/index.qmd)
+  if not target:match("^developers/index%.qmd") and not target:match("^developers/add%-[^/]+/index%.qmd") then
+    target = target:gsub("^developers/", "")
+  end
 
   el.target = target
   return el
