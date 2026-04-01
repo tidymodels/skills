@@ -92,6 +92,16 @@ def build_rename_map(files: List[Path], from_pattern: str, to_pattern: str, root
             # Simple rename in same directory
             new_path = old_path.parent / to_path.name
 
+        # Resolve and validate new_path is within root_dir
+        new_path = new_path.resolve()
+        try:
+            new_path.relative_to(root_dir)
+        except ValueError:
+            log_error(f"Invalid destination path (outside project): {new_path}")
+            log_error(f"  Source: {old_path}")
+            log_error(f"  Project root: {root_dir}")
+            sys.exit(1)
+
         rename_map.append((old_path, new_path))
 
     return rename_map
@@ -219,13 +229,23 @@ def update_references_in_file(
         log_error(f"Error processing {file_path}: {e}")
         return 0
 
-def rename_files(rename_map: List[Tuple[Path, Path]], dry_run: bool = False) -> int:
+def rename_files(rename_map: List[Tuple[Path, Path]], root_dir: Path, dry_run: bool = False) -> int:
     """Rename files according to the rename map."""
     count = 0
 
     for old_path, new_path in rename_map:
         if not old_path.exists():
             log_warning(f"Source file not found: {old_path}")
+            continue
+
+        # Validate paths are within root_dir (defensive check)
+        try:
+            old_path.resolve().relative_to(root_dir)
+            new_path.resolve().relative_to(root_dir)
+        except ValueError as e:
+            log_error(f"Path validation failed: {e}")
+            log_error(f"  Old: {old_path}")
+            log_error(f"  New: {new_path}")
             continue
 
         # Create parent directory if needed
@@ -317,7 +337,7 @@ def main():
     renamed_count = 0
     if rename_map:
         log_header(f"\n{step_num}. Renaming files...")
-        renamed_count = rename_files(rename_map, args.dry_run)
+        renamed_count = rename_files(rename_map, script_dir, args.dry_run)
     else:
         log_header(f"\n{step_num}. Renaming files...")
         log_info("No files to rename (text replacement only)")

@@ -67,8 +67,8 @@ Define custom hyperparameter objects for model tuning with the dials package.
 
 ---
 
-## Prerequisites
-
+## Prerequisitecd my-analysis-project
+claude
 Before using developer skills, ensure you have:
 
 - R 4.1.0 or higher

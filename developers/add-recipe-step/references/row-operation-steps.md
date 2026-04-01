@@ -2,6 +2,8 @@
 
 This template is for steps that add, remove, or filter rows from the data.
 
+> **Note for Source Development:** If you're contributing directly to the recipes package, internal helpers are available without the `recipes::` prefix. Row operations are simpler but still benefit from helpers like `recipes_eval_select()` when applicable. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 Row-operation steps:
@@ -18,8 +20,6 @@ Row-operation steps:
 **Test patterns:**
 - Skip behavior: `tests/testthat/test-filter.R`
 - Sampling: `tests/testthat/test-sample.R`
-
-> **Source Development:** When contributing to recipes itself, internal helpers are available without the `recipes::` prefix. Row operations are simpler but still benefit from helpers like `recipes_eval_select()` when applicable. See [Best Practices (Source)](best-practices-source.md).
 
 ## Key Characteristics
 

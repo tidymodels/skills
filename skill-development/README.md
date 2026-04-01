@@ -89,7 +89,7 @@ skill-development/build-verify.py developers/
 
 **What it does**:
 - Recursively searches the entire repository for files to rename
-- Updates all text references in .md, .py, .sh, .yml, .yaml, .json files
+- Updates all text references in .md, .R, .sh, .ps1, .py, .yml, .yaml, .json files
 - Handles markdown links, file paths, and shell paths
 - Works in all directories: `developers/`, `users/`, `docs/`, etc.
 

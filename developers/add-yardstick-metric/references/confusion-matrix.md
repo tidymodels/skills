@@ -2,6 +2,25 @@
 
 Understanding how to work with confusion matrices is essential for implementing classification metrics in yardstick.
 
+> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal confusion matrix utilities. See the [Source Development Guide](source-guide.md) for details.
+
+## Overview
+
+Confusion matrices are the foundation for classification metrics. The `yardstick_table()` function creates weighted confusion matrices that all classification metrics use.
+
+**Implementation:**
+- Confusion matrix creation: `R/table.R` (implements `yardstick_table()`)
+- Matrix extraction: Used by all class metrics in `R/class-*.R`
+
+**Usage examples in metrics:**
+- Binary metrics: `R/class-accuracy.R`, `R/class-precision.R` (extract TP/FP/TN/FN)
+- Multiclass metrics: `R/class-f_meas.R` (per-class calculations)
+- Balanced metrics: `R/class-bal_accuracy.R` (uses diagonals and marginals)
+
+**Test patterns:**
+- Table creation tests: `tests/testthat/test-table.R`
+- Weight handling: `tests/testthat/test-class-accuracy.R` (validates weighted confusion matrices)
+
 ## Creating Confusion Matrices
 
 Use `yardstick_table()` to create weighted confusion matrices:

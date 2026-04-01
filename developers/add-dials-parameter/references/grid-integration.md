@@ -4,6 +4,8 @@
 
 This guide covers how dials parameters integrate with grid generation functions and tune workflows for hyperparameter tuning.
 
+> **Note for Source Development:** If contributing to dials, you can use internal grid generation utilities. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+
 ---
 
 ## Overview
@@ -15,6 +17,20 @@ dials parameters are designed to work seamlessly with:
 3. **Parameter sets**: `parameters()` for combining multiple parameters
 4. **Workflow extraction**: `extract_parameter_set_dials()` from workflows
 5. **Tuning functions**: `tune_grid()`, `tune_bayes()` from tune package
+
+**Grid generation implementations:**
+- Regular grids: `R/grid_regular.R` (factorial combinations with `value_seq()`)
+- Random sampling: `R/grid_random.R` (random sampling with `value_sample()`)
+- Latin hypercube: `R/grid_latin_hypercube.R` (space-filling design)
+- Maximum entropy: `R/grid_max_entropy.R` (space-filling design)
+
+**Parameter sets:**
+- Parameter collections: `R/parameters.R` (implements `parameters()` for combining)
+- Workflow extraction: `R/extract_parameter_set_dials.R` (extracts params from workflows)
+
+**Test patterns:**
+- Grid tests: `tests/testthat/test-grids.R` (grid generation validation)
+- Parameter set tests: `tests/testthat/test-parameters.R` (collection behavior)
 
 ---
 

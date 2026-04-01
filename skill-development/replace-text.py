@@ -109,10 +109,24 @@ def main():
         print('  ./replace-text.py README.md "old text" "new text" --dry-run')
         sys.exit(1)
 
-    file_path = Path(sys.argv[1])
+    # Determine project root (parent of script directory)
+    script_dir = Path(__file__).resolve().parent
+    project_root = script_dir.parent
+
+    file_path = Path(sys.argv[1]).resolve()
     from_text = sys.argv[2]
     to_text = sys.argv[3]
     dry_run = '--dry-run' in sys.argv[4:]
+
+    # Validate that file_path is within project directory
+    try:
+        file_path.relative_to(project_root)
+    except ValueError:
+        print(f"Error: File path is outside project directory")
+        print(f"  File: {file_path}")
+        print(f"  Project root: {project_root}")
+        print(f"  Only files within the project directory can be modified")
+        sys.exit(1)
 
     # Validate arguments
     if from_text == to_text:

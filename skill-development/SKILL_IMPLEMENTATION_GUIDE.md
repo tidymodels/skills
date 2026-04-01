@@ -2,7 +2,7 @@
 
 **Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
 
-**Last Updated:** 2026-03-31
+**Last Updated:** 2026-04-01
 
 ---
 
@@ -270,7 +270,31 @@ This skill supports **two distinct development contexts**:
 
 ## Repository Access (Optional but Recommended)
 
-[Standard repository access section - see existing skills for template]
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/[package]/` exists in the current working directory. Use this to guide development:
+
+**If `repos/[package]/` exists:**
+- ✅ Use it as a reference throughout development
+- Read source files (e.g., `repos/[package]/R/[example-file].R`) to study implementation patterns
+- Read test files (e.g., `repos/[package]/tests/testthat/test-[example-file].R`) for testing patterns
+- Reference these files when answering complex questions or solving problems
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/[package]/` does NOT exist:**
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- This is **optional but strongly recommended** for high-quality development
+- If the user declines, reference files using GitHub URLs:
+  - Format: `https://github.com/tidymodels/[package]/blob/main/R/[file-name].R`
+  - Example: https://github.com/tidymodels/[package]/blob/main/R/[example-file].R
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+- Complex implementation questions (e.g., "How does [package] handle [specific pattern]?")
+- Debugging issues (compare user's code to working implementation)
+- Understanding patterns (study similar [features])
+- Test design (see how [package] tests edge cases)
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
 
 ## Quick Navigation
 
@@ -350,6 +374,7 @@ If you're contributing to [package] itself, you have access to internal function
 **Key Principles:**
 - Start with frontmatter for Claude Code skill registration
 - Clearly distinguish extension vs source from the beginning
+- Include Repository Access section with instructions for Claude to check `repos/[package]/`
 - Provide complete examples using extension patterns (most users)
 - Link extensively to other documents
 - Keep main content focused on extension development
@@ -357,6 +382,14 @@ If you're contributing to [package] itself, you have access to internal function
 - **NEVER duplicate code across SKILL.md and reference files** - SKILL.md should only link to references, not repeat their content
 - Prerequisites section should link to package-extension-prerequisites.md, NOT include abbreviated setup code
 - Single source of truth: all setup instructions live in shared-references/package-extension-prerequisites.md
+
+**Repository Access Pattern:**
+- **Always include** a "Repository Access" section in SKILL.md after "Overview"
+- Instructs Claude to check for `repos/[package]/` directory
+- If present: Use local files as reference for complex questions
+- If absent: Suggest cloning OR provide GitHub URLs as fallback
+- This enables Claude to read actual implementations when available
+- Benefits: Better code quality, real-world examples, edge case handling
 
 ---
 
@@ -1094,6 +1127,138 @@ See [Troubleshooting (Extension)](../shared-references/package-extension-require
 
 ---
 
+### 8. Referencing Repository Files
+
+**Purpose:** Skills can reference specific source files and test files from cloned tidymodels repositories to provide concrete implementation examples.
+
+**Why This Matters:**
+
+When developers have the corresponding tidymodels package cloned in `repos/` (e.g., `repos/yardstick/`, `repos/recipes/`), Claude can:
+- Read actual implementation code for real-world examples
+- Study test patterns from existing test files
+- Understand internal architecture and conventions
+- Provide more accurate, specific guidance
+
+**Repository Access Setup:**
+
+Skills should encourage developers to clone repositories via the shared reference:
+- See [Repository Access](../shared-references/package-repository-access.md) for setup instructions
+- This is **optional but strongly recommended** for creating high-quality skills
+- Scripts are provided to clone repos into `repos/` directory
+
+**How to Reference Repository Files:**
+
+In your reference files, add references to specific implementation files using relative paths from the repository root:
+
+**Example from `probability-metrics.md`:**
+
+```markdown
+**Canonical implementations in yardstick:**
+- ROC-based metrics: `R/prob-roc_auc.R` (binary and multiclass)
+- Precision-Recall: `R/prob-pr_auc.R`, `R/prob-average_precision.R`
+- Probability scoring: `R/prob-brier_class.R` (Brier score), `R/prob-mn_log_loss.R` (multinomial log loss)
+
+**Test patterns:**
+- Binary probability metrics: `tests/testthat/test-prob-roc_auc.R`
+- Multiclass metrics: `tests/testthat/test-prob-mn_log_loss.R`
+```
+
+**Example from `linear-predictor-survival-metrics.md`:**
+
+```markdown
+**Reference implementation:** `R/surv-royston.R` in yardstick repository
+```
+
+**When to Add Repository References:**
+
+Add repository file references when:
+1. **Introducing a category of features** (e.g., "Probability Metrics") - list canonical examples
+2. **Showing implementation patterns** - point to similar implementations in the package
+3. **Discussing test patterns** - reference test files that demonstrate edge cases
+4. **Explaining architecture** - cite internal helper files or infrastructure
+
+**Format Conventions:**
+
+```markdown
+**Source files:**
+- Use format: `R/[file-name].R` (relative to repository root)
+- Example: `R/prob-brier_class.R` (Brier score)
+- Add brief description in parentheses
+
+**Test files:**
+- Use format: `tests/testthat/test-[file-name].R`
+- Example: `tests/testthat/test-prob-mn_log_loss.R`
+- Describe what test patterns it demonstrates
+
+**Section placement:**
+- Add near the top of reference files under "Overview" or in an "Examples" section
+- Use headers like "Canonical implementations in [package]:", "Reference implementation:", or "Test patterns:"
+```
+
+**Example Pattern - Numeric Metrics:**
+
+```markdown
+## Overview
+
+Numeric metrics evaluate continuous predictions against continuous truth values.
+
+**Reference implementations in yardstick:**
+- Simple metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+- Parameterized metrics: `R/num-huber_loss.R` (has delta parameter)
+- Complex metrics: `R/num-ccc.R` (correlation-based)
+
+**Test patterns:**
+- Basic tests: `tests/testthat/test-num-mae.R`
+- Parameterized tests: `tests/testthat/test-num-huber_loss.R`
+```
+
+**Example Pattern - Recipe Steps:**
+
+```markdown
+## Overview
+
+Recipe steps transform data during preprocessing.
+
+**Reference implementations in recipes:**
+- Modify-in-place: `R/center.R`, `R/normalize.R`
+- Create new columns: `R/step_dummy.R`, `R/step_interact.R`
+- Remove columns: `R/step_rm.R`, `R/step_zv.R`
+
+**Test patterns:**
+- Modification steps: `tests/testthat/test-step_center.R`
+- Creation steps: `tests/testthat/test-step_dummy.R`
+```
+
+**Benefits for Claude Code:**
+
+When repository files are referenced and the repos are cloned:
+1. **Claude can read the actual implementation** using the Read tool
+2. **Provides concrete examples** beyond generic patterns
+3. **Shows real-world edge cases** and validation
+4. **Reveals internal architecture** and conventions
+5. **Improves accuracy** of generated code
+
+**Integration with package-repository-access.md:**
+
+The shared reference `package-repository-access.md` provides:
+- Scripts to clone repositories (bash, PowerShell, Python)
+- Setup instructions for `repos/` directory
+- Troubleshooting for git installation and network issues
+- Examples of how to use cloned repositories
+
+Your skill should link to this file in SKILL.md and in the Prerequisites sections of guides.
+
+**Implementation Checklist for New Skill:**
+
+When creating a new skill:
+- [ ] Identify 3-5 canonical implementation files in the source package
+- [ ] Add references to these files in relevant reference/*.md files
+- [ ] Add references to key test files that demonstrate patterns
+- [ ] Ensure `package-repository-access.md` is linked in SKILL.md
+- [ ] If adding a new package, update clone scripts (see Phase 5 checklist)
+
+---
+
 ## Shared References (Universal)
 
 These files live in `shared-references/` and apply to ALL skills:
@@ -1361,20 +1526,21 @@ When you add a new skill, update related skills:
 ### ✅ Do:
 1. **Use references as single source of truth** - SKILL.md links, references contain content
 2. **Make SKILL.md purely navigational** - Overview + links, no duplicated code blocks
-3. **Link to package-extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
-4. **Centralize setup commands exclusively in package-extension-prerequisites.md** - Prevents premature execution
-5. **Write "INSTRUCTIONS FOR CLAUDE" for autonomous execution** - Claude should run commands via Bash tool
-6. **Avoid "optional" labels that Claude ignores** - Be explicit about importance and consequences
-7. **Force reference reading** - Only show "See [reference]" links, never partial content
-8. **Start with SKILL.md structure from existing skills** - Copy, then adapt
-9. **Test all code examples** - They should run as shown
-10. **Link generously** - Help users navigate
-11. **Be explicit about constraints** - Extension development has limits
-12. **Provide both extension and source examples** - When patterns differ significantly
-13. **Update related skills** - Add cross-references when appropriate
-14. **Follow naming conventions** - Consistent with existing skills
-15. **Include troubleshooting** - Anticipate common problems
-16. **Run build-verify.py before committing** - Ensures files are synced and verified
+3. **Include Repository Access section in SKILL.md** - Instructs Claude to check `repos/[package]/` and use as reference
+4. **Link to package-extension-prerequisites.md for ALL setup instructions** - Never abbreviate or duplicate
+5. **Centralize setup commands exclusively in package-extension-prerequisites.md** - Prevents premature execution
+6. **Write "INSTRUCTIONS FOR CLAUDE" for autonomous execution** - Claude should run commands via Bash tool
+7. **Avoid "optional" labels that Claude ignores** - Be explicit about importance and consequences
+8. **Force reference reading** - Only show "See [reference]" links, never partial content
+9. **Start with SKILL.md structure from existing skills** - Copy, then adapt
+10. **Test all code examples** - They should run as shown
+11. **Link generously** - Help users navigate
+12. **Be explicit about constraints** - Extension development has limits
+13. **Provide both extension and source examples** - When patterns differ significantly
+14. **Update related skills** - Add cross-references when appropriate
+15. **Follow naming conventions** - Consistent with existing skills
+16. **Include troubleshooting** - Anticipate common problems
+17. **Run build-verify.py before committing** - Ensures files are synced and verified
    - Run `cd tidymodels && ./dev-scripts/build-verify.py` after any skill changes
    - Fix all errors before committing
    - This is CRITICAL for maintaining quality
@@ -1395,6 +1561,7 @@ When creating a new skill (e.g., `add-parsnip-model`):
 ### Phase 2: Core Structure (3-4 hours)
 - [ ] Create skill directory: `developers/add-[package]-[feature]/`
 - [ ] Write SKILL.md from template
+- [ ] Include "Repository Access" section in SKILL.md (after "Overview", before "Quick Navigation")
 - [ ] Create extension-guide.md
 - [ ] Create source-guide.md
 - [ ] Add references/ directory
@@ -1780,6 +1947,6 @@ A skill is complete when:
 
 ---
 
-**Last Updated:** 2026-03-31
+**Last Updated:** 2026-04-01
 
 For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.

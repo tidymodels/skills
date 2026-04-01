@@ -2,6 +2,28 @@
 
 The recipes package provides helper functions to standardize common operations in recipe steps. Use these instead of implementing your own versions.
 
+> **Note for Source Development:** If you're contributing directly to the recipes package, these helper functions are available without the `recipes::` prefix. See the [Source Development Guide](source-guide.md) for details.
+
+## Overview
+
+**Helper function implementations in recipes:**
+- Variable selection: `R/recipes_eval_select.R` (tidyselect resolution)
+- Validation functions: `R/check.R` (type checking, new data validation)
+- Case weights: `R/case_weights.R` (weight extraction and checking)
+- Column operations: `R/remove_original_cols.R` (handle keep_original_cols)
+- Utilities: `R/misc.R` (rand_id, print_step, sel2char, is_trained)
+
+**Examples in step implementations:**
+- Variable selection: `R/center.R` (uses `recipes_eval_select()`)
+- Type checking: `R/normalize.R` (uses `check_type()`)
+- Case weights: `R/pca.R` (uses `get_case_weights()`)
+- Column removal: `R/dummy.R` (uses `remove_original_cols()`)
+- Name checking: `R/interact.R` (uses `check_name()`)
+
+**Test patterns:**
+- Helper function tests: `tests/testthat/test-misc.R`
+- Selection tests: `tests/testthat/test-selections.R`
+
 ## Overview
 
 | Function | Purpose | Typical Usage |

@@ -2,6 +2,8 @@
 
 This template is for steps that create new columns from existing ones.
 
+> **Note for Source Development:** If you're contributing directly to the recipes package, use internal helpers directly: `recipes_eval_select()`, `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed. See the [Source Development Guide](source-guide.md) for details.
+
 ## Overview
 
 Create-new-columns steps:
@@ -19,8 +21,6 @@ Create-new-columns steps:
 **Test patterns:**
 - Encoding tests: `tests/testthat/test-dummy.R`
 - Dimension reduction: `tests/testthat/test-pca.R`
-
-> **Source Development:** When contributing to recipes itself, use internal helpers directly: `recipes_eval_select()`, `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed. See [Best Practices (Source)](best-practices-source.md).
 
 ## Key Differences from Modify-in-Place
 

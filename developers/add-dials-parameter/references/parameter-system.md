@@ -4,6 +4,30 @@
 
 This document provides a deep dive into how dials implements the tuning parameter system for Tidymodels.
 
+> **Note for Source Development:** If contributing to dials, you can use internal infrastructure and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+
+---
+
+## Overview
+
+The dials parameter system provides type-safe tuning parameter definitions with flexible ranges, transformations, and integration with Tidymodels workflows.
+
+**Core implementation files:**
+- Parameter constructors: `R/constructor.R` (defines `new_quant_param()` and `new_qual_param()`)
+- Value generation: `R/value.R` (implements `value_sample()`, `value_seq()`, `value_set()`)
+- Finalization system: `R/finalize.R` (implements `finalize()` and finalization functions)
+- Parameter sets: `R/parameters.R` (implements `parameters()` for parameter collections)
+
+**Grid generation:**
+- Regular grids: `R/grid_regular.R` (factorial combinations)
+- Random grids: `R/grid_random.R` (random sampling)
+- Space-filling: `R/grid_latin_hypercube.R`, `R/grid_max_entropy.R`
+
+**Test patterns:**
+- Constructor tests: `tests/testthat/test-constructors.R`
+- Value generation: `tests/testthat/test-value.R`
+- Grid generation: `tests/testthat/test-grids.R`
+
 ---
 
 ## dials Role in Tidymodels

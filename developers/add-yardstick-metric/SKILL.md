@@ -59,6 +59,34 @@ Creating a custom yardstick metric provides:
 - Integration with `metric_set()`
 - Optional autoplot support for visualization (curves and confusion matrices)
 
+## Repository Access (Optional but Recommended)
+
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/yardstick/` exists in the current working directory. Use this to guide development:
+
+**If `repos/yardstick/` exists:**
+- ✅ Use it as a reference throughout development
+- Read source files (e.g., `repos/yardstick/R/prob-brier_class.R`) to study implementation patterns
+- Read test files (e.g., `repos/yardstick/tests/testthat/test-prob-roc_auc.R`) for testing patterns
+- Reference these files when answering complex questions or solving problems
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/yardstick/` does NOT exist:**
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- This is **optional but strongly recommended** for high-quality development
+- If the user declines, reference files using GitHub URLs:
+  - Format: `https://github.com/tidymodels/yardstick/blob/main/R/[file-name].R`
+  - Example: https://github.com/tidymodels/yardstick/blob/main/R/prob-brier_class.R
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+- Complex implementation questions (e.g., "How does yardstick handle multiclass averaging?")
+- Debugging issues (compare user's code to working implementation)
+- Understanding patterns (study similar metrics)
+- Test design (see how yardstick tests edge cases)
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+
 ## Quick Navigation
 
 **Development Guides:**

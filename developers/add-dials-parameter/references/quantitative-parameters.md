@@ -4,6 +4,25 @@
 
 This guide covers everything you need to create quantitative parameters with `new_quant_param()`.
 
+> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+
+---
+
+## Overview
+
+Quantitative parameters represent numeric values that can vary continuously or discretely across a defined range. These are the most common type of tuning parameters in machine learning.
+
+**Reference implementations in dials:**
+- Simple quantitative: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+- With transformations: `R/param_penalty.R` (log10 transformation), `R/param_sample_size.R` (log2 transformation)
+- Data-dependent: `R/param_mtry.R` (finalize with `get_p`), `R/param_num_comp.R` (finalize with `get_p`)
+- Integer parameters: `R/param_num_trees.R`, `R/param_num_terms.R`
+
+**Test patterns:**
+- Basic parameter tests: `tests/testthat/test-param_penalty.R`
+- Finalization tests: `tests/testthat/test-param_mtry.R`
+- Transformation tests: `tests/testthat/test-param_learn_rate.R`
+
 ---
 
 ## When to Use Quantitative Parameters

@@ -32,7 +32,22 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <skill-directory>", file=sys.stderr)
         sys.exit(1)
 
+    # Determine project root (grandparent of script directory)
+    script_dir = Path(__file__).resolve().parent
+    project_root = script_dir.parent
+
     skill_dir = Path(sys.argv[1]).resolve()
+
+    # Validate skill_dir is within project_root
+    try:
+        skill_dir.relative_to(project_root)
+    except ValueError:
+        print(f"Error: Skill directory is outside project directory", file=sys.stderr)
+        print(f"  Skill dir: {skill_dir}", file=sys.stderr)
+        print(f"  Project root: {project_root}", file=sys.stderr)
+        print(f"  Only directories within the project can be analyzed", file=sys.stderr)
+        sys.exit(1)
+
     skill_md = skill_dir / "SKILL.md"
 
     if not skill_md.is_file():
