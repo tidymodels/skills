@@ -31,18 +31,18 @@ website:
         - text: "Overview"
           href: users/index.qmd
         - section: "Tabular Data ML"
-          href: users/index.qmd
+          href: users/tabular-data-ml/index.qmd
           contents:
             - text: "Data Spending"
-              href: users/references/data-spending.qmd
+              href: users/tabular-data-ml/references/data-spending.qmd
             - text: "Resampling"
-              href: users/references/resampling.qmd
+              href: users/tabular-data-ml/references/resampling.qmd
             - text: "Feature Engineering"
-              href: users/references/feature-engineering.qmd
+              href: users/tabular-data-ml/references/feature-engineering.qmd
             - text: "Model Tuning"
-              href: users/references/tuning.qmd
+              href: users/tabular-data-ml/references/tuning.qmd
             - text: "Model Evaluation"
-              href: users/references/evaluation.qmd
+              href: users/tabular-data-ml/references/evaluation.qmd
 
     - id: developers
       title: "Developer Skills"
@@ -50,162 +50,162 @@ website:
         - text: "Overview"
           href: developers/index.qmd
         - section: "Add Yardstick Metric"
-          href: developers/index.qmd
+          href: developers/add-yardstick-metric/index.qmd
           contents:
             - section: "Getting Started"
               contents:
                 - text: "Extension Development"
-                  href: developers/references/extension-guide.qmd
+                  href: developers/add-yardstick-metric/references/extension-guide.qmd
                 - text: "Source Development"
-                  href: developers/references/source-guide.qmd
+                  href: developers/add-yardstick-metric/references/source-guide.qmd
                 - text: "Prerequisites"
-                  href: developers/references/package-extension-prerequisites.qmd
+                  href: developers/add-yardstick-metric/references/package-extension-prerequisites.qmd
                 - text: "Development Workflow"
-                  href: developers/references/package-development-workflow.qmd
+                  href: developers/add-yardstick-metric/references/package-development-workflow.qmd
             - section: "Metric Types"
               contents:
                 - text: "Metric System Overview"
-                  href: developers/references/metric-system.qmd
+                  href: developers/add-yardstick-metric/references/metric-system.qmd
                 - text: "Numeric Metrics"
-                  href: developers/references/numeric-metrics.qmd
+                  href: developers/add-yardstick-metric/references/numeric-metrics.qmd
                 - text: "Class Metrics"
-                  href: developers/references/class-metrics.qmd
+                  href: developers/add-yardstick-metric/references/class-metrics.qmd
                 - text: "Probability Metrics"
-                  href: developers/references/probability-metrics.qmd
+                  href: developers/add-yardstick-metric/references/probability-metrics.qmd
                 - text: "Ordered Probability Metrics"
-                  href: developers/references/ordered-probability-metrics.qmd
+                  href: developers/add-yardstick-metric/references/ordered-probability-metrics.qmd
                 - text: "Quantile Metrics"
-                  href: developers/references/quantile-metrics.qmd
+                  href: developers/add-yardstick-metric/references/quantile-metrics.qmd
                 - text: "Static Survival Metrics"
-                  href: developers/references/static-survival-metrics.qmd
+                  href: developers/add-yardstick-metric/references/static-survival-metrics.qmd
                 - text: "Dynamic Survival Metrics"
-                  href: developers/references/dynamic-survival-metrics.qmd
+                  href: developers/add-yardstick-metric/references/dynamic-survival-metrics.qmd
                 - text: "Integrated Survival Metrics"
-                  href: developers/references/integrated-survival-metrics.qmd
+                  href: developers/add-yardstick-metric/references/integrated-survival-metrics.qmd
                 - text: "Linear Predictor Survival Metrics"
-                  href: developers/references/linear-predictor-survival-metrics.qmd
+                  href: developers/add-yardstick-metric/references/linear-predictor-survival-metrics.qmd
             - section: "Features"
               contents:
                 - text: "Case Weights"
-                  href: developers/references/case-weights.qmd
+                  href: developers/add-yardstick-metric/references/case-weights.qmd
                 - text: "Confusion Matrix"
-                  href: developers/references/confusion-matrix.qmd
+                  href: developers/add-yardstick-metric/references/confusion-matrix.qmd
                 - text: "Autoplot"
-                  href: developers/references/autoplot.qmd
+                  href: developers/add-yardstick-metric/references/autoplot.qmd
                 - text: "Metric Sets"
-                  href: developers/references/metric-set.qmd
+                  href: developers/add-yardstick-metric/references/metric-set.qmd
                 - text: "Groupwise Metrics"
-                  href: developers/references/groupwise-metrics.qmd
+                  href: developers/add-yardstick-metric/references/groupwise-metrics.qmd
             - section: "Package Development"
               contents:
                 - text: "Extension Requirements"
-                  href: developers/references/package-extension-requirements.qmd
+                  href: developers/add-yardstick-metric/references/package-extension-requirements.qmd
                 - text: "Package Imports"
-                  href: developers/references/package-imports.qmd
+                  href: developers/add-yardstick-metric/references/package-imports.qmd
                 - text: "Roxygen Documentation"
-                  href: developers/references/package-roxygen-documentation.qmd
+                  href: developers/add-yardstick-metric/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
-                  href: developers/references/package-repository-access.qmd
+                  href: developers/add-yardstick-metric/references/package-repository-access.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
-                  href: developers/references/best-practices-source.qmd
+                  href: developers/add-yardstick-metric/references/best-practices-source.qmd
                 - text: "Testing Patterns"
-                  href: developers/references/testing-patterns-source.qmd
+                  href: developers/add-yardstick-metric/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
-                  href: developers/references/troubleshooting-source.qmd
+                  href: developers/add-yardstick-metric/references/troubleshooting-source.qmd
         - section: "Add Recipe Step"
-          href: developers/index.qmd
+          href: developers/add-recipe-step/index.qmd
           contents:
             - section: "Getting Started"
               contents:
                 - text: "Extension Development"
-                  href: developers/references/extension-guide.qmd
+                  href: developers/add-recipe-step/references/extension-guide.qmd
                 - text: "Source Development"
-                  href: developers/references/source-guide.qmd
+                  href: developers/add-recipe-step/references/source-guide.qmd
                 - text: "Prerequisites"
-                  href: developers/references/package-extension-prerequisites.qmd
+                  href: developers/add-recipe-step/references/package-extension-prerequisites.qmd
                 - text: "Development Workflow"
-                  href: developers/references/package-development-workflow.qmd
+                  href: developers/add-recipe-step/references/package-development-workflow.qmd
             - section: "Step Types"
               contents:
                 - text: "Step Architecture"
-                  href: developers/references/step-architecture.qmd
+                  href: developers/add-recipe-step/references/step-architecture.qmd
                 - text: "Create New Columns"
-                  href: developers/references/create-new-columns-steps.qmd
+                  href: developers/add-recipe-step/references/create-new-columns-steps.qmd
                 - text: "Modify In Place"
-                  href: developers/references/modify-in-place-steps.qmd
+                  href: developers/add-recipe-step/references/modify-in-place-steps.qmd
                 - text: "Row Operations"
-                  href: developers/references/row-operation-steps.qmd
+                  href: developers/add-recipe-step/references/row-operation-steps.qmd
             - section: "Advanced Features"
               contents:
                 - text: "Optional Methods"
-                  href: developers/references/optional-methods.qmd
+                  href: developers/add-recipe-step/references/optional-methods.qmd
                 - text: "Helper Functions"
-                  href: developers/references/helper-functions.qmd
+                  href: developers/add-recipe-step/references/helper-functions.qmd
             - section: "Package Development"
               contents:
                 - text: "Extension Requirements"
-                  href: developers/references/package-extension-requirements.qmd
+                  href: developers/add-recipe-step/references/package-extension-requirements.qmd
                 - text: "Package Imports"
-                  href: developers/references/package-imports.qmd
+                  href: developers/add-recipe-step/references/package-imports.qmd
                 - text: "Roxygen Documentation"
-                  href: developers/references/package-roxygen-documentation.qmd
+                  href: developers/add-recipe-step/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
-                  href: developers/references/package-repository-access.qmd
+                  href: developers/add-recipe-step/references/package-repository-access.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
-                  href: developers/references/best-practices-source.qmd
+                  href: developers/add-recipe-step/references/best-practices-source.qmd
                 - text: "Testing Patterns"
-                  href: developers/references/testing-patterns-source.qmd
+                  href: developers/add-recipe-step/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
-                  href: developers/references/troubleshooting-source.qmd
+                  href: developers/add-recipe-step/references/troubleshooting-source.qmd
         - section: "Add Dials Parameter"
-          href: developers/index.qmd
+          href: developers/add-dials-parameter/index.qmd
           contents:
             - section: "Getting Started"
               contents:
                 - text: "Extension Development"
-                  href: developers/references/extension-guide.qmd
+                  href: developers/add-dials-parameter/references/extension-guide.qmd
                 - text: "Source Development"
-                  href: developers/references/source-guide.qmd
+                  href: developers/add-dials-parameter/references/source-guide.qmd
                 - text: "Prerequisites"
-                  href: developers/references/package-extension-prerequisites.qmd
+                  href: developers/add-dials-parameter/references/package-extension-prerequisites.qmd
                 - text: "Development Workflow"
-                  href: developers/references/package-development-workflow.qmd
+                  href: developers/add-dials-parameter/references/package-development-workflow.qmd
             - section: "Parameter Types"
               contents:
                 - text: "Parameter System Overview"
-                  href: developers/references/parameter-system.qmd
+                  href: developers/add-dials-parameter/references/parameter-system.qmd
                 - text: "Quantitative Parameters"
-                  href: developers/references/quantitative-parameters.qmd
+                  href: developers/add-dials-parameter/references/quantitative-parameters.qmd
                 - text: "Qualitative Parameters"
-                  href: developers/references/qualitative-parameters.qmd
+                  href: developers/add-dials-parameter/references/qualitative-parameters.qmd
                 - text: "Transformations"
-                  href: developers/references/transformations.qmd
+                  href: developers/add-dials-parameter/references/transformations.qmd
                 - text: "Data-Dependent Parameters"
-                  href: developers/references/data-dependent-parameters.qmd
+                  href: developers/add-dials-parameter/references/data-dependent-parameters.qmd
                 - text: "Grid Integration"
-                  href: developers/references/grid-integration.qmd
+                  href: developers/add-dials-parameter/references/grid-integration.qmd
             - section: "Package Development"
               contents:
                 - text: "Extension Requirements"
-                  href: developers/references/package-extension-requirements.qmd
+                  href: developers/add-dials-parameter/references/package-extension-requirements.qmd
                 - text: "Package Imports"
-                  href: developers/references/package-imports.qmd
+                  href: developers/add-dials-parameter/references/package-imports.qmd
                 - text: "Roxygen Documentation"
-                  href: developers/references/package-roxygen-documentation.qmd
+                  href: developers/add-dials-parameter/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
-                  href: developers/references/package-repository-access.qmd
+                  href: developers/add-dials-parameter/references/package-repository-access.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
-                  href: developers/references/best-practices-source.qmd
+                  href: developers/add-dials-parameter/references/best-practices-source.qmd
                 - text: "Testing Patterns"
-                  href: developers/references/testing-patterns-source.qmd
+                  href: developers/add-dials-parameter/references/testing-patterns-source.qmd
                 - text: "Troubleshooting"
-                  href: developers/references/troubleshooting-source.qmd
+                  href: developers/add-dials-parameter/references/troubleshooting-source.qmd
 
   page-footer:
     left: "Built with [Quarto](https://quarto.org)"
