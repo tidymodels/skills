@@ -2,7 +2,7 @@
 
 **Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
 
-**Last Updated:** 2026-03-31
+**Last Updated:** 2026-04-01
 
 ---
 
@@ -1094,6 +1094,138 @@ See [Troubleshooting (Extension)](../shared-references/package-extension-require
 
 ---
 
+### 8. Referencing Repository Files
+
+**Purpose:** Skills can reference specific source files and test files from cloned tidymodels repositories to provide concrete implementation examples.
+
+**Why This Matters:**
+
+When developers have the corresponding tidymodels package cloned in `repos/` (e.g., `repos/yardstick/`, `repos/recipes/`), Claude can:
+- Read actual implementation code for real-world examples
+- Study test patterns from existing test files
+- Understand internal architecture and conventions
+- Provide more accurate, specific guidance
+
+**Repository Access Setup:**
+
+Skills should encourage developers to clone repositories via the shared reference:
+- See [Repository Access](../shared-references/package-repository-access.md) for setup instructions
+- This is **optional but strongly recommended** for creating high-quality skills
+- Scripts are provided to clone repos into `repos/` directory
+
+**How to Reference Repository Files:**
+
+In your reference files, add references to specific implementation files using relative paths from the repository root:
+
+**Example from `probability-metrics.md`:**
+
+```markdown
+**Canonical implementations in yardstick:**
+- ROC-based metrics: `R/prob-roc_auc.R` (binary and multiclass)
+- Precision-Recall: `R/prob-pr_auc.R`, `R/prob-average_precision.R`
+- Probability scoring: `R/prob-brier_class.R` (Brier score), `R/prob-mn_log_loss.R` (multinomial log loss)
+
+**Test patterns:**
+- Binary probability metrics: `tests/testthat/test-prob-roc_auc.R`
+- Multiclass metrics: `tests/testthat/test-prob-mn_log_loss.R`
+```
+
+**Example from `linear-predictor-survival-metrics.md`:**
+
+```markdown
+**Reference implementation:** `R/surv-royston.R` in yardstick repository
+```
+
+**When to Add Repository References:**
+
+Add repository file references when:
+1. **Introducing a category of features** (e.g., "Probability Metrics") - list canonical examples
+2. **Showing implementation patterns** - point to similar implementations in the package
+3. **Discussing test patterns** - reference test files that demonstrate edge cases
+4. **Explaining architecture** - cite internal helper files or infrastructure
+
+**Format Conventions:**
+
+```markdown
+**Source files:**
+- Use format: `R/[file-name].R` (relative to repository root)
+- Example: `R/prob-brier_class.R` (Brier score)
+- Add brief description in parentheses
+
+**Test files:**
+- Use format: `tests/testthat/test-[file-name].R`
+- Example: `tests/testthat/test-prob-mn_log_loss.R`
+- Describe what test patterns it demonstrates
+
+**Section placement:**
+- Add near the top of reference files under "Overview" or in an "Examples" section
+- Use headers like "Canonical implementations in [package]:", "Reference implementation:", or "Test patterns:"
+```
+
+**Example Pattern - Numeric Metrics:**
+
+```markdown
+## Overview
+
+Numeric metrics evaluate continuous predictions against continuous truth values.
+
+**Reference implementations in yardstick:**
+- Simple metrics: `R/num-mae.R`, `R/num-rmse.R`, `R/num-mse.R`
+- Parameterized metrics: `R/num-huber_loss.R` (has delta parameter)
+- Complex metrics: `R/num-ccc.R` (correlation-based)
+
+**Test patterns:**
+- Basic tests: `tests/testthat/test-num-mae.R`
+- Parameterized tests: `tests/testthat/test-num-huber_loss.R`
+```
+
+**Example Pattern - Recipe Steps:**
+
+```markdown
+## Overview
+
+Recipe steps transform data during preprocessing.
+
+**Reference implementations in recipes:**
+- Modify-in-place: `R/center.R`, `R/normalize.R`
+- Create new columns: `R/step_dummy.R`, `R/step_interact.R`
+- Remove columns: `R/step_rm.R`, `R/step_zv.R`
+
+**Test patterns:**
+- Modification steps: `tests/testthat/test-step_center.R`
+- Creation steps: `tests/testthat/test-step_dummy.R`
+```
+
+**Benefits for Claude Code:**
+
+When repository files are referenced and the repos are cloned:
+1. **Claude can read the actual implementation** using the Read tool
+2. **Provides concrete examples** beyond generic patterns
+3. **Shows real-world edge cases** and validation
+4. **Reveals internal architecture** and conventions
+5. **Improves accuracy** of generated code
+
+**Integration with package-repository-access.md:**
+
+The shared reference `package-repository-access.md` provides:
+- Scripts to clone repositories (bash, PowerShell, Python)
+- Setup instructions for `repos/` directory
+- Troubleshooting for git installation and network issues
+- Examples of how to use cloned repositories
+
+Your skill should link to this file in SKILL.md and in the Prerequisites sections of guides.
+
+**Implementation Checklist for New Skill:**
+
+When creating a new skill:
+- [ ] Identify 3-5 canonical implementation files in the source package
+- [ ] Add references to these files in relevant reference/*.md files
+- [ ] Add references to key test files that demonstrate patterns
+- [ ] Ensure `package-repository-access.md` is linked in SKILL.md
+- [ ] If adding a new package, update clone scripts (see Phase 5 checklist)
+
+---
+
 ## Shared References (Universal)
 
 These files live in `shared-references/` and apply to ALL skills:
@@ -1780,6 +1912,6 @@ A skill is complete when:
 
 ---
 
-**Last Updated:** 2026-03-31
+**Last Updated:** 2026-04-01
 
 For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.
