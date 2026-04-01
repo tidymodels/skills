@@ -1,0 +1,1 @@
+{{< include ../../../../developers/add-recipe-step/references/testing-patterns-source.md >}}

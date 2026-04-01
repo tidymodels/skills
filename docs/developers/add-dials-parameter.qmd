@@ -1,3 +1,0 @@
-![](../assets/logos/dials.png){.skill-header-logo}
-
-{{< include ../../developers/add-dials-parameter/SKILL.md >}}
