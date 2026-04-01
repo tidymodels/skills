@@ -208,6 +208,8 @@ Additional resources for source development:
 
 **Hypothetical new model for sparse regression:**
 
+> **Note:** This example shows extension development patterns. For source development, omit `parsnip::` prefixes and use internal functions as shown in [source-guide.md](references/source-guide.md).
+
 1. **Constructor** (`R/sparse_reg.R`):
 ```r
 sparse_reg <- function(mode = "regression",
@@ -220,13 +222,12 @@ sparse_reg <- function(mode = "regression",
     sparsity_threshold = rlang::enquo(sparsity_threshold)
   )
 
-  new_model_spec(
+  parsnip::new_model_spec(
     "sparse_reg",
     args = args,
     eng_args = NULL,
     mode = mode,
     user_specified_mode = FALSE,
-    user_specified_engine = engine != "glmnet",
     method = NULL,
     engine = engine,
     user_specified_engine = !missing(engine)
@@ -234,18 +235,18 @@ sparse_reg <- function(mode = "regression",
 }
 ```
 
-2. **Registration** (`R/sparse_reg_data.R`):
+2. **Registration** (in `.onLoad()` or package setup):
 ```r
 # Declare model
-set_new_model("sparse_reg")
-set_model_mode("sparse_reg", "regression")
+parsnip::set_new_model("sparse_reg")
+parsnip::set_model_mode("sparse_reg", "regression")
 
 # Register glmnet engine
-set_model_engine("sparse_reg", "regression", "glmnet")
-set_dependency("sparse_reg", "glmnet", "glmnet", "regression")
+parsnip::set_model_engine("sparse_reg", "regression", "glmnet")
+parsnip::set_dependency("sparse_reg", "glmnet", "glmnet", "regression")
 
 # Translate arguments
-set_model_arg(
+parsnip::set_model_arg(
   model = "sparse_reg",
   eng = "glmnet",
   parsnip = "penalty",
@@ -255,7 +256,7 @@ set_model_arg(
 )
 
 # Fit method
-set_fit(
+parsnip::set_fit(
   model = "sparse_reg",
   eng = "glmnet",
   mode = "regression",
@@ -268,7 +269,7 @@ set_fit(
 )
 
 # Predictions
-set_pred(
+parsnip::set_pred(
   model = "sparse_reg",
   eng = "glmnet",
   mode = "regression",
