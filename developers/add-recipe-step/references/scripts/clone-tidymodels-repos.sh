@@ -4,16 +4,17 @@
 # Clone Tidymodels Repositories
 #
 # Description:
-#   Clones tidymodels package repositories (yardstick, recipes, dials) for
-#   development reference. Creates repos/ directory, clones with shallow clone
-#   for speed, and updates .gitignore and .Rbuildignore to prevent committing
-#   cloned code.
+#   Clones tidymodels package repositories (yardstick, recipes, dials, parsnip)
+#   for development reference. Creates repos/ directory, clones with shallow
+#   clone for speed, and updates .gitignore and .Rbuildignore to prevent
+#   committing cloned code.
 #
 # Usage:
 #   ./clone-tidymodels-repos.sh yardstick
 #   ./clone-tidymodels-repos.sh recipes
 #   ./clone-tidymodels-repos.sh dials
-#   ./clone-tidymodels-repos.sh yardstick recipes dials
+#   ./clone-tidymodels-repos.sh parsnip
+#   ./clone-tidymodels-repos.sh yardstick recipes dials parsnip
 #   ./clone-tidymodels-repos.sh all
 #
 # Exit Codes:
@@ -41,6 +42,7 @@ REPOS=(
     "yardstick|https://github.com/tidymodels/yardstick.git"
     "recipes|https://github.com/tidymodels/recipes.git"
     "dials|https://github.com/tidymodels/dials.git"
+    "parsnip|https://github.com/tidymodels/parsnip.git"
 )
 
 # Function to print colored messages
@@ -181,13 +183,14 @@ main() {
         print_error "No packages specified."
         echo ""
         echo "Usage: $0 <package> [<package> ...]"
-        echo "  Packages: yardstick, recipes, dials, all"
+        echo "  Packages: yardstick, recipes, dials, parsnip, all"
         echo ""
         echo "Examples:"
         echo "  $0 yardstick"
         echo "  $0 recipes"
         echo "  $0 dials"
-        echo "  $0 yardstick recipes dials"
+        echo "  $0 parsnip"
+        echo "  $0 yardstick recipes dials parsnip"
         echo "  $0 all"
         exit 1
     fi
