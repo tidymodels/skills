@@ -1,0 +1,47 @@
+{
+  "skill_name": "add-recipe-step",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm working on a clinical trial analysis and need to create a recipe step that winsorizes numeric variables. Basically I want to cap extreme values at specified percentiles (like the 5th and 95th percentiles) instead of removing them entirely. This would be for my package called 'recipeextras'. The step should:\n- Work on selected numeric columns\n- Take lower and upper percentile parameters (default 0.05 and 0.95)\n- Replace values below lower percentile with the lower percentile value\n- Replace values above upper percentile with the upper percentile value\n- Handle case weights if they're present\n- Modify columns in place (don't create new ones)\n\nCan you help me implement step_winsorize() following recipes conventions?",
+      "expected_output": "A complete implementation of step_winsorize() with:\n- Constructor function (step_winsorize) using add_step()\n- Internal step_winsorize_new() function\n- prep.step_winsorize() method that computes percentile thresholds from training data\n- bake.step_winsorize() method that applies thresholds to new data\n- print.step_winsorize() and tidy.step_winsorize() methods\n- Proper handling of case weights in percentile calculation\n- Tests covering correctness, NA handling, and case weights\n- Roxygen documentation\n- Uses recipes:: prefix for all functions (extension pattern)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "hey so i'm building a data pipeline for some manufacturing sensor data and i need to discretize continuous sensor readings into bins. like temperature readings should become categories like 'low', 'medium', 'high'. I want to create a step_bin() function for my 'factoryrecipes' package that:\n- takes numeric columns and creates new factor columns with the binned values\n- lets me specify the number of bins (default 3)\n- uses quantile-based binning so bins have roughly equal counts\n- adds a suffix like '_binned' to the new column names\n- has a keep_original_cols parameter (default FALSE)\n- assigns role = 'predictor' to the new columns\n\nthis is for extension development btw, not contributing to recipes itself. thanks!",
+      "expected_output": "A complete implementation of step_bin() with:\n- Constructor using add_step() with keep_original_cols and role parameters\n- Internal step_bin_new() function\n- prep.step_bin() that computes quantile breakpoints from training data\n- bake.step_bin() that creates new factor columns and uses remove_original_cols() helper\n- print.step_bin() and tidy.step_bin() methods\n- Proper handling of new column naming with suffix\n- Tests for correctness, keep_original_cols behavior, and edge cases\n- Documentation with examples\n- Uses recipes:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "I'm cleaning up a messy healthcare dataset and I need a recipe step that removes rows with too much missing data. Specifically, I want step_filter_missing() that removes any row where more than X% of the values are NA. For my 'datacleaning' package.\n\nRequirements:\n- threshold parameter: proportion of NAs allowed before removing row (default 0.5 = 50%)\n- applies to all columns by default, but should support column selection\n- this is a row operation so skip should default to TRUE\n- should work in a full recipe pipeline with prep() and bake()\n- needs to count NAs correctly across selected columns\n\nI'm creating a new package, not contributing to recipes directly. Can you show me the complete implementation with tests?",
+      "expected_output": "A complete implementation of step_filter_missing() with:\n- Constructor with skip = TRUE default (row operation pattern)\n- prep.step_filter_missing() that resolves column selections\n- bake.step_filter_missing() that:\n  * Respects the skip parameter\n  * Counts NAs per row in selected columns\n  * Removes rows exceeding threshold\n  * Returns filtered data\n- print.step_filter_missing() and tidy.step_filter_missing() methods\n- Tests covering various threshold values, skip behavior, and edge cases\n- Documentation with clear examples\n- Uses recipes:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 4,
+      "prompt": "I need help creating a recipe step for my environmental modeling work. The step should scale numeric variables to a custom range - not the standard [0,1] but any range I specify like [-1, 1] or [0, 10]. This is for my 'envirorecipes' R package.\n\nWhat I'm thinking:\n- step_range() that takes min and max parameters for the target range\n- calculates the actual min/max from training data\n- applies linear transformation to scale to target range\n- works like step_normalize but with custom bounds\n- handles case weights (weighted min/max)\n- modifies columns in place\n\nI have some climate data in ~/climate_data.csv with variables like temp_celsius, humidity_pct, pressure_mbar that all have different natural ranges. Need to get them all on the same scale for my neural network. This is for a new package I'm building.",
+      "expected_output": "A complete implementation of step_range() with:\n- Constructor with min/max parameters for target range\n- Internal step_range_new() function\n- prep.step_range() that:\n  * Computes actual min/max from training data\n  * Handles case weights for weighted min/max calculation\n  * Stores transformation parameters\n- bake.step_range() that applies linear transformation: new = (old - old_min) / (old_max - old_min) * (target_max - target_min) + target_min\n- print.step_range() and tidy.step_range() methods\n- Tests for correctness, different target ranges, case weights, and edge cases\n- Roxygen documentation\n- Uses recipes:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 5,
+      "prompt": "Working on fraud detection and I want to create indicator variables for outliers. Need a step_flag_outliers() for my 'fraudtools' package that creates binary indicator columns showing which observations are outliers based on IQR method (values beyond Q1 - 1.5*IQR or Q3 + 1.5*IQR).\n\nSpec:\n- Creates new 0/1 columns with names like original_name_outlier\n- Uses role = 'predictor' for new columns  \n- Has keep_original_cols parameter (I usually want to keep both)\n- The multiplier (1.5) should be a parameter in case I want to adjust sensitivity\n- Calculate Q1, Q3, IQR from training data during prep\n- Flag outliers during bake\n\nThis is extension development for a package I'm creating. Need the full implementation with proper testing please.",
+      "expected_output": "A complete implementation of step_flag_outliers() with:\n- Constructor with keep_original_cols and iqr_multiplier parameters\n- Internal step_flag_outliers_new() with role = 'predictor'\n- prep.step_flag_outliers() that computes Q1, Q3, and IQR from training data\n- bake.step_flag_outliers() that:\n  * Creates new indicator columns (0/1)\n  * Uses proper naming convention (original_outlier)\n  * Uses remove_original_cols() helper for keep_original_cols behavior\n- print.step_flag_outliers() and tidy.step_flag_outliers() methods\n- Tests covering correctness, keep_original_cols, different multipliers\n- Documentation with fraud detection example\n- Uses recipes:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 6,
+      "prompt": "i'm trying to add a preprocessing step to my 'textrecipes2' package that removes rows where a text column is too short (like removing survey responses that are just 'ok' or 'yes'). step_filter_short_text() should:\n\n- take a column selector (probably just one text column at a time makes sense)\n- min_chars parameter for minimum character count (default 10)\n- since it removes rows, skip = TRUE by default\n- count characters using nchar(), remove rows below threshold\n- work with standard recipes prep/bake workflow\n\nmy text data is in a tibble with columns like user_id, response_text, timestamp. I want to filter out the really short responses before doing other text processing. this is for my own package, not a PR to recipes.",
+      "expected_output": "A complete implementation of step_filter_short_text() with:\n- Constructor with min_chars parameter and skip = TRUE default\n- prep.step_filter_short_text() that resolves column selection (expecting character columns)\n- bake.step_filter_short_text() that:\n  * Respects skip parameter\n  * Uses nchar() to count characters\n  * Filters out rows below threshold\n  * Returns filtered data\n- Proper validation that selected columns are character type\n- print.step_filter_short_text() and tidy.step_filter_short_text() methods\n- Tests covering various thresholds, skip behavior, NA handling\n- Documentation with text analysis example\n- Uses recipes:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": []
+    }
+  ]
+}
