@@ -1908,7 +1908,9 @@ The `package-extension-prerequisites.md` file now includes a section on `use_cla
 
 ## Lessons Learned from Skill Evaluations
 
-This section documents key insights from quantitative evaluations of existing skills, based on benchmarks of `add-recipe-step` (developer skill) and `tabular-data-ml` (user skill).
+This section documents key insights from quantitative evaluations of existing skills, based on benchmarks of `add-recipe-step`, `add-dials-parameter` (developer skills), and `tabular-data-ml` (user skill).
+
+**Last Updated:** 2026-04-02 (added add-dials-parameter findings)
 
 ### Performance Trade-offs are Expected and Acceptable
 
@@ -1954,27 +1956,177 @@ This section documents key insights from quantitative evaluations of existing sk
 - ✅ Include explanations for why certain practices matter
 - ✅ Test these critical behaviors explicitly in evaluations
 
-### File Discipline Requires Explicit Guidance
+### File Discipline Requires Explicit and Visual Guidance
 
-**Finding:** Without explicit constraints, skills create excessive documentation files.
+**Finding:** File discipline is the most common skill failure but can be dramatically improved with the right techniques.
 
-**Evidence:**
-- `add-recipe-step` iteration-1: 4-8 supplementary files (IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, example_usage.R, etc.)
-- iteration-2 optimizations: Reduced to 3-6 files with explicit "DO NOT CREATE" guidance
-- Best performance: eval-4 created exactly 3 files (R file, test file, README)
+**Evidence from add-dials-parameter iterations:**
+- **Iteration-1 (baseline):** 0/7 evals passed file discipline (0%)
+  - Created 5-16 files per eval (target: 2-3)
+  - Common extra files: IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, INDEX.md, example_usage.R
+- **Iteration-2 (with improvements):** 5/7 evals passed (71%)
+  - Extension development: 4/4 passed (100%)
+  - Source development: 1/3 passed (33%)
+  - Key change: Added prominent visual warnings and pre-flight checklists
+- **Iteration-3 (targeted fix):** 6/7 evals passed (85%)
+  - Further strengthened source development warnings
+  - One edge case remains (qualitative param PRs create 1 extra summary file)
+
+**Evidence from add-recipe-step:**
+- iteration-1: 4-8 supplementary files per eval
+- iteration-2: Reduced to 3-6 files with explicit "DO NOT CREATE" guidance
+- Best performance: eval-4 created exactly 3 files
+
+**What Works for File Discipline:**
+
+1. **Visual Impact is Critical** (Most Effective)
+   ```
+   **═══════════════════════════════════════════════════════**
+   **⚠️⚠️⚠️ CRITICAL: FILE DISCIPLINE ⚠️⚠️⚠️**
+   **═══════════════════════════════════════════════════════**
+
+   **🛑 STOP! STOP! STOP! 🛑**
+   ```
+   - Use visual separators, multiple warning emojis, ALL CAPS
+   - Make it impossible to miss or skim past
+   - **Impact:** Extension dev went from 0% → 100% with visual warnings
+
+2. **Pre-Flight Checklists** (Very Effective)
+   ```
+   Before creating files, verify:
+   - [ ] I will create R/param_[name].R
+   - [ ] I will create tests/testthat/test-param_[name].R
+   - [ ] I will NOT create any documentation files
+   - [ ] I will NOT create NEWS_entry.md
+   - [ ] I will NOT create README.txt
+   ```
+   - Forces conscious decision-making before file creation
+   - Each checkbox makes explicit what will/won't be created
+
+3. **Explicit Prohibited File Lists** (Effective)
+   - List 15-20 specific files that should NOT be created
+   - Include exact names that appeared in failed evals
+   - Group by category (documentation, examples, changelogs, helpers)
+   - **Example:** After seeing NEWS_entry.md created, explicitly prohibit it
+
+4. **"Exactly N Files" Language** (Effective for Source Dev)
+   ```
+   You will create EXACTLY 2 files. Not 3. Not 4. EXACTLY 2.
+   ```
+   - No ambiguity with ranges like "2-3 files"
+   - Removes wiggle room for "just one more helpful file"
+
+5. **Content Mapping Tables** (Moderately Effective)
+   ```
+   | Content Type | ❌ WRONG | ✅ CORRECT |
+   | Examples | example_usage.R | roxygen @examples |
+   | Notes | IMPLEMENTATION_NOTES.txt | roxygen @details |
+   ```
+   - Shows where content actually belongs
+   - Reduces perceived need for separate files
+
+**What Doesn't Work:**
+- ❌ Polite suggestions ("avoid creating extra files")
+- ❌ Burying warnings in middle of long sections
+- ❌ Assuming context understanding (PR vs package creation)
+- ❌ Single mention without reinforcement
+
+**Context Matters:**
+- **Extension development:** Easier to enforce (100% success achieved)
+  - Users creating their own packages understand file limits
+  - Strong warnings work immediately
+- **Source development (PRs):** Harder to enforce (50-66% success)
+  - Tension between "being helpful" and "following PR guidelines"
+  - Needs even stronger, repeated warnings
+  - Some patterns (qualitative params) especially prone to summary creation
 
 **Implication for Skill Design:**
-- ✅ **Set explicit file creation limits** (recommend 3-4 core files)
-- ✅ Use strong language: "DO NOT create additional documentation files"
-- ✅ Specify exactly which files should be created
-- ✅ Consider: Is the user starting from scratch (need DESCRIPTION) or working in existing package?
+- ✅ **Use maximum visual impact** (separators, emojis, ALL CAPS)
+- ✅ **Add pre-flight checklists** with specific files to create/not create
+- ✅ **List 15-20 prohibited files explicitly** based on actual failures
+- ✅ **Use "EXACTLY N files" language** for source development
+- ✅ **Add content mapping tables** showing where content belongs
+- ✅ **Reinforce multiple times** throughout the guide
+- ✅ **Context-specific enforcement:** Stronger for PR contexts
+- ⚠️ **Accept 85-90% success rate** as practical limit (some edge cases resist all warnings)
 
 **Recommended file limits:**
 ```
-Extension development: R file, test file, README (3 files)
-Source development: R file, test file, README (3 files)
-Optional: DESCRIPTION and *-package.R only when starting new package
+Extension development: R file, test file, README (2-3 files) ✅ 100% achievable
+Source development (PRs): R file, test file (2 files) ⚠️ 85% achievable (edge cases persist)
+New package: Add DESCRIPTION, NAMESPACE, *-package.R only when starting from scratch
 ```
+
+### Pattern-Specific Instructions Can Achieve 100% Success
+
+**Finding:** Complex patterns that completely fail without guidance can achieve 100% success with detailed, annotated examples.
+
+**Evidence from add-dials-parameter:**
+- **Qualitative parameters (companion vectors):** 0% → 100%
+  - Iteration-1: No evals created companion `values_*` vectors or used `@rdname`
+  - Iteration-2: Both qualitative evals (2/2) created vectors with `@rdname` correctly
+  - **Key change:** Added detailed "Pattern 4" with step-by-step breakdown and checklist
+
+- **Custom finalization (range_get/range_set):** 0% → 100%
+  - Iteration-1: No evals used `dials::range_get()` and `dials::range_set()` correctly
+  - Iteration-2: Both finalization evals (2/2) used range manipulation correctly
+  - **Key change:** Added annotated step-by-step example with STEP 1-2E labels
+
+**What Made the Difference:**
+
+1. **Annotated Examples with Labels**
+   ```r
+   # STEP 1: Create the parameter function
+   num_genes <- function(...) {
+
+   # STEP 2: Create the custom finalize function
+   get_num_genes <- function(object, x) {
+     # STEP 2A: Calculate the new bound based on data
+     # STEP 2B: Ensure bound is valid
+     # STEP 2C: Get the current range from the parameter
+     bounds <- dials::range_get(object)
+     # STEP 2D: Update the upper bound
+     # STEP 2E: Set the new range and return
+   ```
+   - Breaking complex patterns into numbered steps
+   - Inline comments explaining each sub-step
+   - Shows the complete flow from start to finish
+
+2. **Verification Checklists**
+   ```
+   Before completing a qualitative parameter, verify:
+   - [ ] Created parameter function with dials::new_qual_param()
+   - [ ] Created companion values_* vector
+   - [ ] Used @rdname to group them
+   - [ ] Added @export to BOTH
+   ```
+   - Converts implicit requirements into explicit checks
+   - Easy to verify compliance
+
+3. **"Key Components Explained" Sections**
+   - Separate explanation of what each piece does
+   - Why each component is required
+   - What happens if you skip it
+
+4. **"Common Mistakes" Lists**
+   - Shows anti-patterns explicitly
+   - Prevents predictable errors
+   - Learned from actual failures
+
+**Implication for Skill Design:**
+- ✅ **Identify complex patterns that users struggle with** (analyze failure modes)
+- ✅ **Create detailed, annotated examples** with step-by-step labels
+- ✅ **Add verification checklists** for multi-part patterns
+- ✅ **Explain each component separately** before showing them together
+- ✅ **Document common mistakes** based on actual failures
+- ✅ **Expect near-perfect success** when patterns are taught properly
+- ⚠️ **Don't over-annotate simple patterns** (save detail for genuinely complex cases)
+
+**Pattern Complexity Tiers:**
+- **Simple patterns:** Brief example sufficient (e.g., basic parameter creation)
+- **Moderate patterns:** Complete example with explanatory comments
+- **Complex patterns:** Annotated with STEP labels, separate component explanations, checklists
+  - Examples: Companion vectors with @rdname, custom finalization, S3 method sets
 
 ### Consistency is More Valuable Than Speed
 
