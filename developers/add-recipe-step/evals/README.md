@@ -4,52 +4,73 @@ This directory contains evaluation tests for the `add-recipe-step` skill.
 
 ## Test Coverage
 
-The evaluation set includes 6 test cases covering the three main recipe step patterns:
+The evaluation set includes 6 test cases covering the three main recipe step patterns, split evenly between extension development (3 tests) and source development (3 tests).
 
-### Modify-in-Place Steps (2 tests)
-Steps that transform existing columns without creating new ones.
+### Extension Development Tests (Evals 1-3)
+Creating new packages that extend recipes.
+
+#### Modify-in-Place Steps
 
 1. **Winsorize** (Eval 1): Clinical trial analysis - caps extreme values at percentiles
 
-   - Tests: percentile calculation, case weights, in-place modification
+   - Tests: percentile calculation, case weights, in-place modification, recipes:: prefix usage
 
    - Complexity: Moderate
 
-2. **Custom Range Scaling** (Eval 4): Environmental modeling - scales to custom min/max ranges
+   - Context: Extension development for 'recipeextras' package
 
-   - Tests: linear transformation, weighted statistics, parameter handling
+#### Create-New-Columns Steps
 
-   - Complexity: Moderate
+2. **Binning** (Eval 2): Manufacturing sensor data - discretizes continuous variables into categories
 
-### Create-New-Columns Steps (3 tests)
-Steps that generate new columns from existing ones.
-
-3. **Binning** (Eval 2): Manufacturing sensor data - discretizes continuous variables into categories
-
-   - Tests: quantile-based binning, keep_original_cols, role assignment, new column naming
+   - Tests: quantile-based binning, keep_original_cols, role assignment, new column naming, recipes:: prefix
 
    - Complexity: Moderate
 
-4. **Flag Outliers** (Eval 5): Fraud detection - creates binary indicators for outliers
+   - Context: Extension development for 'factoryrecipes' package
 
-   - Tests: IQR method, indicator variables, keep_original_cols, parameterized threshold
+#### Row-Operation Steps
 
-   - Complexity: Moderate
+3. **Filter Missing** (Eval 3): Healthcare data cleaning - removes rows with too much missing data
 
-### Row-Operation Steps (2 tests)
-Steps that filter or remove rows from data.
-
-5. **Filter Missing** (Eval 3): Healthcare data cleaning - removes rows with too much missing data
-
-   - Tests: row filtering, skip parameter, threshold behavior, column selection
+   - Tests: row filtering, skip parameter, threshold behavior, column selection, recipes:: prefix
 
    - Complexity: Simple
 
-6. **Filter Short Text** (Eval 6): Text analysis - removes rows with short text responses
+   - Context: Extension development for 'datacleaning' package
 
-   - Tests: character counting, skip parameter, text column validation
+### Source Development Tests (Evals 4-6)
+Contributing directly to the recipes package via PRs.
+
+#### Modify-in-Place Steps
+
+4. **Custom Range Scaling** (Eval 4): Scales to custom min/max ranges (similar to normalize)
+
+   - Tests: linear transformation, weighted statistics, internal function usage (no prefix), PR conventions
+
+   - Complexity: Moderate
+
+   - Context: Contributing PR to tidymodels/recipes
+
+#### Create-New-Columns Steps
+
+5. **Flag Outliers** (Eval 5): Creates binary indicators for outliers using IQR method
+
+   - Tests: IQR method, indicator variables, keep_original_cols, internal helpers, test patterns
+
+   - Complexity: Moderate
+
+   - Context: Contributing PR to tidymodels/recipes
+
+#### Row-Operation Steps
+
+6. **Filter Short Text** (Eval 6): Removes rows with short text responses
+
+   - Tests: character counting, skip parameter, text validation, file placement, internal patterns
 
    - Complexity: Simple
+
+   - Context: Contributing PR to tidymodels/recipes
 
 ## Test Design Principles
 
@@ -74,7 +95,9 @@ Each test uses realistic, detailed prompts that include:
 
 - **Core features**: Variable selection, case weights, role assignment, keep_original_cols, skip parameter
 
-- **Development context**: All tests focus on extension development (creating new packages)
+- **Development contexts**:
+  - Extension development (3 tests): Creating new packages with recipes:: prefix
+  - Source development (3 tests): Contributing PRs to recipes with internal function access
 
 ### Expected Outputs
 Each test specifies comprehensive expected output including:
@@ -85,11 +108,13 @@ Each test specifies comprehensive expected output including:
 
 - Proper use of recipes helpers (recipes_eval_select, check_type, etc.)
 
-- Extension pattern with recipes:: prefix throughout
+- **For extension tests (1-3)**: recipes:: prefix throughout, self-contained implementations
 
-- Comprehensive tests
+- **For source tests (4-6)**: Direct use of internal functions (no prefix), package conventions, PR-ready code
 
-- Roxygen documentation
+- Comprehensive tests (extension: own test data; source: internal test helpers)
+
+- Roxygen documentation (extension: self-contained; source: uses @inheritParams and templates)
 
 ## Running Evaluations
 
@@ -103,6 +128,12 @@ These tests are designed for use with the skill-creator evaluation workflow:
 
 For each test, evaluate:
 
+### Context Detection
+
+- [ ] Correctly identifies whether user is doing extension or source development
+- [ ] Adapts guidance appropriately based on context
+- [ ] Provides context-appropriate code patterns
+
 ### Implementation Completeness
 
 - [ ] Three-function pattern (constructor, _new, S3 methods)
@@ -115,12 +146,20 @@ For each test, evaluate:
 
 ### Recipes Conventions
 
-- [ ] Uses recipes:: prefix for all functions (extension pattern)
+**For extension tests (1-3):**
+- [ ] Uses recipes:: prefix for all functions
+- [ ] Self-contained implementations (no internal function access)
+- [ ] Creates own test data
 
+**For source tests (4-6):**
+- [ ] Uses internal functions directly (no prefix)
+- [ ] Follows package file naming conventions
+- [ ] Uses internal test helpers and data
+- [ ] Includes PR-relevant considerations (file placement, consistency with existing steps)
+
+**Common to both:**
 - [ ] Proper use of recipes_eval_select() in prep
-
 - [ ] Appropriate use of check_type(), check_new_data()
-
 - [ ] Correct handling of trained flag
 
 ### Step Type Patterns
@@ -153,10 +192,9 @@ For each test, evaluate:
 
 ## Notes
 
-- All tests assume extension development context (not contributing to recipes itself)
-
+- **Tests 1-3** focus on extension development (creating new packages)
+- **Tests 4-6** focus on source development (contributing to recipes)
 - Tests focus on recipes-specific patterns, not general R package development
-
 - Each test represents a realistic use case from different domains
-
 - Prompts vary in formality and detail to reflect real user interactions
+- The split between contexts tests the skill's ability to detect and adapt to both scenarios
