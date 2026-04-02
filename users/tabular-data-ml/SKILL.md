@@ -39,6 +39,28 @@ See [references/data-spending.md](references/data-spending.md) for specific inst
 
 **Exception**: Basic verification after splitting (e.g., `nrow(test_data)`, `glimpse(test_data)`) to confirm the split worked.
 
+## Reproducibility
+
+**Always set a random seed before any operation that involves randomness:**
+
+- **Before data splitting** - Set seed immediately before `initial_split()`, `initial_time_split()`, etc.
+
+- **Before resampling** - Set seed immediately before `vfold_cv()`, `sliding_period()`, etc.
+
+- **Before tuning** - Set seed before `tune_grid()` or other tuning functions (if not already set recently)
+
+This ensures that others can reproduce your exact results. Use a single seed at the start of your script, or re-set it before each random operation for maximum clarity.
+
+### Choosing a Seed Value
+
+**Do not use common values like 123, 111, 999, 42, or 1:** These are overused and can lead to unintentional correlations between different analyses. Using the same seed as other researchers' work may produce accidentally similar results.
+
+**Good practices:**
+- Use a meaningful but uncommon number (e.g., today's date: 20260402, or a project ID)
+- Use a random number generator once to pick a seed, then document it
+- Different seeds for different projects/analyses
+- Document your seed choice in comments: `set.seed(20260402)  # Project start date`
+
 ## Empirical Validation
 
 Always use out-of-sample predictions to measure performance:
@@ -48,6 +70,43 @@ Always use out-of-sample predictions to measure performance:
 - **Small to medium datasets**: Use 10-fold cross-validation or appropriate resampling
 
 See [references/resampling.md](references/resampling.md) for resampling methods and implementation.
+
+### Parallel Processing
+
+Before starting computationally intensive work (cross-validation, tuning, model fitting):
+
+1. **Detect available cores**: Use `parallel::detectCores()` to check system resources
+
+2. **Ask the user in the conversation** - Don't just put a comment in code - have an actual exchange
+
+**Example interaction:**
+
+> **You:** I'm about to run 10-fold cross-validation with hyperparameter tuning. I can use parallel processing to speed this up significantly.
+>
+> I see you have 8 cores available. Would you like me to use parallel processing? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free for other processes)
+
+**If user says yes:**
+```r
+library(future)
+plan("multisession", workers = 6)  # or whatever they specified
+```
+
+**If user says no or doesn't respond:**
+```r
+# Proceed with sequential processing (no future setup)
+```
+
+**If user is unsure:**
+
+> **You:** Here's the trade-off:
+> - **With parallel processing (6 cores)**: ~5-10 minutes
+> - **Without (sequential)**: ~30-45 minutes
+>
+> Your choice won't affect the results, just the speed.
+
+3. **Continue using** the same parallel configuration throughout unless the user asks to stop
+
+**Do not** automatically enable parallel processing without asking the user first.
 
 ### Validation Rules
 
