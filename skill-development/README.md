@@ -16,13 +16,13 @@ skill-development/build-verify.py developers/
 ## Tools
 
 ### build-verify.py
-**Purpose**: Build and verify skills to ensure all references and links work correctly.
+**Purpose**: Orchestrate all build and verification steps in sequence.
 
 **What it does**:
-- **BUILD**: Copies files from `shared-references/` to each skill's `references/` folder
-- **FORMAT**: Runs `add-blank-lines.py` on all markdown files in the directory (including `users/`, `developers/`, and `shared-references/` folders) to add blank lines before bullet points for improved readability
-- **VERIFY**: Verifies all markdown links resolve correctly and referenced files exist
-- **DOCS**: Confirms that each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
+- **BUILD**: Calls `build-skills.py` to copy files from `shared-references/` to each skill's `references/` folder
+- **FORMAT**: Calls `add-blank-lines.py` to add blank lines before bullet points in all markdown files
+- **VERIFY**: Calls `verify-references.py` to check all markdown links resolve correctly
+- **DOCS**: Calls `verify-docs.py` to confirm `.qmd` files exist for all skills
 
 **Usage**:
 ```bash
@@ -31,10 +31,75 @@ skill-development/build-verify.py developers/
 ```
 
 **When to use**:
-- Before committing changes
+- Before committing changes (mandatory)
 - After updating shared references
 - After modifying skill structure
 - After adding or renaming skills
+
+**Note**: This is a thin orchestrator. Each step can be run independently using the discrete scripts below.
+
+---
+
+### build-skills.py
+**Purpose**: Localize shared files to each skill's references folder.
+
+**What it does**:
+- Copies files from `shared-references/` to each skill's `references/` folder
+- Copies files from `shared-references-parsnip/` for parsnip-related skills
+- Copies scripts from `shared-references/scripts/` to each skill
+
+**Usage**:
+```bash
+./build-skills.py ../developers/
+./build-skills.py ../users/
+```
+
+**When to use**:
+- When you only need to update shared references without verification
+- Testing build process independently
+- Debugging build issues
+
+---
+
+### verify-references.py
+**Purpose**: Verify all references in markdown files and scripts.
+
+**What it does**:
+- Verifies all markdown links resolve correctly
+- Checks that referenced files exist
+- Validates anchors within markdown files
+- Checks file path references in script files
+
+**Usage**:
+```bash
+./verify-references.py ../developers/
+./verify-references.py ../users/
+```
+
+**When to use**:
+- After modifying markdown links
+- When debugging broken references
+- Testing reference validation independently
+
+---
+
+### verify-docs.py
+**Purpose**: Verify that skills have corresponding .qmd files in docs/.
+
+**What it does**:
+- Confirms each skill has a corresponding `.qmd` file in `docs/`
+- Verifies each `.md` file in skill's `references/` has a matching `.qmd` in `docs/*/references/`
+
+**Usage**:
+```bash
+./verify-docs.py ../developers/
+./verify-docs.py ../users/
+```
+
+**When to use**:
+- After adding new skills
+- After adding new reference files
+- When debugging documentation structure
 
 ### create-docs-wrappers.py
 **Purpose**: Generate thin wrapper .qmd files in docs/ that include source .md files.
@@ -171,18 +236,28 @@ Comprehensive guide for creating new skills in this repository. Covers:
 
 ## Workflow
 
-Typical workflow when making structural changes:
-
+### Full Workflow (Before Committing)
 1. **Plan**: Document the changes needed
 2. **Update internal references**: Use `rename-and-update.py` for bulk updates
 3. **Update external references**: Use `replace-text.py` for specific files
-4. **Verify**: Run `build-verify.py` to catch broken links
+4. **Verify**: Run `build-verify.py` to catch broken links (mandatory before committing)
 5. **Test**: Ensure skills load and function correctly
 6. **Commit**: Document changes clearly
+
+### Running Components Independently
+When working on specific aspects, you can run discrete scripts:
+
+- **Just building**: `./build-skills.py ../developers/`
+- **Just formatting**: `./add-blank-lines.py ../developers/`
+- **Just verifying references**: `./verify-references.py ../developers/`
+- **Just verifying docs**: `./verify-docs.py ../developers/`
+- **Full pipeline**: `./build-verify.py ../developers/` (runs all of the above)
 
 ## Notes
 
 - These tools operate on the repository structure, not on tidymodels code
-- Always use `--dry-run` first to preview changes
+- Always use `--dry-run` first to preview changes (for rename/replace scripts)
 - `build-verify.py` is mandatory before committing skills in `developers/` or `users/`
+- `build-verify.py` is a thin orchestrator that calls discrete scripts - each step can be run independently
 - `rename-and-update.py` and `replace-text.py` work repository-wide (all folders)
+- Discrete scripts (`build-skills.py`, `verify-references.py`, `verify-docs.py`, `add-blank-lines.py`) can be used individually for focused tasks
