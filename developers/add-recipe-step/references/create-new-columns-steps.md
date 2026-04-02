@@ -270,6 +270,52 @@ tidy.step_yournewcols <- function(x, ...) {
 }
 ```
 
+## Case Weights
+
+**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation type.
+
+### Include Case Weights IF Step Computes Statistics:
+
+**Required when prep() aggregates across rows:**
+- ✅ Mean, median, mode
+- ✅ Quantiles, percentiles, quartiles (e.g., 5th, 95th percentile)
+- ✅ IQR (interquartile range)
+- ✅ Variance, standard deviation
+- ✅ Min/Max for scaling/normalization
+- ✅ PCA/dimension reduction (uses covariance matrix)
+
+**Examples that NEED case weights:**
+- step_pca() - computes covariance/correlation
+- step_ica() - statistical decomposition
+- step_bin() - computes quantiles for binning
+- step_discretize() - computes break points
+
+### Skip Case Weights IF Step Only Does Per-Row Operations:
+
+**Not required when operation is per-row:**
+- ❌ Creating dummy/indicator variables from existing factors
+- ❌ Polynomial expansion (x, x², x³)
+- ❌ Interactions between existing columns
+- ❌ Date/time feature extraction
+- ❌ Text feature extraction (without aggregation)
+
+**Examples that DON'T need case weights:**
+- step_dummy() - creates indicators from factors
+- step_interact() - multiplies existing columns
+- step_poly() - polynomial expansion
+
+### Detection Rule:
+
+Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
+- **YES** → Include case weights (add parameters, implement weighted calculations, add tests)
+- **NO** → Skip case weights entirely
+
+**Implementation when needed:**
+- Add `case_weights` parameter to constructor
+- Use `get_case_weights()` and `are_weights_used()` in prep()
+- Implement weighted calculations (weighted.mean, weighted quantiles, etc.)
+- Add 2 case weight tests (frequency weights, importance weights)
+
 ## Additional Notes for Create-New-Columns Steps
 
 ### Column naming
