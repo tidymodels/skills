@@ -480,6 +480,23 @@ Available templates are in templates or inline documentation.
 #' @family normalization steps
 ```
 
+### Documentation Files to Create
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+Create ONLY these files by default:
+1. **R/[step_name].R** - Complete implementation
+2. **tests/testthat/test-[step_name].R** - Test suite
+3. **README.md** - Overview with basic usage example (200-300 lines)
+
+Do NOT create unless user explicitly requests:
+- ❌ IMPLEMENTATION_SUMMARY.md
+- ❌ QUICKSTART.md
+- ❌ example_usage.R
+- ❌ Additional documentation files
+
+If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
+
 ---
 
 ## The Three-Function Pattern

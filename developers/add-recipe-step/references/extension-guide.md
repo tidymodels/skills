@@ -550,6 +550,25 @@ NULL
 
 ---
 
+## Documentation
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+Create ONLY these files by default:
+1. **R/step_*.R** - Complete implementation
+2. **tests/testthat/test-*.R** - Test suite
+3. **README.md** - Overview with basic usage example (200-300 lines)
+
+Do NOT create unless user explicitly requests:
+- ❌ IMPLEMENTATION_SUMMARY.md
+- ❌ QUICKSTART.md
+- ❌ example_usage.R
+- ❌ Additional documentation files
+
+If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
+
+---
+
 ## Testing
 
 See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
