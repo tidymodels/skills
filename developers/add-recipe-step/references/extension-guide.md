@@ -37,6 +37,14 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ## Prerequisites
 
+**INSTRUCTIONS FOR CLAUDE:** Check for existing package structure first.
+
+If DESCRIPTION file AND R/ directory exist:
+→ **Skip this section** and go directly to "Step-by-Step Implementation"
+
+If package structure does NOT exist:
+→ Follow prerequisites below to set up package
+
 ### Package Setup Required
 
 **⚠️ IMPORTANT**: Before implementing recipe steps, you MUST complete the extension prerequisites:

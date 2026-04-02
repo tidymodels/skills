@@ -51,6 +51,32 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 
 ---
 
+## Implementation Workflow
+
+**INSTRUCTIONS FOR CLAUDE:** Load references progressively based on step type.
+
+### Step 1: Read Step Type Reference ONLY
+
+Determine step type from user requirements, then read ONLY that reference:
+
+- **Modifies existing columns?** Read [modify-in-place-steps.md](references/modify-in-place-steps.md) ONLY
+- **Creates new columns?** Read [create-new-columns-steps.md](references/create-new-columns-steps.md) ONLY
+- **Filters/removes rows?** Read [row-operation-steps.md](references/row-operation-steps.md) ONLY
+
+Do NOT read all three references. Read only the one needed for this step type.
+
+### Step 2: Read Additional References If Needed
+
+Read other references ONLY if specifically mentioned or needed:
+
+- **User asks about helpers?** Read [helper-functions.md](references/helper-functions.md)
+- **User mentions tunable?** Read [optional-methods.md](references/optional-methods.md)
+- **Troubleshooting?** Read troubleshooting references
+
+Default: Don't pre-load optional references.
+
+---
+
 ## Overview
 
 Creating a custom recipe step provides:
