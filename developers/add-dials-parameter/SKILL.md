@@ -56,6 +56,39 @@ usethis::create_package("myextension")
 # DESCRIPTION will have: Package: dials
 ```
 
+**INSTRUCTIONS FOR CLAUDE:**
+
+**Detect development context by checking:**
+
+1. **DESCRIPTION file check** (most reliable):
+   - If `Package: dials` → Source development
+   - If `Package: [anything else]` → Extension development
+
+2. **Prompt signals** (when DESCRIPTION not available):
+
+   **Extension indicators:**
+   - "for my package"
+   - "I'm building/creating [package name]"
+   - "new package called [name]"
+   - "my [package] package"
+   - No mention of cloning or PR
+
+   **Source indicators:**
+   - "contributing to dials"
+   - "PR to tidymodels/dials"
+   - "I'm in the dials repo"
+   - "forked tidymodels/dials"
+   - "working on a feature branch"
+   - "clone of tidymodels/dials"
+
+3. **When uncertain:**
+   - Ask explicitly: "Are you creating a new package or contributing to dials itself?"
+   - Default to extension development (most common use case)
+
+**Apply appropriate patterns:**
+- Extension: Use dials:: prefix, link to extension-guide.md, create DESCRIPTION if needed
+- Source: No prefix, link to source-guide.md, assume dials repo structure exists
+
 ---
 
 ## Overview

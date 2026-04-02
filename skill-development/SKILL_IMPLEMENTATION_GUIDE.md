@@ -1906,6 +1906,200 @@ The `package-extension-prerequisites.md` file now includes a section on `use_cla
 
 ---
 
+## Lessons Learned from Skill Evaluations
+
+This section documents key insights from quantitative evaluations of existing skills, based on benchmarks of `add-recipe-step` (developer skill) and `tabular-data-ml` (user skill).
+
+### Performance Trade-offs are Expected and Acceptable
+
+**Finding:** Skills consistently use more tokens than baseline but deliver higher quality.
+
+**Evidence:**
+- `add-recipe-step` iteration-2: +18.9% tokens, but 20% faster execution and 33% fewer files
+- `tabular-data-ml` iteration-1: +18k tokens per eval (+67%), but 56.4 percentage point improvement in pass rate (37.4% → 93.8%)
+
+**Implication for Skill Design:**
+- ✅ **Prioritize quality over token efficiency**
+- ✅ Design for comprehensive, correct outputs rather than minimal token usage
+- ✅ The token cost is justified by improved correctness, consistency, and completeness
+- ⚠️ But avoid unnecessary verbosity - aim for concise, complete guidance
+
+### Context Detection Works When Designed Properly
+
+**Finding:** Skills can reliably detect development contexts with 100% accuracy.
+
+**Evidence:**
+- `add-recipe-step`: 6/6 tests correctly identified extension vs source development
+- Prompt signals like "for my package" vs "I'm in the tidymodels/recipes repo" were sufficient
+
+**Implication for Skill Design:**
+- ✅ **Design clear context discrimination early**
+- ✅ Use prompt signals (package names, repository mentions, PR language)
+- ✅ Provide different guidance based on context (recipes:: prefix vs internal functions)
+- ✅ Test both contexts in evaluations to verify accuracy
+
+### Critical Behaviors Must Be Enforced
+
+**Finding:** Skills can teach non-negotiable best practices that baseline behavior violates.
+
+**Evidence:**
+- `tabular-data-ml` test set protection: 100% compliance with skill vs 0% without
+- Eval 3 specifically tested refusing premature test set evaluation
+- With skill: Explicitly refused and explained why
+- Without skill: Immediately provided code that compromises evaluation validity
+
+**Implication for Skill Design:**
+- ✅ **Identify critical "must do" and "must not do" behaviors**
+- ✅ Build refusal patterns into skills when appropriate (e.g., "I cannot evaluate on test set yet")
+- ✅ Include explanations for why certain practices matter
+- ✅ Test these critical behaviors explicitly in evaluations
+
+### File Discipline Requires Explicit Guidance
+
+**Finding:** Without explicit constraints, skills create excessive documentation files.
+
+**Evidence:**
+- `add-recipe-step` iteration-1: 4-8 supplementary files (IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, example_usage.R, etc.)
+- iteration-2 optimizations: Reduced to 3-6 files with explicit "DO NOT CREATE" guidance
+- Best performance: eval-4 created exactly 3 files (R file, test file, README)
+
+**Implication for Skill Design:**
+- ✅ **Set explicit file creation limits** (recommend 3-4 core files)
+- ✅ Use strong language: "DO NOT create additional documentation files"
+- ✅ Specify exactly which files should be created
+- ✅ Consider: Is the user starting from scratch (need DESCRIPTION) or working in existing package?
+
+**Recommended file limits:**
+```
+Extension development: R file, test file, README (3 files)
+Source development: R file, test file, README (3 files)
+Optional: DESCRIPTION and *-package.R only when starting new package
+```
+
+### Consistency is More Valuable Than Speed
+
+**Finding:** Skills provide more consistent behavior with lower variance.
+
+**Evidence:**
+- `add-recipe-step` without skill: Token usage stddev 18,382 (high variance)
+- `add-recipe-step` with skill: Token usage stddev 7,366 (low variance, 60% more consistent)
+- Baseline struggled on some tasks (eval-3: 18 files including debug attempts)
+
+**Implication for Skill Design:**
+- ✅ **Design for predictable, consistent outputs**
+- ✅ Provide clear structure that works across different task complexities
+- ✅ Consistency is worth some performance cost
+- ✅ Users benefit from knowing what to expect
+
+### Simple Tasks May Not Need Extensive Guidance
+
+**Finding:** Skills show biggest benefits on moderate complexity tasks; simple tasks may be over-served.
+
+**Evidence:**
+- `add-recipe-step` row-operation tests (simple): +86% time with skill in iteration-1
+- `add-recipe-step` modify-in-place tests (moderate): -14% to -21% time with skill
+- Simple tasks may need streamlined guidance
+
+**Implication for Skill Design:**
+- ⚠️ **Consider task complexity when designing guidance depth**
+- ✅ Provide complete guidance but avoid over-explanation for straightforward tasks
+- ✅ Focus extensive guidance on edge cases, common errors, and complex patterns
+- ⚠️ Don't assume simpler = less valuable; simple tasks still benefit from correct patterns
+
+### Documentation Quality Matters More Than Quantity
+
+**Finding:** Skills that produce comprehensive reference materials have higher value.
+
+**Evidence:**
+- `add-recipe-step` with skill: Consistent README files, implementation guides, PR checklists
+- `tabular-data-ml` with skill: Proper explanations of why practices matter (test set protection, temporal ordering)
+- Documentation helps users understand not just what to do, but why
+
+**Implication for Skill Design:**
+- ✅ **Include clear explanations of key concepts**
+- ✅ Document design decisions and trade-offs
+- ✅ Provide working examples with context
+- ✅ For source development: Include PR submission guidance
+- ⚠️ But respect file limits - put comprehensive docs in fewer files, not more files
+
+### Skills Should Be Designed for Iteration
+
+**Finding:** Skills improve significantly through evaluation and optimization cycles.
+
+**Evidence:**
+- `add-recipe-step` iteration-1 → iteration-2: Token gap reduced from +39% to +19%, execution time improved from +9% to -20%
+- Specific optimizations (file discipline, case weight logic) had measurable impact
+- Evaluation identified specific areas for improvement
+
+**Implication for Skill Design:**
+- ✅ **Plan for multiple evaluation cycles**
+- ✅ Start with comprehensive guidance, then optimize
+- ✅ Use quantitative evaluations to identify improvement areas
+- ✅ Time budget: 14-22 hours initial creation + 4-8 hours per optimization iteration
+- ✅ Don't over-optimize in first iteration - ship and learn
+
+### Best Practices Adherence Has Measurable Impact
+
+**Finding:** Skills significantly improve adherence to established best practices.
+
+**Evidence:**
+- `tabular-data-ml` pass rate: 93.8% with skill vs 37.4% without (56.4pp improvement)
+- Specific improvements: Seed setting, cross-validation strategy, proper resampling, feature engineering
+- Time series awareness: 100% pass rate with skill vs 17% without
+
+**Implication for Skill Design:**
+- ✅ **Focus on teaching specific, measurable best practices**
+- ✅ Identify the practices that are commonly missed without guidance
+- ✅ Make best practices explicit in skill content
+- ✅ Include test cases that specifically verify best practice adherence
+
+### Evaluation Design Recommendations
+
+Based on lessons learned, structure evaluations to measure:
+
+1. **Context Detection** (Critical)
+   - Include equal split between extension and source development (for developer skills)
+   - Use clear prompt signals
+   - Verify appropriate code patterns (prefix usage, internal functions)
+
+2. **Critical Behaviors** (Critical)
+   - Include at least one test that specifically checks non-negotiable practices
+   - Test refusal patterns when appropriate
+   - Verify explanations are provided
+
+3. **Code Quality** (Important)
+   - Verify complete implementations (all required components)
+   - Check pattern adherence (three-function pattern, S3 methods, etc.)
+   - Validate edge case handling
+
+4. **File Discipline** (Important)
+   - Count files created
+   - Verify only necessary files are produced
+   - Check that README is focused and useful
+
+5. **Performance** (Monitor, don't over-optimize)
+   - Track tokens and time
+   - Look for extreme outliers
+   - Accept reasonable trade-offs for quality
+
+6. **Consistency** (Valuable)
+   - Run multiple iterations of same test
+   - Measure variance in outputs
+   - Lower variance indicates more reliable skill
+
+### Summary: Design Principles from Evaluations
+
+1. **Quality > Speed**: Skills should prioritize correctness and completeness
+2. **Consistency > Brevity**: Predictable behavior is worth some token cost
+3. **Critical Behaviors**: Identify and enforce non-negotiable practices
+4. **File Discipline**: Explicitly limit documentation files (3-4 core files)
+5. **Context Detection**: Design for 100% accuracy in distinguishing contexts
+6. **Iterative Improvement**: Plan for evaluation → optimization cycles
+7. **Clear Explanations**: Document why, not just what
+8. **Measurable Impact**: Focus on best practices that baseline behavior misses
+
+---
+
 ## Summary
 
 ### Key Principles

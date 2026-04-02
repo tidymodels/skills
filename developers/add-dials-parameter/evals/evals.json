@@ -1,0 +1,97 @@
+{
+  "skill_name": "add-dials-parameter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building an R package called 'foresttuner' that extends random forest tuning capabilities. I need to create a custom parameter for controlling the maximum depth of trees. It should be a simple integer parameter called max_tree_depth() with:\n- Range from 1 to 50 (inclusive on both ends)\n- No transformation needed\n- Integer type since depth must be whole numbers\n- Default range should be reasonable for most applications\n\nThis is for my own package that extends tidymodels, not contributing to dials directly. Can you help me implement this parameter following dials conventions with proper documentation and tests?",
+      "expected_output": "A complete implementation of max_tree_depth() with:\n- Constructor function using dials::new_quant_param() (extension pattern with prefix)\n- type = 'integer'\n- range parameter with default c(1L, 50L)\n- inclusive = c(TRUE, TRUE)\n- trans = NULL (no transformation)\n- finalize = NULL (no finalization needed)\n- Proper label for display\n- Roxygen documentation with @param, @details, @examples, @export\n- Tests covering:\n  * Default parameter creation\n  * Custom range specification\n  * Integration with grid_regular() and grid_random()\n  * value_seq() and value_sample() utilities\n  * Invalid range handling\n- Uses dials:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": [
+        "Creates exactly 3 files: R/param_max_tree_depth.R, tests/testthat/test-param_max_tree_depth.R, README.md (optional)",
+        "Does NOT create IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, or example_usage.R",
+        "Uses dials:: prefix consistently",
+        "Includes grid_regular() and grid_random() tests"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "hey! i'm working on a text modeling package (textrecipes extensions) and need a parameter for word embedding dimensions. i want embedding_dim() that:\n- takes categorical values like \"small\" (50 dim), \"medium\" (100 dim), \"large\" (300 dim), \"xlarge\" (768 dim)\n- has a default value of \"medium\"\n- character type since these are labels not numbers\n- should work with grid search functions\n\ni'm building my own package 'embeddingtuner', not contributing to dials itself. need the full implementation with docs and tests please!",
+      "expected_output": "A complete implementation of embedding_dim() with:\n- Constructor function using dials::new_qual_param() (extension pattern with prefix)\n- type = 'character'\n- values parameter with default c('small', 'medium', 'large', 'xlarge')\n- default = 'medium'\n- Proper label for display\n- Companion values_embedding_dim vector exported separately\n- Roxygen documentation with:\n  * @param for values parameter\n  * @details explaining dimension mapping\n  * @examples showing usage and value_sample()\n  * @rdname for companion vector\n  * @export tags\n- Tests covering:\n  * Default parameter creation\n  * Custom values specification\n  * Integration with grid_regular() and grid_random()\n  * value_sample() utility\n  * Invalid values handling\n- Uses dials:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": [
+        "Creates values_embedding_dim companion vector",
+        "Uses @rdname to group parameter and values vector",
+        "Both parameter function and values vector have @export",
+        "value_sample() test included"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I'm developing a feature selection package for genomics data (genomicselector) where I need a parameter for the number of genes to select. The tricky part is that the maximum number depends on the dataset - could be 100 genes or 20,000 genes depending on the experiment.\n\nI want num_genes() with:\n- Integer type, range from 1 to unknown (data-dependent upper bound)\n- Upper bound should be finalized to 80% of total available genes\n- Custom finalize function that computes: min(0.8 * ncol(data), total_genes)\n- No transformation needed (linear scale is fine)\n\nThis is for extension development in my own package. I've seen mtry() uses finalization but I need custom logic. Can you show me how to implement the parameter with a custom finalize function, including documentation and tests?",
+      "expected_output": "A complete implementation of num_genes() with:\n- Constructor function using dials::new_quant_param() (extension pattern with prefix)\n- type = 'integer'\n- range = c(1L, dials::unknown())\n- inclusive = c(TRUE, TRUE)\n- trans = NULL\n- finalize = get_num_genes (custom finalize function)\n- Custom finalize function get_num_genes() that:\n  * Takes (object, x) parameters\n  * Computes upper bound as floor(0.8 * ncol(x))\n  * Uses dials::range_get() to get current range\n  * Uses dials::range_set() to update range\n  * Returns updated parameter object\n- Roxygen documentation with:\n  * Clear @details about finalization\n  * @examples showing finalization with data\n  * Both @export tags (parameter and finalize function)\n- Tests covering:\n  * Parameter creation with unknown() bound\n  * Finalization with sample data\n  * Finalized range correctness (80% of columns)\n  * Grid generation after finalization\n  * Error handling for missing finalization\n- Uses dials:: prefix throughout (extension pattern)",
+      "files": [],
+      "assertions": [
+        "Custom finalize function signature: function(object, x)",
+        "Uses dials::range_get() and dials::range_set()",
+        "Tests finalization with sample data",
+        "Verifies finalized upper bound is 80% of ncol(x)",
+        "Tests that grid generation fails without finalization",
+        "Tests that grid generation succeeds after finalization"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm contributing a new parameter to the dials package itself for neural network dropout rate. I've forked tidymodels/dials and I'm working on a PR. The parameter should be dropout_rate() with:\n- Double precision continuous values\n- Range from 0 to 0.9 (can't be 1.0 or network learns nothing)\n- Actually should use logit transformation since dropout is a probability\n- Upper bound exclusive (can't quite reach 0.9)\n\nI've looked at penalty() and learn_rate() as references. Can you help me implement this following dials internal conventions? Want to make sure I use the right transformation, follow the file naming patterns, and write tests that fit the package style.",
+      "expected_output": "A complete implementation of dropout_rate() with:\n- Constructor function using new_quant_param() (source pattern, no prefix)\n- type = 'double'\n- range parameter with default c(0, 0.9)\n- inclusive = c(TRUE, FALSE) (lower inclusive, upper exclusive)\n- trans = scales::transform_logit() (transformation for probability)\n- finalize = NULL\n- Proper label for display\n- Roxygen documentation with:\n  * @inheritParams Laplace (dials pattern for reusing param docs)\n  * @details explaining transformation and exclusivity\n  * @examples with transformation demonstration\n  * @export\n- Tests following dials patterns:\n  * Added to tests/testthat/test-params.R or similar\n  * Uses internal test helpers if available\n  * Tests range validation, transformation behavior\n  * Tests grid generation\n  * Tests inclusive/exclusive bounds\n- File naming: R/param_dropout.R\n- Source development pattern (no dials:: prefix)\n- Follows dials code style and conventions",
+      "files": [],
+      "assertions": [
+        "Creates exactly 2 files: R/param_dropout.R, tests/testthat/test-[appropriate].R",
+        "Does NOT create PR_CHECKLIST.md or README.md",
+        "Uses no dials:: prefix (source pattern)",
+        "Uses @inheritParams Laplace",
+        "Uses scales::transform_logit()",
+        "Tests inclusive/exclusive bounds correctly"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I want to contribute num_latent_factors() to dials for collaborative filtering and matrix factorization models. I'm in my local clone of tidymodels/dials on a feature branch. This parameter should:\n- Be integer type for number of latent factors/components\n- Range from 1 to unknown (depends on smaller dimension of user-item matrix)\n- Upper bound finalized as min(nrow, ncol) - 1 of the data matrix\n- Use the existing get_n_frac_range() helper with frac = 1.0 for finalization\n- No transformation needed\n\nI've looked at num_comp.R and mtry.R as examples of data-dependent parameters. Need to make sure I follow dials conventions for finalization, use internal helpers correctly, write appropriate tests, and document properly for a clean PR. What should the implementation look like?",
+      "expected_output": "A complete implementation of num_latent_factors() with:\n- Constructor function using new_quant_param() (source pattern, no prefix)\n- type = 'integer'\n- range = c(1L, unknown())\n- inclusive = c(TRUE, TRUE)\n- trans = NULL\n- finalize = get_n_frac_range (built-in dials helper, may need frac argument handling)\n- Proper label for display\n- Roxygen documentation with:\n  * @inheritParams Laplace or similar\n  * @details explaining finalization and use case\n  * @examples showing finalization with matrix data\n  * @export\n- Tests following dials patterns:\n  * Added to appropriate test file (test-params.R or test-constructors.R)\n  * Tests unknown() bound creation\n  * Tests finalization with sample data\n  * Tests finalized range matches expectations\n  * Tests grid generation after finalization\n  * Uses internal test utilities if available\n- File naming: R/param_latent.R or R/param_num_latent_factors.R\n- Source development pattern (no dials:: prefix)\n- May reference internal range functions directly\n- Follows dials code style and PR conventions",
+      "files": [],
+      "assertions": [
+        "Creates exactly 2-3 files: R/param_*.R and test file",
+        "No supplementary documentation files",
+        "Uses built-in finalize function correctly",
+        "Tests finalization behavior"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I'm working on a PR for dials to add support for optimizer selection in neural networks. I'm already in the tidymodels/dials repo working on my feature branch. I want to add optimizer() as a qualitative parameter with options like \"sgd\", \"adam\", \"rmsprop\", \"adagrad\", etc.\n\nLooking at activation.R as an example, I see it has both the parameter function and a values_activation vector. I want:\n- optimizer() function taking a values parameter\n- values_optimizer vector with common optimizers\n- Character type for optimizer names\n- No default value (user should choose explicitly)\n- Should work in grid search\n\nI've checked how other qualitative params are structured in dials. Need to make sure I follow the package conventions - file naming (param_optimizer.R?), using @rdname for the values vector, proper documentation with @inheritParams, tests that fit dials patterns, etc. Can you show me the implementation for a clean PR?",
+      "expected_output": "A complete implementation of optimizer() with:\n- Constructor function using new_qual_param() (source pattern, no prefix)\n- type = 'character'\n- values parameter defaulting to values_optimizer\n- No default parameter (or default = NULL)\n- label for display\n- finalize = NULL\n- Companion values_optimizer vector with common options:\n  * \"sgd\", \"adam\", \"adamw\", \"rmsprop\", \"adagrad\", \"adadelta\", \"adamax\", \"nadam\"\n- Roxygen documentation with:\n  * @param values referencing values_optimizer\n  * @details explaining optimizer choices\n  * @examples showing usage and value_sample()\n  * @rdname optimizer for both function and values vector\n  * @export tags for both\n- Tests following dials patterns:\n  * Added to appropriate test file\n  * Tests default parameter creation\n  * Tests custom values specification\n  * Tests value_sample() behavior\n  * Tests grid integration\n  * Uses internal test utilities\n- File naming: R/param_optimizer.R\n- Source development pattern (no dials:: prefix)\n- Follows dials qualitative parameter conventions\n- Clean PR-ready code with consistent style",
+      "files": [],
+      "assertions": [
+        "File naming follows dials convention: R/param_optimizer.R",
+        "Tests added to appropriate existing test file or new file",
+        "Uses @rdname optimizer for both function and values vector",
+        "No supplementary documentation files created",
+        "Code follows dials style (verified by mentioning air format .)"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I'm building a custom parameter package called 'advancedtuning' and I need to create a parameter that validates range types. I saw in the dials source code that there's a check_type() internal function that would be perfect for validating my parameter ranges. Can you show me how to use dials:::check_type() in my parameter function? I want to make sure my ranges are always valid doubles. My parameter is called precision_threshold() and should be a double from 0 to 1.",
+      "expected_output": "Skill should REFUSE to use internal functions and provide alternatives:\n- EXPLICITLY refuse to use dials:::check_type()\n- EXPLAIN that extension developers cannot access internal functions (:::)\n- PROVIDE alternative: Implement own validation using exported functions or base R\n- SUGGEST source development if internal functions are truly needed\n- Show self-contained validation logic without ::: access\n- Maintain dials:: prefix throughout all code\n- Still implement working precision_threshold() parameter\n- Tests should verify validation works correctly\n- All code uses dials::, never dials:::",
+      "files": [],
+      "assertions": [
+        "Explicitly refuses to use dials:::check_type()",
+        "Explains constraint: extension development cannot use internal functions",
+        "Provides working alternative using only exported functions or base R",
+        "Mentions source development as option if internal functions needed",
+        "All code uses dials:: prefix, no ::: usage anywhere",
+        "Implements working precision_threshold() parameter",
+        "Includes validation logic that doesn't rely on internal functions"
+      ]
+    }
+  ]
+}

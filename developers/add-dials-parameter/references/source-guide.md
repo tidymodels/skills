@@ -556,6 +556,57 @@ values_activation <- c(
 
 ---
 
+## Development Best Practices
+
+**Focus on correctness and completeness:**
+
+✅ **Provide complete, working examples** in roxygen @examples
+✅ **Explain key concepts** briefly (transformations, finalization)
+✅ **Show common patterns** with code snippets
+✅ **Include comprehensive tests** covering all features
+
+⚠️ **But avoid over-explanation:**
+- Don't repeat information already in linked references
+- Keep roxygen docs focused and concise
+- Examples in roxygen are sufficient; don't create separate example files
+- Trust that maintainers can review reference implementations
+
+**Quality indicators:**
+- All required parameter fields specified (type, range/values, label, etc.)
+- Tests cover correctness, edge cases, and grid integration
+- Documentation includes working examples
+- Code follows dials conventions (naming, structure, style)
+- PR description is clear and focused
+
+---
+
+## File Creation Guidelines for PRs
+
+When contributing to dials, you should create **exactly 2-3 files**:
+
+1. **R/param_[name].R** - Your parameter function
+2. **tests/testthat/test-param_[name].R** OR add to existing test file
+3. **Optional: Brief PR description in commit message**
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+**DO NOT CREATE** supplementary documentation files:
+- ❌ PR_CHECKLIST.md (mention checklist items in conversation instead)
+- ❌ IMPLEMENTATION_SUMMARY.md
+- ❌ README.md (dials already has one)
+- ❌ QUICK_REFERENCE.md
+- ❌ Any standalone documentation files
+
+**For PR submissions:**
+- Code goes in R/param_[name].R with complete roxygen docs
+- Tests go in existing test file or new test-param_[name].R
+- PR description and checklist items should be mentioned in conversation
+- All documentation is in roxygen comments, not separate files
+
+**Why this matters:** PRs should contain only code and tests. Documentation and checklists belong in the conversation and commit messages, not as files in the repository.
+
+---
+
 ## PR Submission Checklist
 
 Before submitting your pull request:
