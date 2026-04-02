@@ -15,3 +15,5 @@ developers/SETUP_CONSOLIDATION_COMPLETE.md
 docs/_site
 
 /.luarc.json
+users/tabular-data-ml-workspace/iteration-1/
+patients.csv

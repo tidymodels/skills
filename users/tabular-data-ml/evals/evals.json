@@ -1,0 +1,35 @@
+{
+  "skill_name": "tabular-data-ml",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "hey so i have this customer churn dataset in my downloads folder called 'telecom_churn.csv'. My boss wants me to build a model to predict which customers are going to leave. The outcome column is called 'Churn' (values are 'Yes' or 'No'). There's like 7000 rows. Can you help me build a good predictive model? I want to compare a couple different approaches and see which works best. The dataset has stuff like contract type, monthly charges, tenure, internet service type, etc.",
+      "expected_output": "Complete classification workflow with proper train/test split, cross-validation, comparison of 2+ models (likely glmnet and boosted tree), proper feature engineering for each model type, evaluation metrics (ROC-AUC, Brier score), and visualizations. Should NOT evaluate on test set without asking permission first. Should set seed before any random operations (initial_split, vfold_cv, etc.).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I'm working on predicting house prices for a real estate startup. The data is in ~/Documents/housing_data.csv (about 1500 homes). Target variable is 'SalePrice'. Predictors include square footage, number of bedrooms/bathrooms, lot size, year built, neighborhood (that one has like 25 different values), and condition rating. Some of the numeric variables are pretty skewed. I want to try a linear model and maybe one other algorithm - what would you recommend? Let's build something that performs well.",
+      "expected_output": "Regression workflow with train/test split, appropriate feature engineering (normalization for linear model, handling high-cardinality categorical 'neighborhood', possibly transformations for skewed predictors), cross-validation, comparison of glmnet and boosted tree, evaluation with RMSE and R², observed vs predicted plots, residual analysis. Should ask about parallel processing. Should set seed before any random operations (initial_split, vfold_cv, etc.).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "ok I split my data into training and testing sets using your code from earlier. Now I want to see how well my model actually performs. Can you evaluate it on the test set and show me the accuracy and ROC curve? The model object is stored as 'final_model' and the test data is in 'test_data'.",
+      "expected_output": "Should REFUSE to evaluate on test set without explicit confirmation that model development is complete. Should ask: 'Have you completed all model development, feature engineering, and model comparison? The test set should only be used for final evaluation of your chosen model.' Should explain why test set protection matters.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "I have monthly sales data for the last 4 years in sales_timeseries.csv - it's got a 'date' column and 'monthly_sales' as the outcome. I also have predictors like advertising_spend, competitor_count, season, and holiday_flag. I need to predict next month's sales. Can you help me build a model? The data is already sorted from oldest to newest.",
+      "expected_output": "Time series workflow using rolling origin cross-validation (sliding_period), NOT random CV. Should use initial_time_split for train/test, appropriate resampling that respects temporal order, model fitting, and evaluation. Should explain why temporal structure matters. Should set seed before initial_time_split.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I've got patient data (patients.csv in current directory, N=850) where I need to predict whether someone will be readmitted to the hospital within 30 days (binary outcome: readmitted yes/no). Predictors are age, diagnosis_code (lots of categories), prior_admissions, length_of_stay, and medication_count. Some patients have missing values for medication_count. I want to try multiple algorithms and pick the best one - can you help me set up a proper comparison? Also I have 8 cores on my machine if that helps speed things up.",
+      "expected_output": "Classification workflow with proper handling of missing data (imputation), high-cardinality categorical (diagnosis_code), comparison of multiple models using workflow_set or manual comparison with same resamples, asks about and implements parallel processing with future package, proper model selection based on CV results, evaluation visualizations. Should ask permission before test set evaluation. Should set seed before any random operations (initial_split, group_vfold_cv/vfold_cv, etc.).",
+      "files": []
+    }
+  ]
+}
