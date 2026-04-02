@@ -44,30 +44,35 @@ def add_blank_lines_before_bullets(content):
 
 
 def process_file(file_path):
-    """Process a single markdown file."""
+    """Process a single markdown file. Returns (success, modified) tuple."""
     # Read the file
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found")
-        return False
+        return False, False
     except Exception as e:
         print(f"Error reading file: {e}")
-        return False
+        return False, False
 
     # Process content
     modified_content = add_blank_lines_before_bullets(content)
 
-    # Write back to file
-    try:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(modified_content)
-        print(f"Successfully added blank lines to {file_path}")
-        return True
-    except Exception as e:
-        print(f"Error writing file: {e}")
-        return False
+    # Check if content was actually modified
+    was_modified = content != modified_content
+
+    # Write back to file only if modified
+    if was_modified:
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(modified_content)
+            return True, True
+        except Exception as e:
+            print(f"Error writing file: {e}")
+            return False, False
+
+    return True, False
 
 
 def main():
@@ -88,18 +93,40 @@ def main():
             print(f"No .md files found in {input_path}")
             sys.exit(0)
 
-        print(f"Processing {len(md_files)} markdown files in {input_path}...")
+        print(f"Processing {len(md_files)} markdown files...")
         success_count = 0
-        for md_file in md_files:
-            if process_file(md_file):
-                success_count += 1
+        modified_count = 0
+        failed_files = []
 
-        print(f"\nCompleted: {success_count}/{len(md_files)} files processed successfully")
+        for md_file in md_files:
+            success, modified = process_file(md_file)
+            if success:
+                success_count += 1
+                if modified:
+                    modified_count += 1
+            else:
+                failed_files.append(md_file)
+
+        # Print summary
+        print(f"✓ Processed: {success_count}/{len(md_files)} files")
+        print(f"✓ Modified: {modified_count} files (added blank lines)")
+        print(f"✓ Unchanged: {success_count - modified_count} files (no changes needed)")
+
+        if failed_files:
+            print(f"\n✗ Failed: {len(failed_files)} files")
+            for failed in failed_files:
+                print(f"  - {failed}")
+
         sys.exit(0 if success_count == len(md_files) else 1)
 
     # If it's a file, process it directly
     elif input_path.is_file():
-        success = process_file(input_path)
+        success, modified = process_file(input_path)
+        if success:
+            if modified:
+                print(f"✓ Modified: {input_path} (added blank lines)")
+            else:
+                print(f"✓ Unchanged: {input_path} (no changes needed)")
         sys.exit(0 if success else 1)
 
     else:
