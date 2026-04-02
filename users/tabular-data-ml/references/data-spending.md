@@ -26,7 +26,9 @@ Splits the entire data set into three partitions.
 ```r
 library(tidymodels)
 
-# set seed first
+# Set seed immediately before splitting for reproducibility
+# Use a meaningful, uncommon value - not 123, 111, etc.
+set.seed(2026)
 init_split <- initial_validation_split(all_data, strata = outcome)
 train_data <- training(init_split)
 test_data <- testing(init_split)
@@ -49,7 +51,9 @@ Splits the entire data set into two partitions.
 ```r
 library(tidymodels)
 
-# set seed first
+# Set seed immediately before splitting for reproducibility
+# Use a meaningful, uncommon value - not 123, 111, etc.
+set.seed(2026)
 init_split <- initial_split(all_data, strata = outcome)
 train_data <- training(init_split)
 test_data <- testing(init_split)
@@ -71,7 +75,9 @@ In this case, ensure that the data have been ordered from oldest to most recent 
 ```r
 library(tidymodels)
 
-# set seed first
+# Set seed immediately before splitting for reproducibility
+# Use a meaningful, uncommon value - not 123, 111, etc.
+set.seed(2026)
 init_split <- initial_time_split(all_data)
 train_data <- training(init_split)
 test_data <- testing(init_split)
@@ -88,7 +94,9 @@ To make the split, there must be a column in the data that corresponds to the in
 ```r
 library(tidymodels)
 
-# set seed first
+# Set seed immediately before splitting for reproducibility
+# Use a meaningful, uncommon value - not 123, 111, etc.
+set.seed(2026)
 init_split <- group_initial_split(all_data, group = id_column)
 train_data <- training(init_split)
 test_data <- testing(init_split)

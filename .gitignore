@@ -13,7 +13,6 @@ developers/VERIFY_SETUP_PLAN.md
 developers/SETUP_CONSOLIDATION_PLAN.md
 developers/SETUP_CONSOLIDATION_COMPLETE.md
 docs/_site
-
 /.luarc.json
-users/tabular-data-ml-workspace/iteration-1/
 patients.csv
+users/tabular-data-ml-workspace

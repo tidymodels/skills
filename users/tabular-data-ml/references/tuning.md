@@ -93,7 +93,9 @@ library(finetune)
 
 # ANOVA racing - eliminates configs significantly worse than best
 
-# Set seed first
+# Set seed immediately before tuning for reproducibility
+# Use a meaningful, uncommon value - not 123, 111, etc.
+set.seed(2026)
 
 tune_results <- tune_race_anova(
  wf,
@@ -243,15 +245,36 @@ params <- params |>
 
 Tuning is embarrassingly parallel—each configuration can run independently.
 
-Before proposing potentially long-running computations, like resampling or model fitting, first use `parallel::detectCores()` to determine the maximum number of cores available, then ask the user if they would like to use parallel processing and, if so, how many cores you are allowed to use. Keep using the extra cores throughout the work unless the user asks you to stop.
+**CRITICAL: Always ask the user before enabling parallel processing.**
 
-When computing statistics over a large number of columns, use the future package to parallelize these computations. Do not use the parallel, mirai, or foreach packages for parallel execution. 
+### Workflow:
 
-When using tidymodels functions, such as `tune::fit_resamples()`  or `tune::tune_grid()`, ask about parallel processing and use the future package to create local workers. 
+1. **Detect cores** before starting any computationally intensive work:
+   ```r
+   n_cores <- parallel::detectCores()
+   ```
 
-```r
-library(future)
-plan("multisession")
+2. **Ask the user explicitly in the conversation** - Have an actual exchange, don't just put a comment in code:
 
-# tune_grid, tune_race_anova, etc. will use parallel processing automatically
-```
+   **Example:**
+   > "I'm about to run 10-fold cross-validation with hyperparameter tuning. This will take approximately 30-45 minutes sequentially. I see you have 8 cores available. Would you like me to use parallel processing? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free)"
+
+   **If user says yes:**
+   ```r
+   library(future)
+   plan("multisession", workers = 6)  # or whatever they specified
+   ```
+
+   **If user says no or doesn't respond:**
+   ```r
+   # Proceed with sequential processing (no future setup)
+   ```
+
+   **If user is unsure, provide context:**
+   > "With 6 cores: ~8 minutes. Without: ~40 minutes. Your choice won't affect the results, just the speed."
+
+3. **Continue using** the same parallel configuration throughout the analysis unless the user asks you to stop.
+
+**Do not** automatically enable parallel processing without asking, even if the user mentions having multiple cores available.
+
+When using tidymodels functions like `tune::fit_resamples()` or `tune::tune_grid()`, they will automatically use the future plan if it's been set. Do not use the parallel, doParallel, mirai, or foreach packages.
