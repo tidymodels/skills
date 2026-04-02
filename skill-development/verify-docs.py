@@ -73,8 +73,17 @@ class DocsVerifier:
             return skills
 
         for item in self.root_dir.iterdir():
-            # Skip if not a directory or if it's shared-references
-            if not item.is_dir() or item.name in ["shared-references", "shared-references-parsnip"]:
+            # Skip if not a directory
+            if not item.is_dir():
+                continue
+
+            # Skip workspace directories
+            if item.name.endswith('-workspace'):
+                print(f"Skipping {item.name}")
+                continue
+
+            # Skip shared-references directories
+            if item.name in ["shared-references", "shared-references-parsnip"]:
                 continue
 
             # A directory is a skill if it contains SKILL.md or references/

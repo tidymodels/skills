@@ -37,6 +37,11 @@ class ReferenceVerifier:
             if part.startswith('.'):
                 return True
 
+        # Skip files in directories ending with "-workspace"
+        for part in file_path.parts:
+            if part.endswith('-workspace'):
+                return True
+
         # Skip shared-references directories
         if 'shared-references' in file_path.parts or 'shared-references-parsnip' in file_path.parts:
             return True
@@ -76,6 +81,20 @@ class ReferenceVerifier:
             print("VERIFY: Checking References")
             print("=" * 60)
             print()
+
+        # Find workspace folders to skip
+        workspace_folders = set()
+        for item in self.root_dir.rglob("*"):
+            if item.is_dir() and item.name.endswith('-workspace'):
+                try:
+                    rel_path = item.relative_to(self.root_dir)
+                    workspace_folders.add(str(rel_path))
+                except ValueError:
+                    pass
+
+        # Print skipped workspace folders
+        for workspace in sorted(workspace_folders):
+            print(f"Skipping {workspace}")
 
         # Find all markdown files (excluding those that should be skipped)
         all_md_files = list(self.root_dir.rglob("*.md"))
