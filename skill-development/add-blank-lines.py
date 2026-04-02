@@ -2,7 +2,7 @@
 """
 Add blank lines before bullet points in markdown files for readability.
 
-This script ensures that bullet points (lines starting with `-` or `  -`)
+This script ensures that bullet points (lines starting with `-`, `  -`, `   -`, or `    -`)
 have a blank line before them, unless they already do.
 
 Can process a single file or recursively process all .md files in a directory.
@@ -27,8 +27,8 @@ def add_blank_lines_before_bullets(content):
     result = []
 
     for i, line in enumerate(lines):
-        # Check if current line is a bullet (starts with - or two spaces and -)
-        is_bullet = re.match(r'^(-|\s{2}-)(\s|$)', line)
+        # Check if current line is a bullet (starts with - or 2-4 spaces and -)
+        is_bullet = re.match(r'^(-|\s{2,4}-)(\s|$)', line)
 
         if is_bullet and i > 0:
             # Check if previous line exists and is not empty
