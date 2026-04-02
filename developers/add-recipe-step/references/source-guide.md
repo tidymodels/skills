@@ -432,7 +432,75 @@ test_that("centering handles NA", {
 })
 ```
 
-See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive guide.
+## Testing
+
+**INSTRUCTIONS FOR CLAUDE:** Create tests based on features present.
+
+### Essential Tests (ALL steps) - 8-10 tests minimum
+
+**Core functionality (3-4 tests):**
+
+- Basic correctness (transformation works)
+
+- Multiple columns (if applicable)
+
+- Single column (if applicable)
+
+**Variable selection (1-2 tests):**
+
+- Works with recipes selectors (all_numeric(), all_predictors())
+
+- Manual column selection
+
+**NA handling (1 test):**
+
+- Verify NA behavior (preserve, remove, or error)
+
+**Infrastructure (2-3 tests):**
+
+- print() method works
+
+- tidy() method works (before and after prep)
+
+- Integration in recipe pipeline
+
+### Feature-Specific Tests (Add ONLY if applicable)
+
+**If step computes statistics (+2 tests):**
+
+- Case weights: frequency weights
+
+- Case weights: importance weights
+
+**If skip parameter present (+1 test):**
+
+- skip = TRUE and FALSE behavior
+
+**If keep_original_cols parameter (+1 test):**
+
+- keep_original_cols = TRUE and FALSE
+
+**If multiple custom parameters (+2 tests):**
+
+- Parameter combinations
+
+- Parameter validation
+
+**If complex statistical operations (+2-3 tests):**
+
+- Edge cases (zero variance, all same values)
+
+- Boundary conditions
+
+### Target Test Counts
+
+- **Per-row operations:** 8-12 tests
+
+- **Statistical operations:** 12-18 tests
+
+- **Complex calculations:** 18-25 tests
+
+See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive guide and internal test helpers.
 
 ### Step 4: Run Tests and Check
 
@@ -479,6 +547,27 @@ Available templates are in templates or inline documentation.
 #' @seealso [step_normalize()], [step_scale()]
 #' @family normalization steps
 ```
+
+### Documentation Files to Create
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+Create ONLY these files by default:
+1. **R/[step_name].R** - Complete implementation
+2. **tests/testthat/test-[step_name].R** - Test suite
+3. **README.md** - Overview with basic usage example (200-300 lines)
+
+Do NOT create unless user explicitly requests:
+
+- ❌ IMPLEMENTATION_SUMMARY.md
+
+- ❌ QUICKSTART.md
+
+- ❌ example_usage.R
+
+- ❌ Additional documentation files
+
+If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
 
 ---
 
@@ -660,8 +749,11 @@ prep.step_center <- function(x, training, info = NULL, ...,
 2. Click "New pull request"
 3. Select your branch
 4. Fill in description:
+
    - What does this step do?
+
    - Why is it useful?
+
    - Reference any related issues
 
 ### Review Process

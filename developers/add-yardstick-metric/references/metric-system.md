@@ -39,7 +39,9 @@ The yardstick metric system provides a consistent interface for creating, compos
 When you wrap your metric function with `new_numeric_metric()`, `new_class_metric()`, or `new_prob_metric()`, it:
 
 1. **Sets attributes** that describe your metric:
+
    - `direction`: "minimize", "maximize", or "zero" (what's optimal?)
+
    - `range`: `c(min, max)` (possible values the metric can take)
 
 2. **Creates a class hierarchy**:
@@ -50,8 +52,11 @@ When you wrap your metric function with `new_numeric_metric()`, `new_class_metri
    ```
 
 3. **Enables ecosystem integration**:
+
    - `metric_set()` knows how to combine your metric with others
+
    - The metric can be identified and validated
+
    - Automatic method dispatch works correctly
 
 ## Why this matters

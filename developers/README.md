@@ -14,7 +14,9 @@ Create preprocessing steps for the recipes package. Covers modify-in-place trans
 
 1. **Choose your skill** based on what you want to extend
 2. **Understand your development context:**
+
    - Creating a new package? Follow extension development guidance
+
    - Contributing to a tidymodels package? Follow source development guidance
 3. **Follow the skill guide** for complete implementation patterns
 

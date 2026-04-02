@@ -9,7 +9,9 @@
   - Merged `localize-shared-files.sh` and `verify-references.py` into single `build-verify.py`
 
   - Single command: `./dev-scripts/build-verify.py` handles both:
+
     - Copies shared-references files to each skill's references folder
+
     - Verifies all markdown links, anchors, and file references
 
   - Python-based for better cross-platform consistency
@@ -25,35 +27,52 @@
 - **Repository Structure Standardization** (2026-03-20)
 
   - **Scripts Reorganization**: Moved `shared-scripts/` to `shared-references/scripts/`
+
     - Creates consistency between source and localized structures
+
     - Scripts now live under references/, matching skill folder patterns
+
     - Reduces top-level directory complexity
+
     - Updated `localize-shared-files.sh` to copy from new location
+
     - All script paths in documentation updated automatically via `replace-text.py`
 
   - **Package Prefix Standardization**: Added "package-" prefix to shared reference filenames
+
     - Renamed 5 core shared references:
       - `development-workflow.md` → `package-development-workflow.md`
       - `extension-prerequisites.md` → `package-extension-prerequisites.md`
       - `extension-requirements.md` → `package-extension-requirements.md`
       - `repository-access.md` → `package-repository-access.md`
       - `roxygen-documentation.md` → `package-roxygen-documentation.md`
+
     - Consistent naming: all shared references now use "package-" prefix
+
     - Clear distinction: these are R package development resources
+
     - All 252+ references updated automatically via `rename-and-update.py`
+
     - Section anchors preserved across renames
 
   - **Benefits**:
+
     - Clearer file organization and semantic grouping
+
     - Single source structure mirrors localized structure
+
     - Future-proof for adding non-package shared references
+
     - Easier to identify R package development resources at a glance
 
 - **Development Scripts Reorganization & Link Verification** (2026-03-20)
 
   - Added new maintenance scripts in `dev-scripts/` subfolder:
+
     - `verify-references.py` - Validates all markdown links and anchors
+
     - `replace-text.py` - Performs exact text replacements in files
+
     - `rename-and-update.py` - Renames files and updates all references
 
   - Scripts moved from root to `tidymodels/dev-scripts/` for better organization
@@ -77,9 +96,13 @@
   - Ensures Claude reads complete setup instructions before attempting any fixes
 
   - **Behavioral changes**:
+
     - All checks run independently (no early exits)
+
     - Always shows "All checks for [context] development complete." regardless of warnings
+
     - Source development skips all checks (avoids confusion with usethis dev version requirements)
+
     - Repos check now runs in empty directories (was previously skipped due to "unknown" context)
 
   - **Output format**: Clean, minimal, no blank lines between messages
@@ -105,16 +128,25 @@
   - Added verification steps using Read/Bash tools for immediate feedback
 
   - **Root cause findings**:
+
     - Claude was refusing to read reference files from top-level folders during skill execution
+
     - Documentation falsely implied Claude couldn't execute R commands autonomously
+
     - Previous guidance led Claude to unnecessarily delegate all R commands to users
+
     - Short checklists in SKILL.md were being treated as "good enough" instead of reading full references
+
     - "Optional" labels were effectively disregarded by Claude, executing marked-optional steps anyway
 
   - **Architectural changes to prevent premature execution**:
+
     - Centralized `use_claude_code()` and repo cloning instructions exclusively in package-extension-prerequisites.md
+
     - Removed these details from SKILL.md and extension-guide.md to prevent Claude from executing before reading full reference
+
     - High-level documents now contain only "see package-extension-prerequisites.md" to force proper reference reading
+
     - Removed misleading "optional" monikers that Claude consistently ignored
 
   - Steps updated: package creation, Claude Code integration, dependencies, testing, and configurations

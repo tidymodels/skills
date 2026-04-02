@@ -106,6 +106,12 @@ website:
                   href: developers/add-yardstick-metric/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
                   href: developers/add-yardstick-metric/references/package-repository-access.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-yardstick-metric/references/package-testing-patterns.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-yardstick-metric/references/package-troubleshooting.qmd
+                - text: "Best Practices"
+                  href: developers/add-yardstick-metric/references/package-best-practices.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
@@ -153,6 +159,12 @@ website:
                   href: developers/add-recipe-step/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
                   href: developers/add-recipe-step/references/package-repository-access.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-recipe-step/references/package-testing-patterns.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-recipe-step/references/package-troubleshooting.qmd
+                - text: "Best Practices"
+                  href: developers/add-recipe-step/references/package-best-practices.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
@@ -198,6 +210,12 @@ website:
                   href: developers/add-dials-parameter/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
                   href: developers/add-dials-parameter/references/package-repository-access.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-dials-parameter/references/package-testing-patterns.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-dials-parameter/references/package-troubleshooting.qmd
+                - text: "Best Practices"
+                  href: developers/add-dials-parameter/references/package-best-practices.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
@@ -249,6 +267,12 @@ website:
                   href: developers/add-parsnip-model/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
                   href: developers/add-parsnip-model/references/package-repository-access.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-parsnip-model/references/package-testing-patterns.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-parsnip-model/references/package-troubleshooting.qmd
+                - text: "Best Practices"
+                  href: developers/add-parsnip-model/references/package-best-practices.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"
@@ -296,6 +320,12 @@ website:
                   href: developers/add-parsnip-engine/references/package-roxygen-documentation.qmd
                 - text: "Repository Access"
                   href: developers/add-parsnip-engine/references/package-repository-access.qmd
+                - text: "Testing Patterns"
+                  href: developers/add-parsnip-engine/references/package-testing-patterns.qmd
+                - text: "Troubleshooting"
+                  href: developers/add-parsnip-engine/references/package-troubleshooting.qmd
+                - text: "Best Practices"
+                  href: developers/add-parsnip-engine/references/package-best-practices.qmd
             - section: "Source Development"
               contents:
                 - text: "Best Practices"

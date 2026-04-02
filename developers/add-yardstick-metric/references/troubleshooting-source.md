@@ -59,16 +59,23 @@ Error: object 'yardstick_helper' not found
 **Causes & Solutions:**
 
 1. **Function doesn't exist**
+
    - Check spelling
+
    - Search codebase: `grep -r "yardstick_helper" R/`
 
 2. **Function was removed**
+
    - Check git history
+
    - Implement functionality yourself
+
    - Ask package maintainers
 
 3. **Function is in different file**
+
    - Make sure file is sourced before yours
+
    - Check NAMESPACE
 
 ## Estimator-Related Issues
@@ -418,12 +425,15 @@ result <- tune_grid(
 **Common Issues:**
 
 1. **Metric returns wrong structure**
+
    - Must return tibble with `.metric`, `.estimator`, `.estimate`
 
 2. **Metric doesn't handle grouped data**
+
    - Use metric summarizers, they handle groups
 
 3. **Metric fails on resampled data**
+
    - Test with `rsample::vfold_cv()` data
 
 ### Metric Doesn't Work with workflows
@@ -480,19 +490,27 @@ git push --force-with-lease origin your-branch
 **Common failures:**
 
 1. **R CMD check fails**
+
    - Run locally: `devtools::check()`
+
    - Fix all errors, warnings, notes
 
 2. **Tests fail**
+
    - Run locally: `devtools::test()`
+
    - Fix failing tests
 
 3. **Code coverage drops**
+
    - Add tests for new code
+
    - Aim for >90% coverage on new code
 
 4. **Lint failures**
+
    - Run: `lintr::lint_package()`
+
    - Fix style issues
 
 ### PR Review Feedback
@@ -500,21 +518,31 @@ git push --force-with-lease origin your-branch
 **Common requests:**
 
 1. **"Add tests for edge cases"**
+
    - Add tests for NA handling
+
    - Add tests for empty data
+
    - Add tests for perfect predictions
 
 2. **"Update documentation"**
+
    - Add `@examples`
+
    - Clarify parameter descriptions
+
    - Add `@details` section
 
 3. **"Use existing internal helper"**
+
    - Reviewer points out existing function
+
    - Refactor to use it
 
 4. **"Match style of existing metrics"**
+
    - Review similar metrics
+
    - Match their structure and naming
 
 ## Yardstick-Specific Issues

@@ -608,8 +608,11 @@ Always pass `call` parameter for better error context.
 2. Click "New pull request"
 3. Select your branch
 4. Fill in description:
+
    - What metric does this add?
+
    - Why is it useful?
+
    - Reference any related issues
 
 ### Review Process

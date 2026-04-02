@@ -13,37 +13,65 @@ Complete requirements for developing high-quality R package extensions to tidymo
 ## Table of Contents
 
 1. [Best Practices](#best-practices)
+
    - [Code Style](#code-style)
+
    - [Error Messages](#error-messages)
+
    - [Documentation Standards](#documentation-standards)
+
    - [Performance](#performance)
+
    - [Code Validation](#code-validation)
+
    - [Memory Management](#memory-management)
+
    - [Code Formatting](#code-formatting)
+
    - [Version Control](#version-control)
 
 2. [Testing Requirements](#testing-requirements)
+
    - [Test File Organization](#test-file-organization)
+
    - [Creating Test Data](#creating-test-data)
+
    - [Standard Test Categories](#standard-test-categories)
+
    - [Integration Tests](#integration-tests)
+
    - [Infrastructure Tests](#infrastructure-tests-required-for-recipe-steps)
+
    - [Edge Case Tests](#edge-case-tests)
+
    - [Best Practices](#testing-best-practices)
+
    - [Running Tests](#running-tests)
+
    - [Test Coverage](#test-coverage)
 
 3. [Common Issues & Solutions](#common-issues-solutions)
+
    - [Build and Check Issues](#build-and-check-issues)
+
    - [Function and Object Errors](#function-and-object-errors)
+
    - [Testing Errors](#testing-errors)
+
    - [Documentation Errors](#documentation-errors)
+
    - [Method and S3 Errors](#method-and-s3-errors)
+
    - [Custom Parameter Issues](#custom-parameter-issues)
+
    - [Dependency Issues](#dependency-issues)
+
    - [Performance Issues](#performance-issues)
+
    - [Memory Issues](#memory-issues)
+
    - [Git and Workflow Issues](#git-and-workflow-issues)
+
    - [Getting Help](#getting-help)
 
 4. [Quick Reference](#quick-reference)
@@ -488,6 +516,13 @@ Or use RStudio: Code → Reformat Code (Cmd/Ctrl + Shift + A)
 ---
 
 ## Testing Requirements
+
+**INSTRUCTIONS FOR CLAUDE:** Test count should match complexity.
+
+**Minimum: 8-10 essential tests** (all steps)
+**Add feature-specific tests only when applicable** (see details below)
+
+Target: 8-12 tests for simple steps, 12-18 for moderate, 18-25 for complex.
 
 Comprehensive guide to testing R packages in the tidymodels ecosystem using testthat.
 

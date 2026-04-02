@@ -37,8 +37,16 @@ class Builder:
             return skills
 
         for item in self.root_dir.iterdir():
-            # Skip if not a directory or if it's shared-references
-            if not item.is_dir() or item.name in ["shared-references", "shared-references-parsnip"]:
+            # Skip if not a directory
+            if not item.is_dir():
+                continue
+
+            # Skip workspace directories
+            if item.name.endswith('-workspace'):
+                continue
+
+            # Skip shared-references directories
+            if item.name in ["shared-references", "shared-references-parsnip"]:
                 continue
 
             # A directory is a skill if it contains SKILL.md or references/
@@ -66,10 +74,12 @@ class Builder:
 
         success = True
         skill_stats = []
+        failed_skills = []
         for skill in self.skills:
             md_count, script_count = self.build_skill(skill, quiet=quiet)
             if md_count is None:
                 success = False
+                failed_skills.append(skill)
             else:
                 skill_stats.append((skill, md_count, script_count))
 
@@ -83,9 +93,14 @@ class Builder:
             print("✗ BUILD FAILED")
             print("=" * 60)
             print()
-            for error in self.errors:
-                print(f"  ERROR: {error}")
+            print(f"Failed skills: {', '.join(failed_skills)}")
+            print(f"Total errors: {len(self.errors)}")
             print()
+            for i, error in enumerate(self.errors, 1):
+                print(f"  ERROR {i}:")
+                for line in error.split('\n'):
+                    print(f"    {line}")
+                print()
 
         return success
 
@@ -99,7 +114,9 @@ class Builder:
 
         # Check if references directory exists
         if not refs_dir.exists():
-            error = f"{skill}: references/ directory not found"
+            error = (f"{skill}: references/ directory not found\n"
+                    f"  Expected location: {refs_dir}\n"
+                    f"  Each skill must have a references/ subdirectory")
             self.errors.append(error)
             print(f"  ERROR: {error}")
             return None, None
@@ -109,7 +126,9 @@ class Builder:
             print(f"  Copying shared-references/*.md → {refs_dir.name}/")
         md_files = list(self.shared_dir.glob("*.md"))
         if not md_files:
-            error = f"{skill}: No .md files found in shared-references/"
+            error = (f"{skill}: No .md files found in shared-references/\n"
+                    f"  Checked directory: {self.shared_dir}\n"
+                    f"  This may indicate a missing or empty shared-references directory")
             self.errors.append(error)
             print(f"  WARNING: {error}")
 
@@ -120,7 +139,9 @@ class Builder:
                 try:
                     dest.relative_to(self.root_dir)
                 except ValueError:
-                    error = f"{skill}: Destination path outside project: {dest}"
+                    error = (f"{skill}: Destination path outside project\n"
+                            f"  Source: {md_file}\n"
+                            f"  Destination: {dest}")
                     self.errors.append(error)
                     print(f"  ERROR: {error}")
                     return None, None
@@ -128,7 +149,11 @@ class Builder:
                 if not quiet:
                     print(f"    {md_file.name}")
             except Exception as e:
-                error = f"{skill}: Failed to copy {md_file.name} - {e}"
+                error = (f"{skill}: Failed to copy shared markdown file\n"
+                        f"  File: {md_file.name}\n"
+                        f"  Source: {md_file}\n"
+                        f"  Destination: {dest}\n"
+                        f"  Error: {type(e).__name__}: {e}")
                 self.errors.append(error)
                 print(f"  ERROR: {error}")
                 return None, None
@@ -147,7 +172,9 @@ class Builder:
                     try:
                         dest.relative_to(self.root_dir)
                     except ValueError:
-                        error = f"{skill}: Destination path outside project: {dest}"
+                        error = (f"{skill}: Destination path outside project\n"
+                                f"  Source: {md_file}\n"
+                                f"  Destination: {dest}")
                         self.errors.append(error)
                         print(f"  ERROR: {error}")
                         return None, None
@@ -156,7 +183,11 @@ class Builder:
                     if not quiet:
                         print(f"    {md_file.name}")
                 except Exception as e:
-                    error = f"{skill}: Failed to copy {md_file.name} - {e}"
+                    error = (f"{skill}: Failed to copy parsnip-specific markdown file\n"
+                            f"  File: {md_file.name}\n"
+                            f"  Source: {md_file}\n"
+                            f"  Destination: {dest}\n"
+                            f"  Error: {type(e).__name__}: {e}")
                     self.errors.append(error)
                     print(f"  ERROR: {error}")
                     return None, None
@@ -181,7 +212,9 @@ class Builder:
                         try:
                             dest.relative_to(self.root_dir)
                         except ValueError:
-                            error = f"{skill}: Destination path outside project: {dest}"
+                            error = (f"{skill}: Destination path outside project\n"
+                                    f"  Source: {script_file}\n"
+                                    f"  Destination: {dest}")
                             self.errors.append(error)
                             print(f"  ERROR: {error}")
                             return None, None
@@ -190,7 +223,11 @@ class Builder:
                         if not quiet:
                             print(f"    {script_file.name}")
                     except Exception as e:
-                        error = f"{skill}: Failed to copy {script_file.name} - {e}"
+                        error = (f"{skill}: Failed to copy script file\n"
+                                f"  File: {script_file.name}\n"
+                                f"  Source: {script_file}\n"
+                                f"  Destination: {dest}\n"
+                                f"  Error: {type(e).__name__}: {e}")
                         self.errors.append(error)
                         print(f"  ERROR: {error}")
                         return None, None

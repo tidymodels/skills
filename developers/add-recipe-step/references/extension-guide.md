@@ -4,14 +4,15 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ---
 
-## PREREQUISITES
+## Prerequisites
 
-**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
+**INSTRUCTIONS FOR CLAUDE:** Check for existing package structure first.
 
-👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
+If DESCRIPTION file AND R/ directory exist:
+→ **Skip to "Key Constraints for Extension Development"** (package setup already complete)
 
-
-**CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
+If package structure does NOT exist:
+→ Package setup is required before implementing recipe steps
 
 ---
 
@@ -35,13 +36,11 @@ Complete guide for creating new packages that extend recipes with custom preproc
 
 ---
 
-## Prerequisites
+## Package Setup (Only if DESCRIPTION does not exist)
 
-### Package Setup Required
+**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
 
-**⚠️ IMPORTANT**: Before implementing recipe steps, you MUST complete the extension prerequisites:
-
-👉 **[Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
@@ -378,7 +377,7 @@ test_that("centering validates input types", {
 })
 ```
 
-See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing Patterns (Extension)](package-testing-patterns.md) for comprehensive testing guide.
 
 ---
 
@@ -521,15 +520,13 @@ recipes::check_new_data(col_names, object, new_data)
 
 ## Development Workflow
 
-See [Development Workflow](package-development-workflow.md) for complete details.
-
 **Fast iteration cycle:**
 1. `devtools::document()` - Generate documentation
 2. `devtools::load_all()` - Load your package
 3. `devtools::test()` - Run tests
-
-**Final validation:**
 4. `devtools::check()` - Full R CMD check
+
+For detailed troubleshooting, see [Development Workflow](package-development-workflow.md).
 
 ---
 
@@ -550,23 +547,104 @@ NULL
 
 ---
 
+## Documentation
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+Create ONLY these files by default:
+1. **R/step_*.R** - Complete implementation
+2. **tests/testthat/test-*.R** - Test suite
+3. **README.md** - Overview with basic usage example (200-300 lines)
+
+Do NOT create unless user explicitly requests:
+
+- ❌ IMPLEMENTATION_SUMMARY.md
+
+- ❌ QUICKSTART.md
+
+- ❌ example_usage.R
+
+- ❌ Additional documentation files
+
+If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
+
+---
+
 ## Testing
 
-See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
+**INSTRUCTIONS FOR CLAUDE:** Create tests based on features present.
 
-**Required test categories:**
-1. **Correctness**: Step transforms data correctly
-2. **Variable selection**: Works with selectors
-3. **NA handling**: Both `na_rm = TRUE` and `FALSE`
-4. **Case weights**: Weighted and unweighted differ
-5. **Infrastructure**: Works in full recipe pipeline
-6. **Edge cases**: Empty selection, single column
+### Essential Tests (ALL steps) - 8-10 tests minimum
+
+**Core functionality (3-4 tests):**
+
+- Basic correctness (transformation works)
+
+- Multiple columns (if applicable)
+
+- Single column (if applicable)
+
+**Variable selection (1-2 tests):**
+
+- Works with recipes selectors (all_numeric(), all_predictors())
+
+- Manual column selection
+
+**NA handling (1 test):**
+
+- Verify NA behavior (preserve, remove, or error)
+
+**Infrastructure (2-3 tests):**
+
+- print() method works
+
+- tidy() method works (before and after prep)
+
+- Integration in recipe pipeline
+
+### Feature-Specific Tests (Add ONLY if applicable)
+
+**If step computes statistics (+2 tests):**
+
+- Case weights: frequency weights
+
+- Case weights: importance weights
+
+**If skip parameter present (+1 test):**
+
+- skip = TRUE and FALSE behavior
+
+**If keep_original_cols parameter (+1 test):**
+
+- keep_original_cols = TRUE and FALSE
+
+**If multiple custom parameters (+2 tests):**
+
+- Parameter combinations
+
+- Parameter validation
+
+**If complex statistical operations (+2-3 tests):**
+
+- Edge cases (zero variance, all same values)
+
+- Boundary conditions
+
+### Target Test Counts
+
+- **Per-row operations:** 8-12 tests
+
+- **Statistical operations:** 12-18 tests
+
+- **Complex calculations:** 18-25 tests
+
+See [Testing Patterns (Extension)](package-testing-patterns.md) for comprehensive guide.
 
 ---
 
 ## Best Practices
 
-See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
+See [Best Practices (Extension)](package-best-practices.md) for complete guide.
 
 **Key principles:**
 
@@ -584,7 +662,7 @@ See [Best Practices (Extension)](package-extension-requirements.md#best-practice
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](package-troubleshooting.md) for complete guide.
 
 **Common issues:**
 
@@ -622,13 +700,13 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 - [Development Workflow](package-development-workflow.md)
 
-- [Testing Patterns](package-extension-requirements.md#testing-requirements)
+- [Testing Patterns](package-testing-patterns.md)
 
-- [Roxygen Documentation](package-roxygen-documentation.md)
+- [Roxygen Documentation](package-roxygen-documentation.md) (optional - read only if you need documentation templates)
 
-- [Best Practices](package-extension-requirements.md#best-practices)
+- [Best Practices](package-best-practices.md)
 
-- [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
+- [Troubleshooting](package-troubleshooting.md)
 
 ---
 
@@ -637,7 +715,7 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
 2. **Choose your step type** from [Step Architecture](step-architecture.md)
 3. **Implement your step** following the guide above
-4. **Test thoroughly** using [Testing Patterns](package-extension-requirements.md#testing-requirements)
+4. **Test thoroughly** using [Testing Patterns](package-testing-patterns.md)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
@@ -645,7 +723,7 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
+- Check [Troubleshooting Guide](package-troubleshooting.md)
 
 - Review [Step Architecture](step-architecture.md)
 
