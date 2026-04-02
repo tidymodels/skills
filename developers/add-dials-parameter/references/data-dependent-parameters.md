@@ -390,6 +390,106 @@ updated_param
 
 Takes parameter and list with `$lower` and `$upper`, returns updated parameter.
 
+### Step-by-Step: Writing a Custom Finalize Function
+
+Here's a detailed walkthrough of creating a custom finalize function:
+
+```r
+# STEP 1: Create the parameter function
+num_genes <- function(range = c(1L, dials::unknown()), trans = NULL) {
+  dials::new_quant_param(
+    type = "integer",
+    range = range,
+    inclusive = c(TRUE, TRUE),
+    trans = trans,
+    label = c(num_genes = "# Genes to Select"),
+    finalize = get_num_genes  # Reference your custom finalize function
+  )
+}
+
+# STEP 2: Create the custom finalize function
+get_num_genes <- function(object, x) {
+  # object: The parameter object with unknown() bounds
+  # x: The predictor data (data frame or matrix)
+
+  # STEP 2A: Calculate the new bound based on data
+  # Goal: Set upper bound to 80% of available genes (columns)
+  num_available_genes <- ncol(x)
+  new_upper <- floor(0.8 * num_available_genes)
+
+  # STEP 2B: Ensure bound is valid
+  # At least 1 gene must be selectable
+  new_upper <- max(1L, new_upper)
+  # Ensure it's an integer type
+  new_upper <- as.integer(new_upper)
+
+  # STEP 2C: Get the current range from the parameter
+  # This returns a list with $lower and $upper
+  bounds <- dials::range_get(object)
+  # bounds$lower is still 1L (unchanged)
+  # bounds$upper is currently unknown()
+
+  # STEP 2D: Update the upper bound
+  # Keep lower bound unchanged, update upper
+  bounds$upper <- new_upper
+
+  # STEP 2E: Set the new range and return
+  # This updates the parameter object and returns it
+  updated_param <- dials::range_set(object, bounds)
+  return(updated_param)
+}
+```
+
+**Key Insights:**
+
+1. **range_get() returns a list**: It has `$lower` and `$upper` components
+2. **Modify the list**: Update `bounds$upper` or `bounds$lower` as needed
+3. **range_set() returns parameter**: It doesn't modify in-place, it returns a new parameter
+4. **Type matters**: Convert to integer for integer parameters, double for double parameters
+5. **Validation**: Always ensure bounds are sensible (lower < upper, at least 1, etc.)
+
+### Common Patterns for Custom Finalize
+
+**Pattern 1: Percentage of predictors**
+```r
+upper_bound <- floor(0.8 * ncol(x))  # 80% of features
+```
+
+**Pattern 2: Percentage of observations**
+```r
+upper_bound <- floor(0.5 * nrow(x))  # 50% of samples
+```
+
+**Pattern 3: Minimum of both dimensions** (for matrix factorization)
+```r
+upper_bound <- min(nrow(x), ncol(x)) - 1  # Rank constraint
+```
+
+**Pattern 4: Complex formula** (earth package style)
+```r
+upper_bound <- min(200, max(20, 2 * ncol(x))) + 1
+```
+
+**Pattern 5: Both bounds** (adaptive neighbors)
+```r
+bounds$lower <- max(3L, floor(0.01 * nrow(x)))
+bounds$upper <- min(50L, floor(0.10 * nrow(x)))
+```
+
+### Custom Finalize Checklist
+
+Before completing a custom finalize function, verify:
+
+- [ ] Function signature is `function(object, x)`
+- [ ] Calculates new bound(s) based on `ncol(x)` or `nrow(x)`
+- [ ] Uses `dials::range_get(object)` to get current range
+- [ ] Updates `bounds$upper` and/or `bounds$lower`
+- [ ] Uses `dials::range_set(object, bounds)` to update
+- [ ] Returns the updated parameter object
+- [ ] Converts bounds to correct type (integer or double)
+- [ ] Validates bounds (lower < upper, at least 1, etc.)
+- [ ] Tests with sample data of different sizes
+
 ---
 
 ## Complete Examples

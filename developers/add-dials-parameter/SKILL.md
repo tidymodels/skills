@@ -89,6 +89,47 @@ usethis::create_package("myextension")
 - Extension: Use dials:: prefix, link to extension-guide.md, create DESCRIPTION if needed
 - Source: No prefix, link to source-guide.md, assume dials repo structure exists
 
+**🛑 CRITICAL: FILE CREATION DISCIPLINE 🛑**
+
+**STOP BEFORE CREATING ANY FILES. READ THIS CAREFULLY.**
+
+You will create **EXACTLY these files and NO MORE:**
+
+**Extension development (creating new package):**
+- R/param_[name].R (with complete roxygen docs and examples)
+- tests/testthat/test-param_[name].R (comprehensive tests)
+- README.md (ONLY if package has no README)
+- **TOTAL: 2-3 files MAXIMUM**
+
+**Source development (PR to dials):**
+- R/param_[name].R (with complete roxygen docs and examples)
+- tests/testthat/test-param_[name].R (or additions to existing test file)
+- **TOTAL: 2 files ONLY. NOT 3. NOT 4. EXACTLY 2.**
+
+**❌ NEVER CREATE THESE FILES (MOST COMMON MISTAKES):**
+- README.md or README.txt (for PRs - dials already has one)
+- NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
+- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
+- QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
+- example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
+- PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+- INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
+- test-params-addition.R (tell user in conversation what to add)
+- pkgdown_update.txt, pkgdown_addition.yml
+- WORKFLOW_COMMANDS.sh, setup.sh
+- ANY other .md, .txt, .yml, .sh files
+
+**Where everything goes:**
+- Examples → roxygen @examples in R file
+- Implementation notes → roxygen @details in R file
+- PR description → conversation with user
+- NEWS entry → conversation (maintainer adds it)
+- Tests additions → conversation (tell user what to add)
+
+**Why this matters:** Creating extra documentation files is the #1 mistake. These files clutter the codebase and must be deleted by maintainers. ALL documentation belongs in roxygen comments (for code) or conversation (for PR description).
+
+**See extension-guide.md Step 5 and source-guide.md "File Creation Guidelines for PRs" for detailed enforcement rules.**
+
 ---
 
 ## Overview

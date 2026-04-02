@@ -582,28 +582,134 @@ values_activation <- c(
 
 ## File Creation Guidelines for PRs
 
-When contributing to dials, you should create **exactly 2-3 files**:
+**═══════════════════════════════════════════════════════**
+**⚠️⚠️⚠️ CRITICAL: PR FILE DISCIPLINE ⚠️⚠️⚠️**
+**═══════════════════════════════════════════════════════**
 
-1. **R/param_[name].R** - Your parameter function
-2. **tests/testthat/test-param_[name].R** OR add to existing test file
-3. **Optional: Brief PR description in commit message**
+**🛑 STOP! STOP! STOP! 🛑**
 
-**INSTRUCTIONS FOR CLAUDE:**
+**Before you create even ONE file, read this ENTIRE section.**
 
-**DO NOT CREATE** supplementary documentation files:
-- ❌ PR_CHECKLIST.md (mention checklist items in conversation instead)
+**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO FILES ONLY.**
+
+**═══════════════════════════════════════════════════════**
+
+### MANDATORY Pre-Flight Checklist
+
+**READ EACH LINE. CHECK EACH BOX. DO NOT SKIP THIS.**
+
+- [ ] I will create R/param_[name].R with complete roxygen documentation
+- [ ] I will create tests/testthat/test-param_[name].R (or add to existing test file)
+- [ ] I will create EXACTLY 2 files total
+- [ ] I will NOT create README.md
+- [ ] I will NOT create README.txt
+- [ ] I will NOT create NEWS_entry.md
+- [ ] I will NOT create IMPLEMENTATION_SUMMARY.md
+- [ ] I will NOT create IMPLEMENTATION_NOTES.md
+- [ ] I will NOT create IMPLEMENTATION_NOTES.txt
+- [ ] I will NOT create any other .md, .txt, or .R files beyond the 2 required files
+- [ ] All documentation goes in roxygen comments inside R/param_[name].R
+- [ ] All examples go in roxygen @examples inside R/param_[name].R
+- [ ] All implementation notes go in roxygen @details inside R/param_[name].R
+- [ ] PR description and checklist items go in the CONVERSATION, not in files
+
+**═══════════════════════════════════════════════════════**
+
+### The ONLY Files You Will Create
+
+1. **R/param_[name].R** - Parameter function with complete roxygen documentation
+2. **tests/testthat/test-param_[name].R** - Comprehensive test suite (or additions to test-params.R)
+
+**THAT'S IT. STOP THERE. DO NOT CREATE ANYTHING ELSE.**
+
+**═══════════════════════════════════════════════════════**
+
+### Files You Will ABSOLUTELY NOT Create
+
+**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
+
+**❌ NEVER, EVER CREATE THESE FILES FOR PRs:**
+
+**Documentation files (ALL PROHIBITED):**
+- ❌ README.md or README.txt (dials already has one)
 - ❌ IMPLEMENTATION_SUMMARY.md
-- ❌ README.md (dials already has one)
-- ❌ QUICK_REFERENCE.md
-- ❌ Any standalone documentation files
+- ❌ IMPLEMENTATION_NOTES.md or IMPLEMENTATION_NOTES.txt
+- ❌ PR_CHECKLIST.md or PR_DESCRIPTION.md
+- ❌ QUICK_REFERENCE.md, QUICK_START.md, or QUICKSTART.md
+- ❌ INTEGRATION_GUIDE.md or USAGE_GUIDE.md
+- ❌ SUMMARY.md, SUMMARY.txt, or OVERVIEW.md
+- ❌ INDEX.md, FILE_GUIDE.md, or MANIFEST.md
+- ❌ DELIVERY_SUMMARY.md or COMPLETION_REPORT.md
 
-**For PR submissions:**
-- Code goes in R/param_[name].R with complete roxygen docs
-- Tests go in existing test file or new test-param_[name].R
-- PR description and checklist items should be mentioned in conversation
-- All documentation is in roxygen comments, not separate files
+**Changelog files (ALL PROHIBITED):**
+- ❌ NEWS_entry.md or NEWS.md (mention in conversation, maintainer adds to NEWS.md)
+- ❌ CHANGELOG.md
 
-**Why this matters:** PRs should contain only code and tests. Documentation and checklists belong in the conversation and commit messages, not as files in the repository.
+**Example/script files (ALL PROHIBITED):**
+- ❌ example_usage.R or USAGE_EXAMPLE.R (examples go in roxygen @examples)
+- ❌ test_examples.R (tests go in test-param_[name].R)
+- ❌ WORKFLOW_COMMANDS.sh or setup.sh
+
+**Helper files (ALL PROHIBITED):**
+- ❌ pkgdown_addition.yml or pkgdown_update.txt
+- ❌ test-params-addition.R (just tell user in conversation)
+
+**ANY OTHER FILE NOT IN THE "ONLY FILES" LIST ABOVE IS PROHIBITED.**
+
+**═══════════════════════════════════════════════════════**
+
+### Where Content Actually Goes
+
+**CRITICAL: Everything has a place. No separate files.**
+
+| Content Type | ❌ WRONG (separate file) | ✅ CORRECT (where it goes) |
+|--------------|--------------------------|----------------------------|
+| Examples | example_usage.R | roxygen @examples in R/param_[name].R |
+| Implementation notes | IMPLEMENTATION_NOTES.txt | roxygen @details in R/param_[name].R |
+| Parameter description | README.md | roxygen title/description in R/param_[name].R |
+| PR checklist | PR_CHECKLIST.md | Conversation with user |
+| NEWS entry | NEWS_entry.md | Conversation (maintainer adds to NEWS.md) |
+| Test additions | test-params-addition.R | Conversation (tell user what to add) |
+| Usage guide | QUICK_REFERENCE.md | roxygen @examples in R/param_[name].R |
+| File list | INDEX.md | Not needed (only 2 files) |
+| Summary | SUMMARY.txt | Conversation with user |
+
+**═══════════════════════════════════════════════════════**
+
+### FINAL CHECK Before Creating Files
+
+**🛑 STOP RIGHT HERE. ANSWER THESE QUESTIONS: 🛑**
+
+1. How many files am I about to create? **Answer: 2**
+2. Are they R/param_[name].R and tests/testthat/test-param_[name].R? **Answer: YES**
+3. Am I about to create any .md, .txt, or other documentation files? **Answer: NO**
+4. Where do examples go? **Answer: In roxygen @examples**
+5. Where do implementation notes go? **Answer: In roxygen @details**
+6. Where does PR description go? **Answer: In conversation**
+
+**If you can't answer all 6 questions correctly, RE-READ this entire section.**
+
+**═══════════════════════════════════════════════════════**
+
+### Why This Matters
+
+PRs to dials should contain **ONLY code and tests**. Period.
+
+Creating documentation files:
+- ❌ Violates dials package conventions
+- ❌ Forces maintainers to delete your files
+- ❌ Clutters the PR with non-essential content
+- ❌ Duplicates information that belongs in roxygen comments
+- ❌ Shows you didn't read the contribution guidelines
+
+**Everything except code and tests goes in either:**
+1. **Roxygen comments** (documentation, examples, details)
+2. **The conversation** (PR description, checklists, notes)
+3. **Commit messages** (brief summary of changes)
+
+**NOT in separate files.**
+
+**═══════════════════════════════════════════════════════**
 
 ---
 
