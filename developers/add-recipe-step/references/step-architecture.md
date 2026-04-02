@@ -295,52 +295,83 @@ Steps can:
 ### Include Case Weights IF Step Computes Statistics:
 
 **Required when prep() aggregates across rows:**
+
 - ✅ Mean, median, mode
+
 - ✅ Quantiles, percentiles, quartiles (e.g., 5th, 95th percentile)
+
 - ✅ IQR (interquartile range)
+
 - ✅ Variance, standard deviation
+
 - ✅ Min/Max for scaling/normalization
+
 - ✅ PCA/dimension reduction (uses covariance matrix)
+
 - ✅ Any formula that aggregates across rows
 
 **Why:** These operations produce different results with weighted vs unweighted data.
 
 **Examples that NEED case weights:**
+
 - step_center() - computes means
+
 - step_normalize() - computes min/max or mean/sd
+
 - step_winsorize() - computes percentiles
+
 - step_bin() - computes quantiles for binning
+
 - step_flag_outliers() - computes Q1, Q3, IQR
+
 - step_range() - computes min/max for scaling
+
 - step_pca() - uses covariance matrix
 
 ### Skip Case Weights IF Step Only Does Per-Row Operations:
 
 **Not required when operation is per-row:**
+
 - ❌ Character counting: nchar()
+
 - ❌ NA detection: is.na()
+
 - ❌ Simple comparisons: x < threshold
+
 - ❌ Type conversions: as.character()
+
 - ❌ String manipulation
+
 - ❌ Math operations on individual values: log(), sqrt(), exp()
+
 - ❌ Creating indicators from existing data
+
 - ❌ Polynomial expansion
+
 - ❌ Row filtering without statistics
 
 **Why:** These operations are per-row; weights don't change the result.
 
 **Examples that DON'T need case weights:**
+
 - step_filter_missing() - counts NAs per row
+
 - step_filter_short_text() - counts characters per row
+
 - step_log() - applies log() to each value
+
 - step_dummy() - creates indicators from factors
+
 - step_interact() - multiplies existing columns
+
 - step_poly() - polynomial expansion
 
 ### Detection Rule:
 
 Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
+
 - **YES** → Include case weights
+
 - **NO** → Skip case weights entirely
 
 ## Common Patterns

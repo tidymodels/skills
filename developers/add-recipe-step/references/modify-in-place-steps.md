@@ -304,43 +304,67 @@ tidy.step_yourname <- function(x, ...) {
 ### Include Case Weights IF Step Computes Statistics:
 
 **Required when prep() aggregates across rows:**
+
 - ✅ Mean, median, mode
+
 - ✅ Quantiles, percentiles, quartiles (e.g., 5th, 95th percentile)
+
 - ✅ IQR (interquartile range)
+
 - ✅ Variance, standard deviation
+
 - ✅ Min/Max for scaling/normalization
 
 **Examples that NEED case weights:**
+
 - step_center() - computes means
+
 - step_normalize() - computes min/max or mean/sd
+
 - step_range() - computes min/max for scaling
+
 - step_winsorize() - computes percentiles
 
 ### Skip Case Weights IF Step Only Does Per-Row Operations:
 
 **Not required when operation is per-row:**
+
 - ❌ Character counting: nchar()
+
 - ❌ NA detection: is.na()
+
 - ❌ Simple comparisons: x < threshold
+
 - ❌ Type conversions: as.character()
+
 - ❌ String manipulation
+
 - ❌ Math operations on individual values: log(), sqrt(), exp()
 
 **Examples that DON'T need case weights:**
+
 - step_log() - applies log() to each value
+
 - step_sqrt() - applies sqrt() to each value
+
 - step_mutate() - per-row transformations
 
 ### Detection Rule:
 
 Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
+
 - **YES** → Include case weights (add parameters, implement weighted calculations, add tests)
+
 - **NO** → Skip case weights entirely
 
 **Implementation when needed:**
+
 - Add `case_weights` parameter to constructor
+
 - Use `get_case_weights()` and `are_weights_used()` in prep()
+
 - Implement weighted calculations (weighted.mean, weighted quantiles, etc.)
+
 - Add 2 case weight tests (frequency weights, importance weights)
 
 ## Key Implementation Notes

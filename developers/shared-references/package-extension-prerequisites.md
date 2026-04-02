@@ -494,6 +494,6 @@ After verification passes, you MUST proceed to the Extension Development Guide:
 
 - [package-development-workflow.md](package-development-workflow.md) - Fast iteration cycle
 
-- [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) - Writing tests
+- [package-testing-patterns.md](package-testing-patterns.md) - Writing tests
 
 - [package-roxygen-documentation.md](package-roxygen-documentation.md) - Documentation templates

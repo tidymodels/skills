@@ -60,7 +60,9 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 Determine step type from user requirements, then read ONLY that reference:
 
 - **Modifies existing columns?** Read [modify-in-place-steps.md](references/modify-in-place-steps.md) ONLY
+
 - **Creates new columns?** Read [create-new-columns-steps.md](references/create-new-columns-steps.md) ONLY
+
 - **Filters/removes rows?** Read [row-operation-steps.md](references/row-operation-steps.md) ONLY
 
 Do NOT read all three references. Read only the one needed for this step type.
@@ -70,7 +72,9 @@ Do NOT read all three references. Read only the one needed for this step type.
 Read other references ONLY if specifically mentioned or needed:
 
 - **User asks about helpers?** Read [helper-functions.md](references/helper-functions.md)
+
 - **User mentions tunable?** Read [optional-methods.md](references/optional-methods.md)
+
 - **Troubleshooting?** Read troubleshooting references
 
 Default: Don't pre-load optional references.
@@ -167,15 +171,15 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 
 - [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
 
-- [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) - Extension testing guide
+- [Testing Patterns (Extension)](references/package-testing-patterns.md) - Extension testing guide
 
 - [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
 
 - [Package Imports](references/package-imports.md) - Managing dependencies
 
-- [Best Practices (Extension)](references/package-extension-requirements.md#best-practices) - Extension code style
+- [Best Practices (Extension)](references/package-best-practices.md) - Extension code style
 
-- [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) - Extension issues
+- [Troubleshooting (Extension)](references/package-troubleshooting.md) - Extension issues
 
 **Source Development Specific:**
 
@@ -626,7 +630,7 @@ test_that("centering works with case weights", {
 
 **Reference test pattern:** `tests/testthat/test-center.R` in recipes repository
 
-See [Testing Patterns](references/package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing Patterns](references/package-testing-patterns.md) for comprehensive testing guide.
 
 ## Implementation Guide by Step Type
 
@@ -768,7 +772,7 @@ See [Roxygen Documentation](references/package-roxygen-documentation.md) for com
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns (Extension)](references/package-testing-patterns.md) for comprehensive guide.
 
 **Required test categories:**
 1. **Correctness**: Step transforms data correctly
@@ -851,7 +855,7 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 
 ## Best Practices
 
-See [Best Practices](references/package-extension-requirements.md#best-practices) for complete guide.
+See [Best Practices](references/package-best-practices.md) for complete guide.
 
 **Key principles:**
 
@@ -867,7 +871,7 @@ See [Best Practices](references/package-extension-requirements.md#best-practices
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/package-extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting (Extension)](references/package-troubleshooting.md) for complete guide.
 
 **Common issues:**
 

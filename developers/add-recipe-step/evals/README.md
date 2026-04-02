@@ -96,7 +96,9 @@ Each test uses realistic, detailed prompts that include:
 - **Core features**: Variable selection, case weights, role assignment, keep_original_cols, skip parameter
 
 - **Development contexts**:
+
   - Extension development (3 tests): Creating new packages with recipes:: prefix
+
   - Source development (3 tests): Contributing PRs to recipes with internal function access
 
 ### Expected Outputs
@@ -131,7 +133,9 @@ For each test, evaluate:
 ### Context Detection
 
 - [ ] Correctly identifies whether user is doing extension or source development
+
 - [ ] Adapts guidance appropriately based on context
+
 - [ ] Provides context-appropriate code patterns
 
 ### Implementation Completeness
@@ -147,19 +151,29 @@ For each test, evaluate:
 ### Recipes Conventions
 
 **For extension tests (1-3):**
+
 - [ ] Uses recipes:: prefix for all functions
+
 - [ ] Self-contained implementations (no internal function access)
+
 - [ ] Creates own test data
 
 **For source tests (4-6):**
+
 - [ ] Uses internal functions directly (no prefix)
+
 - [ ] Follows package file naming conventions
+
 - [ ] Uses internal test helpers and data
+
 - [ ] Includes PR-relevant considerations (file placement, consistency with existing steps)
 
 **Common to both:**
+
 - [ ] Proper use of recipes_eval_select() in prep
+
 - [ ] Appropriate use of check_type(), check_new_data()
+
 - [ ] Correct handling of trained flag
 
 ### Step Type Patterns
@@ -193,8 +207,13 @@ For each test, evaluate:
 ## Notes
 
 - **Tests 1-3** focus on extension development (creating new packages)
+
 - **Tests 4-6** focus on source development (contributing to recipes)
+
 - Tests focus on recipes-specific patterns, not general R package development
+
 - Each test represents a realistic use case from different domains
+
 - Prompts vary in formality and detail to reflect real user interactions
+
 - The split between contexts tests the skill's ability to detect and adapt to both scenarios

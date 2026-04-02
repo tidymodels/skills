@@ -517,6 +517,13 @@ Or use RStudio: Code → Reformat Code (Cmd/Ctrl + Shift + A)
 
 ## Testing Requirements
 
+**INSTRUCTIONS FOR CLAUDE:** Test count should match complexity.
+
+**Minimum: 8-10 essential tests** (all steps)
+**Add feature-specific tests only when applicable** (see details below)
+
+Target: 8-12 tests for simple steps, 12-18 for moderate, 18-25 for complex.
+
 Comprehensive guide to testing R packages in the tidymodels ecosystem using testthat.
 
 ### Test File Organization
