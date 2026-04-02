@@ -56,7 +56,9 @@ Rscript -e 'usethis::use_claude_code()'
 **After running `use_claude_code()`:**
 
 1. Use `AskUserQuestion` to prompt: "The extension prerequisites created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now to incorporate tidyverse development patterns?"
+
    - Option 1: "Yes, read CLAUDE.md now (Recommended)"
+
    - Option 2: "Skip for now"
 
 2. If user chooses "Yes", read `.claude/CLAUDE.md` using the Read tool before continuing
@@ -245,12 +247,17 @@ After running verify-setup.R, you may see warnings as UUIDs. Use this reference 
 2. **Ask the user**: "Would you like to clone the reference repository now? (Strongly recommended)"
 
 3. **If user chooses to skip**:
+
    - Confirm: "Proceeding without reference repository. Implementation quality may be lower."
+
    - Continue to implementation
 
 4. **If user wants to clone**:
+
    - Run Step 3 clone-tidymodels-repos script directly via Bash tool
+
    - Re-run verification script via Bash tool
+
    - Confirm repos are now found
 
 **Only repository warnings (c8a7f1b5-7890) can be skipped with user approval. All other warnings MUST be fixed.**

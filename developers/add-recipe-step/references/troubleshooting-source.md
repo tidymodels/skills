@@ -61,14 +61,19 @@ Error: object 'internal_helper' not found
 **Causes & Solutions:**
 
 1. **Function doesn't exist**
+
    - Check spelling
+
    - Search codebase
 
 2. **Function was removed/renamed**
+
    - Check git history
+
    - Implement functionality yourself
 
 3. **Need to use different helper**
+
    - Ask maintainers for recommendation
 
 ## Variable Selection Issues
@@ -526,15 +531,21 @@ result <- fit_resamples(wf, resamples = vfold_cv(mtcars))
 **Common Issues:**
 
 1. **Step fails on resampled data**
+
    - Some folds might have different characteristics
+
    - Add validation for edge cases
 
 2. **Step modifies outcome accidentally**
+
    - Check that selectors don't include outcome
+
    - Use `all_predictors()` not `all_numeric()`
 
 3. **Step is too slow**
+
    - Optimize calculations
+
    - Avoid unnecessary copies
 
 ### Recipe Doesn't Work After Adding Step
@@ -600,14 +611,19 @@ Error in step_your_step(...): object not found
 **Causes:**
 
 1. **Example uses unexported function**
+
    - Make sure all functions in examples are exported
 
 2. **Example uses undeclared dependency**
+
    - Add package to Suggests: `usethis::use_package("pkg", "Suggests")`
+
    - Use `@examplesIf` if package optional
 
 3. **Example too complex**
+
    - Simplify
+
    - Use `\donttest{}` for slow examples
 
 ### Check Fails: Tests Too Slow
@@ -726,15 +742,21 @@ git commit
 **Common failures:**
 
 1. **R CMD check errors**
+
    - Run locally: `devtools::check()`
+
    - Fix all errors, warnings, notes
 
 2. **Test failures**
+
    - Run: `devtools::test()`
+
    - Check that tests pass locally first
 
 3. **Code style issues**
+
    - Run: `styler::style_pkg()`
+
    - Run: `lintr::lint_package()`
 
 ## Common Review Feedback

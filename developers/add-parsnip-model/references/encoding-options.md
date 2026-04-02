@@ -742,18 +742,27 @@ set_encoding(
 **Three interfaces:**
 
 1. **Formula** (`interface = "formula"`)
+
    - Engine expects: `func(formula, data, ...)`
+
    - Use for: Traditional R functions
+
    - Conversion: None (pass-through)
 
 2. **Matrix** (`interface = "matrix"`)
+
    - Engine expects: `func(x, y, ...)`
+
    - Use for: Modern ML libraries
+
    - Conversion: Formula → numeric matrix + vector
 
 3. **XY** (`interface = "xy"`)
+
    - Engine expects: Custom x/y argument names
+
    - Use for: Functions with non-standard names
+
    - Conversion: Similar to matrix
 
 **Key concepts:**

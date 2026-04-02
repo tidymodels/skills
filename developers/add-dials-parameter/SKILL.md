@@ -155,8 +155,11 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
         │           │            │           - prune_method()
         ▼           ▼            ▼
     Examples:   Examples:    Examples:
+
     - threshold  - penalty    - mtry
+
     - mixture    - learn_rate - num_comp
+
     - neighbors  - cost       - sample_size
 ```
 

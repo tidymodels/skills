@@ -9,30 +9,41 @@ The evaluation set includes 5 test cases covering key machine learning workflows
 ### Core Supervised Learning (2 tests)
 
 1. **Customer Churn Classification** (Eval 1): Telecom churn prediction with 7000 rows
+
    - Tests: Binary classification, train/test split, cross-validation, model comparison (glmnet + boosted tree), feature engineering, ROC-AUC/Brier metrics, test set protection, seed setting
+
    - Complexity: Moderate
 
 2. **House Price Regression** (Eval 2): Real estate price prediction with 1500 homes
+
    - Tests: Regression workflow, handling skewed predictors, high-cardinality categoricals (25 neighborhoods), normalization for linear models, glmnet + boosted tree comparison, RMSE/R² evaluation, observed vs predicted plots, parallel processing inquiry, seed setting
+
    - Complexity: Moderate
 
 ### Data Spending and Validation (1 test)
 
 3. **Test Set Evaluation Request** (Eval 3): User asks to evaluate on test set mid-development
+
    - Tests: Refusing premature test set evaluation, explaining test set protection, asking for confirmation that model development is complete
+
    - Complexity: Critical behavior check
+
    - **Expected behavior**: REFUSE and explain why
 
 ### Special Data Structures (1 test)
 
 4. **Time Series Forecasting** (Eval 4): Monthly sales prediction with 4 years of data
+
    - Tests: Temporal structure awareness, rolling origin cross-validation (sliding_period), initial_time_split, rejecting random CV for time series, explaining temporal ordering importance, seed setting
+
    - Complexity: Moderate
 
 ### Complex Workflows (1 test)
 
 5. **Hospital Readmission Prediction** (Eval 5): Patient readmission with 850 rows
+
    - Tests: Missing data imputation, high-cardinality categoricals (diagnosis codes), workflow_set for model comparison, parallel processing setup with future package, proper model selection from CV results, asking permission before test evaluation, seed setting
+
    - Complexity: Advanced
 
 ## Test Design Principles

@@ -184,18 +184,27 @@ See [Step Architecture](references/step-architecture.md) for complete details.
 Every recipe step consists of three functions:
 
 1. **Step constructor** (e.g., `step_center()`) - User-facing function
+
    - Captures user arguments
+
    - Uses `enquos(...)` to capture variable selections
+
    - Returns recipe with step added via `add_step()`
 
 2. **Step initialization** (e.g., `step_center_new()`) - Internal constructor
+
    - Minimal function with no defaults
+
    - Calls `step(subclass = "name", ...)` to create S3 object
 
 3. **S3 methods** - Required methods for every step:
+
    - `prep.step_*()` - Estimates parameters from training data
+
    - `bake.step_*()` - Applies transformation to new data
+
    - `print.step_*()` - Displays step in recipe summary
+
    - `tidy.step_*()` - Returns step information as tibble
 
 ### The prep/bake Workflow

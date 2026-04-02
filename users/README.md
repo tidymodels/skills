@@ -29,10 +29,15 @@ See [tabular-data-ml/SKILL.md](tabular-data-ml/SKILL.md) for the complete skill 
   - `SKILL.md` - Main skill entry point
 
   - `references/` - Implementation guides for:
+
     - Data splitting and spending
+
     - Resampling methods
+
     - Feature engineering techniques
+
     - Model tuning strategies
+
     - Evaluation metrics and visualizations
 
 - `shared-references/` - Future shared reference materials

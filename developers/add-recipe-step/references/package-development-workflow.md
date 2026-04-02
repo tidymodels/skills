@@ -11,18 +11,27 @@ This guide covers the efficient development workflow for R package development.
 Run these commands repeatedly while developing:
 
 1. **`devtools::document()`** - Generate documentation from roxygen2 comments
+
    - Updates `man/` directory
+
    - Updates `NAMESPACE` with exports and imports
+
    - Takes seconds to run
 
 2. **`devtools::load_all()`** - Load your package into memory
+
    - Equivalent to library(yourpackage) but uses development version
+
    - Loads all functions, even unexported ones
+
    - Takes seconds to run
 
 3. **`devtools::test()`** - Run all tests
+
    - Runs testthat test suite
+
    - Takes seconds to minutes depending on test count
+
    - For single file: `devtools::test_active_file('R/yourfile.R')`
 
 **This cycle is fast (seconds) and gives you immediate feedback.**

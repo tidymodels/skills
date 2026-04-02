@@ -652,18 +652,25 @@ Solution: Check `inclusive` argument. With `c(FALSE, FALSE)` and small integer r
 ## Next Steps
 
 1. **Choose your parameter type**:
+
    - [Quantitative Parameters](quantitative-parameters.md) for numeric values
+
    - [Qualitative Parameters](qualitative-parameters.md) for categorical options
 
 2. **Add advanced features**:
+
    - [Transformations](transformations.md) for log-scale parameters
+
    - [Data-Dependent Parameters](data-dependent-parameters.md) for unknown bounds
 
 3. **Integrate with tune**:
+
    - [Grid Integration](grid-integration.md) for grid generation patterns
 
 4. **Learn from examples**:
+
    - Study dials package: `repos/dials/R/param_*.R`
+
    - Read tidymodels.org tutorial on custom parameters
 
 ---

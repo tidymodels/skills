@@ -10,33 +10,45 @@ The evaluation set includes 6 test cases covering the three main recipe step pat
 Steps that transform existing columns without creating new ones.
 
 1. **Winsorize** (Eval 1): Clinical trial analysis - caps extreme values at percentiles
+
    - Tests: percentile calculation, case weights, in-place modification
+
    - Complexity: Moderate
 
 2. **Custom Range Scaling** (Eval 4): Environmental modeling - scales to custom min/max ranges
+
    - Tests: linear transformation, weighted statistics, parameter handling
+
    - Complexity: Moderate
 
 ### Create-New-Columns Steps (3 tests)
 Steps that generate new columns from existing ones.
 
 3. **Binning** (Eval 2): Manufacturing sensor data - discretizes continuous variables into categories
+
    - Tests: quantile-based binning, keep_original_cols, role assignment, new column naming
+
    - Complexity: Moderate
 
 4. **Flag Outliers** (Eval 5): Fraud detection - creates binary indicators for outliers
+
    - Tests: IQR method, indicator variables, keep_original_cols, parameterized threshold
+
    - Complexity: Moderate
 
 ### Row-Operation Steps (2 tests)
 Steps that filter or remove rows from data.
 
 5. **Filter Missing** (Eval 3): Healthcare data cleaning - removes rows with too much missing data
+
    - Tests: row filtering, skip parameter, threshold behavior, column selection
+
    - Complexity: Simple
 
 6. **Filter Short Text** (Eval 6): Text analysis - removes rows with short text responses
+
    - Tests: character counting, skip parameter, text column validation
+
    - Complexity: Simple
 
 ## Test Design Principles

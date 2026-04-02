@@ -660,8 +660,11 @@ prep.step_center <- function(x, training, info = NULL, ...,
 2. Click "New pull request"
 3. Select your branch
 4. Fill in description:
+
    - What does this step do?
+
    - Why is it useful?
+
    - Reference any related issues
 
 ### Review Process
