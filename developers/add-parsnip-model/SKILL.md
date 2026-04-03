@@ -28,6 +28,30 @@ Before creating a new parsnip model, ensure you have:
 
 ## Creating a New Model
 
+### Assess Model Complexity First
+
+Before diving into implementation, determine the complexity of your model:
+
+**Simple Model:**
+- Single mode (regression OR classification, not both)
+- 1-2 engines
+- Few main arguments (1-3)
+- Standard prediction types only
+
+→ Follow streamlined approach: Focus on getting the basics right, avoid over-engineering
+
+**Complex Model:**
+- Multiple modes (regression AND classification)
+- 3+ engines
+- Many main arguments
+- Custom prediction types or special encoding
+
+→ Reference detailed guides for multi-mode handling, encoding options, and advanced patterns
+
+**Target files regardless of complexity:**
+- Extension development: 2-3 files (constructor, tests, optional README)
+- Source development: 2-4 files (constructor, data file, tests, optional engine docs)
+
 ### 1. Design the Model Specification
 
 **Start here:** [Model Constructor Design](references/model-constructors.md)
@@ -315,16 +339,38 @@ test_that("sparse_reg fits and predicts", {
 
 ## Common Pitfalls
 
-1. **Inconsistent argument naming** - Use tidymodels standards, not engine names
-2. **Missing mode registration** - Must register modes explicitly
-3. **Wrong interface type** - Match engine's expected input format
-4. **Incorrect column names** - Follow `.pred` naming conventions strictly
-5. **Incomplete registration** - Must complete full sequence for each engine
-6. **No argument translation** - Main arguments must map to engine arguments
+**Prioritize correctness over structure.** Focus on getting the implementation right before worrying about file organization.
+
+**Code correctness issues (fix first):**
+1. **Incorrect column names** - Follow `.pred` naming conventions strictly (`.pred`, `.pred_class`, `.pred_lower`)
+2. **Wrong interface type** - Match engine's expected input format (formula vs matrix vs xy)
+3. **Inconsistent argument naming** - Use tidymodels standards (`penalty`, `mixture`), not engine names
+4. **Missing prediction post-processing** - Ensure output format matches parsnip conventions
+
+**Implementation completeness (fix second):**
+5. **Incomplete registration** - Must complete full sequence for each engine (`set_new_model` → `set_model_mode` → `set_model_engine` → `set_dependency` → `set_model_arg` → `set_fit` → `set_pred`)
+6. **Missing mode registration** - Must register modes explicitly with `set_model_mode()`
+7. **No argument translation** - Main arguments must map to engine arguments via `set_model_arg()`
+8. **Insufficient testing** - Test all modes, engines, prediction types, and both fit() and fit_xy()
+
+**Structural concerns (address last):**
+9. **Too many files** - Keep to 2-3 files for extensions, 2-4 for source (see File Discipline section)
 
 ---
 
 ## When to Create a New Model
+
+**INSTRUCTIONS FOR CLAUDE:**
+
+Before implementing, verify this is truly a NEW model type. If the user requests:
+- A different computational engine for an existing model (e.g., "add xgboost to boost_tree")
+  → **Stop.** Politely explain this should use the [add-parsnip-engine](../add-parsnip-engine/SKILL.md) skill instead
+- A minor variation that could be an engine-specific argument
+  → **Stop.** Suggest using engine-specific arguments rather than creating a new model
+- Something that duplicates an existing parsnip model
+  → **Stop.** Point them to the existing model
+
+Only proceed with implementation if it's genuinely a new model type that doesn't exist in parsnip.
 
 **Create a new model when:**
 
@@ -353,6 +399,48 @@ test_that("sparse_reg fits and predicts", {
 - ✗ Random forest with different package → Add engine to `rand_forest()`
 
 - ✗ Linear regression with different penalty → Add engine to `linear_reg()`
+
+---
+
+## File Discipline
+
+Keep implementations focused and avoid creating unnecessary files.
+
+**Target file counts:**
+
+Extension development:
+- `R/[model_name].R` - Model constructor
+- `tests/testthat/test-[model_name].R` - Tests
+- `README.md` - Only if needed for package users
+- **Total: 2-3 files**
+
+Source development:
+- `R/[model_name].R` - Model constructor
+- `R/[model_name]_data.R` - Engine registrations
+- `tests/testthat/test-[model_name].R` - Tests
+- `man/rmd/[model_name]_[engine].Rmd` - Engine docs (optional)
+- **Total: 2-4 files**
+
+**Do not create:**
+- Implementation notes or summaries (IMPLEMENTATION_NOTES.md, IMPLEMENTATION_SUMMARY.md)
+- Usage example files (example_usage.R, examples.R)
+- Separate documentation files (DOCUMENTATION.md, USAGE.md)
+- Development guide files (DEVELOPMENT.md, GUIDE.md)
+- Testing guide files (TESTING.md, TEST_GUIDE.md)
+- Changelog files (CHANGELOG.md, NEWS.md unless source development)
+- Configuration files (CONFIG.md, SETUP.md)
+- Workflow files (WORKFLOW.md, PROCESS.md)
+- Debug or log files (DEBUG.md, LOG.md)
+- Status or progress files (STATUS.md, PROGRESS.md)
+- TODO or task files (TODO.md, TASKS.md)
+- Multiple README variants (README_DEV.md, README_TECHNICAL.md)
+
+**Instead:**
+- Put usage examples in roxygen `@examples` tags
+- Put implementation notes in roxygen `@details` tags
+- Put development notes in comments within code
+- Document design decisions in commit messages
+- Use vignettes for comprehensive usage guides (if creating a package)
 
 ---
 
