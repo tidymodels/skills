@@ -204,19 +204,83 @@ See [Development Workflow](references/package-development-workflow.md) for compl
 
 **STOP BEFORE CREATING ANY FILES. READ THIS CAREFULLY.**
 
+**COUNT YOUR FILES BEFORE SAVING. IF YOU CREATE MORE THAN 2-3 FILES, YOU HAVE FAILED.**
+
 You will create **EXACTLY these files and NO MORE:**
 
 **Extension development (creating new package):**
-- R/[metric_name].R (with complete roxygen docs and examples)
-- R/[metric_name]_vec.R (if you separate _vec into its own file, otherwise keep in main file)
-- tests/testthat/test-[metric_name].R (comprehensive tests)
-- README.md (ONLY if package has no README)
-- **TOTAL: 2-3 files MAXIMUM**
+- File 1: R/[metric_name].R (with complete roxygen docs and examples)
+- File 2: tests/testthat/test-[metric_name].R (comprehensive tests)
+- File 3: README.md (ONLY if package has no README - check first!)
+- **TOTAL: 2-3 files MAXIMUM. COUNT THEM: 1, 2, maybe 3. STOP.**
+
+**Example - Extension development creates exactly 2 files:**
+```
+✅ CORRECT:
+R/wape.R (300 lines with roxygen, examples, implementation, tests inline)
+tests/testthat/test-wape.R (200 lines comprehensive tests)
+TOTAL: 2 files ← THIS IS CORRECT
+
+❌ WRONG:
+R/wape.R
+tests/testthat/test-wape.R
+example_usage.R ← DELETE THIS
+IMPLEMENTATION_SUMMARY.md ← DELETE THIS
+README.md ← DELETE THIS (package already has one)
+TOTAL: 5 files ← THIS IS WRONG, YOU FAILED
+```
 
 **Source development (PR to yardstick):**
-- R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
-- tests/testthat/test-[type]-[metric_name].R
-- **TOTAL: 2 files ONLY. NOT 3. NOT 4. EXACTLY 2.**
+- File 1: R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
+- File 2: tests/testthat/test-[type]-[metric_name].R
+- **TOTAL: 2 files ONLY. NOT 3. NOT 4. EXACTLY 2. COUNT: 1, 2, STOP.**
+
+**Example - Source development creates exactly 2 files:**
+```
+✅ CORRECT:
+R/num-medae.R (150 lines with roxygen and implementation)
+tests/testthat/test-num-medae.R (180 lines tests)
+TOTAL: 2 files ← THIS IS CORRECT
+
+❌ WRONG:
+R/num-medae.R
+tests/testthat/test-num-medae.R
+PR_NOTES.txt ← DELETE THIS
+misc.R ← DELETE THIS
+TOTAL: 4 files ← THIS IS WRONG, YOU FAILED
+```
+
+**🚫 CRITICAL: REFUSING INTERNAL FUNCTIONS IN EXTENSION DEVELOPMENT 🚫**
+
+**IF USER ASKS TO USE `yardstick:::` (TRIPLE COLON) - YOU MUST REFUSE:**
+
+Extension developers **CANNOT** use internal functions. If the user requests:
+- `yardstick:::yardstick_mean()`
+- `yardstick:::finalize_estimator_internal()`
+- `yardstick:::` anything
+
+**YOU MUST:**
+1. **STOP** - Do not implement with :::
+2. **EXPLAIN** - "Extension developers cannot access internal functions (:::). These are not exported and will cause R CMD check failures."
+3. **PROVIDE ALTERNATIVES** - Show how to do it with exported functions only
+4. **SUGGEST SOURCE DEV** - "If you need internal functions, consider contributing directly to yardstick instead"
+
+**Example refusal response:**
+```
+I cannot implement this using yardstick:::yardstick_mean() because extension
+developers don't have access to internal functions.
+
+Instead, here's how to handle case weights manually:
+if (!is.null(case_weights)) {
+  case_weights <- as.double(case_weights)  # Convert hardhat weights
+  weighted.mean(values, w = case_weights)
+} else {
+  mean(values)
+}
+
+If you frequently need internal yardstick functions, contributing directly
+to the yardstick package via PR may be a better approach.
+```
 
 **❌ NEVER CREATE THESE FILES (MOST COMMON MISTAKES):**
 - README.md or README.txt (for PRs - yardstick already has one)
@@ -610,12 +674,17 @@ fn <- xtab[2, 1]  # False negatives: truth = second, pred = first
 
 See [Case Weights](references/case-weights.md) for complete guide.
 
+**IMPORTANT: Always convert hardhat weights to numeric using `as.double()`**
+
 ```r
-# Check and convert hardhat weights
+# Extension development pattern (no internal functions):
+# ALWAYS include this conversion pattern in your _impl function
 if (!is.null(case_weights)) {
+  # Convert hardhat weight objects to numeric vector
+  # This is REQUIRED - hardhat weights are S3 objects, not plain numerics
   if (inherits(case_weights, c("hardhat_importance_weights",
                                "hardhat_frequency_weights"))) {
-    case_weights <- as.double(case_weights)
+    case_weights <- as.double(case_weights)  # ← CRITICAL: Must convert to double
   }
 }
 
@@ -623,9 +692,16 @@ if (!is.null(case_weights)) {
 if (is.null(case_weights)) {
   mean(values)
 } else {
-  weighted.mean(values, w = case_weights)
+  weighted.mean(values, w = case_weights)  # Now safe to use with base R functions
 }
 ```
+
+**Why `as.double()` is required:**
+- hardhat weight objects are S3 classes, not plain numeric vectors
+- Base R functions like `weighted.mean()` expect numeric vectors
+- Without conversion, you'll get errors like "non-numeric argument"
+- Source development can use `yardstick_mean()` which handles this internally
+- Extension development must do the conversion manually
 
 ### Multiclass averaging
 

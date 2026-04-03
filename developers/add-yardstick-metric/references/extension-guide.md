@@ -484,17 +484,31 @@ custom_accuracy_impl <- function(truth, estimate, case_weights = NULL) {
 
 ### Handling Case Weights
 
-You must convert hardhat weights manually:
+**CRITICAL: Always use `as.double()` to convert hardhat weights**
+
+Extension development CANNOT use `yardstick:::yardstick_mean()`. You must handle case weights manually with this pattern:
 
 ```r
+# REQUIRED pattern for extension development:
 if (!is.null(case_weights)) {
+  # Convert hardhat weight objects to numeric - THIS IS REQUIRED
   if (inherits(case_weights, c("hardhat_importance_weights",
                                "hardhat_frequency_weights"))) {
-    case_weights <- as.double(case_weights)
+    case_weights <- as.double(case_weights)  # ← CRITICAL: Must convert
   }
+  # Now safe to use with base R functions
   weighted.mean(values, w = case_weights)
+} else {
+  mean(values)
 }
 ```
+
+**Why `as.double()` is required:**
+- hardhat weights are S3 objects, not plain numerics
+- Base R `weighted.mean()` expects numeric vectors
+- Without conversion: "non-numeric argument" errors
+- Source development can use `yardstick_mean()` instead
+- Extension development MUST do manual conversion
 
 ### Using Confusion Matrices
 

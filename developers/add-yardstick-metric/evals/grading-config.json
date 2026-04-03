@@ -1,0 +1,164 @@
+{
+  "skill_name": "add-yardstick-metric",
+  "checks": {
+    "file_count": {
+      "extension": {
+        "type": "range",
+        "value": [2, 3]
+      },
+      "source": {
+        "type": "exact",
+        "value": 2
+      }
+    },
+    "prohibited_files": [
+      "IMPLEMENTATION_SUMMARY.md",
+      "QUICKSTART.md",
+      "QUICK_REFERENCE.md",
+      "USAGE_EXAMPLE.md",
+      "example_usage.R",
+      "METRIC_DESIGN.md",
+      "VALIDATION_APPROACH.md",
+      "verification_script.R",
+      "check_metric.R",
+      "PR_CHECKLIST.md",
+      "PR_DESCRIPTION.md",
+      "PR_NOTES.txt",
+      "NEWS_entry.md",
+      "IMPLEMENTATION_NOTES.md",
+      "CONTRIBUTING.md",
+      "GETTING_STARTED.md",
+      "HOW_TO_USE.md",
+      "INSTALLATION.md",
+      "misc.R",
+      "helpers.R",
+      "utils.R",
+      "EVALUATION_SUMMARY.md",
+      "RESPONSE.md",
+      "*.txt",
+      "*.sh",
+      "*.yml"
+    ],
+    "required_files": {
+      "extension": [
+        "*.R"
+      ],
+      "source": [
+        "*.R"
+      ]
+    },
+    "patterns": {
+      "extension": {
+        "has_three_functions": {
+          "description": "Three-function pattern: _impl(), _vec(), .data.frame()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "_impl\\s*<-\\s*function",
+            "_vec\\s*<-\\s*function",
+            "\\.data\\.frame\\s*<-\\s*function"
+          ],
+          "logic": "all"
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples",
+            "#'\\s*@param"
+          ],
+          "logic": "all"
+        },
+        "has_case_weights": {
+          "description": "Case weights handling with hardhat conversion",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "case_weights\\s*=\\s*NULL",
+            "as\\.double\\(.+case_weights"
+          ],
+          "logic": "all"
+        },
+        "has_na_handling": {
+          "description": "NA handling with yardstick_remove_missing",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "yardstick::yardstick_remove_missing",
+            "na_rm\\s*="
+          ],
+          "logic": "all"
+        },
+        "no_internal_functions": {
+          "description": "No use of internal functions (:::)",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "yardstick:::"
+          ],
+          "logic": "none"
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "na_rm\\s*=\\s*TRUE",
+            "na_rm\\s*=\\s*FALSE",
+            "case_weights"
+          ],
+          "logic": "all"
+        }
+      },
+      "source": {
+        "has_three_functions": {
+          "description": "Three-function pattern: _impl(), _vec(), .data.frame()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "_impl\\s*<-\\s*function",
+            "_vec\\s*<-\\s*function",
+            "\\.data\\.frame\\s*<-\\s*function"
+          ],
+          "logic": "all"
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation with templates",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples",
+            "#'\\s*@template"
+          ],
+          "logic": "all"
+        },
+        "uses_internal_helpers": {
+          "description": "Uses internal helper functions directly",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "yardstick_mean|yardstick_median|finalize_estimator_internal"
+          ],
+          "logic": "any"
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "na_rm\\s*=\\s*TRUE",
+            "na_rm\\s*=\\s*FALSE"
+          ],
+          "logic": "all"
+        }
+      }
+    },
+    "prefix_usage": {
+      "extension": {
+        "file_pattern": "**/*.R",
+        "prefix": "yardstick::",
+        "min_count": 3
+      },
+      "source": {
+        "file_pattern": "**/*.R",
+        "prefix": "yardstick::",
+        "max_count": 0
+      }
+    }
+  }
+}
