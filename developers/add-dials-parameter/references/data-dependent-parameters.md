@@ -481,13 +481,21 @@ bounds$upper <- min(50L, floor(0.10 * nrow(x)))
 Before completing a custom finalize function, verify:
 
 - [ ] Function signature is `function(object, x)`
+
 - [ ] Calculates new bound(s) based on `ncol(x)` or `nrow(x)`
+
 - [ ] Uses `dials::range_get(object)` to get current range
+
 - [ ] Updates `bounds$upper` and/or `bounds$lower`
+
 - [ ] Uses `dials::range_set(object, bounds)` to update
+
 - [ ] Returns the updated parameter object
+
 - [ ] Converts bounds to correct type (integer or double)
+
 - [ ] Validates bounds (lower < upper, at least 1, etc.)
+
 - [ ] Tests with sample data of different sizes
 
 ---

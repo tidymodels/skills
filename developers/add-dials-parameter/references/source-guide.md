@@ -566,16 +566,25 @@ values_activation <- c(
 ✅ **Include comprehensive tests** covering all features
 
 ⚠️ **But avoid over-explanation:**
+
 - Don't repeat information already in linked references
+
 - Keep roxygen docs focused and concise
+
 - Examples in roxygen are sufficient; don't create separate example files
+
 - Trust that maintainers can review reference implementations
 
 **Quality indicators:**
+
 - All required parameter fields specified (type, range/values, label, etc.)
+
 - Tests cover correctness, edge cases, and grid integration
+
 - Documentation includes working examples
+
 - Code follows dials conventions (naming, structure, style)
+
 - PR description is clear and focused
 
 ---
@@ -599,18 +608,31 @@ values_activation <- c(
 **READ EACH LINE. CHECK EACH BOX. DO NOT SKIP THIS.**
 
 - [ ] I will create R/param_[name].R with complete roxygen documentation
+
 - [ ] I will create tests/testthat/test-param_[name].R (or add to existing test file)
+
 - [ ] I will create EXACTLY 2 files total
+
 - [ ] I will NOT create README.md
+
 - [ ] I will NOT create README.txt
+
 - [ ] I will NOT create NEWS_entry.md
+
 - [ ] I will NOT create IMPLEMENTATION_SUMMARY.md
+
 - [ ] I will NOT create IMPLEMENTATION_NOTES.md
+
 - [ ] I will NOT create IMPLEMENTATION_NOTES.txt
+
 - [ ] I will NOT create any other .md, .txt, or .R files beyond the 2 required files
+
 - [ ] All documentation goes in roxygen comments inside R/param_[name].R
+
 - [ ] All examples go in roxygen @examples inside R/param_[name].R
+
 - [ ] All implementation notes go in roxygen @details inside R/param_[name].R
+
 - [ ] PR description and checklist items go in the CONVERSATION, not in files
 
 **═══════════════════════════════════════════════════════**
@@ -631,27 +653,43 @@ values_activation <- c(
 **❌ NEVER, EVER CREATE THESE FILES FOR PRs:**
 
 **Documentation files (ALL PROHIBITED):**
+
 - ❌ README.md or README.txt (dials already has one)
+
 - ❌ IMPLEMENTATION_SUMMARY.md
+
 - ❌ IMPLEMENTATION_NOTES.md or IMPLEMENTATION_NOTES.txt
+
 - ❌ PR_CHECKLIST.md or PR_DESCRIPTION.md
+
 - ❌ QUICK_REFERENCE.md, QUICK_START.md, or QUICKSTART.md
+
 - ❌ INTEGRATION_GUIDE.md or USAGE_GUIDE.md
+
 - ❌ SUMMARY.md, SUMMARY.txt, or OVERVIEW.md
+
 - ❌ INDEX.md, FILE_GUIDE.md, or MANIFEST.md
+
 - ❌ DELIVERY_SUMMARY.md or COMPLETION_REPORT.md
 
 **Changelog files (ALL PROHIBITED):**
+
 - ❌ NEWS_entry.md or NEWS.md (mention in conversation, maintainer adds to NEWS.md)
+
 - ❌ CHANGELOG.md
 
 **Example/script files (ALL PROHIBITED):**
+
 - ❌ example_usage.R or USAGE_EXAMPLE.R (examples go in roxygen @examples)
+
 - ❌ test_examples.R (tests go in test-param_[name].R)
+
 - ❌ WORKFLOW_COMMANDS.sh or setup.sh
 
 **Helper files (ALL PROHIBITED):**
+
 - ❌ pkgdown_addition.yml or pkgdown_update.txt
+
 - ❌ test-params-addition.R (just tell user in conversation)
 
 **ANY OTHER FILE NOT IN THE "ONLY FILES" LIST ABOVE IS PROHIBITED.**
@@ -696,10 +734,15 @@ values_activation <- c(
 PRs to dials should contain **ONLY code and tests**. Period.
 
 Creating documentation files:
+
 - ❌ Violates dials package conventions
+
 - ❌ Forces maintainers to delete your files
+
 - ❌ Clutters the PR with non-essential content
+
 - ❌ Duplicates information that belongs in roxygen comments
+
 - ❌ Shows you didn't read the contribution guidelines
 
 **Everything except code and tests goes in either:**

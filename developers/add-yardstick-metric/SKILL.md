@@ -718,10 +718,15 @@ if (is.null(case_weights)) {
 ```
 
 **Why `as.double()` is required:**
+
 - hardhat weight objects are S3 classes, not plain numeric vectors
+
 - Base R functions like `weighted.mean()` expect numeric vectors
+
 - Without conversion, you'll get errors like "non-numeric argument"
+
 - Source development can use `yardstick_mean()` which handles this internally
+
 - Extension development must do the conversion manually
 
 ### Multiclass averaging
@@ -892,39 +897,63 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 ## File Creation Guidelines
 
 **Extension development (creating new package):**
+
 - R/[metric_name].R (with complete roxygen docs and examples)
+
 - tests/testthat/test-[metric_name].R (comprehensive tests)
+
 - README.md (ONLY if package has no README - check first!)
 
 Typically creates 2 files (3 if README needed).
 
 **Source development (PR to yardstick):**
+
 - R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
+
 - tests/testthat/test-[type]-[metric_name].R
 
 Creates exactly 2 files.
 
 **❌ AVOID creating these files:**
+
 - README.md or README.txt (for PRs - yardstick already has one)
+
 - NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
+
 - IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
+
 - QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
+
 - example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
+
 - PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+
 - INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
+
 - metric_examples.R, test_examples.R
+
 - METRIC_DESIGN.md, VALIDATION_APPROACH.md
+
 - pkgdown_update.txt, pkgdown_addition.yml
+
 - WORKFLOW_COMMANDS.sh, setup.sh
+
 - verification_script.R, check_metric.R
+
 - ANY other .md, .txt, .yml, .sh files beyond the 2-3 core files
 
 **Where everything goes:**
+
 - Examples → roxygen @examples in R file
+
 - Implementation notes → roxygen @details in R file
+
 - Metric design rationale → roxygen @details in R file
+
 - PR description → conversation with user
+
 - NEWS entry → conversation (maintainer adds it)
+
 - Usage guide → README.md (extension dev only) or roxygen examples
 
 ---

@@ -1,6 +1,11 @@
+---
+name: add-parsnip-engine
+description: Add new computational engines to existing parsnip models. Use when connecting an existing parsnip model (linear_reg, boost_tree, etc.) to a new computational backend or R package.
+---
+
 # Add Parsnip Engine
 
-Add new computational engines to existing parsnip models. This skill covers registering new engines (like adding "spark" to `linear_reg()`) without creating entirely new model types.
+Guide for adding new engines to existing parsnip models. This skill covers registering engines (like adding "spark" to `linear_reg()`) without creating entirely new model types.
 
 **Use this skill when:** Adding a new engine to an existing parsnip model type.
 
@@ -8,143 +13,253 @@ Add new computational engines to existing parsnip models. This skill covers regi
 
 ---
 
+## Two Development Contexts
+
+This skill supports **two distinct development contexts**:
+
+### 🆕 Extension Development (Default)
+**Creating a new R package** that adds engines to existing parsnip models.
+
+- ✅ Use this for: New packages, standalone engines, CRAN submissions
+
+- 📦 Package detection: No `parsnip` in DESCRIPTION's `Package:` field
+
+- ⚠️ **Constraint**: Can only use exported functions (no `:::`)
+
+- 📖 **Guide**: [Extension Development Guide](references/extension-guide.md)
+
+### 🔧 Source Development (Advanced)
+**Contributing directly to parsnip** via pull requests.
+
+- ✅ Use this for: Contributing to tidymodels/parsnip repository
+
+- 📦 Package detection: `Package: parsnip` in DESCRIPTION
+
+- ✨ **Benefit**: Can use internal functions and package infrastructure
+
+- 📖 **Guide**: [Source Development Guide](references/source-guide.md)
+
+**This main guide shows extension development patterns.** If you're contributing to parsnip itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
+
+---
+
+## Getting Started
+
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
+
+```bash
+Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/verify-setup.R"))[1])'
+```
+
+**Then follow the appropriate path based on the output:**
+
+- **Output: "All checks for source development complete."**
+  → Go to [Source Development Guide](references/source-guide.md)
+
+- **Output: "All checks for extension development complete." (no warnings)**
+  → Go to [Extension Development Guide](references/extension-guide.md)
+
+- **Output: Shows "Warning - [UUID]" messages**
+  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
+
+---
+
+## Overview
+
+Adding an engine to an existing parsnip model provides:
+
+- Connection to new computational backends (e.g., H2O, Spark, TensorFlow)
+
+- Standardized interface with parsnip models
+
+- Support for multiple prediction types
+
+- Integration with tidymodels ecosystem
+
+- Consistent API regardless of engine
+
+**What this skill covers:**
+
+- Planning and choosing the right interface
+
+- Complete registration sequence
+
+- Fit and predict method implementation
+
+- Testing engine implementations
+
+- Multi-mode support (regression + classification)
+
+---
+
+## Repository Access (Optional but Recommended)
+
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/parsnip/` exists in the current working directory. Use this to guide development:
+
+**If `repos/parsnip/` exists:**
+
+- ✅ Use it as a reference throughout development
+
+- Read source files (e.g., `repos/parsnip/R/linear_reg_data.R`) to study engine registration patterns
+
+- Read test files (e.g., `repos/parsnip/tests/testthat/test-linear_reg.R`) for testing patterns
+
+- Reference these files when answering complex questions or solving problems
+
+- Look at actual code structure, validation patterns, and edge case handling
+
+**If `repos/parsnip/` does NOT exist:**
+
+- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+
+- This is **optional but strongly recommended** for high-quality development
+
+- If the user declines, reference files using GitHub URLs:
+
+  - Format: `https://github.com/tidymodels/parsnip/blob/main/R/[file-name].R`
+
+  - Example: https://github.com/tidymodels/parsnip/blob/main/R/linear_reg_data.R
+
+  - This allows users to click through to see implementations
+
+**When to use repository references:**
+
+- Complex implementation questions (e.g., "How does parsnip handle multi-mode engines?")
+
+- Debugging issues (compare user's code to working implementation)
+
+- Understanding patterns (study similar engines)
+
+- Test design (see how parsnip tests edge cases)
+
+- Architecture decisions (understand internal structure)
+
+See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+
+---
+
+## Quick Navigation
+
+**Development Guides:**
+
+- [Extension Development Guide](references/extension-guide.md) - Creating new packages that add engines
+
+- [Source Development Guide](references/source-guide.md) - Contributing PRs to parsnip itself
+
+**Core Implementation References:**
+
+- [Engine Implementation](references/engine-implementation.md) - Complete registration sequence, examples, patterns
+
+- [Fit and Predict Methods](references/fit-predict-methods.md) - Implementation details for fit/predict
+
+- [Prediction Types](references/prediction-types.md) - All 11 prediction types
+
+- [Mode Handling](references/mode-handling.md) - Multi-mode support (regression + classification)
+
+- [Encoding Options](references/encoding-options.md) - Interface types and data conversion
+
+**Model-Specific Guides:**
+
+- [Model Specification System](references/model-specification-system.md) - How parsnip models work
+
+**Shared References (Extension Development):**
+
+- [Extension Prerequisites](references/package-extension-prerequisites.md) - Package setup
+
+- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+
+- [Extension Requirements](references/package-extension-requirements.md) - Complete guide:
+
+  - [Best Practices](references/package-extension-requirements.md#best-practices)
+
+  - [Testing Patterns](references/package-extension-requirements.md#testing-requirements)
+
+  - [Troubleshooting](references/package-extension-requirements.md#common-issues-solutions)
+
+- [Roxygen Documentation](references/package-roxygen-documentation.md)
+
+- [Package Imports](references/package-imports.md)
+
+**Source Development Specific:**
+
+- [Testing Patterns (Source)](references/testing-patterns-source.md)
+
+- [Best Practices (Source)](references/best-practices-source.md)
+
+- [Troubleshooting (Source)](references/troubleshooting-source.md)
+
+---
+
 ## Prerequisites
 
-Before adding a new engine, ensure you have:
+**⚠️ IMPORTANT**: Before implementing engines, complete the extension prerequisites sequence:
 
-**R Package Development:**
+👉 **[Extension Prerequisites Guide](references/package-extension-prerequisites.md)**
 
-- [Extension Prerequisites](references/package-extension-prerequisites.md) - Required for extension packages
+This guide includes critical steps like `use_claude_code()` (if available) that must run BEFORE adding dependencies. Following the complete sequence ensures proper package initialization and Claude Code integration.
 
-- [Development Workflow](references/package-development-workflow.md) - Fast iteration practices
+After completing extension prerequisites, return here to implement your engine.
 
 **Parsnip Fundamentals:**
 
-- [Fit and Predict Methods](references/fit-predict-methods.md) - Implementation basics
+Before adding an engine, understand:
 
-- [Prediction Types](references/prediction-types.md) - Available output formats
+- How parsnip models work - [Model Specification System](references/model-specification-system.md)
 
----
+- Fit and predict patterns - [Fit and Predict Methods](references/fit-predict-methods.md)
 
-## Adding a New Engine
-
-### 1. Identify the Model
-
-**Determine which model** to extend:
-
-```r
-# Check existing models
-parsnip::show_models()
-
-# Check current engines for a model
-parsnip::show_engines("linear_reg")
-```
-
-**Verify your engine is new:**
-
-- Not already registered for this model
-
-- Provides distinct computational approach or benefits
-
-- Worth the maintenance burden
-
-### 2. Plan Engine Implementation
-
-**Start here:** [Engine Implementation Guide](references/engine-implementation.md)
-
-Decide on:
-
-- Which modes to support (regression, classification, both?)
-
-- Which prediction types the engine can provide
-
-- Data interface (formula, matrix, xy)
-
-- Which main arguments the engine supports
-
-- Engine-specific configuration needed
-
-### 3. Implement Fit Method
-
-**Core implementation:** [Fit and Predict Methods](references/fit-predict-methods.md)
-
-Register how to fit the model:
-
-- Choose interface type (formula, matrix, xy)
-
-- Map main arguments to engine arguments
-
-- Set engine defaults
-
-- Handle data conversion
-
-### 4. Implement Prediction Types
-
-**Standardize output:** [Prediction Types](references/prediction-types.md)
-
-For each prediction type:
-
-- Check what the engine can provide
-
-- Implement pre-processing if needed
-
-- Format output with standard column names
-
-- Handle engine-specific quirks
-
-### 5. Configure Mode Handling
-
-**If multi-mode:** [Mode Handling](references/mode-handling.md)
-
-For engines supporting multiple modes:
-
-- Register each mode separately
-
-- Set mode-specific defaults
-
-- Implement appropriate prediction types per mode
-
-### 6. Set Encoding Options
-
-**For matrix/xy interfaces:** [Encoding Options](references/encoding-options.md)
-
-Configure data conversion:
-
-- Choose interface type
-
-- Set factor encoding
-
-- Handle intercept
-
-- Configure sparse matrix support
+- Available output formats - [Prediction Types](references/prediction-types.md)
 
 ---
 
-## Registration Steps
+## Implementation Overview
 
-### Complete Registration Sequence
+**Core steps for adding an engine:**
 
-For each engine-mode combination:
+1. **Plan** - Identify model, choose interface, decide on modes
+2. **Register** - Declare engine exists with `set_model_engine()`
+3. **Dependencies** - Declare packages with `set_dependency()`
+4. **Arguments** - Translate main arguments with `set_model_arg()`
+5. **Fit** - Register fit method with `set_fit()`
+6. **Encoding** - Configure interface with `set_encoding()` (if needed)
+7. **Predict** - Register prediction types with `set_pred()`
+8. **Test** - Verify all interfaces and prediction types work
 
-1. **Register engine:** `set_model_engine()`
+**See [Engine Implementation Guide](references/engine-implementation.md) for complete details and examples.**
 
-2. **Declare dependencies:** `set_dependency()`
+---
 
-3. **Translate arguments:** `set_model_arg()` (if using main arguments)
+## Registration Process
 
-4. **Register fit method:** `set_fit()`
+The registration process differs slightly by context:
 
-5. **Configure encoding:** `set_encoding()` (if needed)
+**Extension Development:**
 
-6. **Register predictions:** `set_pred()` for each type
+- Register in `.onLoad()` function
 
-**See:** [Engine Implementation Guide](references/engine-implementation.md) for detailed sequence.
+- Use `parsnip::` prefix for all functions
+
+- Cannot access internal helpers
+
+- Create function that contains all registrations
+
+**Source Development:**
+
+- Add to existing `R/[model]_data.R` file
+
+- No prefix needed for parsnip functions
+
+- Can use internal helpers if needed
+
+- Follow existing file organization patterns
+
+See respective guides for detailed registration patterns.
 
 ---
 
 ## Testing Your Engine
 
-**Essential tests:**
+**Essential tests to include:**
 
 - Engine fits successfully
 
@@ -158,276 +273,11 @@ For each engine-mode combination:
 
 - Error messages are clear
 
-**Test each mode separately:**
+**See testing guides:**
 
-```r
-test_that("xgboost engine works for regression", {
-  skip_if_not_installed("xgboost")
+- Extension: [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements)
 
-  spec <- boost_tree() |>
-    set_engine("xgboost") |>
-    set_mode("regression")
-
-  fit <- fit(spec, mpg ~ ., data = mtcars)
-  expect_s3_class(fit, "model_fit")
-
-  preds <- predict(fit, mtcars[1:5, ])
-  expect_named(preds, ".pred")
-  expect_equal(nrow(preds), 5)
-})
-```
-
----
-
-## Contributing to Parsnip Source
-
-**For PRs to tidymodels/parsnip:**
-
-Additional resources for source development:
-
-- [Best Practices (Source)](references/best-practices-source.md) - Parsnip-specific patterns
-
-- [Troubleshooting (Source)](references/troubleshooting-source.md) - Common issues
-
-- [Testing Patterns (Source)](references/testing-patterns-source.md) - Comprehensive tests
-
-**Key differences from extensions:**
-
-- Can use internal functions (`:::`)
-
-- Add to existing `R/[model]_data.R` file
-
-- Add to parsnip documentation
-
-- More comprehensive testing required
-
-- Consider existing engine patterns
-
----
-
-## Example: Adding H2O to linear_reg
-
-**Hypothetical new engine for linear regression:**
-
-### Registration
-
-```r
-# In .onLoad() for extensions, or R/linear_reg_data.R for source
-
-# 1. Register engine
-parsnip::set_model_engine(
-  model = "linear_reg",
-  mode = "regression",
-  eng = "h2o"
-)
-
-# 2. Declare dependencies
-parsnip::set_dependency(
-  model = "linear_reg",
-  eng = "h2o",
-  pkg = "h2o",
-  mode = "regression"
-)
-
-# 3. Translate main arguments (if engine uses them)
-parsnip::set_model_arg(
-  model = "linear_reg",
-  eng = "h2o",
-  parsnip = "penalty",
-  original = "lambda",
-  func = list(pkg = "dials", fun = "penalty"),
-  has_submodel = FALSE
-)
-
-# 4. Register fit method
-parsnip::set_fit(
-  model = "linear_reg",
-  eng = "h2o",
-  mode = "regression",
-  value = list(
-    interface = "data.frame",  # h2o uses data frames
-    protect = c("x", "y", "training_frame"),
-    func = c(pkg = "h2o", fun = "h2o.glm"),
-    defaults = list(family = "gaussian")
-  )
-)
-
-# 5. Register predictions
-parsnip::set_pred(
-  model = "linear_reg",
-  eng = "h2o",
-  mode = "regression",
-  type = "numeric",
-  value = list(
-    pre = NULL,
-    post = function(results, object) {
-      tibble::tibble(.pred = as.vector(results))
-    },
-    func = c(pkg = "h2o", fun = "h2o.predict"),
-    args = list(
-      object = rlang::expr(object$fit),
-      newdata = rlang::expr(new_data)
-    )
-  )
-)
-
-parsnip::set_pred(
-  model = "linear_reg",
-  eng = "h2o",
-  mode = "regression",
-  type = "raw",
-  value = list(
-    pre = NULL,
-    post = NULL,
-    func = c(pkg = "h2o", fun = "h2o.predict"),
-    args = list(
-      object = rlang::expr(object$fit),
-      newdata = rlang::expr(new_data)
-    )
-  )
-)
-```
-
-### Usage
-
-```r
-# User workflow
-library(parsnip)
-library(h2o)
-
-# Initialize h2o
-h2o.init()
-
-# Use new engine
-spec <- linear_reg(penalty = 0.1) |>
-  set_engine("h2o")
-
-fit <- fit(spec, mpg ~ ., data = mtcars)
-predict(fit, mtcars[1:5, ])
-```
-
----
-
-## Common Patterns
-
-### Pattern 1: Adding Matrix Interface Engine
-
-Engine requires numeric matrices:
-
-```r
-parsnip::set_fit(
-  model = "linear_reg",
-  eng = "new_engine",
-  mode = "regression",
-  value = list(
-    interface = "matrix",
-    protect = c("x", "y"),
-    func = c(pkg = "newpkg", fun = "fit_func"),
-    defaults = list()
-  )
-)
-
-parsnip::set_encoding(
-  model = "linear_reg",
-  eng = "new_engine",
-  mode = "regression",
-  options = list(
-    predictor_indicators = "traditional",
-    compute_intercept = FALSE,
-    remove_intercept = TRUE
-  )
-)
-```
-
-### Pattern 2: Adding Formula Interface Engine
-
-Engine uses traditional R formula:
-
-```r
-parsnip::set_fit(
-  model = "linear_reg",
-  eng = "new_engine",
-  mode = "regression",
-  value = list(
-    interface = "formula",
-    protect = c("formula", "data"),
-    func = c(pkg = "newpkg", fun = "fit_func"),
-    defaults = list()
-  )
-)
-
-# No encoding needed - formula passes through
-```
-
-### Pattern 3: Engine with Complex Output
-
-Engine returns non-standard format:
-
-```r
-parsnip::set_pred(
-  model = "linear_reg",
-  eng = "new_engine",
-  mode = "regression",
-  type = "numeric",
-  value = list(
-    pre = NULL,
-    post = function(results, object) {
-      # Extract predictions from complex structure
-      pred_values <- results$predictions$point_estimate
-      tibble::tibble(.pred = as.numeric(pred_values))
-    },
-    func = c(pkg = "newpkg", fun = "predict_func"),
-    args = list(
-      object = rlang::expr(object$fit),
-      newdata = rlang::expr(new_data)
-    )
-  )
-)
-```
-
-### Pattern 4: Multi-Mode Engine
-
-Same engine for regression and classification:
-
-```r
-# Regression mode
-parsnip::set_model_engine("my_model", "regression", "new_engine")
-parsnip::set_fit(
-  model = "my_model",
-  eng = "new_engine",
-  mode = "regression",
-  value = list(
-    defaults = list(objective = "regression")
-  )
-)
-
-# Classification mode
-parsnip::set_model_engine("my_model", "classification", "new_engine")
-parsnip::set_fit(
-  model = "my_model",
-  eng = "new_engine",
-  mode = "classification",
-  value = list(
-    defaults = list(objective = "classification")
-  )
-)
-```
-
----
-
-## Common Pitfalls
-
-1. **Wrong interface type** - Match engine's expected input format
-
-2. **Missing `set_dependency()`** - Always declare package dependencies
-
-3. **Incorrect column names** - Must follow `.pred*` conventions
-
-4. **No argument translation** - If engine uses main arguments, must map them
-
-5. **Incomplete prediction types** - Register all types engine can provide
-
-6. **Engine-specific defaults not set** - Use `defaults` in `set_fit()`
+- Source: [Testing Patterns (Source)](references/testing-patterns-source.md)
 
 ---
 
@@ -435,68 +285,23 @@ parsnip::set_fit(
 
 **Add an engine when:**
 
-- It provides different computational approach
+- Model type already exists in parsnip
 
-- It offers performance benefits
+- Engine provides different computational approach
 
-- It has unique features users need
+- Engine offers performance benefits or unique features
 
-- It's well-maintained and stable
+- Package is well-maintained and stable
 
 **Don't add an engine when:**
 
-- Functionally identical to existing engine
+- Model type doesn't exist (see add-parsnip-model instead)
 
-- Package is unmaintained or unstable
+- Engine is functionally identical to existing
 
-- Only cosmetic differences
+- Package is experimental or unmaintained
 
-- Would require significant maintenance
-
-**Examples:**
-
-- ✓ Add spark to linear_reg() - Distributed computing
-
-- ✓ Add keras to linear_reg() - Neural network approach
-
-- ✗ Add lm.fit to linear_reg() - Same as lm, no user benefit
-
-- ✗ Add experimental package - May break or disappear
-
----
-
-## Checking Compatibility
-
-### Check What Model Already Has
-
-```r
-# See existing engines
-parsnip::show_engines("linear_reg")
-
-# See what main arguments exist
-spec <- linear_reg(penalty = 0.1)
-spec$args
-```
-
-### Verify Engine Capabilities
-
-**Can it provide:**
-
-- Required prediction types for the mode?
-
-- Support for main arguments?
-
-- Reasonable performance?
-
-- Clear error messages?
-
-**Document what it can't do:**
-
-- Some engines don't support all prediction types
-
-- Some don't use certain main arguments
-
-- Some have limitations (e.g., no missing data)
+- Only cosmetic differences from existing engines
 
 ---
 
@@ -510,48 +315,30 @@ spec$args
 
 - [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Evaluate engine predictions with custom metrics
 
+---
+
 ## Next Steps
 
-After adding your engine:
+**For Extension Development (creating new packages):**
 
-1. **Test thoroughly** - All interfaces, prediction types, edge cases
+1. Complete [Extension Prerequisites](references/package-extension-prerequisites.md)
+2. Follow [Extension Development Guide](references/extension-guide.md)
+3. Implement engine using [Engine Implementation Guide](references/engine-implementation.md)
+4. Test thoroughly using [Testing Patterns](references/package-extension-requirements.md#testing-requirements)
+5. Consider contributing to parsnip
 
-2. **Document** - Add examples showing engine usage
+**For Source Development (contributing to parsnip):**
 
-3. **Share** - Consider contributing to parsnip
+1. Clone tidymodels/parsnip repository
+2. Follow [Source Development Guide](references/source-guide.md)
+3. Implement engine in appropriate `R/[model]_data.R` file
+4. Add comprehensive tests using [Testing Patterns (Source)](references/testing-patterns-source.md)
+5. Update NEWS.md and submit PR
 
-4. **Monitor** - Watch for engine package updates
-
-5. **Maintain** - Keep up with parsnip changes
+---
 
 For questions or contributions, see:
 
 - [Tidymodels GitHub](https://github.com/tidymodels/parsnip)
 
 - [Tidymodels Community](https://community.rstudio.com/c/ml)
-
----
-
-## Skill vs Source Context
-
-**This skill primarily covers:**
-
-- Adding engines to existing models
-
-- Extension package development
-
-- Registration patterns
-
-**For creating entirely new models:**
-
-- See [add-parsnip-model](../add-parsnip-model/SKILL.md) skill
-
-- Includes constructor design, mode setup, argument design
-
-**For source contributions:**
-
-- Same registration process applies
-
-- Additional patterns in Best Practices (Source)
-
-- More comprehensive testing expected

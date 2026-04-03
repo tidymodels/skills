@@ -22,7 +22,29 @@ An **engine** connects a parsnip model specification to a computational implemen
 
 ---
 
-## When to Add an Engine
+## Planning Your Engine
+
+### Identify the Model
+
+Before adding an engine, determine which model to extend:
+
+```r
+# Check existing models in parsnip
+parsnip::show_models()
+
+# Check current engines for a specific model
+parsnip::show_engines("linear_reg")
+```
+
+**Verify your engine is new:**
+
+- Not already registered for this model
+
+- Provides distinct computational approach or benefits
+
+- Worth the maintenance burden
+
+### When to Add an Engine
 
 **Add an engine when:**
 
@@ -472,6 +494,106 @@ parsnip::set_pred(
     )
   )
 )
+```
+
+---
+
+## Complete Example: Adding H2O to linear_reg
+
+Full registration for a data.frame interface engine:
+
+```r
+# In .onLoad() for extensions, or R/linear_reg_data.R for source
+
+# Step 1: Register engine
+parsnip::set_model_engine(
+  model = "linear_reg",
+  mode = "regression",
+  eng = "h2o"
+)
+
+# Step 2: Declare dependencies
+parsnip::set_dependency(
+  model = "linear_reg",
+  eng = "h2o",
+  pkg = "h2o",
+  mode = "regression"
+)
+
+# Step 3: Translate main arguments (if engine uses them)
+parsnip::set_model_arg(
+  model = "linear_reg",
+  eng = "h2o",
+  parsnip = "penalty",
+  original = "lambda",
+  func = list(pkg = "dials", fun = "penalty"),
+  has_submodel = FALSE
+)
+
+# Step 4: Register fit method
+parsnip::set_fit(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  value = list(
+    interface = "data.frame",  # h2o uses data frames
+    protect = c("x", "y", "training_frame"),
+    func = c(pkg = "h2o", fun = "h2o.glm"),
+    defaults = list(family = "gaussian")
+  )
+)
+
+# Step 5: Register predictions
+parsnip::set_pred(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  type = "numeric",
+  value = list(
+    pre = NULL,
+    post = function(results, object) {
+      tibble::tibble(.pred = as.vector(results))
+    },
+    func = c(pkg = "h2o", fun = "h2o.predict"),
+    args = list(
+      object = rlang::expr(object$fit),
+      newdata = rlang::expr(new_data)
+    )
+  )
+)
+
+parsnip::set_pred(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  type = "raw",
+  value = list(
+    pre = NULL,
+    post = NULL,
+    func = c(pkg = "h2o", fun = "h2o.predict"),
+    args = list(
+      object = rlang::expr(object$fit),
+      newdata = rlang::expr(new_data)
+    )
+  )
+)
+```
+
+**Usage example:**
+
+```r
+library(parsnip)
+library(h2o)
+
+# Initialize h2o
+h2o.init()
+
+# Use new engine
+spec <- linear_reg(penalty = 0.1) |>
+  set_engine("h2o")
+
+fit <- fit(spec, mpg ~ ., data = mtcars)
+predict(fit, mtcars[1:5, ])
 ```
 
 ---
