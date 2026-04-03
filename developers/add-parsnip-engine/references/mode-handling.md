@@ -165,12 +165,6 @@ set_fit(
 
 Some models can be used for multiple tasks.
 
-### Implementation Pattern
-
-**Register each mode separately and completely.** Each mode needs its own set_model_engine(), set_dependency(), set_fit() with mode-specific defaults, and set_pred() calls. Classification needs both "class" AND "prob" prediction types.
-
-See examples below for complete patterns.
-
 ### Models Supporting Multiple Modes
 
 **Common examples:**

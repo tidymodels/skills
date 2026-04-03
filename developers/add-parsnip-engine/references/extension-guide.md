@@ -87,8 +87,11 @@ You must implement all logic yourself without relying on parsnip internals.
 1. **Refuse immediately** - "Extension packages cannot use `parsnip:::function()` - these are unstable and will cause CRAN check failures."
 
 2. **Provide fast alternative:**
+
    - Factor encoding: Use `set_encoding(options = list(predictor_indicators = "traditional"))`
+
    - Validation: Implement yourself or use base R checks
+
    - Utilities: Write your own simple version
 
 3. **Mention source development option** - "If internal functions are truly needed, contribute via PR to parsnip instead."

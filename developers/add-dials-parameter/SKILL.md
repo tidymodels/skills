@@ -612,37 +612,57 @@ This convention is strongly recommended for consistency.
 ## File Creation Guidelines
 
 **Extension development:**
+
 - R/param_[name].R (with complete roxygen docs and examples)
+
 - tests/testthat/test-param_[name].R (comprehensive tests)
+
 - README.md (only if package has no README)
+
 - Expected total: 2-3 files
 
 **Source development:**
+
 - R/param_[name].R (with complete roxygen docs and examples)
+
 - tests/testthat/test-param_[name].R (or additions to existing test file)
+
 - Expected total: 2 files
 
 **Files to avoid creating:**
 
 Documentation files (content belongs in roxygen comments):
+
 - IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, QUICKSTART.md, QUICK_REFERENCE.md
+
 - INDEX.md, FILE_GUIDE.md, SUMMARY.md, OVERVIEW.md, INTEGRATION_GUIDE.md
+
 - example_usage.R, USAGE_EXAMPLE.R
 
 PR-related files (content belongs in conversation):
+
 - PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+
 - NEWS_entry.md, pkgdown_update.txt
+
 - WORKFLOW_COMMANDS.sh, setup.sh
 
 For PRs to dials:
+
 - README.md (dials already has one)
+
 - test-params-addition.R (tell user in conversation what to add)
 
 **Where content belongs:**
+
 - Examples → roxygen @examples in R file
+
 - Implementation notes → roxygen @details in R file
+
 - PR description → conversation with user
+
 - NEWS entry → conversation (maintainer adds it)
+
 - Test additions → conversation (tell user what to add)
 
 Creating extra documentation files clutters the codebase. All documentation should be in roxygen comments (for code) or in conversation (for PR descriptions).

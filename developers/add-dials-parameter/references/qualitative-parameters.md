@@ -413,22 +413,33 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 **Key Components Explained:**
 
 1. **@rdname tag**: Links the values vector to the parameter function documentation
+
    - Both appear on the same help page
+
    - Users can see the vector when looking up the parameter
+
    - Maintains consistency between function and values
 
 2. **values_* naming**: Following the `values_[parameter_name]` convention
+
    - Clear relationship between parameter and its values
+
    - Consistent with dials package standards
+
    - Easy to discover and use
 
 3. **@export on both**: Both the function AND the vector must be exported
+
    - Parameter function: Users call this to create the parameter
+
    - Values vector: Users reference this to see/subset options
 
 4. **Default argument**: `values = values_my_parameter` in function signature
+
    - Links the function to its companion vector
+
    - Allows users to subset: `my_parameter(values = values_my_parameter[1:3])`
+
    - Makes the vector the default source of options
 
 ### Companion Vector Checklist
@@ -436,11 +447,17 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 Before completing a qualitative parameter with companion vector, verify:
 
 - [ ] Created parameter function with `new_qual_param()`
+
 - [ ] Created companion `values_*` vector following naming convention
+
 - [ ] Used `@rdname` to group them in documentation
+
 - [ ] Added `@export` to BOTH the function and the vector
+
 - [ ] Set function default argument to reference the vector: `values = values_my_parameter`
+
 - [ ] Vector contains at least one valid option
+
 - [ ] Vector type matches the `type` argument in `new_qual_param()`
 
 ---

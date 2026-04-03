@@ -136,9 +136,13 @@ set_fit(...)          # ← NO parsnip:: prefix
 ```
 
 **File should contain ONLY registrations:**
+
 - ✅ DO: Add `set_*()` calls to `R/[model]_data.R`
+
 - ❌ DON'T: Create `R/[model]_my_engine.R`
+
 - ❌ DON'T: Create helper files like `R/my_engine_utils.R`
+
 - ❌ DON'T: Add implementation code (that goes in prediction `func`)
 
 ### Test Files
@@ -165,7 +169,9 @@ test_that("my_engine fits", {
 ```
 
 **Target: 1-2 files total**
+
 - Extension development: 2-3 files (R/, tests/, maybe README)
+
 - Source development: **1-2 files** (additions to existing files)
 
 ---
@@ -185,8 +191,11 @@ set_dependency("linear_reg", "my_engine", "mypackage", "regression")
 ```
 
 **Why no prefix?**
+
 - You're working INSIDE the parsnip package
+
 - These functions are already available in the package namespace
+
 - Using `parsnip::` is redundant and against conventions
 
 **Quick check:** If you see `parsnip::` in your registration code, you're doing it wrong for source development.

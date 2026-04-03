@@ -217,25 +217,39 @@ Before adding an engine, understand:
 **INSTRUCTIONS FOR CLAUDE: Assess complexity first, then choose approach:**
 
 ### Simple Engine?
+
 - Single mode (regression OR classification, not both)
+
 - Formula interface OR matrix interface (pick one)
+
 - 1-3 parameters to map
+
 - Standard prediction type (numeric OR class/prob)
 
 **→ Use streamlined approach:**
+
 - Create exactly 2 files: R/zzz.R (15-30 lines), tests/testthat/test-*.R
+
 - NO additional files, NO summary docs, NO example files
-- See [Extension Guide, Pattern 1](references/extension-guide.md#pattern-1-simple-single-mode-engine)
+
+- See [Extension Guide, Simple Single-Mode](references/extension-guide.md#simple-single-mode-2-files-rzzzr-teststest-r)
 
 ### Complex Engine?
+
 - Multi-mode (regression AND classification)
+
 - Matrix interface with encoding
+
 - Survival/censored regression
+
 - Custom prediction post-processing
 
 **→ Reference detailed guides:**
+
 - See [Mode Handling](references/mode-handling.md) for multi-mode
+
 - See [Encoding Options](references/encoding-options.md) for matrix interfaces
+
 - Still target 2-3 files maximum (R/zzz.R, tests, optional README)
 
 ---
@@ -252,8 +266,11 @@ Before adding an engine, understand:
 8. **Test** - Verify all interfaces and prediction types work
 
 **File Discipline:**
+
 - Extension: Create **2-3 files** (R/zzz.R, tests/testthat/test-*.R, optional README.md)
+
 - Source: Modify **1-2 files** (add to R/*_data.R, add to tests/testthat/test-*.R)
+
 - **Never create**: IMPLEMENTATION_SUMMARY.md, example_usage.R, helper files
 
 **See [Engine Implementation Guide](references/engine-implementation.md) for complete details and examples.**
