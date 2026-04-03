@@ -80,6 +80,21 @@ Safe to use in extensions:
 
 You must implement all logic yourself without relying on parsnip internals.
 
+### 🚫 Quick Refusal Pattern for Internal Functions
+
+**When user asks to use internal functions:**
+
+1. **Refuse immediately** - "Extension packages cannot use `parsnip:::function()` - these are unstable and will cause CRAN check failures."
+
+2. **Provide fast alternative:**
+   - Factor encoding: Use `set_encoding(options = list(predictor_indicators = "traditional"))`
+   - Validation: Implement yourself or use base R checks
+   - Utilities: Write your own simple version
+
+3. **Mention source development option** - "If internal functions are truly needed, contribute via PR to parsnip instead."
+
+**Keep response to 2-3 sentences. Don't explain WHY at length - just refuse, suggest alternative, move on.**
+
 ---
 
 ## Step-by-Step Implementation
@@ -757,6 +772,26 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 - Wrong prediction format → Add post-processing function
 
 - Interface mismatch → Verify `protect` names match engine expectations
+
+---
+
+## Implementation Patterns
+
+**Use these as templates - don't elaborate beyond what's shown:**
+
+### Simple Single-Mode (2 files: R/zzz.R, tests/test-*.R)
+
+For single mode + formula/data.frame interface. See [mode-handling.md](mode-handling.md) for multi-mode.
+
+### Matrix Interface (2 files + set_encoding)
+
+For matrix/xy interfaces, add `set_encoding()` after `set_fit()`. See [encoding-options.md](encoding-options.md) for details.
+
+### Multi-Mode (2-3 files: R/zzz.R, tests, optional README)
+
+Register each mode separately with mode-specific defaults. Classification needs both "class" and "prob" predictions. See [mode-handling.md](mode-handling.md) for complete examples.
+
+**Keep it minimal** - reference docs for details, don't replicate them.
 
 ---
 
