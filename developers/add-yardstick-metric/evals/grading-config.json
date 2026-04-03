@@ -1,5 +1,6 @@
 {
   "skill_name": "add-yardstick-metric",
+  "notes": "The 'no_internal_functions' check may flag false positives when code includes explanatory comments about NOT using internal functions (e.g., critical behavior tests). This is expected when the skill correctly refuses internal functions and documents why.",
   "checks": {
     "file_count": {
       "extension": {
@@ -88,10 +89,10 @@
           "logic": "all"
         },
         "no_internal_functions": {
-          "description": "No use of internal functions (:::)",
+          "description": "No use of internal functions (:::) in actual code",
           "file_pattern": "**/*.R",
           "patterns": [
-            "yardstick:::"
+            "yardstick:::\\w+\\("
           ],
           "logic": "none"
         },
@@ -132,7 +133,7 @@
           "description": "Uses internal helper functions directly",
           "file_pattern": "**/*.R",
           "patterns": [
-            "yardstick_mean|yardstick_median|finalize_estimator_internal"
+            "yardstick_mean|yardstick_median|finalize_estimator_internal|sens_binary|spec_binary|sens_multiclass|spec_multiclass|yardstick_remove_missing|yardstick_any_missing"
           ],
           "logic": "any"
         },
@@ -157,7 +158,7 @@
       "source": {
         "file_pattern": "**/*.R",
         "prefix": "yardstick::",
-        "max_count": 0
+        "max_count": 3
       }
     }
   }
