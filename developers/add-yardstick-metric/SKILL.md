@@ -904,7 +904,7 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 
 - README.md (ONLY if package has no README - check first!)
 
-Typically creates 2 files (3 if README needed).
+Typically creates 2 files (3 if README needed); acceptable to reach 4-6 if implementation requires it.
 
 **Source development (PR to yardstick):**
 
@@ -912,7 +912,7 @@ Typically creates 2 files (3 if README needed).
 
 - tests/testthat/test-[type]-[metric_name].R
 
-Creates exactly 2 files.
+Creates exactly 2 files; acceptable to reach 3-5 if implementation requires it.
 
 **❌ AVOID creating these files:**
 

@@ -1,0 +1,264 @@
+{
+  "skill_name": "add-dials-parameter",
+  "notes": "Phase 1 implementation: File discipline weighted at 20%, code correctness at 80%. Eval 7 tests refusal of internal functions. Extension evals (1-3, 7) should use dials:: prefix; source evals (4-6) should not.",
+  "checks": {
+    "file_count": {
+      "informational": true,
+      "weight": 0.2,
+      "grading_priority": "informational",
+      "extension": {
+        "type": "range",
+        "value": [2, 6],
+        "pass": {
+          "type": "range",
+          "value": [2, 6]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 10
+        }
+      },
+      "source": {
+        "type": "range",
+        "value": [2, 7],
+        "pass": {
+          "type": "range",
+          "value": [2, 7]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 12
+        }
+      },
+      "refusal": {
+        "type": "exact",
+        "value": 0
+      }
+    },
+    "prohibited_files": {
+      "grading_priority": "informational",
+      "weight": 0.2,
+      "files": [
+        "IMPLEMENTATION_SUMMARY.md",
+        "IMPLEMENTATION_NOTES.md",
+        "QUICKSTART.md",
+        "QUICK_REFERENCE.md",
+        "example_usage.R",
+        "usage_examples.R",
+        "test_parameter.R",
+        "verify_parameter.R",
+        "PR_CHECKLIST.md",
+        "PR_DESCRIPTION.md",
+        "PR_NOTES.txt",
+        "NEWS_entry.md",
+        "CONTRIBUTING.md",
+        "GETTING_STARTED.md",
+        "HOW_TO_USE.md",
+        "PARAMETER_GUIDE.md",
+        "WORKFLOW.md",
+        "DEVELOPMENT.md",
+        "misc.R",
+        "helpers.R",
+        "utils.R",
+        "*.txt",
+        "*.sh",
+        "*.yml"
+      ]
+    },
+    "required_files": {
+      "extension": [
+        "*.R"
+      ],
+      "source": [
+        "*.R"
+      ]
+    },
+    "patterns": {
+      "extension": {
+        "has_parameter_constructor": {
+          "description": "Parameter constructor using new_quant_param() or new_qual_param()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "dials::new_quant_param\\(",
+            "dials::new_qual_param\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_parameter_attributes": {
+          "description": "Parameter attributes (type, range/values, label)",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "type\\s*=",
+            "label\\s*="
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples",
+            "#'\\s*@param"
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "grid_regular\\(|grid_random\\(",
+            "value_seq\\(|value_sample\\("
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "no_internal_functions": {
+          "description": "No use of internal functions (:::) in code",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "dials:::\\w+\\("
+          ],
+          "logic": "none",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_finalize_implementation": {
+          "description": "Custom finalize function for data-dependent parameters",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "dials::range_get\\(",
+            "dials::range_set\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"],
+          "optional": true,
+          "grading_priority": "critical",
+          "weight": 0.8
+        }
+      },
+      "source": {
+        "has_parameter_constructor": {
+          "description": "Parameter constructor using new_quant_param() or new_qual_param() - no prefix",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "new_quant_param\\(",
+            "new_qual_param\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_parameter_attributes": {
+          "description": "Parameter attributes (type, range/values, label)",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "type\\s*=",
+            "label\\s*="
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation with @inheritParams",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples"
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "no_prefix_in_main": {
+          "description": "No dials:: prefix in source development",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "dials::"
+          ],
+          "logic": "none",
+          "exclude_files": ["**/test-*.R"],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "grid_regular\\(|grid_random\\(",
+            "value_seq\\(|value_sample\\("
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_finalize_implementation": {
+          "description": "Finalize function for data-dependent parameters",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "range_get\\(",
+            "range_set\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"],
+          "optional": true,
+          "grading_priority": "critical",
+          "weight": 0.8
+        }
+      },
+      "refusal": {
+        "refuses_internal_functions": {
+          "description": "Correctly refuses internal function usage and provides alternatives",
+          "file_pattern": "**/*.{md,txt,R}",
+          "patterns": [
+            "cannot.*internal|extension.*cannot.*:::|refuse.*:::.*|alternative.*validation|source development.*option"
+          ],
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
+        }
+      }
+    },
+    "prefix_usage": {
+      "extension": {
+        "file_pattern": "**/*.R",
+        "prefix": "dials::",
+        "min_count": 3,
+        "exclude_files": ["**/test-*.R"],
+        "grading_priority": "critical",
+        "weight": 0.8
+      },
+      "source": {
+        "file_pattern": "**/*.R",
+        "prefix": "dials::",
+        "max_count": 0,
+        "exclude_files": ["**/test-*.R"],
+        "grading_priority": "critical",
+        "weight": 0.8
+      }
+    },
+    "special_evals": {
+      "7": {
+        "context": "refusal",
+        "description": "Should refuse internal functions and provide working alternatives",
+        "expected_files": 2
+      }
+    }
+  }
+}

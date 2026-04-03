@@ -58,9 +58,9 @@ Before diving into implementation, determine the complexity of your model:
 
 **Target files regardless of complexity:**
 
-- Extension development: 2-3 files (constructor, tests, optional README)
+- Extension development: 2-3 files (constructor, tests, optional README); acceptable to reach 4-6 if needed
 
-- Source development: 2-4 files (constructor, data file, tests, optional engine docs)
+- Source development: 2-4 files (constructor, data file, tests, optional engine docs); acceptable to reach 5-8 if needed
 
 ### 1. Design the Model Specification
 
@@ -429,7 +429,7 @@ Extension development:
 
 - `README.md` - Only if needed for package users
 
-- **Total: 2-3 files**
+- **Total: 2-3 files (acceptable to reach 4-6 if implementation requires it)**
 
 Source development:
 
@@ -441,7 +441,7 @@ Source development:
 
 - `man/rmd/[model_name]_[engine].Rmd` - Engine docs (optional)
 
-- **Total: 2-4 files**
+- **Total: 2-4 files (acceptable to reach 5-8 if implementation requires it)**
 
 **Do not create:**
 

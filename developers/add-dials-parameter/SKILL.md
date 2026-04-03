@@ -619,7 +619,7 @@ This convention is strongly recommended for consistency.
 
 - README.md (only if package has no README)
 
-- Expected total: 2-3 files
+- Expected total: 2-3 files (aim for these targets; acceptable to exceed by 2-3 files if implementation requires it)
 
 **Source development:**
 
@@ -627,7 +627,7 @@ This convention is strongly recommended for consistency.
 
 - tests/testthat/test-param_[name].R (or additions to existing test file)
 
-- Expected total: 2 files
+- Expected total: 2 files (aim for these targets; acceptable to exceed by 2-3 files if implementation requires it)
 
 **Files to avoid creating:**
 

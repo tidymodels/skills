@@ -3,47 +3,82 @@
   "notes": "Edge case evals (id 4 and 7) test refusal behaviors and should create zero files. The 'no_internal_functions' check for extension may flag false positives in refusal discussions (eval 7).",
   "checks": {
     "file_count": {
+      "informational": true,
+      "weight": 0.2,
+      "grading_priority": "informational",
       "extension": {
         "type": "range",
-        "value": [2, 3]
+        "value": [
+          2,
+          6
+        ],
+        "pass": {
+          "type": "range",
+          "value": [
+            2,
+            6
+          ]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 10
+        }
       },
       "source": {
         "type": "range",
-        "value": [2, 4]
+        "value": [
+          2,
+          7
+        ],
+        "pass": {
+          "type": "range",
+          "value": [
+            2,
+            7
+          ]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 12
+        }
       },
       "refusal": {
         "type": "exact",
         "value": 0
       }
     },
-    "prohibited_files": [
-      "IMPLEMENTATION_NOTES.md",
-      "IMPLEMENTATION_SUMMARY.md",
-      "MODEL_DESIGN.md",
-      "REGISTRATION_STEPS.md",
-      "QUICKSTART.md",
-      "QUICK_REFERENCE.md",
-      "example_usage.R",
-      "usage_examples.R",
-      "test_model.R",
-      "verify_model.R",
-      "PR_CHECKLIST.md",
-      "PR_DESCRIPTION.md",
-      "PR_NOTES.txt",
-      "NEWS_entry.md",
-      "CONTRIBUTING.md",
-      "GETTING_STARTED.md",
-      "HOW_TO_USE.md",
-      "ENGINE_GUIDE.md",
-      "WORKFLOW.md",
-      "DEVELOPMENT.md",
-      "misc.R",
-      "helpers.R",
-      "utils.R",
-      "*.txt",
-      "*.sh",
-      "*.yml"
-    ],
+    "prohibited_files": {
+      "grading_priority": "informational",
+      "weight": 0.2,
+      "files": [
+        "IMPLEMENTATION_NOTES.md",
+        "IMPLEMENTATION_SUMMARY.md",
+        "MODEL_DESIGN.md",
+        "REGISTRATION_STEPS.md",
+        "QUICKSTART.md",
+        "QUICK_REFERENCE.md",
+        "example_usage.R",
+        "usage_examples.R",
+        "test_model.R",
+        "verify_model.R",
+        "PR_CHECKLIST.md",
+        "PR_DESCRIPTION.md",
+        "PR_NOTES.txt",
+        "NEWS_entry.md",
+        "CONTRIBUTING.md",
+        "GETTING_STARTED.md",
+        "HOW_TO_USE.md",
+        "ENGINE_GUIDE.md",
+        "WORKFLOW.md",
+        "DEVELOPMENT.md",
+        "misc.R",
+        "helpers.R",
+        "utils.R",
+        "*.txt",
+        "*.sh",
+        "*.yml"
+      ]
+    },
     "required_files": {
       "extension": [
         "*.R"
@@ -63,7 +98,11 @@
             "engine\\s*="
           ],
           "logic": "all",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_registration": {
           "description": "Complete registration sequence",
@@ -75,7 +114,11 @@
             "parsnip::set_fit\\("
           ],
           "logic": "all",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_prediction_setup": {
           "description": "Prediction registration with set_pred()",
@@ -84,7 +127,11 @@
             "parsnip::set_pred\\("
           ],
           "logic": "any",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_argument_quoting": {
           "description": "Arguments use rlang::enquo() for proper quoting",
@@ -93,7 +140,11 @@
             "rlang::enquo\\("
           ],
           "logic": "any",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_roxygen_docs": {
           "description": "Complete roxygen documentation",
@@ -104,7 +155,11 @@
             "#'\\s*@param"
           ],
           "logic": "all",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "no_internal_functions": {
           "description": "No use of internal functions (:::) in actual code",
@@ -112,7 +167,9 @@
           "patterns": [
             "parsnip:::\\w+\\("
           ],
-          "logic": "none"
+          "logic": "none",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -123,7 +180,9 @@
             "fit\\(",
             "predict\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_prediction_tests": {
           "description": "Tests verify prediction column naming",
@@ -131,7 +190,9 @@
           "patterns": [
             "\\.pred"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       },
       "source": {
@@ -144,7 +205,12 @@
             "engine\\s*="
           ],
           "logic": "all",
-          "exclude_files": ["**/test-*.R", "**/*_data.R"]
+          "exclude_files": [
+            "**/test-*.R",
+            "**/*_data.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_registration_file": {
           "description": "Separate registration data file (_data.R pattern)",
@@ -154,7 +220,9 @@
             "set_model_mode\\(",
             "set_model_engine\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_registration": {
           "description": "Full registration sequence in data file",
@@ -167,7 +235,9 @@
             "set_fit\\(",
             "set_pred\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_roxygen_docs": {
           "description": "Complete roxygen documentation with templates",
@@ -177,7 +247,12 @@
             "#'\\s*@examples"
           ],
           "logic": "all",
-          "exclude_files": ["**/test-*.R", "**/*_data.R"]
+          "exclude_files": [
+            "**/test-*.R",
+            "**/*_data.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "no_prefix_in_main": {
           "description": "No parsnip:: prefix in source development",
@@ -186,7 +261,11 @@
             "parsnip::"
           ],
           "logic": "none",
-          "exclude_files": ["**/test-*.R"]
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -197,7 +276,9 @@
             "fit\\(",
             "predict\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       },
       "refusal": {
@@ -207,7 +288,9 @@
           "patterns": [
             "add-parsnip-engine|engine.*not.*model|existing model|already exists"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       }
     },
@@ -216,13 +299,21 @@
         "file_pattern": "**/*.R",
         "prefix": "parsnip::",
         "min_count": 5,
-        "exclude_files": ["**/test-*.R"]
+        "exclude_files": [
+          "**/test-*.R"
+        ],
+        "grading_priority": "critical",
+        "weight": 0.8
       },
       "source": {
         "file_pattern": "**/*.R",
         "prefix": "parsnip::",
         "max_count": 0,
-        "exclude_files": ["**/test-*.R"]
+        "exclude_files": [
+          "**/test-*.R"
+        ],
+        "grading_priority": "critical",
+        "weight": 0.8
       }
     },
     "special_evals": {

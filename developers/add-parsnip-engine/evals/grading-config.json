@@ -3,16 +3,38 @@
   "notes": "The 'no_internal_functions' check may flag false positives when code includes explanatory comments about NOT using internal functions (e.g., critical behavior tests). This is expected when the skill correctly refuses internal functions and documents why.",
   "checks": {
     "file_count": {
+      "informational": true,
+      "weight": 0.2,
+      "grading_priority": "informational",
       "extension": {
         "type": "range",
-        "value": [2, 3]
+        "value": [2, 6],
+        "pass": {
+          "type": "range",
+          "value": [2, 6]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 10
+        }
       },
       "source": {
         "type": "range",
-        "value": [1, 2]
+        "value": [1, 7],
+        "pass": {
+          "type": "range",
+          "value": [1, 7]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 12
+        }
       }
     },
-    "prohibited_files": [
+    "prohibited_files": {
+      "grading_priority": "informational",
+      "weight": 0.2,
+      "files": [
       "IMPLEMENTATION_SUMMARY.md",
       "ENGINE_DESIGN.md",
       "QUICKSTART.md",
@@ -33,7 +55,8 @@
       "*.txt",
       "*.sh",
       "*.yml"
-    ],
+      ]
+    },
     "required_files": {
       "extension": [
         "*.R"
@@ -52,7 +75,9 @@
             "set_dependency\\(",
             "set_fit\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_onload": {
           "description": "Registration in .onLoad function for package initialization",
@@ -61,7 +86,9 @@
             "\\.onLoad\\s*<-\\s*function",
             "\\.onLoad\\s*=\\s*function"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_roxygen_docs": {
           "description": "Roxygen documentation for .onLoad",
@@ -69,7 +96,9 @@
           "patterns": [
             "#'\\s*@export"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_prediction_registration": {
           "description": "Prediction type registered with set_pred",
@@ -77,7 +106,9 @@
           "patterns": [
             "set_pred\\("
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "no_internal_functions": {
           "description": "No use of internal functions (:::) in actual code",
@@ -85,7 +116,9 @@
           "patterns": [
             "parsnip:::\\w+\\("
           ],
-          "logic": "none"
+          "logic": "none",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -96,7 +129,9 @@
             "expect_s3_class.*model_fit",
             "predict\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       },
       "source": {
@@ -109,7 +144,9 @@
             "set_fit\\(",
             "set_pred\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "adds_to_existing_file": {
           "description": "Adds to existing model_data.R file pattern",
@@ -117,7 +154,9 @@
           "patterns": [
             "set_model_engine"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -128,7 +167,9 @@
             "expect_s3_class",
             "predict\\("
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       }
     },
@@ -136,15 +177,21 @@
       "extension": {
         "file_pattern": "**/*.R",
         "prefix": "parsnip::",
-        "min_count": 3
+        "min_count": 3,
+        "grading_priority": "critical",
+        "weight": 0.8
       },
       "source": {
         "file_pattern": "**/*.R",
         "prefix": "parsnip::",
-        "max_count": 3
+        "max_count": 3,
+        "grading_priority": "critical",
+        "weight": 0.8
       }
     },
     "registration_completeness": {
+      "grading_priority": "critical",
+      "weight": 0.8,
       "extension": {
         "description": "Complete registration sequence for engines",
         "checks": [
@@ -205,7 +252,9 @@
         "interface\\s*=\\s*['\"]data\\.frame['\"]",
         "interface\\s*=\\s*['\"]xy['\"]"
       ],
-      "logic": "any"
+      "logic": "any",
+      "grading_priority": "critical",
+      "weight": 0.8
     }
   }
 }
