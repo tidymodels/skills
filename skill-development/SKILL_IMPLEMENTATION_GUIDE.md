@@ -2,7 +2,7 @@
 
 **Purpose:** Guide for creating new skills in the tidymodels skill system (e.g., add-parsnip-model, add-dials-parameter).
 
-**Last Updated:** 2026-04-01
+**Last Updated:** 2026-04-03
 
 ---
 
@@ -1956,106 +1956,96 @@ This section documents key insights from quantitative evaluations of existing sk
 - ✅ Include explanations for why certain practices matter
 - ✅ Test these critical behaviors explicitly in evaluations
 
-### File Discipline Requires Explicit and Visual Guidance
+### File Discipline Should Be De-Prioritized Relative to Code Quality
 
-**Finding:** File discipline is the most common skill failure but can be dramatically improved with the right techniques.
+**Finding:** File discipline is common but LESS CRITICAL than code correctness. Over-emphasis can backfire and confuse models.
 
-**Evidence from add-dials-parameter iterations:**
-- **Iteration-1 (baseline):** 0/7 evals passed file discipline (0%)
-  - Created 5-16 files per eval (target: 2-3)
-  - Common extra files: IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, INDEX.md, example_usage.R
-- **Iteration-2 (with improvements):** 5/7 evals passed (71%)
-  - Extension development: 4/4 passed (100%)
-  - Source development: 1/3 passed (33%)
-  - Key change: Added prominent visual warnings and pre-flight checklists
-- **Iteration-3 (targeted fix):** 6/7 evals passed (85%)
-  - Further strengthened source development warnings
-  - One edge case remains (qualitative param PRs create 1 extra summary file)
+**Evidence from add-yardstick-metric iterations:**
+- **Iteration-1 (baseline):** 29% file discipline pass rate, created 39 total files
+  - Models created documentation files (IMPLEMENTATION_SUMMARY.md, example_usage.R)
+  - But code quality was reasonable with tidymodels standards
+- **Iteration-2 (with heavy visual emphasis):** 14% file discipline pass rate, created 57 total files (-15pp REGRESSION)
+  - Added dramatic visual warnings: "🛑 STOP! STOP! STOP! 🛑", "COUNT YOUR FILES BEFORE SAVING"
+  - Added concrete examples: "File 1, File 2, STOP"
+  - **Result:** WORSE behavior - more documentation files, Eval 7 completely broke (created test docs instead of implementation)
+  - Heavy emphasis confused the model and degraded code quality
+- **Iteration-3 (de-prioritized file discipline):** 84.4% overall pass rate, created 17 total files (dramatic improvement)
+  - **Removed** visual emphasis, concrete examples, "COUNT YOUR FILES" language
+  - **Moved** file discipline section to END of skill
+  - **Kept** simple, concise guidance about what files to create
+  - **Prioritized** code standards (use internal helpers, include @examples, prefix usage)
+  - **Result:** File discipline AND code quality both improved
 
-**Evidence from add-recipe-step:**
-- iteration-1: 4-8 supplementary files per eval
-- iteration-2: Reduced to 3-6 files with explicit "DO NOT CREATE" guidance
-- Best performance: eval-4 created exactly 3 files
+**Evidence from add-dials-parameter:**
+- Similar pattern: Strong visual warnings helped (0% → 71%)
+- But incremental improvement plateaued (71% → 85%)
+- Remaining failures were edge cases, not lack of emphasis
 
-**What Works for File Discipline:**
+**Critical Lesson: Visual Emphasis Can Backfire**
 
-1. **Visual Impact is Critical** (Most Effective)
+The add-yardstick-metric iteration-2 regression demonstrates that **over-emphasizing file discipline can harm code quality:**
+- Models may focus on "not creating files" rather than "creating correct implementations"
+- Dramatic warnings can confuse rather than clarify
+- Examples showing "wrong" patterns may be interpreted as instructions
+- Critical behavior tests may break completely when file discipline dominates guidance
+
+**What Works (Simple Approach):**
+
+1. **Simple, Concise Guidance** (Most Effective for Code-Focused Skills)
    ```
-   **═══════════════════════════════════════════════════════**
-   **⚠️⚠️⚠️ CRITICAL: FILE DISCIPLINE ⚠️⚠️⚠️**
-   **═══════════════════════════════════════════════════════**
-
-   **🛑 STOP! STOP! STOP! 🛑**
+   Extension development: R/[name].R, tests/testthat/test-[name].R, README.md (if needed)
+   Source development: R/[name].R, tests/testthat/test-[name].R
    ```
-   - Use visual separators, multiple warning emojis, ALL CAPS
-   - Make it impossible to miss or skim past
-   - **Impact:** Extension dev went from 0% → 100% with visual warnings
+   - No visual drama, just clear statement
+   - Placed at END of skill, not beginning
+   - Let code standards take priority
 
-2. **Pre-Flight Checklists** (Very Effective)
-   ```
-   Before creating files, verify:
-   - [ ] I will create R/param_[name].R
-   - [ ] I will create tests/testthat/test-param_[name].R
-   - [ ] I will NOT create any documentation files
-   - [ ] I will NOT create NEWS_entry.md
-   - [ ] I will NOT create README.txt
-   ```
-   - Forces conscious decision-making before file creation
-   - Each checkbox makes explicit what will/won't be created
-
-3. **Explicit Prohibited File Lists** (Effective)
+2. **Explicit Prohibited File Lists** (Still Useful)
    - List 15-20 specific files that should NOT be created
-   - Include exact names that appeared in failed evals
-   - Group by category (documentation, examples, changelogs, helpers)
-   - **Example:** After seeing NEWS_entry.md created, explicitly prohibit it
+   - No dramatic emphasis, just factual list
+   - Group by category (documentation, examples, changelogs)
 
-4. **"Exactly N Files" Language** (Effective for Source Dev)
+3. **Content Mapping Tables** (Helpful)
    ```
-   You will create EXACTLY 2 files. Not 3. Not 4. EXACTLY 2.
-   ```
-   - No ambiguity with ranges like "2-3 files"
-   - Removes wiggle room for "just one more helpful file"
-
-5. **Content Mapping Tables** (Moderately Effective)
-   ```
-   | Content Type | ❌ WRONG | ✅ CORRECT |
+   | Content Type | ❌ Wrong | ✅ Correct |
    | Examples | example_usage.R | roxygen @examples |
    | Notes | IMPLEMENTATION_NOTES.txt | roxygen @details |
    ```
-   - Shows where content actually belongs
-   - Reduces perceived need for separate files
+   - Shows where content belongs without drama
 
-**What Doesn't Work:**
-- ❌ Polite suggestions ("avoid creating extra files")
-- ❌ Burying warnings in middle of long sections
-- ❌ Assuming context understanding (PR vs package creation)
-- ❌ Single mention without reinforcement
+**What Doesn't Work or Backfires:**
+- ❌ Heavy visual impact (separators, emojis, ALL CAPS) - can confuse models
+- ❌ "COUNT YOUR FILES" or "File 1, File 2, STOP" language - creates rigidity that breaks understanding
+- ❌ Concrete examples of wrong patterns - may be interpreted as instructions
+- ❌ Placing file discipline at START of skill - prioritizes wrong concern
+- ❌ Pre-flight checklists for file discipline - forces model to think about files before understanding task
 
 **Context Matters:**
-- **Extension development:** Easier to enforce (100% success achieved)
-  - Users creating their own packages understand file limits
-  - Strong warnings work immediately
-- **Source development (PRs):** Harder to enforce (50-66% success)
-  - Tension between "being helpful" and "following PR guidelines"
-  - Needs even stronger, repeated warnings
-  - Some patterns (qualitative params) especially prone to summary creation
+- **Skills focused on code correctness** (yardstick, recipes): De-prioritize file discipline
+  - Code standards are more important than file counts
+  - Models need to focus on correct implementations first
+  - Simple guidance at end of skill is sufficient
+- **Skills focused on project structure** (dials): Moderate emphasis acceptable
+  - File creation is more central to the task
+  - Visual warnings may help if not overdone
 
 **Implication for Skill Design:**
-- ✅ **Use maximum visual impact** (separators, emojis, ALL CAPS)
-- ✅ **Add pre-flight checklists** with specific files to create/not create
-- ✅ **List 15-20 prohibited files explicitly** based on actual failures
-- ✅ **Use "EXACTLY N files" language** for source development
-- ✅ **Add content mapping tables** showing where content belongs
-- ✅ **Reinforce multiple times** throughout the guide
-- ✅ **Context-specific enforcement:** Stronger for PR contexts
-- ⚠️ **Accept 85-90% success rate** as practical limit (some edge cases resist all warnings)
+- ✅ **Prioritize code correctness over file discipline**
+- ✅ **Place file discipline guidance at END** of skill documentation
+- ✅ **Use simple, concise language** without visual drama
+- ✅ **Focus skill emphasis on code standards:** use internal helpers, include @examples, correct prefix usage
+- ✅ **List prohibited files factually** without dramatic emphasis
+- ⚠️ **Accept that some extra files will be created** - this is less important than correct code
+- ❌ **Avoid heavy visual emphasis** that can confuse models
+- ❌ **Avoid concrete wrong examples** that may be misinterpreted
+- ❌ **Don't front-load file discipline** in skill structure
 
 **Recommended file limits:**
 ```
-Extension development: R file, test file, README (2-3 files) ✅ 100% achievable
-Source development (PRs): R file, test file (2 files) ⚠️ 85% achievable (edge cases persist)
-New package: Add DESCRIPTION, NAMESPACE, *-package.R only when starting from scratch
+Extension development: 2-3 files (R file, test file, optional README)
+Source development: 2 files (R file, test file)
 ```
+Accept 75-85% compliance as success - focus energy on code quality instead.
 
 ### Pattern-Specific Instructions Can Achieve 100% Success
 
@@ -2244,12 +2234,282 @@ Based on lessons learned, structure evaluations to measure:
 1. **Quality > Speed**: Skills should prioritize correctness and completeness
 2. **Consistency > Brevity**: Predictable behavior is worth some token cost
 3. **Critical Behaviors**: Identify and enforce non-negotiable practices
-4. **File Discipline**: Explicitly limit documentation files (3-4 core files)
+4. **Code Quality > File Discipline**: Prioritize code correctness over file counts; de-emphasize file discipline to avoid confusing models
 5. **Context Detection**: Design for 100% accuracy in distinguishing contexts
 6. **Iterative Improvement**: Plan for evaluation → optimization cycles
 7. **Clear Explanations**: Document why, not just what
 8. **Measurable Impact**: Focus on best practices that baseline behavior misses
 
+
+### Evaluation Infrastructure and Best Practices
+
+Based on experience from add-yardstick-metric, add-dials-parameter, and add-recipe-step, here's how to build and maintain quantitative evaluation infrastructure.
+
+#### 1. Grading Configuration Design
+
+**Use Configuration-Driven Grading** (`grading-config.json`):
+
+```json
+{
+  "skill_name": "add-yardstick-metric",
+  "checks": {
+    "file_count": {
+      "extension": {"type": "range", "value": [2, 3]},
+      "source": {"type": "exact", "value": 2}
+    },
+    "patterns": {
+      "extension": {
+        "has_three_functions": {
+          "file_pattern": "**/*.R",
+          "patterns": ["_impl\\s*<-\\s*function", "_vec\\s*<-\\s*function"],
+          "logic": "all"
+        }
+      },
+      "source": {
+        "uses_internal_helpers": {
+          "file_pattern": "**/*.R",
+          "patterns": ["yardstick_mean|sens_binary|spec_binary"],
+          "logic": "any"
+        }
+      }
+    }
+  }
+}
+```
+
+**Pattern Matching Best Practices:**
+
+1. **Be Comprehensive in Pattern Lists**
+   - ❌ Too narrow: `yardstick_mean|yardstick_median` (misses sens_binary, spec_binary)
+   - ✅ Comprehensive: `yardstick_mean|yardstick_median|sens_binary|spec_binary|sens_multiclass|spec_multiclass`
+   - Evaluate which helpers are actually used in practice, not just the most common ones
+
+2. **Avoid False Positives from Comments**
+   - ❌ Pattern: `yardstick:::` matches comments explaining why NOT to use internal functions
+   - ✅ Pattern: `yardstick:::\w+\(` matches actual function calls only
+   - Accept that some explanatory comments may still trigger false positives
+   - Document known false positives in config notes field
+
+3. **Context-Specific Checks**
+   - Extension: Check for prefix usage (`yardstick::`)
+   - Source: Check for internal helper usage (no prefix)
+   - Use separate check definitions per context
+   - Provide explicit context field in eval_metadata.json
+
+4. **Relax Checks for Test Files**
+   - Source dev may occasionally use `package::` in test files for clarity
+   - Don't enforce strict "max_count: 0" for prefix in tests
+   - Use `max_count: 3` to allow reasonable test file usage
+
+**Example Grading Configuration Structure:**
+```json
+{
+  "skill_name": "...",
+  "notes": "Document known limitations or false positives here",
+  "checks": {
+    "file_count": { ... },
+    "prohibited_files": [...],
+    "patterns": {
+      "extension": { ... },
+      "source": { ... }
+    },
+    "prefix_usage": {
+      "extension": {"min_count": 3},
+      "source": {"max_count": 3}
+    }
+  }
+}
+```
+
+#### 2. Using the Centralized Grading Script
+
+**grade-evaluations.py** in `skill-development/` provides reusable grading:
+
+```bash
+# With explicit config
+python skill-development/grade-evaluations.py \
+  developers/add-yardstick-metric-workspace/iteration-3 \
+  --config developers/add-yardstick-metric/evals/grading-config.json
+
+# With auto-detection (looks for ../developers/<skill>/evals/grading-config.json)
+python skill-development/grade-evaluations.py \
+  developers/add-yardstick-metric-workspace/iteration-3 \
+  --skill add-yardstick-metric
+```
+
+**Outputs:**
+- `grading.json` in each eval directory (individual results)
+- `grading-summary.json` in workspace root (aggregate results)
+- Console summary with pass rates and failed checks
+
+**Context Detection:**
+- Priority 1: Explicit `"context": "extension"` or `"source"` in eval_metadata.json
+- Priority 2: Analyze prompt text for signals (e.g., "for my package" vs "PR to tidymodels")
+- Default: extension (most common case)
+
+#### 3. Iteration Strategy
+
+**Prioritization Framework** (learned from yardstick iterations):
+
+**Priority 1: Code Correctness** (Most Critical)
+- Using correct internal helpers (source dev)
+- Including required @examples
+- Proper prefix usage (extension vs source)
+- Implementing required patterns (three-function, case weights)
+- These are FUNCTIONAL requirements that affect code quality
+
+**Priority 2: Documentation Quality**
+- Complete roxygen documentation
+- Proper test coverage
+- NA handling patterns
+- Edge case handling
+
+**Priority 3: File Discipline** (Least Critical)
+- Number of files created
+- Prohibited file lists
+- README discipline
+- These are STYLE requirements that don't affect functionality
+
+**When Code Standards Conflict with File Discipline:**
+- Always prioritize code standards
+- De-emphasize file discipline if it's confusing the model
+- Accept extra files if code quality improves
+
+**Evidence-Based Iteration:**
+```
+Iteration-1: Establish baseline
+- Run all evals with current skill
+- Identify major failure categories
+- Prioritize by impact on code quality
+
+Iteration-2: Address highest-priority issues
+- Focus on code correctness first
+- Don't over-emphasize file discipline
+- Avoid heavy visual emphasis that confuses models
+
+Iteration-3: Refine based on results
+- If regression occurs, back out problematic changes
+- Re-test to confirm improvement
+- Accept reasonable trade-offs (e.g., 75-85% file discipline is fine)
+```
+
+#### 4. Common Grading Pitfalls and Solutions
+
+**Pitfall 1: False Positives from Comments**
+- **Problem:** Pattern `yardstick:::` matches explanatory comments
+- **Solution:** Update pattern to `yardstick:::\w+\(` to match function calls only
+- **Accept:** Some comments may still trigger (e.g., in critical behavior tests)
+- **Document:** Add note to config explaining known false positive
+
+**Pitfall 2: Too-Narrow Pattern Matching**
+- **Problem:** Check for `yardstick_mean` misses `sens_binary`, `spec_binary`
+- **Solution:** Expand pattern to include all relevant helpers used in practice
+- **Method:** Review actual eval outputs to see what helpers models naturally use
+- **Update:** Add newly discovered helpers to pattern list
+
+**Pitfall 3: Over-Emphasis Causing Regression**
+- **Problem:** Dramatic visual warnings made iteration-2 WORSE than iteration-1
+- **Solution:** Remove visual emphasis, move guidance to end, use simple language
+- **Principle:** De-prioritize file discipline relative to code quality
+- **Evidence:** Yardstick iter-2 (14% file discipline) → iter-3 (better file discipline AND code quality)
+
+**Pitfall 4: Grading Artifacts vs Real Issues**
+- **Problem:** Grading shows failure but code is actually correct
+- **Example:** Eval 7 "uses internal functions" - only in comments explaining refusal
+- **Solution:** Distinguish between grading limitations and skill issues
+- **Action:** Fix grading config, not skill, when code is correct
+
+**Pitfall 5: Context Detection Failures**
+- **Problem:** All evals detected as same context
+- **Solution:** Add explicit `"context"` field to eval_metadata.json
+- **Priority:** Use explicit field over heuristics for reliability
+
+#### 5. Interpreting Results
+
+**What Pass Rates Mean:**
+
+- **90-100%:** Excellent - skill working as intended
+- **75-89%:** Good - acceptable with some edge cases
+- **60-74%:** Moderate - needs improvement but functional
+- **<60%:** Poor - significant issues to address
+
+**By Check Category:**
+
+- **Code correctness** (internal helpers, @examples, patterns): Target 90%+
+- **Documentation** (roxygen, tests): Target 85%+
+- **File discipline**: Target 75-85% (lower priority)
+
+**When to Fix Grading Config vs Skill:**
+
+**Fix Grading Config When:**
+- Code is objectively correct but check fails
+- Pattern is too narrow (missing valid helpers)
+- False positives from comments or edge cases
+- Check doesn't match actual requirements
+
+**Fix Skill When:**
+- Code is incorrect or missing required components
+- Pattern adherence is genuinely failing
+- Context detection is failing
+- Models consistently misunderstand guidance
+
+**Red Flags (Fix Skill Immediately):**
+- Catastrophic failure (e.g., eval-7 in iteration-2: 60% → 10%)
+- Regression across multiple evals
+- Breaking of critical behaviors
+- Code quality degradation
+
+**Green Flags (May Be Grading Artifact):**
+- Single eval fails while others pass
+- Failure in comments or documentation
+- Edge case that doesn't affect functionality
+- Known false positive documented in config
+
+#### 6. Measuring Iteration Impact
+
+**Key Metrics to Track:**
+
+```
+Overall pass rate: X/Y checks (Z%)
+Per-eval pass rates: Individual eval performance
+Total files created: Across all evals
+Failed check categories: Group failures by type
+```
+
+**Compare Across Iterations:**
+
+```
+Iteration-1 → Iteration-2 → Iteration-3
+Pass rate:     62.5%   →   56.2%   →   84.4%   (Track direction)
+Total files:   39      →   57      →   17      (Lower is better for file discipline)
+Code quality:  Good    →   Poor    →   Excellent (Qualitative assessment)
+```
+
+**Success Indicators:**
+- ✅ Pass rate improves or stays stable
+- ✅ Code quality improves
+- ✅ File counts decrease (if prioritizing file discipline)
+- ✅ Critical behaviors maintain 100% or improve
+
+**Warning Signs:**
+- ⚠️ Pass rate decreases
+- ⚠️ Critical behaviors regress
+- ⚠️ File counts increase dramatically
+- ⚠️ Code quality degrades (even if pass rate looks good)
+
+**When to Back Out Changes:**
+- Pass rate drops >10 percentage points
+- Critical behavior fails completely (e.g., 60% → 10%)
+- Code quality degrades noticeably
+- Multiple evals show regression
+
+**When to Accept Results:**
+- Pass rate improves or stays within 5pp
+- Code quality improves
+- Trade-offs are acceptable (e.g., slight file increase for better code)
+- Regressions are minor and in low-priority areas
+
+---
 ---
 
 ## Summary
@@ -2293,6 +2553,6 @@ A skill is complete when:
 
 ---
 
-**Last Updated:** 2026-04-01
+**Last Updated:** 2026-04-03
 
 For questions or feedback about this guide, review the planning documents in `.github/planning/` or examine existing skills for examples.
