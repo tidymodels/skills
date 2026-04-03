@@ -2240,6 +2240,365 @@ Based on lessons learned, structure evaluations to measure:
 7. **Clear Explanations**: Document why, not just what
 8. **Measurable Impact**: Focus on best practices that baseline behavior misses
 
+---
+
+## Advanced Topics: Evaluation Design and Iteration Methodology
+
+This section documents advanced lessons from multi-iteration skill optimization, particularly from the `add-parsnip-engine` skill development (iterations 1-3).
+
+**Last Updated:** 2026-04-03 (based on add-parsnip-engine analysis)
+
+### The Paradox of Helpful Guidance
+
+**Core Finding:** Adding more "helpful" guidance can make performance WORSE, not better.
+
+**The Paradox:**
+- **Intuition says:** More detail → Better understanding → Better performance
+- **Reality shows:** More detail → More tokens → Slower execution → Potential confusion
+
+**Evidence from add-parsnip-engine:**
+
+| Iteration | Multi-Mode Token Gap | Simple Case Performance | Outcome |
+|-----------|---------------------|------------------------|---------|
+| Iteration-1 | +36% | Baseline | Reasonable |
+| Iteration-2 | +93% | +48% slower | **REGRESSION** |
+| Iteration-3 | +67% | +4% slower | Improved |
+
+**What Happened:**
+- **Iteration-2** added a 180-line "Multi-Mode Development Checklist" to help with complex engines
+- **Result:** 93% token overhead and made SIMPLE engines 48% slower
+- **Iteration-3** removed verbose checklist, replaced with 2-sentence pattern
+- **Result:** Recovered performance partially (67% token gap, 4% slower on simple)
+
+**Key Lesson: Constraining vs Expanding Guidance**
+
+**Expanding guidance** (what we did in iteration-2):
+- Long checklists that models read completely
+- Detailed debug procedures
+- Comprehensive "what to do when X happens" sections
+- **Effect:** Forces model to read everything before acting
+
+**Constraining guidance** (what worked in iteration-3):
+- Concise patterns: "Register each mode separately and completely..."
+- Clear decision points: "Simple engine? Use streamlined approach"
+- Trust the model to apply patterns without exhaustive enumeration
+- **Effect:** Model gets to the right pattern faster
+
+**Implication for Skill Design:**
+- ✅ **Prefer concise patterns over verbose checklists**
+- ✅ **Trust the model to generalize from examples**
+- ✅ **Use routing logic for complexity tiers** (simple vs complex)
+- ✅ **Remove "helpful" sections that become token bloat**
+- ⚠️ **More words ≠ better understanding**
+
+### Level 1 vs Level 2 Evaluation Design
+
+**Critical Gap Discovered:** Structural checks don't verify functional correctness.
+
+**Level 1: Structural Evaluation** (What we implemented)
+- Checks file existence and naming
+- Verifies code patterns exist (e.g., `register_engine`, `set_fit`, `set_pred`)
+- Counts files created
+- Searches for specific function calls
+- **Weakness:** Can pass with broken implementations
+
+**Level 2: Functional Evaluation** (What we need)
+- Runs the generated code
+- Tests predictions on actual data
+- Verifies engines integrate with parsnip workflows
+- Checks error handling behavior
+- **Strength:** Verifies code actually works
+
+**Evidence from add-parsnip-engine iteration-3:**
+- All evals passed structural checks (mode registration, engine functions present)
+- Spot-check of eval-3 revealed: Complete file, but predictions likely incorrect
+- **Problem:** Can have all required code patterns but wrong implementations
+
+**Why This Matters:**
+
+**Level 1 is sufficient for:**
+- File discipline (did they create too many files?)
+- Pattern adherence (did they use the three-function pattern?)
+- Context detection (extension vs source)
+- Basic structure (did they create the required components?)
+
+**Level 1 is insufficient for:**
+- Algorithm correctness (does the metric calculate the right value?)
+- Integration (does the engine work with parsnip workflows?)
+- Edge cases (what happens with missing data, extreme values?)
+- Functional behavior (does it actually do what it claims?)
+
+**Implication for Skill Design:**
+- ✅ **Level 1 is good for initial development** (fast, catches structural issues)
+- ✅ **Level 2 is essential for validation** (slower, but confirms correctness)
+- ✅ **Use Level 1 for iteration speed** (structural fixes)
+- ✅ **Use Level 2 before considering skill "done"** (functional verification)
+- ⚠️ **Don't confuse "passes checks" with "works correctly"**
+
+**Practical Recommendation:**
+
+```
+Phase 1: Develop with Level 1 evaluation
+- Fast iteration cycles
+- Structural correctness
+- Pattern adherence
+- 3-5 iterations to optimize guidance
+
+Phase 2: Validate with Level 2 evaluation
+- Run generated code on test data
+- Verify functional correctness
+- Test integration with package ecosystem
+- 1-2 iterations to fix functional issues discovered
+```
+
+### Iteration Methodology: When to Stop
+
+**Question:** How many iterations are enough?
+
+**Evidence-Based Answer:** Stop when you hit diminishing returns or persistent patterns.
+
+**From add-parsnip-engine:**
+
+| Metric | Iteration-1 → 2 | Iteration-2 → 3 |
+|--------|----------------|----------------|
+| Multi-mode token gap | +36% → +93% | +93% → +67% |
+| Simple case speed | Baseline → +48% | +48% → +4% |
+| File discipline | Not measured | 5-10 files (target: 2-3) |
+
+**Observations:**
+1. **Iteration-2 was a regression** - made things worse
+2. **Iteration-3 recovered partially** - but didn't fully return to iteration-1 performance
+3. **File discipline didn't improve** despite explicit guidance (10-16 → 5-10 files)
+
+**When to Stop Iterating:**
+
+**Stop if you see:**
+- ✅ **3+ iterations without file discipline improvement** - guidance approach isn't working
+- ✅ **Regression followed by partial recovery** - you've found the optimum
+- ✅ **Token/time trade-offs stabilize** - additional changes have minimal impact
+- ✅ **Persistent behaviors despite guidance** - structural problem, not guidance problem
+
+**Continue iterating if:**
+- 📈 **Clear improvement trajectory** - each iteration measurably better
+- 📈 **New failure modes discovered** - guidance can address them
+- 📈 **Low-hanging fruit remains** - obvious improvements not yet tried
+- 📈 **<3 iterations completed** - haven't explored enough
+
+**From add-parsnip-engine, we learned:**
+- File discipline guidance (prohibited lists, consolidation steps) didn't improve compliance
+- **After 3 iterations:** Files went from 10-16 → 5-10, but target is 2-3
+- **Conclusion:** File discipline improvements require different approach (not more guidance)
+
+**Alternative Strategies After Persistent Failures:**
+
+When guidance fails after 3+ iterations:
+
+1. **Accept the behavior** if code quality is good
+   - Example: 5-10 files instead of 2-3 is acceptable if code is correct
+   - File discipline is lower priority than functional correctness
+
+2. **Change evaluation approach** if checks are flawed
+   - Example: Pattern matching gives false positives
+   - Solution: Update grading config, not skill
+
+3. **Simplify guidance** if verbosity is the problem
+   - Example: 180-line checklist → 2-sentence pattern
+   - Solution: Remove "helpful" sections that cause token bloat
+
+4. **Add routing logic** if complexity varies widely
+   - Example: Simple vs complex engine detection
+   - Solution: Guide model to assess complexity first, then choose approach
+
+5. **Move to Level 2 evaluation** if structure passes but function fails
+   - Example: Code exists but doesn't work
+   - Solution: Run functional tests instead of just structural checks
+
+### Complexity-Based Routing Pattern
+
+**Problem:** Single guidance approach doesn't work for both simple and complex cases.
+
+**Solution:** Teach the skill to assess complexity first, then route to appropriate guidance.
+
+**From add-parsnip-engine iteration-3:**
+
+```markdown
+### Simple Engine?
+- Single mode, formula/matrix interface, 1-3 parameters
+→ Use streamlined approach: 2 files, 15-30 lines, NO extra docs
+
+### Complex Engine?
+- Multi-mode, matrix with encoding, survival
+→ Reference detailed guides, still 2-3 files max
+```
+
+**Why This Works:**
+- **Simple engines** don't need 180-line checklists - just create the basic structure
+- **Complex engines** need detailed patterns for multi-mode, encoding, survival
+- **Routing upfront** prevents over-engineering of simple cases
+
+**Evidence:**
+- Iteration-2 (no routing): Simple Spark engine +48% slower
+- Iteration-3 (with routing): Simple Spark engine +4% slower (recovered)
+
+**Pattern Structure:**
+
+1. **Assessment criteria** - How to determine complexity
+2. **Decision point** - Simple vs complex determination
+3. **Streamlined path** - Minimal guidance for simple cases
+4. **Detailed path** - Comprehensive guidance for complex cases
+5. **File constraints** - Same limits regardless of complexity
+
+**Implication for Skill Design:**
+- ✅ **Add complexity routing when skill spans wide range**
+- ✅ **Place routing at TOP of implementation section**
+- ✅ **Make criteria objective** (countable features, not subjective)
+- ✅ **Keep file limits consistent** across complexity tiers
+- ✅ **Simple path should be truly minimal** - trust the model
+
+### Token Budget Awareness
+
+**Problem:** Skills can create massive token overhead that slows execution.
+
+**From add-parsnip-engine:**
+- Simple engines without skill: ~50k tokens
+- Complex engines without skill: ~50k tokens
+- With skill iteration-2: +93% tokens (multi-mode), +48% time (simple)
+
+**Solution: Explicit Token Budgets**
+
+```markdown
+### Token Budget Awareness
+Target token usage by complexity:
+- Simple engines: <50,000 tokens
+- Complex engines: <70,000 tokens
+- Very complex: <80,000 tokens
+
+If exceeding budget: simplify guidance, remove verbose sections
+```
+
+**Why This Matters:**
+- Token usage directly impacts execution time
+- Models read skill content before acting
+- Verbose guidance forces complete reading
+- **Trade-off:** Quality vs speed
+
+**When Token Overhead is Acceptable:**
+- Quality improvements (correctness, completeness)
+- Critical behavior enforcement (test set protection)
+- Context detection (extension vs source)
+
+**When Token Overhead is Problematic:**
+- No quality improvement
+- Verbose checklists that don't change behavior
+- "Helpful" sections that models ignore
+- Duplicate content across sections
+
+**Implication for Skill Design:**
+- ✅ **Set explicit token budgets by task complexity**
+- ✅ **Measure baseline token usage** (without skill)
+- ✅ **Target 30% overhead maximum** for quality improvement
+- ✅ **Remove guidance that doesn't improve outcomes**
+- ⚠️ **Budget violations signal verbosity problems**
+
+### Quick Refusal Patterns Work Exceptionally Well
+
+**Finding:** Teaching skills to quickly refuse invalid requests has dramatic efficiency gains.
+
+**Evidence from add-parsnip-engine:**
+- Eval-4 (edge case refusal): -64% time, -59% tokens in iteration-3
+- Qualitative: Clean, immediate refusal with explanation
+- No wasted effort trying to implement invalid engine
+
+**Pattern Structure:**
+
+```markdown
+# For engines requiring unsupported features:
+
+**INSTRUCTIONS FOR CLAUDE:**
+If the user requests an engine that requires:
+- Custom survival distributions not in survival package
+- Time-varying coefficients
+- [Other unsupported features]
+
+→ Politely explain parsnip doesn't support this yet
+→ Don't attempt implementation
+→ Suggest alternatives if available
+```
+
+**Why This Works:**
+- **Prevents wasted work** on impossible tasks
+- **Saves tokens** by avoiding exploration of dead ends
+- **Improves user experience** with clear explanations
+- **Protects quality** by preventing broken implementations
+
+**When to Add Refusal Patterns:**
+- Known edge cases that can't be handled
+- Package limitations that users might not know
+- Request types that would produce broken code
+- Scenarios where baseline tries and fails
+
+**Implication for Skill Design:**
+- ✅ **Identify common "impossible" requests** during skill development
+- ✅ **Add explicit refusal guidance** for these cases
+- ✅ **Include brief explanation** of why it's not possible
+- ✅ **Suggest alternatives** when available
+- ✅ **Expect dramatic efficiency gains** (50-60% time/token savings)
+
+### Case Study: add-parsnip-engine Iterations 1-3
+
+**Context:** Skill for adding computational engines to parsnip package.
+
+**Complexity:** Wide spectrum from simple (single-mode, few parameters) to complex (multi-mode, custom encodings, survival).
+
+**Challenge:** Initial skill (iteration-1) showed 93% token gap on multi-mode engines, needed optimization.
+
+**Iteration-1 Baseline:**
+- Multi-mode token gap: +36%
+- Simple cases: Reasonable performance
+- File discipline: Not measured
+- **Assessment:** Good starting point, but token-heavy on complex cases
+
+**Iteration-2: "Helpful" Guidance (REGRESSION)**
+- **Added:** 180-line multi-mode checklist with debug procedures
+- **Intention:** Help models handle complex multi-mode development
+- **Results:**
+  - Multi-mode token gap: +93% (regression from +36%)
+  - Simple cases: +48% slower (major regression)
+  - **Diagnosis:** Verbose guidance created token bloat, slowed ALL cases
+
+**Iteration-3: Simplified and Routed (RECOVERY)**
+- **Changes:**
+  1. Removed 180-line checklist → 2-sentence pattern
+  2. Added complexity routing (simple vs complex assessment)
+  3. Added token budget targets
+  4. Added quick refusal pattern
+  5. Removed verbose multi-mode debug section
+- **Results:**
+  - Multi-mode token gap: +67% (improved from +93%, still above target)
+  - Simple cases: +4% slower (recovered from +48%)
+  - Quick refusal: -64% time (dramatic improvement)
+  - File discipline: 5-10 files (improved from 10-16, still above 2-3 target)
+
+**Key Lessons:**
+
+1. **Verbose "helpful" guidance backfired** - iteration-2 made things worse
+2. **Concise patterns work better** than exhaustive checklists
+3. **Complexity routing recovered simple case performance** - from +48% to +4%
+4. **Some behaviors persist despite guidance** - file discipline 5-10 vs target 2-3
+5. **Quick refusal patterns have huge ROI** - 64% time savings on edge cases
+
+**Stopping Decision:**
+- After 3 iterations, file discipline still not at target (2-3 files)
+- Code quality improved, token efficiency partially recovered
+- **Conclusion:** Accept 5-10 files as reasonable, focus on functional correctness
+- **Next step:** Move to Level 2 evaluation (functional testing) before more guidance iterations
+
+**Broader Implication:**
+- Not all goals are achievable through guidance refinement
+- After 3 iterations without convergence, try different approach or accept behavior
+- Prioritize functional correctness over structural perfection
+
+---
 
 ### Evaluation Infrastructure and Best Practices
 

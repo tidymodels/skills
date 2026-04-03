@@ -117,13 +117,182 @@ Update `NEWS.md`:
 
 ## File Organization
 
-**Where to add:**
+**CRITICAL: Add to existing files, don't create new ones**
 
-- Registration: `R/[model]_data.R`
+### Registration Files
 
-- Tests: `tests/testthat/test-[model].R` or `test-[model]-[engine].R`
+**Always add to existing `R/[model]_data.R` file:**
 
-- Documentation stub: `R/[model]_[engine].R` (optional)
+```r
+# R/linear_reg_data.R already exists in parsnip
+# Add your engine to this file, don't create linear_reg_my_engine_data.R
+
+# ------------------------------------------------------------------------------
+# my_engine  ← Add comment header like other engines
+
+set_model_engine(...)  # ← NO parsnip:: prefix
+set_dependency(...)    # ← NO parsnip:: prefix
+set_fit(...)          # ← NO parsnip:: prefix
+```
+
+**File should contain ONLY registrations:**
+
+- ✅ DO: Add `set_*()` calls to `R/[model]_data.R`
+
+- ❌ DON'T: Create `R/[model]_my_engine.R`
+
+- ❌ DON'T: Create helper files like `R/my_engine_utils.R`
+
+- ❌ DON'T: Add implementation code (that goes in prediction `func`)
+
+### Test Files
+
+**Add tests to existing `tests/testthat/test-[model].R`:**
+
+```r
+# tests/testthat/test-linear_reg.R already exists
+# Add your tests to this file with comment header
+
+# ------------------------------------------------------------------------------
+# my_engine
+
+test_that("my_engine fits", {
+  skip_if_not_installed("mypackage")
+  # ... tests
+})
+```
+
+**Or create engine-specific test file:**
+```r
+# tests/testthat/test-linear_reg-my_engine.R
+# Only if many tests or complex scenarios
+```
+
+**Target: 1-2 files total**
+
+- Extension development: 2-3 files (R/, tests/, maybe README)
+
+- Source development: **1-2 files** (additions to existing files)
+
+---
+
+## NO Prefix Pattern
+
+**CRITICAL DIFFERENCE from extension development:**
+
+```r
+# ❌ WRONG - Extension pattern (with prefix)
+parsnip::set_model_engine("linear_reg", "regression", "my_engine")
+parsnip::set_dependency("linear_reg", "my_engine", "mypackage", "regression")
+
+# ✅ CORRECT - Source pattern (NO prefix)
+set_model_engine("linear_reg", "regression", "my_engine")
+set_dependency("linear_reg", "my_engine", "mypackage", "regression")
+```
+
+**Why no prefix?**
+
+- You're working INSIDE the parsnip package
+
+- These functions are already available in the package namespace
+
+- Using `parsnip::` is redundant and against conventions
+
+**Quick check:** If you see `parsnip::` in your registration code, you're doing it wrong for source development.
+
+---
+
+## Deterministic Source Development Pattern
+
+**Exact steps for adding an engine to parsnip source:**
+
+### Step 1: Identify Target File
+
+```bash
+# Find the correct *_data.R file
+ls R/*_data.R
+# Example: R/linear_reg_data.R, R/boost_tree_data.R
+```
+
+### Step 2: Add Engine Registration (NO prefix)
+
+```r
+# In R/linear_reg_data.R - add at end of file
+
+# ------------------------------------------------------------------------------
+# xgboost
+
+set_model_engine("linear_reg", "regression", "xgboost")  # NO parsnip::
+set_dependency("linear_reg", "xgboost", "xgboost", "regression")
+
+set_model_arg(
+  model = "linear_reg",
+  eng = "xgboost",
+  parsnip = "penalty",
+  original = "lambda",
+  func = list(pkg = "dials", fun = "penalty"),
+  has_submodel = FALSE
+)
+
+set_fit(
+  model = "linear_reg",
+  eng = "xgboost",
+  mode = "regression",
+  value = list(
+    interface = "matrix",
+    protect = c("x", "y"),
+    func = c(pkg = "xgboost", fun = "xgb.train"),
+    defaults = list(objective = "reg:squarederror")
+  )
+)
+
+set_encoding(
+  model = "linear_reg",
+  eng = "xgboost",
+  mode = "regression",
+  options = list(
+    predictor_indicators = "traditional",
+    compute_intercept = FALSE,
+    remove_intercept = TRUE
+  )
+)
+
+set_pred(
+  model = "linear_reg",
+  eng = "xgboost",
+  mode = "regression",
+  type = "numeric",
+  value = list(...)
+)
+```
+
+### Step 3: Add Tests to Existing Test File
+
+```r
+# In tests/testthat/test-linear_reg.R - add at end
+
+# ------------------------------------------------------------------------------
+# xgboost
+
+test_that("xgboost fits", {
+  skip_if_not_installed("xgboost")
+  # ... tests using NO prefix
+  spec <- linear_reg() |> set_engine("xgboost")
+  fit <- fit(spec, mpg ~ ., data = mtcars)
+  expect_s3_class(fit, "model_fit")
+})
+```
+
+### Step 4: Update NEWS.md
+
+```markdown
+## New Features
+
+* Added "xgboost" engine for `linear_reg()` (@your_github, #PR_NUMBER)
+```
+
+**Total files modified: 2** (R/*_data.R, tests/testthat/test-*.R)
+**Total files created: 0** (add to existing files)
 
 ---
 

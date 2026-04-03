@@ -1,0 +1,240 @@
+{
+  "skill_name": "add-parsnip-model",
+  "notes": "Edge case evals (id 4 and 7) test refusal behaviors and should create zero files. The 'no_internal_functions' check for extension may flag false positives in refusal discussions (eval 7).",
+  "checks": {
+    "file_count": {
+      "extension": {
+        "type": "range",
+        "value": [2, 3]
+      },
+      "source": {
+        "type": "range",
+        "value": [2, 4]
+      },
+      "refusal": {
+        "type": "exact",
+        "value": 0
+      }
+    },
+    "prohibited_files": [
+      "IMPLEMENTATION_NOTES.md",
+      "IMPLEMENTATION_SUMMARY.md",
+      "MODEL_DESIGN.md",
+      "REGISTRATION_STEPS.md",
+      "QUICKSTART.md",
+      "QUICK_REFERENCE.md",
+      "example_usage.R",
+      "usage_examples.R",
+      "test_model.R",
+      "verify_model.R",
+      "PR_CHECKLIST.md",
+      "PR_DESCRIPTION.md",
+      "PR_NOTES.txt",
+      "NEWS_entry.md",
+      "CONTRIBUTING.md",
+      "GETTING_STARTED.md",
+      "HOW_TO_USE.md",
+      "ENGINE_GUIDE.md",
+      "WORKFLOW.md",
+      "DEVELOPMENT.md",
+      "misc.R",
+      "helpers.R",
+      "utils.R",
+      "*.txt",
+      "*.sh",
+      "*.yml"
+    ],
+    "required_files": {
+      "extension": [
+        "*.R"
+      ],
+      "source": [
+        "*.R"
+      ]
+    },
+    "patterns": {
+      "extension": {
+        "has_constructor": {
+          "description": "Model constructor using new_model_spec()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip::new_model_spec\\(",
+            "mode\\s*=",
+            "engine\\s*="
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "has_registration": {
+          "description": "Complete registration sequence",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip::set_new_model\\(",
+            "parsnip::set_model_mode\\(",
+            "parsnip::set_model_engine\\(",
+            "parsnip::set_fit\\("
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "has_prediction_setup": {
+          "description": "Prediction registration with set_pred()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip::set_pred\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "has_argument_quoting": {
+          "description": "Arguments use rlang::enquo() for proper quoting",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "rlang::enquo\\("
+          ],
+          "logic": "any",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples",
+            "#'\\s*@param"
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "no_internal_functions": {
+          "description": "No use of internal functions (:::) in actual code",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip:::\\w+\\("
+          ],
+          "logic": "none"
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "skip_if_not_installed\\(",
+            "fit\\(",
+            "predict\\("
+          ],
+          "logic": "all"
+        },
+        "has_prediction_tests": {
+          "description": "Tests verify prediction column naming",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "\\.pred"
+          ],
+          "logic": "any"
+        }
+      },
+      "source": {
+        "has_constructor": {
+          "description": "Model constructor using new_model_spec() - no prefix",
+          "file_pattern": "**/[!test-]*.R",
+          "patterns": [
+            "new_model_spec\\(",
+            "mode\\s*=",
+            "engine\\s*="
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R", "**/*_data.R"]
+        },
+        "has_registration_file": {
+          "description": "Separate registration data file (_data.R pattern)",
+          "file_pattern": "**/*_data.R",
+          "patterns": [
+            "set_new_model\\(",
+            "set_model_mode\\(",
+            "set_model_engine\\("
+          ],
+          "logic": "all"
+        },
+        "has_complete_registration": {
+          "description": "Full registration sequence in data file",
+          "file_pattern": "**/*_data.R",
+          "patterns": [
+            "set_new_model\\(",
+            "set_model_mode\\(",
+            "set_model_engine\\(",
+            "set_dependency\\(",
+            "set_fit\\(",
+            "set_pred\\("
+          ],
+          "logic": "all"
+        },
+        "has_roxygen_docs": {
+          "description": "Complete roxygen documentation with templates",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples"
+          ],
+          "logic": "all",
+          "exclude_files": ["**/test-*.R", "**/*_data.R"]
+        },
+        "no_prefix_in_main": {
+          "description": "No parsnip:: prefix in source development",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip::"
+          ],
+          "logic": "none",
+          "exclude_files": ["**/test-*.R"]
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "skip_if_not_installed\\(",
+            "fit\\(",
+            "predict\\("
+          ],
+          "logic": "all"
+        }
+      },
+      "refusal": {
+        "identifies_wrong_skill": {
+          "description": "Correctly identifies this should use different skill",
+          "file_pattern": "**/*.{md,txt,R}",
+          "patterns": [
+            "add-parsnip-engine|engine.*not.*model|existing model|already exists"
+          ],
+          "logic": "any"
+        }
+      }
+    },
+    "prefix_usage": {
+      "extension": {
+        "file_pattern": "**/*.R",
+        "prefix": "parsnip::",
+        "min_count": 5,
+        "exclude_files": ["**/test-*.R"]
+      },
+      "source": {
+        "file_pattern": "**/*.R",
+        "prefix": "parsnip::",
+        "max_count": 0,
+        "exclude_files": ["**/test-*.R"]
+      }
+    },
+    "special_evals": {
+      "4": {
+        "context": "refusal",
+        "description": "Should refuse and redirect to add-parsnip-engine",
+        "expected_files": 0
+      },
+      "7": {
+        "context": "extension",
+        "description": "Should refuse internal functions but implement working alternative"
+      }
+    }
+  }
+}

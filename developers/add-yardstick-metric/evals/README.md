@@ -7,45 +7,69 @@ This directory contains quantitative evaluation test cases for the `add-yardstic
 These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Extension development** (creating new packages that extend yardstick)
+
 - **Source development** (contributing PRs to yardstick itself)
+
 - **Different metric types** (numeric, class, probability)
+
 - **Critical behaviors** (file discipline, refusing to use internal functions)
 
 ## Test Cases
 
 ### Eval 1: Simple Numeric Metric (Extension Dev)
+
 - **Metric:** Weighted Absolute Percentage Error (WAPE)
+
 - **Context:** Extension development for retail forecasting package
+
 - **Tests:** Three-function pattern, case weights, NA handling, extension patterns (yardstick:: prefix)
 
 ### Eval 2: Class Metric with Multiclass (Extension Dev)
+
 - **Metric:** Positive Likelihood Ratio (PLR)
+
 - **Context:** Extension development for medical diagnostics
+
 - **Tests:** Confusion matrix usage, event_level parameter, multiclass averaging, case weights
 
 ### Eval 3: Probability Metric (Extension Dev)
+
 - **Metric:** Calibration Slope
+
 - **Context:** Extension development for probabilistic forecasting
+
 - **Tests:** Probability validation, logistic regression, calibration assessment, case weights
 
 ### Eval 4: Robust Numeric Metric (Source Dev PR)
+
 - **Metric:** Median Absolute Error (MedAE)
+
 - **Context:** Contributing to yardstick itself
+
 - **Tests:** Internal helpers (yardstick_median), file naming (R/num-*.R), no supplementary files, source patterns
 
 ### Eval 5: Binary Classification Metric (Source Dev PR)
+
 - **Metric:** Balanced Accuracy
+
 - **Context:** Contributing to yardstick for imbalanced datasets
+
 - **Tests:** Binary + multiclass patterns, internal test data, confusion matrix, event_level
 
 ### Eval 6: Complex Probability Metric (Source Dev PR)
+
 - **Metric:** Expected Calibration Error (ECE)
+
 - **Context:** Contributing advanced calibration metric
+
 - **Tests:** Binning logic, probability validation, edge cases, file naming (R/prob-*.R)
 
 ### Eval 7: Critical Behavior Test (Extension Dev)
+
 - **Scenario:** User attempts to use internal functions (yardstick:::)
+
 - **Expected:** Skill explicitly refuses and provides alternatives
+
 - **Tests:** Constraint enforcement, alternative suggestions, working implementation without :::
 
 ## Evaluation Structure
@@ -90,32 +114,51 @@ Tests that metrics work with yardstick infrastructure and docs are complete.
 These evaluations specifically test:
 
 ### File Discipline (Priority 1)
+
 - ✅ Creates EXACTLY 2-3 files for extension dev (R file, test file, optional README)
+
 - ✅ Creates EXACTLY 2 files for source dev (R file, test file)
+
 - ❌ Does NOT create supplementary documentation files
+
 - ❌ No IMPLEMENTATION_SUMMARY.md, QUICKSTART.md, example_usage.R, etc.
 
 ### Code Patterns (High Priority)
+
 - ✅ Uses yardstick:: prefix consistently (extension dev)
+
 - ✅ No yardstick:: prefix (source dev)
+
 - ✅ Three-function pattern for most metrics (_impl, _vec, .data.frame)
+
 - ✅ Proper use of yardstick infrastructure (new_*_metric, check_*_metric, yardstick_remove_missing)
 
 ### Testing Coverage (High Priority)
+
 - ✅ Correctness tests (metric calculates correctly)
+
 - ✅ NA handling tests (na_rm = TRUE and FALSE)
+
 - ✅ Input validation tests (wrong types, mismatched lengths)
+
 - ✅ Case weights tests (weighted differs from unweighted)
+
 - ✅ Edge cases (zeros, negatives, perfect prediction, all wrong)
 
 ### Documentation (Medium Priority)
+
 - ✅ Roxygen documentation with @family, @export, @examples
+
 - ✅ Extension dev: @inheritParams, @param, @details
+
 - ✅ Source dev: @inheritParams, @template, @templateVar
 
 ### Critical Behaviors (Critical)
+
 - ✅ Refuses to use internal functions (:::) in extension dev
+
 - ✅ Explains constraints and provides alternatives
+
 - ✅ Suggests source development when internal functions needed
 
 ## Running Evaluations
@@ -142,22 +185,35 @@ The evaluation workflow:
 Based on lessons learned from add-dials-parameter evaluations:
 
 ### Target Pass Rates (After File Discipline Updates)
+
 - **Extension development:** ≥90% file discipline compliance
+
 - **Source development:** ≥80% file discipline compliance
+
 - **Overall file discipline:** ≥85% pass rate
+
 - **Code patterns:** ≥90% correctness
+
 - **Testing coverage:** ≥85% completeness
+
 - **Critical behaviors:** 100% (must refuse internal functions)
 
 ### File Count Targets
+
 - Extension dev: 2-3 files (R + test + optional README)
+
 - Source dev: 2 files (R + test)
+
 - Supplementary files: 0 (zero tolerance)
 
 ### Time and Token Trade-offs
+
 - Skills typically use +18-67% more tokens than baseline
+
 - This is acceptable trade-off for quality improvement
+
 - Focus on correctness, not token efficiency
+
 - Consistency is more valuable than speed
 
 ## Benchmark Structure
@@ -215,23 +271,35 @@ From lessons learned (SKILL_IMPLEMENTATION_GUIDE.md):
 ### Key Questions After Running Evaluations
 
 1. **File Discipline:**
+
    - How many supplementary files were created?
+
    - Which evals violated file limits?
+
    - What types of files are being created incorrectly?
 
 2. **Code Patterns:**
+
    - Is yardstick:: prefix used correctly in extension dev?
+
    - Are internal functions avoided in extension dev?
+
    - Is three-function pattern implemented correctly?
 
 3. **Testing Coverage:**
+
    - Are all 5 test categories covered (correctness, NA, validation, case weights, edge cases)?
+
    - Do tests actually verify the metric works?
+
    - Are edge cases handled properly?
 
 4. **Critical Behaviors:**
+
    - Does eval-7 correctly refuse to use internal functions?
+
    - Are alternatives provided when internal functions requested?
+
    - Is source development suggested as option?
 
 ### Common Failure Patterns
@@ -239,9 +307,13 @@ From lessons learned (SKILL_IMPLEMENTATION_GUIDE.md):
 Based on add-dials-parameter experience:
 
 - **File discipline failures:** Most common (0% → 85% with improvements)
+
 - **Context confusion:** Mixing extension and source patterns
+
 - **Testing gaps:** Missing NA handling or case weights tests
+
 - **Documentation shortcuts:** Incomplete roxygen or missing examples
+
 - **Internal function usage:** Accidentally using ::: in extension dev
 
 ## Next Steps After Evaluation

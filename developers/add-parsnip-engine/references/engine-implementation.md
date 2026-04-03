@@ -22,7 +22,107 @@ An **engine** connects a parsnip model specification to a computational implemen
 
 ---
 
-## When to Add an Engine
+## Implementation Philosophy
+
+**Be Direct and Concise:**
+
+When implementing engines, write minimal, focused code:
+
+- ✅ **DO:** Get straight to registration - run verification, add engine, test
+
+- ✅ **DO:** Link to references for complex topics instead of inline explanations
+
+- ✅ **DO:** Create 2-3 files total (R/, tests/, optional README)
+
+- ❌ **DON'T:** Create summary documents (IMPLEMENTATION_SUMMARY.md, QUICK_REFERENCE.md)
+
+- ❌ **DON'T:** Create example files (example_usage.R) - examples go in README or tests
+
+- ❌ **DON'T:** Over-explain in comments - code should be self-documenting
+
+- ❌ **DON'T:** Create helper files for simple operations
+
+**For complex topics (multi-mode, survival, encoding):**
+
+- Point to specific reference docs rather than duplicating explanations
+
+- Keep registration code clean and pattern-based
+
+- Let parsnip infrastructure handle complexity
+
+**When refusing internal functions:**
+
+- Refuse in 1 sentence, suggest alternative, move forward
+
+- Don't write long explanations about why internal functions are bad
+
+### Token Budget Awareness
+
+Target token usage by complexity:
+
+- **Simple engines** (single mode, formula interface): <50,000 tokens
+
+- **Complex engines** (multi-mode, matrix interface): <70,000 tokens
+
+- **Very complex** (3+ modes, survival): <80,000 tokens
+
+If approaching these limits, you're over-explaining. Link to references instead.
+
+### Automated File Count Check
+
+**INSTRUCTIONS FOR CLAUDE:** After implementation, verify file discipline:
+
+```bash
+# Count files created
+find . -type f \( -name "*.R" -o -name "*.md" \) | wc -l
+```
+
+**Expected counts:**
+
+- Extension development: 2-3 files (R/zzz.R, tests/test-*.R, optional README.md)
+
+- Source development: 0-1 new files (modify existing R/*_data.R, test-*.R)
+
+**If you created >3 files, CONSOLIDATE immediately:**
+
+1. Delete summary docs (IMPLEMENTATION_SUMMARY.md, NOTES.md, QUICK_REFERENCE.md)
+
+   - Content goes in code comments or README
+2. Delete example files (example_usage.R, examples.R)
+
+   - Examples go in README.md or tests
+3. Delete helper files (utils.R, helpers.R)
+
+   - Simple helpers go inline; complex ones indicate over-engineering
+4. Merge duplicate content into single files
+
+**Check before proceeding** - don't continue with 8+ files thinking "file discipline failed." Fix it before moving forward.
+
+---
+
+## Planning Your Engine
+
+### Identify the Model
+
+Before adding an engine, determine which model to extend:
+
+```r
+# Check existing models in parsnip
+parsnip::show_models()
+
+# Check current engines for a specific model
+parsnip::show_engines("linear_reg")
+```
+
+**Verify your engine is new:**
+
+- Not already registered for this model
+
+- Provides distinct computational approach or benefits
+
+- Worth the maintenance burden
+
+### When to Add an Engine
 
 **Add an engine when:**
 
@@ -472,6 +572,106 @@ parsnip::set_pred(
     )
   )
 )
+```
+
+---
+
+## Complete Example: Adding H2O to linear_reg
+
+Full registration for a data.frame interface engine:
+
+```r
+# In .onLoad() for extensions, or R/linear_reg_data.R for source
+
+# Step 1: Register engine
+parsnip::set_model_engine(
+  model = "linear_reg",
+  mode = "regression",
+  eng = "h2o"
+)
+
+# Step 2: Declare dependencies
+parsnip::set_dependency(
+  model = "linear_reg",
+  eng = "h2o",
+  pkg = "h2o",
+  mode = "regression"
+)
+
+# Step 3: Translate main arguments (if engine uses them)
+parsnip::set_model_arg(
+  model = "linear_reg",
+  eng = "h2o",
+  parsnip = "penalty",
+  original = "lambda",
+  func = list(pkg = "dials", fun = "penalty"),
+  has_submodel = FALSE
+)
+
+# Step 4: Register fit method
+parsnip::set_fit(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  value = list(
+    interface = "data.frame",  # h2o uses data frames
+    protect = c("x", "y", "training_frame"),
+    func = c(pkg = "h2o", fun = "h2o.glm"),
+    defaults = list(family = "gaussian")
+  )
+)
+
+# Step 5: Register predictions
+parsnip::set_pred(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  type = "numeric",
+  value = list(
+    pre = NULL,
+    post = function(results, object) {
+      tibble::tibble(.pred = as.vector(results))
+    },
+    func = c(pkg = "h2o", fun = "h2o.predict"),
+    args = list(
+      object = rlang::expr(object$fit),
+      newdata = rlang::expr(new_data)
+    )
+  )
+)
+
+parsnip::set_pred(
+  model = "linear_reg",
+  eng = "h2o",
+  mode = "regression",
+  type = "raw",
+  value = list(
+    pre = NULL,
+    post = NULL,
+    func = c(pkg = "h2o", fun = "h2o.predict"),
+    args = list(
+      object = rlang::expr(object$fit),
+      newdata = rlang::expr(new_data)
+    )
+  )
+)
+```
+
+**Usage example:**
+
+```r
+library(parsnip)
+library(h2o)
+
+# Initialize h2o
+h2o.init()
+
+# Use new engine
+spec <- linear_reg(penalty = 0.1) |>
+  set_engine("h2o")
+
+fit <- fit(spec, mpg ~ ., data = mtcars)
+predict(fit, mtcars[1:5, ])
 ```
 
 ---

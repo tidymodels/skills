@@ -1,0 +1,211 @@
+{
+  "skill_name": "add-parsnip-engine",
+  "notes": "The 'no_internal_functions' check may flag false positives when code includes explanatory comments about NOT using internal functions (e.g., critical behavior tests). This is expected when the skill correctly refuses internal functions and documents why.",
+  "checks": {
+    "file_count": {
+      "extension": {
+        "type": "range",
+        "value": [2, 3]
+      },
+      "source": {
+        "type": "range",
+        "value": [1, 2]
+      }
+    },
+    "prohibited_files": [
+      "IMPLEMENTATION_SUMMARY.md",
+      "ENGINE_DESIGN.md",
+      "QUICKSTART.md",
+      "example_usage.R",
+      "VALIDATION_APPROACH.md",
+      "verification_script.R",
+      "PR_CHECKLIST.md",
+      "PR_DESCRIPTION.md",
+      "NEWS_entry.md",
+      "IMPLEMENTATION_NOTES.md",
+      "MODE_HANDLING_NOTES.md",
+      "SURVIVAL_HANDLING.md",
+      "REGISTRATION_GUIDE.md",
+      "TESTING_NOTES.md",
+      "misc.R",
+      "helpers.R",
+      "utils.R",
+      "*.txt",
+      "*.sh",
+      "*.yml"
+    ],
+    "required_files": {
+      "extension": [
+        "*.R"
+      ],
+      "source": [
+        "*.R"
+      ]
+    },
+    "patterns": {
+      "extension": {
+        "has_registration_functions": {
+          "description": "All core registration functions present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "set_model_engine\\(",
+            "set_dependency\\(",
+            "set_fit\\("
+          ],
+          "logic": "all"
+        },
+        "has_onload": {
+          "description": "Registration in .onLoad function for package initialization",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "\\.onLoad\\s*<-\\s*function",
+            "\\.onLoad\\s*=\\s*function"
+          ],
+          "logic": "any"
+        },
+        "has_roxygen_docs": {
+          "description": "Roxygen documentation for .onLoad",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export"
+          ],
+          "logic": "any"
+        },
+        "has_prediction_registration": {
+          "description": "Prediction type registered with set_pred",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "set_pred\\("
+          ],
+          "logic": "any"
+        },
+        "no_internal_functions": {
+          "description": "No use of internal functions (:::) in actual code",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "parsnip:::\\w+\\("
+          ],
+          "logic": "none"
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "skip_if_not_installed",
+            "expect_s3_class.*model_fit",
+            "predict\\("
+          ],
+          "logic": "all"
+        }
+      },
+      "source": {
+        "has_registration_functions": {
+          "description": "All core registration functions present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "set_model_engine\\(",
+            "set_dependency\\(",
+            "set_fit\\(",
+            "set_pred\\("
+          ],
+          "logic": "all"
+        },
+        "adds_to_existing_file": {
+          "description": "Adds to existing model_data.R file pattern",
+          "file_pattern": "**/*_data.R",
+          "patterns": [
+            "set_model_engine"
+          ],
+          "logic": "any"
+        },
+        "has_complete_tests": {
+          "description": "Comprehensive test coverage",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "skip_if_not_installed",
+            "expect_s3_class",
+            "predict\\("
+          ],
+          "logic": "all"
+        }
+      }
+    },
+    "prefix_usage": {
+      "extension": {
+        "file_pattern": "**/*.R",
+        "prefix": "parsnip::",
+        "min_count": 3
+      },
+      "source": {
+        "file_pattern": "**/*.R",
+        "prefix": "parsnip::",
+        "max_count": 3
+      }
+    },
+    "registration_completeness": {
+      "extension": {
+        "description": "Complete registration sequence for engines",
+        "checks": [
+          {
+            "name": "engine_declaration",
+            "pattern": "set_model_engine\\(",
+            "required": true
+          },
+          {
+            "name": "dependency_declaration",
+            "pattern": "set_dependency\\(",
+            "required": true
+          },
+          {
+            "name": "fit_registration",
+            "pattern": "set_fit\\(",
+            "required": true
+          },
+          {
+            "name": "prediction_registration",
+            "pattern": "set_pred\\(",
+            "required": true
+          }
+        ]
+      },
+      "source": {
+        "description": "Complete registration sequence for engines",
+        "checks": [
+          {
+            "name": "engine_declaration",
+            "pattern": "set_model_engine\\(",
+            "required": true
+          },
+          {
+            "name": "dependency_declaration",
+            "pattern": "set_dependency\\(",
+            "required": true
+          },
+          {
+            "name": "fit_registration",
+            "pattern": "set_fit\\(",
+            "required": true
+          },
+          {
+            "name": "prediction_registration",
+            "pattern": "set_pred\\(",
+            "required": true
+          }
+        ]
+      }
+    },
+    "interface_configuration": {
+      "description": "Proper interface specification in set_fit",
+      "file_pattern": "**/*.R",
+      "patterns": [
+        "interface\\s*=\\s*['\"]formula['\"]",
+        "interface\\s*=\\s*['\"]matrix['\"]",
+        "interface\\s*=\\s*['\"]data\\.frame['\"]",
+        "interface\\s*=\\s*['\"]xy['\"]"
+      ],
+      "logic": "any"
+    }
+  }
+}
