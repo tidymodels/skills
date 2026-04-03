@@ -150,6 +150,52 @@ skill-development/build-verify.py developers/
 - Identifying which files contribute most to token count
 - Validating skill size before deployment
 
+### grade-evaluations.py
+**Purpose**: Grade skill evaluation outputs against configuration-based checks.
+
+**What it does**:
+- Reads grading configuration from JSON file (checks to perform per eval)
+- Scans workspace/iteration-N/eval-M-name/outputs/ directories
+- Runs checks: file counts, prohibited files, pattern matching, prefix usage
+- Generates grading.json for each eval with pass/fail + evidence
+- Creates summary report with overall pass rate
+
+**Usage**:
+```bash
+# With explicit config
+./grade-evaluations.py <workspace_path> --config <config_json>
+./grade-evaluations.py ../developers/add-yardstick-metric-workspace/iteration-1 \
+    --config ../developers/add-yardstick-metric/evals/grading-config.json
+
+# With auto-detection (looks for ../developers/<skill>/evals/grading-config.json)
+./grade-evaluations.py ../developers/add-yardstick-metric-workspace/iteration-1 \
+    --skill add-yardstick-metric
+
+# Custom output location
+./grade-evaluations.py <workspace_path> --config <config_json> \
+    --output /path/to/custom-summary.json
+```
+
+**Configuration format**:
+- Define checks by context (extension vs source development)
+- File count checks (exact, range, max)
+- Prohibited files list (patterns to reject)
+- Required files (patterns that must exist)
+- Pattern checks (regex patterns in code)
+- Prefix usage checks (e.g., yardstick::, recipes::)
+
+**When to use**:
+- After running skill evaluation tests
+- To assess file discipline compliance
+- To verify code patterns and structure
+- To measure skill effectiveness quantitatively
+- To compare iterations and track improvements
+
+**Output**:
+- Individual `grading.json` per eval directory
+- Summary `grading-summary.json` in workspace root
+- Console output with pass rates and failed checks
+
 ### add-blank-lines.py
 **Purpose**: Add blank lines before bullet points in markdown files for readability.
 
