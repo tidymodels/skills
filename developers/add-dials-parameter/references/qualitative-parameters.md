@@ -383,6 +383,66 @@ activation(values = values_activation[1:4])
 
 - Link with `@rdname` for shared documentation
 
+### Step-by-Step: Creating Companion Vectors
+
+Here's a detailed walkthrough for creating qualitative parameters with companion vectors:
+
+```r
+# STEP 1: Define the values vector with @rdname and @export
+#' Activation function
+#'
+#' @param values A character vector of possible activation functions.
+#' @examples
+#' values_activation
+#' activation()
+#' @export
+activation <- function(values = values_activation) {
+  dials::new_qual_param(
+    type = "character",
+    values = values,
+    label = c(activation = "Activation Function")
+  )
+}
+
+# STEP 2: Create the companion vector using @rdname for shared documentation
+#' @rdname activation
+#' @export
+values_activation <- c("relu", "sigmoid", "tanh", "softmax")
+```
+
+**Key Components Explained:**
+
+1. **@rdname tag**: Links the values vector to the parameter function documentation
+   - Both appear on the same help page
+   - Users can see the vector when looking up the parameter
+   - Maintains consistency between function and values
+
+2. **values_* naming**: Following the `values_[parameter_name]` convention
+   - Clear relationship between parameter and its values
+   - Consistent with dials package standards
+   - Easy to discover and use
+
+3. **@export on both**: Both the function AND the vector must be exported
+   - Parameter function: Users call this to create the parameter
+   - Values vector: Users reference this to see/subset options
+
+4. **Default argument**: `values = values_my_parameter` in function signature
+   - Links the function to its companion vector
+   - Allows users to subset: `my_parameter(values = values_my_parameter[1:3])`
+   - Makes the vector the default source of options
+
+### Companion Vector Checklist
+
+Before completing a qualitative parameter with companion vector, verify:
+
+- [ ] Created parameter function with `new_qual_param()`
+- [ ] Created companion `values_*` vector following naming convention
+- [ ] Used `@rdname` to group them in documentation
+- [ ] Added `@export` to BOTH the function and the vector
+- [ ] Set function default argument to reference the vector: `values = values_my_parameter`
+- [ ] Vector contains at least one valid option
+- [ ] Vector type matches the `type` argument in `new_qual_param()`
+
 ---
 
 ## Common Patterns
