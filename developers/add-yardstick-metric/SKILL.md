@@ -192,6 +192,146 @@ See [Development Workflow](references/package-development-workflow.md) for compl
 
 **WARNING:** Do NOT run `check()` during iteration. It takes 1-2 minutes and is unnecessary until you're done.
 
+---
+
+## Critical: Tidymodels Code Standards
+
+**These requirements ensure your code aligns with tidymodels patterns and passes review.**
+
+### Source Development (PRs to yardstick)
+
+When contributing to yardstick itself, you MUST:
+
+**1. Use internal helpers** - Don't reimplement what exists:
+```r
+# ✅ CORRECT - Use internal helper
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick_mean(errors, case_weights = case_weights)  # Use this
+}
+
+# ❌ WRONG - Reimplementing what already exists
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  if (is.null(case_weights)) {
+    mean(errors)
+  } else {
+    weighted.mean(errors, w = as.double(case_weights))
+  }
+}
+```
+
+Common internal helpers: `yardstick_mean()`, `finalize_estimator_internal()`, `check_*_metric()`, `yardstick_remove_missing()`, `yardstick_any_missing()`
+
+**2. NO package prefix** - Functions are in the same package:
+```r
+# ✅ CORRECT - No prefix
+yardstick_mean(errors, case_weights = case_weights)
+check_numeric_metric(truth, estimate, case_weights)
+
+# ❌ WRONG - Don't prefix your own package
+yardstick::yardstick_mean(errors, case_weights = case_weights)
+yardstick::check_numeric_metric(truth, estimate, case_weights)
+```
+
+**3. Include @examples** - Required for all exported functions:
+```r
+#' @examples
+#' # Basic usage
+#' mae(solubility_test, solubility, prediction)
+#'
+#' # With case weights
+#' library(dplyr)
+#' solubility_test %>%
+#'   mutate(weight = 1:nrow(.)) %>%
+#'   mae(solubility, prediction, case_weights = weight)
+```
+
+### Extension Development (new packages)
+
+When creating packages that extend yardstick, you MUST:
+
+**1. ALWAYS use package prefix** - Explicitly namespace all yardstick functions:
+```r
+# ✅ CORRECT - Always prefix
+yardstick::check_numeric_metric(truth, estimate, case_weights)
+yardstick::new_numeric_metric(wape, direction = "minimize")
+yardstick::numeric_metric_summarizer(...)
+
+# ❌ WRONG - Missing prefix (will fail R CMD check without imports)
+check_numeric_metric(truth, estimate, case_weights)
+new_numeric_metric(wape, direction = "minimize")
+```
+
+**2. NEVER use internal functions** - Cannot access `:::`:
+```r
+# ❌ FORBIDDEN - Extension developers cannot use :::
+yardstick:::yardstick_mean(errors, case_weights)
+yardstick:::finalize_estimator_internal(estimator, ...)
+
+# ✅ CORRECT - Implement manually or use exported functions
+if (!is.null(case_weights)) {
+  case_weights <- as.double(case_weights)
+  weighted.mean(errors, w = case_weights)
+} else {
+  mean(errors)
+}
+```
+
+**3. Include @examples** - Required for usability:
+```r
+#' @examples
+#' library(modeldata)
+#' data(solubility_test)
+#'
+#' # Calculate WAPE
+#' wape(solubility_test, solubility, prediction)
+```
+
+### Both Contexts: Case Weights Handling
+
+ALWAYS convert hardhat weight objects to numeric. This is **required in all _impl functions** that accept case weights:
+
+**Extension development example:**
+```r
+wape_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+
+  # REQUIRED: Convert hardhat weight objects to numeric
+  if (!is.null(case_weights)) {
+    if (inherits(case_weights, c("hardhat_importance_weights",
+                                 "hardhat_frequency_weights"))) {
+      case_weights <- as.double(case_weights)  # ← CRITICAL
+    }
+    weighted.mean(errors, w = case_weights)
+  } else {
+    mean(errors)
+  }
+}
+```
+
+**Source development example:**
+```r
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+
+  # REQUIRED: Convert hardhat weight objects to numeric
+  if (!is.null(case_weights)) {
+    if (inherits(case_weights, c("hardhat_importance_weights",
+                                 "hardhat_frequency_weights"))) {
+      case_weights <- as.double(case_weights)  # ← CRITICAL
+    }
+  }
+
+  # Then use internal helper
+  yardstick_mean(errors, case_weights = case_weights)
+}
+```
+
+**Why this matters:** Hardhat weights are S3 objects, not plain numerics. Without conversion, arithmetic operations and functions like `weighted.mean()` will fail. This conversion is **mandatory** in every _impl function that handles case weights.
+
+---
+
 ## Choosing Your Metric Type
 
 ```
@@ -555,12 +695,17 @@ fn <- xtab[2, 1]  # False negatives: truth = second, pred = first
 
 See [Case Weights](references/case-weights.md) for complete guide.
 
+**IMPORTANT: Always convert hardhat weights to numeric using `as.double()`**
+
 ```r
-# Check and convert hardhat weights
+# Extension development pattern (no internal functions):
+# ALWAYS include this conversion pattern in your _impl function
 if (!is.null(case_weights)) {
+  # Convert hardhat weight objects to numeric vector
+  # This is REQUIRED - hardhat weights are S3 objects, not plain numerics
   if (inherits(case_weights, c("hardhat_importance_weights",
                                "hardhat_frequency_weights"))) {
-    case_weights <- as.double(case_weights)
+    case_weights <- as.double(case_weights)  # ← CRITICAL: Must convert to double
   }
 }
 
@@ -568,9 +713,16 @@ if (!is.null(case_weights)) {
 if (is.null(case_weights)) {
   mean(values)
 } else {
-  weighted.mean(values, w = case_weights)
+  weighted.mean(values, w = case_weights)  # Now safe to use with base R functions
 }
 ```
+
+**Why `as.double()` is required:**
+- hardhat weight objects are S3 classes, not plain numeric vectors
+- Base R functions like `weighted.mean()` expect numeric vectors
+- Without conversion, you'll get errors like "non-numeric argument"
+- Source development can use `yardstick_mean()` which handles this internally
+- Extension development must do the conversion manually
 
 ### Multiclass averaging
 
@@ -734,6 +886,48 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 - NA handling bugs → Check both `na_rm = TRUE` and `FALSE` cases
 
 - Case weights not working → Convert hardhat weights to numeric
+
+---
+
+## File Creation Guidelines
+
+**Extension development (creating new package):**
+- R/[metric_name].R (with complete roxygen docs and examples)
+- tests/testthat/test-[metric_name].R (comprehensive tests)
+- README.md (ONLY if package has no README - check first!)
+
+Typically creates 2 files (3 if README needed).
+
+**Source development (PR to yardstick):**
+- R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
+- tests/testthat/test-[type]-[metric_name].R
+
+Creates exactly 2 files.
+
+**❌ AVOID creating these files:**
+- README.md or README.txt (for PRs - yardstick already has one)
+- NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
+- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
+- QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
+- example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
+- PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+- INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
+- metric_examples.R, test_examples.R
+- METRIC_DESIGN.md, VALIDATION_APPROACH.md
+- pkgdown_update.txt, pkgdown_addition.yml
+- WORKFLOW_COMMANDS.sh, setup.sh
+- verification_script.R, check_metric.R
+- ANY other .md, .txt, .yml, .sh files beyond the 2-3 core files
+
+**Where everything goes:**
+- Examples → roxygen @examples in R file
+- Implementation notes → roxygen @details in R file
+- Metric design rationale → roxygen @details in R file
+- PR description → conversation with user
+- NEWS entry → conversation (maintainer adds it)
+- Usage guide → README.md (extension dev only) or roxygen examples
+
+---
 
 ## Related Skills
 

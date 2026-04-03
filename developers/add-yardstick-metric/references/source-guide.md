@@ -91,19 +91,29 @@ yardstick/
 
 ## Working with Internal Functions
 
-### ✅ You CAN Use Internal Functions
+### ✅ You MUST Use Internal Helpers
 
-When developing yardstick itself, internal functions are available:
+When developing yardstick itself, **always use existing internal functions** - don't reimplement what already exists:
 
 ```r
-# ✅ GOOD - You're developing the package
+# ✅ CORRECT - Use internal helper
 mae_impl <- function(truth, estimate, case_weights = NULL) {
   errors <- abs(truth - estimate)
-
-  # Use internal helper
   yardstick_mean(errors, case_weights = case_weights)
 }
+
+# ❌ WRONG - Reimplementing existing functionality
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  if (is.null(case_weights)) {
+    mean(errors)
+  } else {
+    weighted.mean(errors, w = as.double(case_weights))
+  }
+}
 ```
+
+**Why this matters:** Internal helpers ensure consistency across all yardstick metrics and handle edge cases correctly. Reviewers will request changes if you reimplement existing functionality.
 
 ### Common Internal Helpers
 
@@ -166,6 +176,44 @@ yardstick:::yardstick_mean
 ```
 
 See [Best Practices (Source)](best-practices-source.md) for complete guide to internal functions.
+
+### ❌ NO Package Prefix in Source Development
+
+**CRITICAL:** When developing yardstick itself, **never** use `yardstick::` prefix:
+
+```r
+# ✅ CORRECT - No prefix (same package)
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick_mean(errors, case_weights = case_weights)
+}
+
+mae.data.frame <- function(data, truth, estimate, ...) {
+  numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
+    data = data,
+    ...
+  )
+}
+
+# ❌ WRONG - Don't prefix your own package
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick::yardstick_mean(errors, case_weights = case_weights)
+}
+
+mae.data.frame <- function(data, truth, estimate, ...) {
+  yardstick::numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
+    data = data,
+    ...
+  )
+}
+```
+
+**Why:** You're developing the package itself - these functions are in the same namespace and don't need prefixing.
 
 ---
 
@@ -249,9 +297,38 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
-### Step 3: Document with Templates
+### Step 3: Document with Templates and Examples
 
-Yardstick uses extensive templates:
+**REQUIRED:** All exported functions MUST include `@examples`:
+
+```r
+#' Mean Absolute Error
+#'
+#' @family numeric metrics
+#' @family accuracy metrics
+#' @templateVar fn mae
+#' @template return
+#' @template event_first
+#'
+#' @inheritParams rmse
+#'
+#' @examples
+#' # Basic usage
+#' mae(solubility_test, solubility, prediction)
+#'
+#' # With case weights
+#' library(dplyr)
+#' solubility_test %>%
+#'   mutate(weight = 1:nrow(.)) %>%
+#'   mae(solubility, prediction, case_weights = weight)
+#'
+#' @export
+mae <- function(data, ...) {
+  UseMethod("mae")
+}
+```
+
+**Yardstick templates:**
 
 ```r
 #' @templateVar fn mae
@@ -259,7 +336,9 @@ Yardstick uses extensive templates:
 #' @template event_first
 ```
 
-Templates are defined in `man-roxygen/` directory.
+Templates are defined in `man-roxygen/` directory and handle common documentation patterns.
+
+**Why @examples matters:** Examples are critical for usability - they show users how to actually use the metric. Reviewers will request examples if missing.
 
 ### Step 4: Create Test File
 
@@ -335,6 +414,147 @@ devtools::test()
 # Full check
 devtools::check()
 ```
+
+---
+
+## File Creation Guidelines for PRs
+
+**═══════════════════════════════════════════════════════**
+**⚠️⚠️⚠️ CRITICAL: PR FILE DISCIPLINE ⚠️⚠️⚠️**
+**═══════════════════════════════════════════════════════**
+
+**🛑 STOP! STOP! STOP! 🛑**
+
+**Before you create even ONE file, read this ENTIRE section.**
+
+**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO FILES ONLY.**
+
+**═══════════════════════════════════════════════════════**
+
+### MANDATORY Pre-Flight Checklist
+
+**READ EACH LINE. CHECK EACH BOX. DO NOT SKIP THIS.**
+
+Before creating ANY files:
+- [ ] I will create R/[type]-[metric_name].R (e.g., R/num-mae.R)
+- [ ] I will create tests/testthat/test-[type]-[metric_name].R
+- [ ] I will create EXACTLY 2 files total
+- [ ] I will NOT create README.md
+- [ ] I will NOT create README.txt
+- [ ] I will NOT create NEWS_entry.md
+- [ ] I will NOT create IMPLEMENTATION_SUMMARY.md
+- [ ] I will NOT create IMPLEMENTATION_NOTES.md
+- [ ] I will NOT create example_usage.R
+- [ ] I will NOT create ANY documentation file beyond these 2 code files
+
+**═══════════════════════════════════════════════════════**
+
+### The ONLY Files You Will Create
+
+1. **R/[type]-[metric_name].R** - Metric function with complete roxygen documentation
+   - Example: `R/num-mae.R`, `R/class-accuracy.R`, `R/prob-roc_auc.R`
+   - Contains all three functions: `_impl()`, `_vec()`, `.data.frame()` method
+   - Complete roxygen documentation with @examples
+
+2. **tests/testthat/test-[type]-[metric_name].R** - Comprehensive test suite
+   - Example: `tests/testthat/test-num-mae.R`
+   - Or add tests to existing file like `tests/testthat/test-class-metrics.R` if appropriate
+
+**That's it. Two files. Nothing else.**
+
+**═══════════════════════════════════════════════════════**
+
+### Files You Will ABSOLUTELY NOT Create
+
+**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
+
+**❌ NEVER CREATE:**
+- ❌ README.md (yardstick already has one)
+- ❌ README.txt (yardstick already has one)
+- ❌ NEWS_entry.md (maintainer adds to NEWS.md)
+- ❌ IMPLEMENTATION_SUMMARY.md
+- ❌ IMPLEMENTATION_NOTES.md
+- ❌ IMPLEMENTATION_NOTES.txt
+- ❌ QUICKSTART.md
+- ❌ QUICK_REFERENCE.md
+- ❌ example_usage.R
+- ❌ USAGE_EXAMPLE.R
+- ❌ metric_examples.R
+- ❌ test_examples.R
+- ❌ METRIC_DESIGN.md
+- ❌ VALIDATION_APPROACH.md
+- ❌ PR_CHECKLIST.md
+- ❌ PR_DESCRIPTION.md
+- ❌ PR_SUMMARY.md
+- ❌ INDEX.md
+- ❌ FILE_GUIDE.md
+- ❌ MANIFEST.md
+- ❌ INTEGRATION_GUIDE.md
+- ❌ SUMMARY.md
+- ❌ SUMMARY.txt
+- ❌ OVERVIEW.md
+- ❌ verification_script.R
+- ❌ check_metric.R
+- ❌ pkgdown_update.txt
+- ❌ pkgdown_addition.yml
+- ❌ WORKFLOW_COMMANDS.sh
+- ❌ setup.sh
+- ❌ ANY other .md, .txt, .yml, .sh, or helper files
+
+**═══════════════════════════════════════════════════════**
+
+### Where Content Actually Goes
+
+**CRITICAL: Everything has a place. No separate files.**
+
+| Content | ❌ WRONG | ✅ CORRECT |
+|---------|----------|------------|
+| Examples | example_usage.R | roxygen @examples in R file |
+| Metric design rationale | METRIC_DESIGN.md | roxygen @details in R file |
+| Implementation notes | IMPLEMENTATION_NOTES.txt | roxygen @details in R file |
+| Usage instructions | QUICKSTART.md | roxygen @examples in R file |
+| PR description | PR_DESCRIPTION.md | Conversation with user |
+| NEWS entry | NEWS_entry.md | Mention in conversation |
+| Test examples | test_examples.R | Tests in test file |
+| Validation approach | VALIDATION_APPROACH.md | Comments in test file |
+
+**═══════════════════════════════════════════════════════**
+
+### FINAL CHECK Before Creating Files
+
+**🛑 STOP RIGHT HERE. ANSWER THESE QUESTIONS: 🛑**
+
+1. Am I about to create exactly 2 files? (YES/NO)
+2. Are both files either R/*.R or tests/testthat/test-*.R? (YES/NO)
+3. Am I about to create ANY .md, .txt, .yml, or .sh files? (NO)
+4. Have I put all examples in roxygen @examples? (YES)
+5. Have I put all notes in roxygen @details? (YES)
+
+**If you answered incorrectly to ANY question above, STOP. Re-read this section.**
+
+**═══════════════════════════════════════════════════════**
+
+### Why This Matters
+
+PRs to yardstick should contain **ONLY code and tests**. Period.
+
+Extra documentation files:
+- Clutter the repository
+- Duplicate roxygen documentation
+- Create maintenance burden
+- Slow down PR review
+- Get deleted by maintainers anyway
+
+**The yardstick maintainers have explicitly requested: CODE AND TESTS ONLY.**
+
+When you submit a PR:
+- Code goes in R/ with roxygen docs
+- Tests go in tests/testthat/
+- Everything else (PR description, NEWS entry, examples) you discuss with the user in conversation
+
+**No exceptions. No "helpful" documentation files. Just code and tests.**
+
+**═══════════════════════════════════════════════════════**
 
 ---
 
