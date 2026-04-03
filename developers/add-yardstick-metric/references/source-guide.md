@@ -91,19 +91,29 @@ yardstick/
 
 ## Working with Internal Functions
 
-### ✅ You CAN Use Internal Functions
+### ✅ You MUST Use Internal Helpers
 
-When developing yardstick itself, internal functions are available:
+When developing yardstick itself, **always use existing internal functions** - don't reimplement what already exists:
 
 ```r
-# ✅ GOOD - You're developing the package
+# ✅ CORRECT - Use internal helper
 mae_impl <- function(truth, estimate, case_weights = NULL) {
   errors <- abs(truth - estimate)
-
-  # Use internal helper
   yardstick_mean(errors, case_weights = case_weights)
 }
+
+# ❌ WRONG - Reimplementing existing functionality
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  if (is.null(case_weights)) {
+    mean(errors)
+  } else {
+    weighted.mean(errors, w = as.double(case_weights))
+  }
+}
 ```
+
+**Why this matters:** Internal helpers ensure consistency across all yardstick metrics and handle edge cases correctly. Reviewers will request changes if you reimplement existing functionality.
 
 ### Common Internal Helpers
 
@@ -166,6 +176,44 @@ yardstick:::yardstick_mean
 ```
 
 See [Best Practices (Source)](best-practices-source.md) for complete guide to internal functions.
+
+### ❌ NO Package Prefix in Source Development
+
+**CRITICAL:** When developing yardstick itself, **never** use `yardstick::` prefix:
+
+```r
+# ✅ CORRECT - No prefix (same package)
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick_mean(errors, case_weights = case_weights)
+}
+
+mae.data.frame <- function(data, truth, estimate, ...) {
+  numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
+    data = data,
+    ...
+  )
+}
+
+# ❌ WRONG - Don't prefix your own package
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick::yardstick_mean(errors, case_weights = case_weights)
+}
+
+mae.data.frame <- function(data, truth, estimate, ...) {
+  yardstick::numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
+    data = data,
+    ...
+  )
+}
+```
+
+**Why:** You're developing the package itself - these functions are in the same namespace and don't need prefixing.
 
 ---
 
@@ -249,9 +297,38 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
-### Step 3: Document with Templates
+### Step 3: Document with Templates and Examples
 
-Yardstick uses extensive templates:
+**REQUIRED:** All exported functions MUST include `@examples`:
+
+```r
+#' Mean Absolute Error
+#'
+#' @family numeric metrics
+#' @family accuracy metrics
+#' @templateVar fn mae
+#' @template return
+#' @template event_first
+#'
+#' @inheritParams rmse
+#'
+#' @examples
+#' # Basic usage
+#' mae(solubility_test, solubility, prediction)
+#'
+#' # With case weights
+#' library(dplyr)
+#' solubility_test %>%
+#'   mutate(weight = 1:nrow(.)) %>%
+#'   mae(solubility, prediction, case_weights = weight)
+#'
+#' @export
+mae <- function(data, ...) {
+  UseMethod("mae")
+}
+```
+
+**Yardstick templates:**
 
 ```r
 #' @templateVar fn mae
@@ -259,7 +336,9 @@ Yardstick uses extensive templates:
 #' @template event_first
 ```
 
-Templates are defined in `man-roxygen/` directory.
+Templates are defined in `man-roxygen/` directory and handle common documentation patterns.
+
+**Why @examples matters:** Examples are critical for usability - they show users how to actually use the metric. Reviewers will request examples if missing.
 
 ### Step 4: Create Test File
 

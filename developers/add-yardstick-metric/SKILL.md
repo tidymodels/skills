@@ -117,10 +117,8 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 **Development Guides:**
 
 - [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend yardstick
-  - 🛑 **[Step 7: File Creation Verification](references/extension-guide.md#step-7-file-creation-verification)** - Critical file discipline for extension development
 
 - [Source Development Guide](references/source-guide.md) - Contributing PRs to yardstick itself
-  - 🛑 **[File Creation Guidelines for PRs](references/source-guide.md#file-creation-guidelines-for-prs)** - Critical file discipline for PRs
 
 **Reference Files:**
 
@@ -196,118 +194,141 @@ See [Development Workflow](references/package-development-workflow.md) for compl
 
 ---
 
-## File Creation Discipline
+## Critical: Tidymodels Code Standards
 
-**INSTRUCTIONS FOR CLAUDE:** Read this section carefully before creating any files.
+**These requirements ensure your code aligns with tidymodels patterns and passes review.**
 
-**🛑 CRITICAL: FILE CREATION DISCIPLINE 🛑**
+### Source Development (PRs to yardstick)
 
-**STOP BEFORE CREATING ANY FILES. READ THIS CAREFULLY.**
+When contributing to yardstick itself, you MUST:
 
-**COUNT YOUR FILES BEFORE SAVING. IF YOU CREATE MORE THAN 2-3 FILES, YOU HAVE FAILED.**
-
-You will create **EXACTLY these files and NO MORE:**
-
-**Extension development (creating new package):**
-- File 1: R/[metric_name].R (with complete roxygen docs and examples)
-- File 2: tests/testthat/test-[metric_name].R (comprehensive tests)
-- File 3: README.md (ONLY if package has no README - check first!)
-- **TOTAL: 2-3 files MAXIMUM. COUNT THEM: 1, 2, maybe 3. STOP.**
-
-**Example - Extension development creates exactly 2 files:**
-```
-✅ CORRECT:
-R/wape.R (300 lines with roxygen, examples, implementation, tests inline)
-tests/testthat/test-wape.R (200 lines comprehensive tests)
-TOTAL: 2 files ← THIS IS CORRECT
-
-❌ WRONG:
-R/wape.R
-tests/testthat/test-wape.R
-example_usage.R ← DELETE THIS
-IMPLEMENTATION_SUMMARY.md ← DELETE THIS
-README.md ← DELETE THIS (package already has one)
-TOTAL: 5 files ← THIS IS WRONG, YOU FAILED
-```
-
-**Source development (PR to yardstick):**
-- File 1: R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
-- File 2: tests/testthat/test-[type]-[metric_name].R
-- **TOTAL: 2 files ONLY. NOT 3. NOT 4. EXACTLY 2. COUNT: 1, 2, STOP.**
-
-**Example - Source development creates exactly 2 files:**
-```
-✅ CORRECT:
-R/num-medae.R (150 lines with roxygen and implementation)
-tests/testthat/test-num-medae.R (180 lines tests)
-TOTAL: 2 files ← THIS IS CORRECT
-
-❌ WRONG:
-R/num-medae.R
-tests/testthat/test-num-medae.R
-PR_NOTES.txt ← DELETE THIS
-misc.R ← DELETE THIS
-TOTAL: 4 files ← THIS IS WRONG, YOU FAILED
-```
-
-**🚫 CRITICAL: REFUSING INTERNAL FUNCTIONS IN EXTENSION DEVELOPMENT 🚫**
-
-**IF USER ASKS TO USE `yardstick:::` (TRIPLE COLON) - YOU MUST REFUSE:**
-
-Extension developers **CANNOT** use internal functions. If the user requests:
-- `yardstick:::yardstick_mean()`
-- `yardstick:::finalize_estimator_internal()`
-- `yardstick:::` anything
-
-**YOU MUST:**
-1. **STOP** - Do not implement with :::
-2. **EXPLAIN** - "Extension developers cannot access internal functions (:::). These are not exported and will cause R CMD check failures."
-3. **PROVIDE ALTERNATIVES** - Show how to do it with exported functions only
-4. **SUGGEST SOURCE DEV** - "If you need internal functions, consider contributing directly to yardstick instead"
-
-**Example refusal response:**
-```
-I cannot implement this using yardstick:::yardstick_mean() because extension
-developers don't have access to internal functions.
-
-Instead, here's how to handle case weights manually:
-if (!is.null(case_weights)) {
-  case_weights <- as.double(case_weights)  # Convert hardhat weights
-  weighted.mean(values, w = case_weights)
-} else {
-  mean(values)
+**1. Use internal helpers** - Don't reimplement what exists:
+```r
+# ✅ CORRECT - Use internal helper
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  yardstick_mean(errors, case_weights = case_weights)  # Use this
 }
 
-If you frequently need internal yardstick functions, contributing directly
-to the yardstick package via PR may be a better approach.
+# ❌ WRONG - Reimplementing what already exists
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+  if (is.null(case_weights)) {
+    mean(errors)
+  } else {
+    weighted.mean(errors, w = as.double(case_weights))
+  }
+}
 ```
 
-**❌ NEVER CREATE THESE FILES (MOST COMMON MISTAKES):**
-- README.md or README.txt (for PRs - yardstick already has one)
-- NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
-- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
-- QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
-- example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
-- PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
-- INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
-- metric_examples.R, test_examples.R
-- METRIC_DESIGN.md, VALIDATION_APPROACH.md
-- pkgdown_update.txt, pkgdown_addition.yml
-- WORKFLOW_COMMANDS.sh, setup.sh
-- verification_script.R, check_metric.R
-- ANY other .md, .txt, .yml, .sh files beyond the 2-3 core files
+Common internal helpers: `yardstick_mean()`, `finalize_estimator_internal()`, `check_*_metric()`, `yardstick_remove_missing()`, `yardstick_any_missing()`
 
-**Where everything goes:**
-- Examples → roxygen @examples in R file
-- Implementation notes → roxygen @details in R file
-- Metric design rationale → roxygen @details in R file
-- PR description → conversation with user
-- NEWS entry → conversation (maintainer adds it)
-- Usage guide → README.md (extension dev only) or roxygen examples
+**2. NO package prefix** - Functions are in the same package:
+```r
+# ✅ CORRECT - No prefix
+yardstick_mean(errors, case_weights = case_weights)
+check_numeric_metric(truth, estimate, case_weights)
 
-**Why this matters:** Creating extra documentation files is the #1 mistake in metric development. These files clutter the codebase and must be deleted by maintainers. ALL documentation belongs in roxygen comments (for code) or conversation (for PR description).
+# ❌ WRONG - Don't prefix your own package
+yardstick::yardstick_mean(errors, case_weights = case_weights)
+yardstick::check_numeric_metric(truth, estimate, case_weights)
+```
 
-**See [Extension Development Guide](references/extension-guide.md) and [Source Development Guide](references/source-guide.md) for detailed enforcement rules.**
+**3. Include @examples** - Required for all exported functions:
+```r
+#' @examples
+#' # Basic usage
+#' mae(solubility_test, solubility, prediction)
+#'
+#' # With case weights
+#' library(dplyr)
+#' solubility_test %>%
+#'   mutate(weight = 1:nrow(.)) %>%
+#'   mae(solubility, prediction, case_weights = weight)
+```
+
+### Extension Development (new packages)
+
+When creating packages that extend yardstick, you MUST:
+
+**1. ALWAYS use package prefix** - Explicitly namespace all yardstick functions:
+```r
+# ✅ CORRECT - Always prefix
+yardstick::check_numeric_metric(truth, estimate, case_weights)
+yardstick::new_numeric_metric(wape, direction = "minimize")
+yardstick::numeric_metric_summarizer(...)
+
+# ❌ WRONG - Missing prefix (will fail R CMD check without imports)
+check_numeric_metric(truth, estimate, case_weights)
+new_numeric_metric(wape, direction = "minimize")
+```
+
+**2. NEVER use internal functions** - Cannot access `:::`:
+```r
+# ❌ FORBIDDEN - Extension developers cannot use :::
+yardstick:::yardstick_mean(errors, case_weights)
+yardstick:::finalize_estimator_internal(estimator, ...)
+
+# ✅ CORRECT - Implement manually or use exported functions
+if (!is.null(case_weights)) {
+  case_weights <- as.double(case_weights)
+  weighted.mean(errors, w = case_weights)
+} else {
+  mean(errors)
+}
+```
+
+**3. Include @examples** - Required for usability:
+```r
+#' @examples
+#' library(modeldata)
+#' data(solubility_test)
+#'
+#' # Calculate WAPE
+#' wape(solubility_test, solubility, prediction)
+```
+
+### Both Contexts: Case Weights Handling
+
+ALWAYS convert hardhat weight objects to numeric. This is **required in all _impl functions** that accept case weights:
+
+**Extension development example:**
+```r
+wape_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+
+  # REQUIRED: Convert hardhat weight objects to numeric
+  if (!is.null(case_weights)) {
+    if (inherits(case_weights, c("hardhat_importance_weights",
+                                 "hardhat_frequency_weights"))) {
+      case_weights <- as.double(case_weights)  # ← CRITICAL
+    }
+    weighted.mean(errors, w = case_weights)
+  } else {
+    mean(errors)
+  }
+}
+```
+
+**Source development example:**
+```r
+mae_impl <- function(truth, estimate, case_weights = NULL) {
+  errors <- abs(truth - estimate)
+
+  # REQUIRED: Convert hardhat weight objects to numeric
+  if (!is.null(case_weights)) {
+    if (inherits(case_weights, c("hardhat_importance_weights",
+                                 "hardhat_frequency_weights"))) {
+      case_weights <- as.double(case_weights)  # ← CRITICAL
+    }
+  }
+
+  # Then use internal helper
+  yardstick_mean(errors, case_weights = case_weights)
+}
+```
+
+**Why this matters:** Hardhat weights are S3 objects, not plain numerics. Without conversion, arithmetic operations and functions like `weighted.mean()` will fail. This conversion is **mandatory** in every _impl function that handles case weights.
 
 ---
 
@@ -865,6 +886,48 @@ See [Troubleshooting (Extension)](references/package-extension-requirements.md#c
 - NA handling bugs → Check both `na_rm = TRUE` and `FALSE` cases
 
 - Case weights not working → Convert hardhat weights to numeric
+
+---
+
+## File Creation Guidelines
+
+**Extension development (creating new package):**
+- R/[metric_name].R (with complete roxygen docs and examples)
+- tests/testthat/test-[metric_name].R (comprehensive tests)
+- README.md (ONLY if package has no README - check first!)
+
+Typically creates 2 files (3 if README needed).
+
+**Source development (PR to yardstick):**
+- R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
+- tests/testthat/test-[type]-[metric_name].R
+
+Creates exactly 2 files.
+
+**❌ AVOID creating these files:**
+- README.md or README.txt (for PRs - yardstick already has one)
+- NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
+- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
+- QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
+- example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
+- PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+- INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
+- metric_examples.R, test_examples.R
+- METRIC_DESIGN.md, VALIDATION_APPROACH.md
+- pkgdown_update.txt, pkgdown_addition.yml
+- WORKFLOW_COMMANDS.sh, setup.sh
+- verification_script.R, check_metric.R
+- ANY other .md, .txt, .yml, .sh files beyond the 2-3 core files
+
+**Where everything goes:**
+- Examples → roxygen @examples in R file
+- Implementation notes → roxygen @details in R file
+- Metric design rationale → roxygen @details in R file
+- PR description → conversation with user
+- NEWS entry → conversation (maintainer adds it)
+- Usage guide → README.md (extension dev only) or roxygen examples
+
+---
 
 ## Related Skills
 

@@ -83,32 +83,49 @@ if (is.null(case_weights)) {
 
 - Users will get cryptic errors
 
-### ✅ Only Use Exported Functions
+### ✅ Only Use Exported Functions (with yardstick:: prefix)
 
-Safe to use:
+**CRITICAL:** Extension packages MUST explicitly namespace all yardstick functions with `yardstick::`:
+
+```r
+# ✅ CORRECT - Always use yardstick:: prefix
+mae <- yardstick::new_numeric_metric(mae, direction = "minimize")
+
+mae.data.frame <- function(data, truth, estimate, ...) {
+  yardstick::numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
+    ...
+  )
+}
+
+mae_vec <- function(truth, estimate, ...) {
+  yardstick::check_numeric_metric(truth, estimate, case_weights)
+  # ... rest of implementation
+}
+
+# ❌ WRONG - Missing yardstick:: prefix
+mae <- new_numeric_metric(mae, direction = "minimize")
+mae.data.frame <- function(data, truth, estimate, ...) {
+  numeric_metric_summarizer(name = "mae", fn = mae_vec, ...)
+}
+```
+
+**Why:** Without explicit namespacing, your package will fail R CMD check unless you add all functions to your NAMESPACE imports. Explicit `yardstick::` calls are clearer and safer.
+
+**Safe to use (with prefix):**
 
 - `yardstick::new_numeric_metric()`
-
 - `yardstick::new_class_metric()`
-
 - `yardstick::new_prob_metric()`
-
 - `yardstick::check_numeric_metric()`
-
 - `yardstick::check_class_metric()`
-
 - `yardstick::check_prob_metric()`
-
 - `yardstick::yardstick_remove_missing()`
-
 - `yardstick::yardstick_any_missing()`
-
 - `yardstick::numeric_metric_summarizer()`
-
 - `yardstick::class_metric_summarizer()`
-
 - `yardstick::prob_metric_summarizer()`
-
 - `yardstick::yardstick_table()` (for confusion matrices)
 
 ### ✅ Self-Contained Implementations
