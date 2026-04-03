@@ -117,8 +117,10 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 **Development Guides:**
 
 - [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend yardstick
+  - 🛑 **[Step 7: File Creation Verification](references/extension-guide.md#step-7-file-creation-verification)** - Critical file discipline for extension development
 
 - [Source Development Guide](references/source-guide.md) - Contributing PRs to yardstick itself
+  - 🛑 **[File Creation Guidelines for PRs](references/source-guide.md#file-creation-guidelines-for-prs)** - Critical file discipline for PRs
 
 **Reference Files:**
 
@@ -191,6 +193,59 @@ See [Development Workflow](references/package-development-workflow.md) for compl
 4. `devtools::check()` - Full R CMD check
 
 **WARNING:** Do NOT run `check()` during iteration. It takes 1-2 minutes and is unnecessary until you're done.
+
+---
+
+## File Creation Discipline
+
+**INSTRUCTIONS FOR CLAUDE:** Read this section carefully before creating any files.
+
+**🛑 CRITICAL: FILE CREATION DISCIPLINE 🛑**
+
+**STOP BEFORE CREATING ANY FILES. READ THIS CAREFULLY.**
+
+You will create **EXACTLY these files and NO MORE:**
+
+**Extension development (creating new package):**
+- R/[metric_name].R (with complete roxygen docs and examples)
+- R/[metric_name]_vec.R (if you separate _vec into its own file, otherwise keep in main file)
+- tests/testthat/test-[metric_name].R (comprehensive tests)
+- README.md (ONLY if package has no README)
+- **TOTAL: 2-3 files MAXIMUM**
+
+**Source development (PR to yardstick):**
+- R/[type]-[metric_name].R (e.g., R/num-mae.R, R/class-accuracy.R)
+- tests/testthat/test-[type]-[metric_name].R
+- **TOTAL: 2 files ONLY. NOT 3. NOT 4. EXACTLY 2.**
+
+**❌ NEVER CREATE THESE FILES (MOST COMMON MISTAKES):**
+- README.md or README.txt (for PRs - yardstick already has one)
+- NEWS_entry.md (mention in conversation - maintainer adds to NEWS.md)
+- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, IMPLEMENTATION_NOTES.txt
+- QUICKSTART.md, QUICK_REFERENCE.md, INTEGRATION_GUIDE.md
+- example_usage.R, USAGE_EXAMPLE.R (examples go in roxygen @examples)
+- PR_CHECKLIST.md, PR_DESCRIPTION.md, PR_SUMMARY.md
+- INDEX.md, FILE_GUIDE.md, SUMMARY.md, SUMMARY.txt, OVERVIEW.md
+- metric_examples.R, test_examples.R
+- METRIC_DESIGN.md, VALIDATION_APPROACH.md
+- pkgdown_update.txt, pkgdown_addition.yml
+- WORKFLOW_COMMANDS.sh, setup.sh
+- verification_script.R, check_metric.R
+- ANY other .md, .txt, .yml, .sh files beyond the 2-3 core files
+
+**Where everything goes:**
+- Examples → roxygen @examples in R file
+- Implementation notes → roxygen @details in R file
+- Metric design rationale → roxygen @details in R file
+- PR description → conversation with user
+- NEWS entry → conversation (maintainer adds it)
+- Usage guide → README.md (extension dev only) or roxygen examples
+
+**Why this matters:** Creating extra documentation files is the #1 mistake in metric development. These files clutter the codebase and must be deleted by maintainers. ALL documentation belongs in roxygen comments (for code) or conversation (for PR description).
+
+**See [Extension Development Guide](references/extension-guide.md) and [Source Development Guide](references/source-guide.md) for detailed enforcement rules.**
+
+---
 
 ## Choosing Your Metric Type
 
