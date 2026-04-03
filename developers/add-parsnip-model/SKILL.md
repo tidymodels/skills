@@ -33,23 +33,33 @@ Before creating a new parsnip model, ensure you have:
 Before diving into implementation, determine the complexity of your model:
 
 **Simple Model:**
+
 - Single mode (regression OR classification, not both)
+
 - 1-2 engines
+
 - Few main arguments (1-3)
+
 - Standard prediction types only
 
 → Follow streamlined approach: Focus on getting the basics right, avoid over-engineering
 
 **Complex Model:**
+
 - Multiple modes (regression AND classification)
+
 - 3+ engines
+
 - Many main arguments
+
 - Custom prediction types or special encoding
 
 → Reference detailed guides for multi-mode handling, encoding options, and advanced patterns
 
 **Target files regardless of complexity:**
+
 - Extension development: 2-3 files (constructor, tests, optional README)
+
 - Source development: 2-4 files (constructor, data file, tests, optional engine docs)
 
 ### 1. Design the Model Specification
@@ -363,10 +373,13 @@ test_that("sparse_reg fits and predicts", {
 **INSTRUCTIONS FOR CLAUDE:**
 
 Before implementing, verify this is truly a NEW model type. If the user requests:
+
 - A different computational engine for an existing model (e.g., "add xgboost to boost_tree")
   → **Stop.** Politely explain this should use the [add-parsnip-engine](../add-parsnip-engine/SKILL.md) skill instead
+
 - A minor variation that could be an engine-specific argument
   → **Stop.** Suggest using engine-specific arguments rather than creating a new model
+
 - Something that duplicates an existing parsnip model
   → **Stop.** Point them to the existing model
 
@@ -409,37 +422,63 @@ Keep implementations focused and avoid creating unnecessary files.
 **Target file counts:**
 
 Extension development:
+
 - `R/[model_name].R` - Model constructor
+
 - `tests/testthat/test-[model_name].R` - Tests
+
 - `README.md` - Only if needed for package users
+
 - **Total: 2-3 files**
 
 Source development:
+
 - `R/[model_name].R` - Model constructor
+
 - `R/[model_name]_data.R` - Engine registrations
+
 - `tests/testthat/test-[model_name].R` - Tests
+
 - `man/rmd/[model_name]_[engine].Rmd` - Engine docs (optional)
+
 - **Total: 2-4 files**
 
 **Do not create:**
+
 - Implementation notes or summaries (IMPLEMENTATION_NOTES.md, IMPLEMENTATION_SUMMARY.md)
+
 - Usage example files (example_usage.R, examples.R)
+
 - Separate documentation files (DOCUMENTATION.md, USAGE.md)
+
 - Development guide files (DEVELOPMENT.md, GUIDE.md)
+
 - Testing guide files (TESTING.md, TEST_GUIDE.md)
+
 - Changelog files (CHANGELOG.md, NEWS.md unless source development)
+
 - Configuration files (CONFIG.md, SETUP.md)
+
 - Workflow files (WORKFLOW.md, PROCESS.md)
+
 - Debug or log files (DEBUG.md, LOG.md)
+
 - Status or progress files (STATUS.md, PROGRESS.md)
+
 - TODO or task files (TODO.md, TASKS.md)
+
 - Multiple README variants (README_DEV.md, README_TECHNICAL.md)
 
 **Instead:**
+
 - Put usage examples in roxygen `@examples` tags
+
 - Put implementation notes in roxygen `@details` tags
+
 - Put development notes in comments within code
+
 - Document design decisions in commit messages
+
 - Use vignettes for comprehensive usage guides (if creating a package)
 
 ---
