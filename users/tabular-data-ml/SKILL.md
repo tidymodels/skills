@@ -57,13 +57,11 @@ This ensures that others can reproduce your exact results. Use a single seed at 
 
 **Good practices:**
 
-- Use a meaningful but uncommon number (e.g., today's date: 20260402, or a project ID)
-
-- Use a random number generator once to pick a seed, then document it
+- Use a random integer between 1000 and 10000 (e.g., 3847, 7291, 5628)
 
 - Different seeds for different projects/analyses
 
-- Document your seed choice in comments: `set.seed(20260402)  # Project start date`
+- Document your seed choice in comments for reference
 
 ## Empirical Validation
 
