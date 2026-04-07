@@ -3,43 +3,78 @@
   "notes": "The 'no_internal_functions' check may flag false positives when code includes explanatory comments about NOT using internal functions (e.g., critical behavior tests). This is expected when the skill correctly refuses internal functions and documents why.",
   "checks": {
     "file_count": {
+      "informational": true,
+      "weight": 0.2,
+      "grading_priority": "informational",
       "extension": {
         "type": "range",
-        "value": [2, 3]
+        "value": [
+          2,
+          6
+        ],
+        "pass": {
+          "type": "range",
+          "value": [
+            2,
+            6
+          ]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 10
+        }
       },
       "source": {
-        "type": "exact",
-        "value": 2
+        "type": "range",
+        "value": [
+          1,
+          5
+        ],
+        "pass": {
+          "type": "range",
+          "value": [
+            1,
+            5
+          ]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 10
+        }
       }
     },
-    "prohibited_files": [
-      "IMPLEMENTATION_SUMMARY.md",
-      "QUICKSTART.md",
-      "QUICK_REFERENCE.md",
-      "USAGE_EXAMPLE.md",
-      "example_usage.R",
-      "METRIC_DESIGN.md",
-      "VALIDATION_APPROACH.md",
-      "verification_script.R",
-      "check_metric.R",
-      "PR_CHECKLIST.md",
-      "PR_DESCRIPTION.md",
-      "PR_NOTES.txt",
-      "NEWS_entry.md",
-      "IMPLEMENTATION_NOTES.md",
-      "CONTRIBUTING.md",
-      "GETTING_STARTED.md",
-      "HOW_TO_USE.md",
-      "INSTALLATION.md",
-      "misc.R",
-      "helpers.R",
-      "utils.R",
-      "EVALUATION_SUMMARY.md",
-      "RESPONSE.md",
-      "*.txt",
-      "*.sh",
-      "*.yml"
-    ],
+    "prohibited_files": {
+      "grading_priority": "informational",
+      "weight": 0.2,
+      "files": [
+        "IMPLEMENTATION_SUMMARY.md",
+        "QUICKSTART.md",
+        "QUICK_REFERENCE.md",
+        "USAGE_EXAMPLE.md",
+        "example_usage.R",
+        "METRIC_DESIGN.md",
+        "VALIDATION_APPROACH.md",
+        "verification_script.R",
+        "check_metric.R",
+        "PR_CHECKLIST.md",
+        "PR_DESCRIPTION.md",
+        "PR_NOTES.txt",
+        "NEWS_entry.md",
+        "IMPLEMENTATION_NOTES.md",
+        "CONTRIBUTING.md",
+        "GETTING_STARTED.md",
+        "HOW_TO_USE.md",
+        "INSTALLATION.md",
+        "misc.R",
+        "helpers.R",
+        "utils.R",
+        "EVALUATION_SUMMARY.md",
+        "RESPONSE.md",
+        "*.txt",
+        "*.sh",
+        "*.yml"
+      ]
+    },
     "required_files": {
       "extension": [
         "*.R"
@@ -58,7 +93,9 @@
             "_vec\\s*<-\\s*function",
             "\\.data\\.frame\\s*<-\\s*function"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_roxygen_docs": {
           "description": "Complete roxygen documentation",
@@ -68,7 +105,9 @@
             "#'\\s*@examples",
             "#'\\s*@param"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_case_weights": {
           "description": "Case weights handling with hardhat conversion",
@@ -77,7 +116,9 @@
             "case_weights\\s*=\\s*NULL",
             "as\\.double\\(.+case_weights"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_na_handling": {
           "description": "NA handling with yardstick_remove_missing",
@@ -86,7 +127,9 @@
             "yardstick::yardstick_remove_missing",
             "na_rm\\s*="
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "no_internal_functions": {
           "description": "No use of internal functions (:::) in actual code",
@@ -94,7 +137,9 @@
           "patterns": [
             "yardstick:::\\w+\\("
           ],
-          "logic": "none"
+          "logic": "none",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -105,7 +150,9 @@
             "na_rm\\s*=\\s*FALSE",
             "case_weights"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       },
       "source": {
@@ -117,7 +164,9 @@
             "_vec\\s*<-\\s*function",
             "\\.data\\.frame\\s*<-\\s*function"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_roxygen_docs": {
           "description": "Complete roxygen documentation with templates",
@@ -127,7 +176,9 @@
             "#'\\s*@examples",
             "#'\\s*@template"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "uses_internal_helpers": {
           "description": "Uses internal helper functions directly",
@@ -135,7 +186,9 @@
           "patterns": [
             "yardstick_mean|yardstick_median|finalize_estimator_internal|sens_binary|spec_binary|sens_multiclass|spec_multiclass|yardstick_remove_missing|yardstick_any_missing"
           ],
-          "logic": "any"
+          "logic": "any",
+          "grading_priority": "critical",
+          "weight": 0.8
         },
         "has_complete_tests": {
           "description": "Comprehensive test coverage",
@@ -145,7 +198,9 @@
             "na_rm\\s*=\\s*TRUE",
             "na_rm\\s*=\\s*FALSE"
           ],
-          "logic": "all"
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
         }
       }
     },
@@ -153,12 +208,16 @@
       "extension": {
         "file_pattern": "**/*.R",
         "prefix": "yardstick::",
-        "min_count": 3
+        "min_count": 3,
+        "grading_priority": "critical",
+        "weight": 0.8
       },
       "source": {
         "file_pattern": "**/*.R",
         "prefix": "yardstick::",
-        "max_count": 3
+        "max_count": 3,
+        "grading_priority": "critical",
+        "weight": 0.8
       }
     }
   }

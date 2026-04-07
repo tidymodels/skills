@@ -228,9 +228,9 @@ Before adding an engine, understand:
 
 **→ Use streamlined approach:**
 
-- Create exactly 2 files: R/zzz.R (15-30 lines), tests/testthat/test-*.R
+- Target 2 files: R/zzz.R (15-30 lines), tests/testthat/test-*.R; acceptable to reach 4-6 if needed
 
-- NO additional files, NO summary docs, NO example files
+- NO summary docs, NO example files
 
 - See [Extension Guide, Simple Single-Mode](references/extension-guide.md#simple-single-mode-2-files-rzzzr-teststest-r)
 
@@ -250,7 +250,7 @@ Before adding an engine, understand:
 
 - See [Encoding Options](references/encoding-options.md) for matrix interfaces
 
-- Still target 2-3 files maximum (R/zzz.R, tests, optional README)
+- Still target 2-3 files (R/zzz.R, tests, optional README); acceptable to reach 4-6 if implementation requires it
 
 ---
 
@@ -267,9 +267,9 @@ Before adding an engine, understand:
 
 **File Discipline:**
 
-- Extension: Create **2-3 files** (R/zzz.R, tests/testthat/test-*.R, optional README.md)
+- Extension: Create **2-3 files** (R/zzz.R, tests/testthat/test-*.R, optional README.md); acceptable to reach 4-6 files if implementation requires it
 
-- Source: Modify **1-2 files** (add to R/*_data.R, add to tests/testthat/test-*.R)
+- Source: Modify **1-2 files** (add to R/*_data.R, add to tests/testthat/test-*.R); acceptable to reach 3-7 files if implementation requires it
 
 - **Never create**: IMPLEMENTATION_SUMMARY.md, example_usage.R, helper files
 

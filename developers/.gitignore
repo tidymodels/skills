@@ -1,3 +1,4 @@
 *.html
 add-recipe-step-workspace
 *-workspace/
+*-workspace-old-*/

@@ -94,8 +94,7 @@ library(finetune)
 # ANOVA racing - eliminates configs significantly worse than best
 
 # Set seed immediately before tuning for reproducibility
-# Use a meaningful, uncommon value - not 123, 111, etc.
-set.seed(2026)
+set.seed(1847)
 
 tune_results <- tune_race_anova(
  wf,

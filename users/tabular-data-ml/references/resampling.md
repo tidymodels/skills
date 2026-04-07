@@ -30,8 +30,7 @@ Splits training data into V folds; iteratively holds out each fold for validatio
 library(tidymodels)
 
 # Set seed immediately before creating folds for reproducibility
-# Use a meaningful, uncommon value - not 123, 111, etc.
-set.seed(2026)
+set.seed(2954)
 
 # Basic 10-fold CV
 resamples <- vfold_cv(train_data, v = 10)
@@ -59,8 +58,7 @@ Runs V-fold CV multiple times with different random splits, then averages result
 
 ```r
 # Set seed immediately before creating folds for reproducibility
-# Use a meaningful, uncommon value - not 123, 111, etc.
-set.seed(2026)
+set.seed(8173)
 
 # 10-fold CV repeated 5 times
 resamples <- vfold_cv(train_data, v = 10, repeats = 5, strata = outcome)
@@ -78,8 +76,7 @@ See the instructions in [data-spending.md](data-spending.md) for making the init
 library(tidymodels)
 
 # Set seed immediately before splitting for reproducibility
-# Use a meaningful, uncommon value - not 123, 111, etc.
-set.seed(2026)
+set.seed(6401)
 init_split <- initial_validation_split(all_data, strata = outcome)
 train_data <- training(init_split)
 test_data <- testing(init_split)
@@ -129,8 +126,7 @@ When observations are not independent (e.g., multiple measurements per subject),
 
 ```r
 # Set seed immediately before creating folds for reproducibility
-# Use a meaningful, uncommon value - not 123, 111, etc.
-set.seed(2026)
+set.seed(9528)
 
 # Keep all observations from the same group together
 resamples <- group_vfold_cv(train_data, group = id_column, v = 10)
