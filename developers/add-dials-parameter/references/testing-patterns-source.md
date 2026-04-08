@@ -791,13 +791,11 @@ When adding a new parameter, ensure tests cover:
       - [ ] `grid_random()`
 
       - [ ] `grid_space_filling()`
-
 - [ ] Value utilities work
 
       - [ ] `value_sample()`
 
       - [ ] `value_seq()`
-
 - [ ] Transformation (if applicable)
 
 - [ ] Finalization (if applicable) in `test-finalize.R`

@@ -272,9 +272,9 @@ Tuning is embarrassingly parallel—each configuration can run independently.
    don't just put a comment in code:
 
    > "I'm about to run 10-fold cross-validation with hyperparameter tuning. This
-   will take approximately 30-45 minutes sequentially. I see you have 8 cores
-   available. Would you like me to use parallel processing? If so, how many
-   cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free)"
+   > will take approximately 30-45 minutes sequentially. I see you have 8 cores
+   > available. Would you like me to use parallel processing? If so, how many
+   > cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free)"
 
    **If user says yes:**
    ```r
@@ -288,7 +288,7 @@ Tuning is embarrassingly parallel—each configuration can run independently.
    ```
 
    > "With 6 cores: \~8 minutes. Without: \~40 minutes. Your choice won't affect
-   the results, just the speed."
+   > the results, just the speed."
 
 3. **Continue using** the same parallel configuration throughout the analysis
    unless the user asks you to stop.

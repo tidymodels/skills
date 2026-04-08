@@ -1330,8 +1330,11 @@ How to clone tidymodels repositories (optional but recommended).
 
 This script:
 1. Copies the updated files from `shared-references/` and `shared-references/scripts/` to each skill's `references/` folder
-2. Verifies all markdown links and file references are valid
-3. Automatically skips workspace directories (those containing `-workspace`)
+2. Adds blank lines before bullets in markdown files
+3. Formats markdown files with panache (skips if not installed)
+4. Verifies all markdown links and file references are valid
+5. Confirms documentation structure (`.qmd` files exist)
+6. Automatically skips workspace directories (those containing `-workspace`)
 
 **Workflow:**
 ```

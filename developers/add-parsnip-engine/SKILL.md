@@ -176,8 +176,7 @@ instructions.
 - [Prediction Types](references/prediction-types.md) - All 11 prediction types
 
 - [Mode Handling](references/mode-handling.md) - Multi-mode support (regression
-  + classification)
-
+  - classification)
 - [Encoding Options](references/encoding-options.md) - Interface types and data
   conversion
 
@@ -204,7 +203,6 @@ instructions.
     Patterns](references/package-extension-requirements.md#testing-requirements)
 
   - [Troubleshooting](references/package-extension-requirements.md#common-issues-solutions)
-
 - [Roxygen Documentation](references/package-roxygen-documentation.md)
 
 - [Package Imports](references/package-imports.md)

@@ -120,7 +120,6 @@ All scripts use consistent exit codes:
     `yum install git`, etc.)
 
   - Windows: Download from https://git-scm.com/downloads
-
 - **Disk Space**: \~5-8 MB per repository (yardstick, recipes, dials, parsnip -
   shallow clones)
 

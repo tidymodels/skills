@@ -157,15 +157,12 @@ Yardstick organizes tests by metric type:
 - **Numeric metrics**: `tests/testthat/test-num-[name].R`
 
   - Example: `test-num-mae.R`, `test-num-rmse.R`
-
 - **Class metrics**: `tests/testthat/test-class-[name].R`
 
   - Example: `test-class-accuracy.R`, `test-class-precision.R`
-
 - **Probability metrics**: `tests/testthat/test-prob-[name].R`
 
   - Example: `test-prob-roc_auc.R`, `test-prob-mn_log_loss.R`
-
 - **Survival metrics**: `tests/testthat/test-surv-[name].R`
 
   - Example: `test-surv-concordance_survival.R`

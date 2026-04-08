@@ -124,7 +124,7 @@ The `grading-config.json` file defines automated checks:
 
 - Registration functions present
 
-- Adds to existing \*_data.R file
+- Adds to existing \*\_data.R file
 
 - Complete tests with proper checks
 

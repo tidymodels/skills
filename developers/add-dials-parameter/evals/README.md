@@ -128,7 +128,6 @@ Each test uses realistic, detailed prompts that include:
     finalize (3), data-dependent with built-in finalize (5)
 
   - Qualitative: simple (2), with companion vector (6)
-
 - **Complexity**: Mix of simple to moderate complexity
 
 - **Core features**: Transformations, finalization, unknown() bounds, range

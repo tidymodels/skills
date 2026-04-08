@@ -141,7 +141,7 @@ instructions.
 **Reference Files:**
 
 - [Metric System Architecture](references/metric-system.md) - How
-  new\_\*_metric() works, .estimator column, design considerations
+  new\_\*\_metric() works, .estimator column, design considerations
 
 - [Combining Metrics](references/metric-set.md) - Using metric_set() to combine
   multiple metrics
@@ -197,7 +197,6 @@ instructions.
   (Extension)](references/package-extension-requirements.md#testing-requirements)
 
   - Extension testing guide
-
 - [Roxygen Documentation](references/package-roxygen-documentation.md) -
   Documentation templates
 
@@ -348,7 +347,7 @@ if (!is.null(case_weights)) {
 ### Both Contexts: Case Weights Handling
 
 ALWAYS convert hardhat weight objects to numeric. This is **required in all
-_impl functions** that accept case weights:
+\_impl functions** that accept case weights:
 
 **Extension development example:**
 

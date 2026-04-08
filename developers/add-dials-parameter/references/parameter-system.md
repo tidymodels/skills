@@ -275,7 +275,6 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
   - Examples: penalties, rates, proportions
 
   - Can take any value within range
-
 - `"integer"`: Discrete whole numbers
 
   - Examples: counts, tree depths, neighbors
@@ -289,7 +288,6 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
   - Examples: method names, algorithm choices
 
   - Most common qualitative type
-
 - `"logical"`: TRUE/FALSE options
 
   - Examples: binary flags, boolean settings

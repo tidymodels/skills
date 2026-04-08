@@ -154,19 +154,15 @@ Yardstick organizes code by metric type:
 - **Numeric metrics**: `R/num-[name].R`
 
   - Examples: `num-mae.R`, `num-rmse.R`, `num-huber_loss.R`
-
 - **Class metrics**: `R/class-[name].R`
 
   - Examples: `class-accuracy.R`, `class-precision.R`, `class-recall.R`
-
 - **Probability metrics**: `R/prob-[name].R`
 
   - Examples: `prob-roc_auc.R`, `prob-mn_log_loss.R`, `prob-brier_class.R`
-
 - **Survival metrics**: `R/surv-[name].R`
 
   - Examples: `surv-concordance_survival.R`, `surv-brier_survival.R`
-
 - **Quantile metrics**: `R/quant-[name].R`
 
   - Examples: `quant-weighted_interval_score.R`

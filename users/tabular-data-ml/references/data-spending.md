@@ -20,7 +20,6 @@ Splits the entire data set into three partitions.
   want this type of split.
 
   - If not, use a basic training/testing split.
-
 - Stratified splitting maintains outcome distribution in each fold
 
 ### tidymodels

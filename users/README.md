@@ -46,7 +46,6 @@ implementation guides.
     - Model tuning strategies
 
     - Evaluation metrics and visualizations
-
 - `shared-references/` - Future shared reference materials
 
 ## Difference from Developer Skills

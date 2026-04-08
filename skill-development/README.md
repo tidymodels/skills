@@ -21,6 +21,7 @@ skill-development/build-verify.py developers/
 **What it does**:
 - **BUILD**: Calls `build-skills.py` to copy files from `shared-references/` to each skill's `references/` folder
 - **FORMAT**: Calls `add-blank-lines.py` to add blank lines before bullet points in all markdown files
+- **PANACHE**: Runs `panache format` on all markdown files (runs silently, skips if not installed)
 - **VERIFY**: Calls `verify-references.py` to check all markdown links resolve correctly
 - **DOCS**: Calls `verify-docs.py` to confirm `.qmd` files exist for all skills
 
@@ -311,6 +312,7 @@ When working on specific aspects, you can run discrete scripts:
 
 - **Just building**: `./build-skills.py ../developers/`
 - **Just formatting**: `./add-blank-lines.py ../developers/`
+- **Just panache formatting**: `panache format ../developers/`
 - **Just verifying references**: `./verify-references.py ../developers/`
 - **Just verifying docs**: `./verify-docs.py ../developers/`
 - **Full pipeline**: `./build-verify.py ../developers/` (runs all of the above)
@@ -326,3 +328,4 @@ When working on specific aspects, you can run discrete scripts:
 - All scripts automatically skip directories containing `-workspace` (e.g., `add-yardstick-metric-workspace`, `my-workspace-old`)
 - Use `--verbose` flag with build/verify scripts to see which workspace directories are being skipped
 - `build-verify.py` runs against both `developers/` and `users/` when no directory is specified
+- `panache format` is optional - if not installed, `build-verify.py` will skip it gracefully

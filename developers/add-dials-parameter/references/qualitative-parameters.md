@@ -441,7 +441,7 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 
    - Easy to discover and use
 
-3. **@exporton both**: Both the function AND the vector must be exported
+3. **@exportonboth**: Both the function AND the vector must be exported
 
    - Parameter function: Users call this to create the parameter
 

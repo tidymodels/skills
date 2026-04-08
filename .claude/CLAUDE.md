@@ -77,8 +77,9 @@ For using Tidymodels in data analysis and modeling:
 This script:
 1. **Builds**: Copies shared files to each skill's references folder
 2. **Formats**: Adds blank lines before bullets in markdown files
-3. **Verifies**: Checks all markdown links and file references
-4. **Docs**: Confirms each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
+3. **Panache**: Formats markdown files with panache (skips if not installed)
+4. **Verifies**: Checks all markdown links and file references
+5. **Docs**: Confirms each skill has a corresponding `.qmd` file in `docs/`, and that each `.md` file in the skill's `references/` folder has a matching `.qmd` in `docs/*/references/`
 
 The script automatically skips workspace directories (any directory containing `-workspace` in the name).
 
