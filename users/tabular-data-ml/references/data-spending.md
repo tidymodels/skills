@@ -2,10 +2,11 @@
 
 ## Overview
 
-Data spending refers to the initial splitting of a data set into either: 
+Data spending refers to the initial splitting of a data set into either:
 
- - training, validation, and test sets, or 
- - training and test sets
+- training, validation, and test sets, or
+
+- training and test sets
 
 ## Training, Validation, and Test Sets
 
@@ -15,7 +16,8 @@ Splits the entire data set into three partitions.
 
 **Considerations**:
 
-- When the number of data points is large (say >= 10,000), ask the user if they want this type of split.
+- When the number of data points is large (say >= 10,000), ask the user if they
+  want this type of split.
 
   - If not, use a basic training/testing split.
 
@@ -59,14 +61,16 @@ test_data <- testing(init_split)
 
 ## Special Cases
 
-There are several cases when different splitting should be used: 
+There are several cases when different splitting should be used:
 
- - When the data are a time series
- - When there are correlated rows in the data. 
- 
+- When the data are a time series
+
+- When there are correlated rows in the data.
+
 ### Time Series
 
-In this case, ensure that the data have been ordered from oldest to most recent data. 
+In this case, ensure that the data have been ordered from oldest to most recent
+data.
 
 #### tidymodels
 
@@ -82,9 +86,12 @@ test_data <- testing(init_split)
 
 ### Correlated Rows
 
-In this case, the rows of the data are not statistically independent. For example, if patients in a clinical trial are measured more than once, the data for a given patient are correlated. 
+In this case, the rows of the data are not statistically independent. For
+example, if patients in a clinical trial are measured more than once, the data
+for a given patient are correlated.
 
-To make the split, there must be a column in the data that corresponds to the independent experimental unit (e.g., patient). 
+To make the split, there must be a column in the data that corresponds to the
+independent experimental unit (e.g., patient).
 
 #### tidymodels
 

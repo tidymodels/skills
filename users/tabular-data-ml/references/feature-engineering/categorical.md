@@ -2,7 +2,9 @@
 
 ## Dummy Variables (Indicator Encoding)
 
-Converts a categorical variable with K levels into K-1 binary columns (one level becomes the reference). Required for models that cannot handle factors directly (linear models, neural networks, SVMs, KNN).
+Converts a categorical variable with K levels into K-1 binary columns (one level
+becomes the reference). Required for models that cannot handle factors directly
+(linear models, neural networks, SVMs, KNN).
 
 **When to use**: Most models except tree-based methods, Cubist, and Naive Bayes.
 
@@ -10,7 +12,8 @@ Converts a categorical variable with K levels into K-1 binary columns (one level
 
 - Reference level choice affects coefficient interpretation but not predictions
 
-- High-cardinality variables create many columns—consider target encoding instead
+- High-cardinality variables create many columns—consider target encoding
+  instead
 
 ### tidymodels
 
@@ -30,9 +33,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Target Encoding (Effect Encoding)
 
-Replaces categorical levels with a numeric value based on the outcome. Useful for high-cardinality categoricals where dummy encoding creates too many columns.
+Replaces categorical levels with a numeric value based on the outcome. Useful
+for high-cardinality categoricals where dummy encoding creates too many columns.
 
-**When to use**: Categorical predictors with many levels (e.g., ZIP codes, product IDs).
+**When to use**: Categorical predictors with many levels (e.g., ZIP codes,
+product IDs).
 
 **Considerations**:
 
@@ -40,7 +45,8 @@ Replaces categorical levels with a numeric value based on the outcome. Useful fo
 
 - Smoothing/regularization helps with rare levels
 
-- For classification, encodes the probability of the positive class; for regression, encodes the mean outcome
+- For classification, encodes the probability of the positive class; for
+  regression, encodes the mean outcome
 
 ### tidymodels
 
@@ -63,7 +69,9 @@ recipe(outcome ~ ., data = train) |>
 
 ## Novel Levels
 
-New categorical levels in test/production data that weren't in training can cause errors. Handle by assigning novel levels to "other" or the most common level.
+New categorical levels in test/production data that weren't in training can
+cause errors. Handle by assigning novel levels to "other" or the most common
+level.
 
 ### tidymodels
 
@@ -75,7 +83,8 @@ recipe(outcome ~ ., data = train) |>
 
 ## Infrequent Levels
 
-Levels that appear rarely may not provide reliable signal and can cause issues in resampling. Pool them into an "other" category.
+Levels that appear rarely may not provide reliable signal and can cause issues
+in resampling. Pool them into an "other" category.
 
 ### tidymodels
 

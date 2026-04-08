@@ -10,11 +10,13 @@ Highly correlated predictors can cause problems:
 
 - Redundant information consuming model capacity
 
-Two main strategies: **remove** correlated predictors or **extract** new features that combine them.
+Two main strategies: **remove** correlated predictors or **extract** new
+features that combine them.
 
 ## Correlation Filters
 
-Removes predictors that are highly correlated with others, keeping the one with highest mean absolute correlation to remaining predictors.
+Removes predictors that are highly correlated with others, keeping the one with
+highest mean absolute correlation to remaining predictors.
 
 **When to use**: Want interpretable features; correlation is the main concern.
 
@@ -44,9 +46,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Principal Component Analysis (PCA)
 
-Transforms correlated predictors into uncorrelated principal components. Components are ordered by variance explained.
+Transforms correlated predictors into uncorrelated principal components.
+Components are ordered by variance explained.
 
-**When to use**: Many correlated predictors; willing to sacrifice interpretability for dimensionality reduction.
+**When to use**: Many correlated predictors; willing to sacrifice
+interpretability for dimensionality reduction.
 
 **Considerations**:
 
@@ -86,9 +90,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Linear Combinations
 
-Detects and removes predictors that are exact linear combinations of others. This is a stronger condition than correlation.
+Detects and removes predictors that are exact linear combinations of others.
+This is a stronger condition than correlation.
 
-**When to use**: Dummy variables from hierarchical categories; derived features that sum to a constant.
+**When to use**: Dummy variables from hierarchical categories; derived features
+that sum to a constant.
 
 ### tidymodels
 

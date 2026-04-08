@@ -2,19 +2,25 @@
 
 ## Overview
 
-Evaluation measures how well the model predicts unseen data. Always use out-of-sample predictions—from cross-validation during development, from the test set for final assessment.
+Evaluation measures how well the model predicts unseen data. Always use
+out-of-sample predictions—from cross-validation during development, from the
+test set for final assessment.
 
 ## Classification Metrics
 
 ### Threshold-Independent Metrics
 
-These evaluate the full range of predicted probabilities without choosing a classification threshold.
+These evaluate the full range of predicted probabilities without choosing a
+classification threshold.
 
-**ROC-AUC**: Area under the ROC curve. Measures ability to rank positive cases higher than negative cases. Range: 0.5 (random) to 1.0 (perfect).
+**ROC-AUC**: Area under the ROC curve. Measures ability to rank positive cases
+higher than negative cases. Range: 0.5 (random) to 1.0 (perfect).
 
-**PR-AUC**: Area under the precision-recall curve. Better than ROC-AUC for imbalanced data where the positive class is rare.
+**PR-AUC**: Area under the precision-recall curve. Better than ROC-AUC for
+imbalanced data where the positive class is rare.
 
-**Brier Score**: Mean squared error of probability predictions. Measures calibration. Range: 0 (perfect) to 1 (worst). Lower is better.
+**Brier Score**: Mean squared error of probability predictions. Measures
+calibration. Range: 0 (perfect) to 1 (worst). Lower is better.
 
 ### tidymodels
 
@@ -33,13 +39,17 @@ predictions |> brier_class(truth = outcome, .pred_positive)
 
 ### Threshold-Dependent Metrics
 
-Require choosing a probability threshold (default: 0.5) to convert probabilities to class predictions.
+Require choosing a probability threshold (default: 0.5) to convert probabilities
+to class predictions.
 
-**Accuracy**: Proportion of correct predictions. Can be misleading with imbalanced classes.
+**Accuracy**: Proportion of correct predictions. Can be misleading with
+imbalanced classes.
 
-**Sensitivity (Recall)**: True positive rate. Of actual positives, how many did we catch?
+**Sensitivity (Recall)**: True positive rate. Of actual positives, how many did
+we catch?
 
-**Specificity**: True negative rate. Of actual negatives, how many did we correctly identify?
+**Specificity**: True negative rate. Of actual negatives, how many did we
+correctly identify?
 
 **Precision (PPV)**: Of predicted positives, how many are actually positive?
 
@@ -72,13 +82,17 @@ predictions |> sensitivity(truth = outcome, estimate = .pred_class, estimator = 
 
 ## Regression Metrics
 
-**RMSE**: Root mean squared error. In outcome units. Penalizes large errors heavily.
+**RMSE**: Root mean squared error. In outcome units. Penalizes large errors
+heavily.
 
-**MAE**: Mean absolute error. In outcome units. Less sensitive to outliers than RMSE.
+**MAE**: Mean absolute error. In outcome units. Less sensitive to outliers than
+RMSE.
 
-**R²**: Coefficient of determination. Proportion of variance explained. Does not measure prediction accuracy—use with RMSE/MAE.
+**R²**: Coefficient of determination. Proportion of variance explained. Does not
+measure prediction accuracy—use with RMSE/MAE.
 
-**MAPE**: Mean absolute percentage error. Scale-independent but undefined when true values are zero.
+**MAPE**: Mean absolute percentage error. Scale-independent but undefined when
+true values are zero.
 
 ### tidymodels
 
@@ -125,7 +139,8 @@ autoplot(pr_data)
 
 ### Classification: Calibration Curve
 
-Shows whether predicted probabilities match observed frequencies. Well-calibrated models follow the diagonal.
+Shows whether predicted probabilities match observed frequencies.
+Well-calibrated models follow the diagonal.
 
 ```r
 library(probably)

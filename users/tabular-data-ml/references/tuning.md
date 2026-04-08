@@ -2,15 +2,17 @@
 
 ## Overview
 
-Hyperparameters are model settings that cannot be learned from data. Tuning searches for values that optimize out-of-sample performance.
+Hyperparameters are model settings that cannot be learned from data. Tuning
+searches for values that optimize out-of-sample performance.
 
-| Method | Best For | Pros | Cons |
-|--------|----------|------|------|
-| Grid search | Few parameters, small grids | Exhaustive, reproducible | Exponential scaling |
-| Racing | Large grids | Efficient, discards poor configs early | May miss borderline good configs |
-| Bayesian optimization | Expensive models, many parameters | Smart exploration | Overhead for simple problems |
+| Method                | Best For                          | Pros                                   | Cons                             |
+| --------------------- | --------------------------------- | -------------------------------------- | -------------------------------- |
+| Grid search           | Few parameters, small grids       | Exhaustive, reproducible               | Exponential scaling              |
+| Racing                | Large grids                       | Efficient, discards poor configs early | May miss borderline good configs |
+| Bayesian optimization | Expensive models, many parameters | Smart exploration                      | Overhead for simple problems     |
 
-For tabular data, grid search and racing are optimized and should be the default. 
+For tabular data, grid search and racing are optimized and should be the
+default.
 
 ## Marking Parameters for Tuning
 
@@ -57,7 +59,8 @@ We can make a specific grid from a parameter set object:
 grid <- grid_space_filling(params, size = 25)
 ```
 
-However, it is best to simply provide an integer to the `grid` argument of the tuning functions (see below). 
+However, it is best to simply provide an integer to the `grid` argument of the
+tuning functions (see below).
 
 Running the grid search:
 
@@ -74,9 +77,11 @@ tune_results <- tune_grid(
 
 ## Racing Methods
 
-Starts with all configurations, then eliminates poor performers after initial resamples. Efficient for large and/or wide grids.
+Starts with all configurations, then eliminates poor performers after initial
+resamples. Efficient for large and/or wide grids.
 
-**When to use**: Wide grids; want efficiency without giving up grid search's coverage.
+**When to use**: Wide grids; want efficiency without giving up grid search's
+coverage.
 
 **Considerations**:
 
@@ -106,21 +111,28 @@ tune_results <- tune_race_anova(
 
 ## Initial Model Suggestions
 
-Unless the user is interested in a specific model, we suggest starting with two disparate models: 
+Unless the user is interested in a specific model, we suggest starting with two
+disparate models:
 
-- A regularized model that is linear in its parameters, such as linear regression, logistic regression, or multinomial regression. 
+- A regularized model that is linear in its parameters, such as linear
+  regression, logistic regression, or multinomial regression.
 
 - A boosted tree that uses early stopping.
 
-Generally, do not suggest models that are similar to ones already considered. For example, do not suggest random forest after a different tree ensemble has been evaluated. 
+Generally, do not suggest models that are similar to ones already considered.
+For example, do not suggest random forest after a different tree ensemble has
+been evaluated.
 
 ### Linear Models
 
-Propose a simple model early in the process. Use a recipe that includes any existing feature engineering and also standardize the predictors after a zero-variance filter. 
+Propose a simple model early in the process. Use a recipe that includes any
+existing feature engineering and also standardize the predictors after a
+zero-variance filter.
 
 #### tidymodels
 
-For example, for a regression data set where we have observed that predictor `x1` has a nonlinear relationship with the outcome: 
+For example, for a regression data set where we have observed that predictor
+`x1` has a nonlinear relationship with the outcome:
 
 ```r
 library(tidymodels)
@@ -141,9 +153,10 @@ glmnet_wflow <- workflow(spline_rec, model_spec)
 
 ### Boosting
 
-Also propose a boosting model early in the process. Make sure that the number of trees is set to a specific value and the argument `stop_iter = 5` is used. 
+Also propose a boosting model early in the process. Make sure that the number of
+trees is set to a specific value and the argument `stop_iter = 5` is used.
 
-For example: 
+For example:
 
 ```r
 library(tidymodels)
@@ -210,7 +223,8 @@ final_wf <- finalize_workflow(wf, best_params)
 final_fit <- fit(final_wf, data = train_data)
 ```
 
-If the resample function was used to make the initial split, there is a simpler API: 
+If the resample function was used to make the initial split, there is a simpler
+API:
 
 ```r
 # Select best parameters
@@ -225,7 +239,8 @@ final_fit <- last_fit(init_split, final_wf)
 
 ## Parameter Ranges
 
-tidymodels provides sensible defaults via the `dials` package. Customize when needed.
+tidymodels provides sensible defaults via the `dials` package. Customize when
+needed.
 
 ```r
 # View default range
@@ -253,10 +268,13 @@ Tuning is embarrassingly parallel—each configuration can run independently.
    n_cores <- parallel::detectCores()
    ```
 
-2. **Ask the user explicitly in the conversation** - Have an actual exchange, don't just put a comment in code:
+2. **Ask the user explicitly in the conversation** - Have an actual exchange,
+   don't just put a comment in code:
 
-   **Example:**
-   > "I'm about to run 10-fold cross-validation with hyperparameter tuning. This will take approximately 30-45 minutes sequentially. I see you have 8 cores available. Would you like me to use parallel processing? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free)"
+   > "I'm about to run 10-fold cross-validation with hyperparameter tuning. This
+   will take approximately 30-45 minutes sequentially. I see you have 8 cores
+   available. Would you like me to use parallel processing? If so, how many
+   cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free)"
 
    **If user says yes:**
    ```r
@@ -269,11 +287,15 @@ Tuning is embarrassingly parallel—each configuration can run independently.
    # Proceed with sequential processing (no future setup)
    ```
 
-   **If user is unsure, provide context:**
-   > "With 6 cores: ~8 minutes. Without: ~40 minutes. Your choice won't affect the results, just the speed."
+   > "With 6 cores: \~8 minutes. Without: \~40 minutes. Your choice won't affect
+   the results, just the speed."
 
-3. **Continue using** the same parallel configuration throughout the analysis unless the user asks you to stop.
+3. **Continue using** the same parallel configuration throughout the analysis
+   unless the user asks you to stop.
 
-**Do not** automatically enable parallel processing without asking, even if the user mentions having multiple cores available.
+**Do not** automatically enable parallel processing without asking, even if the
+user mentions having multiple cores available.
 
-When using tidymodels functions like `tune::fit_resamples()` or `tune::tune_grid()`, they will automatically use the future plan if it's been set. Do not use the parallel, doParallel, mirai, or foreach packages.
+When using tidymodels functions like `tune::fit_resamples()` or
+`tune::tune_grid()`, they will automatically use the future plan if it's been
+set. Do not use the parallel, doParallel, mirai, or foreach packages.

@@ -1,26 +1,33 @@
 # Tidymodels User Skills
 
-User-facing Claude Code skills for working with tidymodels packages in data analysis and machine learning.
+User-facing Claude Code skills for working with tidymodels packages in data
+analysis and machine learning.
 
 ## Available Skills
 
 ### tidymodels - Tabular Data Machine Learning
 
-Build predictive models for tabular data with proper validation practices. This skill guides you through:
+Build predictive models for tabular data with proper validation practices. This
+skill guides you through:
 
 - **Data Spending**: Train/test splitting with strict test set protection rules
 
 - **Empirical Validation**: Cross-validation and resampling strategies
 
-- **Performance Metrics**: Classification (ROC-AUC, Brier score) and regression (RMSE, R²)
+- **Performance Metrics**: Classification (ROC-AUC, Brier score) and regression
+  (RMSE, R²)
 
-- **Model Optimization**: Feature engineering, model selection, and hyperparameter tuning
+- **Model Optimization**: Feature engineering, model selection, and
+  hyperparameter tuning
 
 - **Model Evaluation**: Visualization and final test set evaluation
 
-**Key principle**: All development happens on training data using out-of-sample validation. Test set evaluation only occurs with explicit user permission.
+**Key principle**: All development happens on training data using out-of-sample
+validation. Test set evaluation only occurs with explicit user permission.
 
-See [tabular-data-ml/SKILL.md](tabular-data-ml/SKILL.md) for the complete skill or [tabular-data-ml/references/](tabular-data-ml/references/) for detailed implementation guides.
+See [tabular-data-ml/SKILL.md](tabular-data-ml/SKILL.md) for the complete skill
+or [tabular-data-ml/references/](tabular-data-ml/references/) for detailed
+implementation guides.
 
 ## Structure
 
@@ -44,7 +51,8 @@ See [tabular-data-ml/SKILL.md](tabular-data-ml/SKILL.md) for the complete skill 
 
 ## Difference from Developer Skills
 
-- **Developer skills** (`../developers/`): Creating tidymodels extensions (packages, metrics, steps)
+- **Developer skills** (`../developers/`): Creating tidymodels extensions
+  (packages, metrics, steps)
 
 - **User skills** (this directory): Using tidymodels for analysis and modeling
 

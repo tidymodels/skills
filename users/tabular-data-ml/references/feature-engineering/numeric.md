@@ -2,9 +2,11 @@
 
 ## Centering and Scaling (Standardization)
 
-Centers predictors to mean zero and scales to unit variance. Essential for models that use distance metrics or dot products.
+Centers predictors to mean zero and scales to unit variance. Essential for
+models that use distance metrics or dot products.
 
-**When to use**: KNN, SVM, neural networks, regularized regression (lasso, ridge, elastic net), PCA.
+**When to use**: KNN, SVM, neural networks, regularized regression (lasso,
+ridge, elastic net), PCA.
 
 **Considerations**:
 
@@ -30,9 +32,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Symmetric Transformations
 
-Transforms skewed predictors to approximate symmetry. Can improve performance for models sensitive to outliers or that assume normality.
+Transforms skewed predictors to approximate symmetry. Can improve performance
+for models sensitive to outliers or that assume normality.
 
-**When to use**: Numeric predictors with heavy skew; particularly helpful for linear models and neural networks.
+**When to use**: Numeric predictors with heavy skew; particularly helpful for
+linear models and neural networks.
 
 **Options**:
 
@@ -67,9 +71,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Natural Splines
 
-Creates basis functions to model nonlinear relationships between a predictor and outcome. Allows linear models to capture curvature.
+Creates basis functions to model nonlinear relationships between a predictor and
+outcome. Allows linear models to capture curvature.
 
-**When to use**: Suspected nonlinear relationship between a numeric predictor and outcome; using a linear model.
+**When to use**: Suspected nonlinear relationship between a numeric predictor
+and outcome; using a linear model.
 
 **Considerations**:
 
@@ -95,9 +101,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Interaction Terms
 
-Creates products of predictors to model joint effects. Use when the effect of one predictor depends on another.
+Creates products of predictors to model joint effects. Use when the effect of
+one predictor depends on another.
 
-**When to use**: Domain knowledge suggests interaction; exploratory analysis shows effect modification.
+**When to use**: Domain knowledge suggests interaction; exploratory analysis
+shows effect modification.
 
 **Considerations**:
 
@@ -125,9 +133,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## Zero-Variance and Near-Zero-Variance Removal
 
-Removes predictors with single unique value (zero variance) or very few unique values relative to sample size.
+Removes predictors with single unique value (zero variance) or very few unique
+values relative to sample size.
 
-**When to use**: Always include zero-variance removal; near-zero-variance is optional but often helpful.
+**When to use**: Always include zero-variance removal; near-zero-variance is
+optional but often helpful.
 
 ### tidymodels
 

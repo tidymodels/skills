@@ -2,9 +2,12 @@
 
 ## Overview
 
-Imputation estimates missing values from observed data. Required for models that cannot handle `NA` values (most models except some tree implementations).
+Imputation estimates missing values from observed data. Required for models that
+cannot handle `NA` values (most models except some tree implementations).
 
-**Key principle**: Imputation must be performed within the resampling process. Compute imputation parameters (means, medians, model coefficients) from training data only.
+**Key principle**: Imputation must be performed within the resampling process.
+Compute imputation parameters (means, medians, model coefficients) from training
+data only.
 
 ## Simple Imputation
 
@@ -12,7 +15,8 @@ Replaces missing values with a single summary statistic.
 
 **Mean/Median imputation**: Fast and simple. Median is more robust to outliers.
 
-**Mode imputation**: For categorical variables, replace with most frequent level.
+**Mode imputation**: For categorical variables, replace with most frequent
+level.
 
 **Considerations**:
 
@@ -47,9 +51,11 @@ recipe(outcome ~ ., data = train) |>
 
 ## K-Nearest Neighbors Imputation
 
-Imputes missing values using the mean (numeric) or mode (categorical) of the K nearest neighbors based on non-missing predictors.
+Imputes missing values using the mean (numeric) or mode (categorical) of the K
+nearest neighbors based on non-missing predictors.
 
-**When to use**: When relationships between predictors matter; missingness may be MAR.
+**When to use**: When relationships between predictors matter; missingness may
+be MAR.
 
 **Considerations**:
 
@@ -70,7 +76,8 @@ recipe(outcome ~ ., data = train) |>
 
 Uses bagged decision trees to predict missing values from other predictors.
 
-**When to use**: When relationships between predictors are complex or nonlinear; can handle mixed predictor types.
+**When to use**: When relationships between predictors are complex or nonlinear;
+can handle mixed predictor types.
 
 **Considerations**:
 
@@ -101,7 +108,8 @@ recipe(outcome ~ ., data = train) |>
 
 ## Missing Value Indicators
 
-Creates binary indicator columns flagging which values were originally missing. Can help if missingness itself is informative.
+Creates binary indicator columns flagging which values were originally missing.
+Can help if missingness itself is informative.
 
 **When to use**: When the pattern of missingness may predict the outcome.
 
