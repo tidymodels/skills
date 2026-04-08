@@ -4,16 +4,21 @@ This directory contains evaluation tests for the `add-recipe-step` skill.
 
 ## Test Coverage
 
-The evaluation set includes 6 test cases covering the three main recipe step patterns, split evenly between extension development (3 tests) and source development (3 tests).
+The evaluation set includes 6 test cases covering the three main recipe step
+patterns, split evenly between extension development (3 tests) and source
+development (3 tests).
 
 ### Extension Development Tests (Evals 1-3)
+
 Creating new packages that extend recipes.
 
 #### Modify-in-Place Steps
 
-1. **Winsorize** (Eval 1): Clinical trial analysis - caps extreme values at percentiles
+1. **Winsorize** (Eval 1): Clinical trial analysis - caps extreme values at
+   percentiles
 
-   - Tests: percentile calculation, case weights, in-place modification, recipes:: prefix usage
+   - Tests: percentile calculation, case weights, in-place modification,
+     recipes:: prefix usage
 
    - Complexity: Moderate
 
@@ -21,9 +26,11 @@ Creating new packages that extend recipes.
 
 #### Create-New-Columns Steps
 
-2. **Binning** (Eval 2): Manufacturing sensor data - discretizes continuous variables into categories
+2. **Binning** (Eval 2): Manufacturing sensor data - discretizes continuous
+   variables into categories
 
-   - Tests: quantile-based binning, keep_original_cols, role assignment, new column naming, recipes:: prefix
+   - Tests: quantile-based binning, keep_original_cols, role assignment, new
+     column naming, recipes:: prefix
 
    - Complexity: Moderate
 
@@ -31,22 +38,27 @@ Creating new packages that extend recipes.
 
 #### Row-Operation Steps
 
-3. **Filter Missing** (Eval 3): Healthcare data cleaning - removes rows with too much missing data
+3. **Filter Missing** (Eval 3): Healthcare data cleaning - removes rows with too
+   much missing data
 
-   - Tests: row filtering, skip parameter, threshold behavior, column selection, recipes:: prefix
+   - Tests: row filtering, skip parameter, threshold behavior, column selection,
+     recipes:: prefix
 
    - Complexity: Simple
 
    - Context: Extension development for 'datacleaning' package
 
 ### Source Development Tests (Evals 4-6)
+
 Contributing directly to the recipes package via PRs.
 
 #### Modify-in-Place Steps
 
-4. **Custom Range Scaling** (Eval 4): Scales to custom min/max ranges (similar to normalize)
+4. **Custom Range Scaling** (Eval 4): Scales to custom min/max ranges (similar
+   to normalize)
 
-   - Tests: linear transformation, weighted statistics, internal function usage (no prefix), PR conventions
+   - Tests: linear transformation, weighted statistics, internal function usage
+     (no prefix), PR conventions
 
    - Complexity: Moderate
 
@@ -54,9 +66,11 @@ Contributing directly to the recipes package via PRs.
 
 #### Create-New-Columns Steps
 
-5. **Flag Outliers** (Eval 5): Creates binary indicators for outliers using IQR method
+5. **Flag Outliers** (Eval 5): Creates binary indicators for outliers using IQR
+   method
 
-   - Tests: IQR method, indicator variables, keep_original_cols, internal helpers, test patterns
+   - Tests: IQR method, indicator variables, keep_original_cols, internal
+     helpers, test patterns
 
    - Complexity: Moderate
 
@@ -66,7 +80,8 @@ Contributing directly to the recipes package via PRs.
 
 6. **Filter Short Text** (Eval 6): Removes rows with short text responses
 
-   - Tests: character counting, skip parameter, text validation, file placement, internal patterns
+   - Tests: character counting, skip parameter, text validation, file placement,
+     internal patterns
 
    - Complexity: Simple
 
@@ -75,6 +90,7 @@ Contributing directly to the recipes package via PRs.
 ## Test Design Principles
 
 ### Realistic User Prompts
+
 Each test uses realistic, detailed prompts that include:
 
 - User context and domain (clinical trials, manufacturing, healthcare, etc.)
@@ -89,19 +105,23 @@ Each test uses realistic, detailed prompts that include:
 
 ### Coverage Strategy
 
-- **Step types**: All three main patterns (modify-in-place, create-new-columns, row-operations)
+- **Step types**: All three main patterns (modify-in-place, create-new-columns,
+  row-operations)
 
 - **Complexity**: Mix of simple to moderate complexity
 
-- **Core features**: Variable selection, case weights, role assignment, keep_original_cols, skip parameter
+- **Core features**: Variable selection, case weights, role assignment,
+  keep_original_cols, skip parameter
 
 - **Development contexts**:
 
   - Extension development (3 tests): Creating new packages with recipes:: prefix
 
-  - Source development (3 tests): Contributing PRs to recipes with internal function access
+  - Source development (3 tests): Contributing PRs to recipes with internal
+    function access
 
 ### Expected Outputs
+
 Each test specifies comprehensive expected output including:
 
 - Complete three-function pattern (constructor, _new, prep/bake methods)
@@ -110,13 +130,16 @@ Each test specifies comprehensive expected output including:
 
 - Proper use of recipes helpers (recipes_eval_select, check_type, etc.)
 
-- **For extension tests (1-3)**: recipes:: prefix throughout, self-contained implementations
+- **For extension tests (1-3)**: recipes:: prefix throughout, self-contained
+  implementations
 
-- **For source tests (4-6)**: Direct use of internal functions (no prefix), package conventions, PR-ready code
+- **For source tests (4-6)**: Direct use of internal functions (no prefix),
+  package conventions, PR-ready code
 
 - Comprehensive tests (extension: own test data; source: internal test helpers)
 
-- Roxygen documentation (extension: self-contained; source: uses @inheritParams and templates)
+- Roxygen documentation (extension: self-contained; source: uses @inheritParams
+  and templates)
 
 ## Running Evaluations
 
@@ -166,7 +189,8 @@ For each test, evaluate:
 
 - [ ] Uses internal test helpers and data
 
-- [ ] Includes PR-relevant considerations (file placement, consistency with existing steps)
+- [ ] Includes PR-relevant considerations (file placement, consistency with
+      existing steps)
 
 **Common to both:**
 
@@ -216,4 +240,5 @@ For each test, evaluate:
 
 - Prompts vary in formality and detail to reflect real user interactions
 
-- The split between contexts tests the skill's ability to detect and adapt to both scenarios
+- The split between contexts tests the skill's ability to detect and adapt to
+  both scenarios

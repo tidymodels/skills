@@ -1,12 +1,14 @@
 # Model Constructor Design
 
-This guide covers how to design and implement model constructor functions for parsnip (like `linear_reg()`, `boost_tree()`).
+This guide covers how to design and implement model constructor functions for
+parsnip (like `linear_reg()`, `boost_tree()`).
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-A model constructor is the user-facing function that creates a model specification object. It defines the API users will interact with.
+A model constructor is the user-facing function that creates a model
+specification object. It defines the API users will interact with.
 
 **Key responsibilities:**
 
@@ -18,7 +20,7 @@ A model constructor is the user-facing function that creates a model specificati
 
 - Validate inputs
 
----
+--------------------------------------------------------------------------------
 
 ## Constructor Function Signature
 
@@ -52,7 +54,8 @@ my_model <- function(mode = "regression",
 
 **Function name:**
 
-- Descriptive of algorithm family: `linear_reg()`, `rand_forest()`, `boost_tree()`
+- Descriptive of algorithm family: `linear_reg()`, `rand_forest()`,
+  `boost_tree()`
 
 - Use snake_case
 
@@ -66,7 +69,7 @@ my_model <- function(mode = "regression",
 
 - `engine` - Computational backend (with sensible default)
 
----
+--------------------------------------------------------------------------------
 
 ## Mode Parameter
 
@@ -131,7 +134,7 @@ boost_tree <- function(mode = "unknown",
 
 **Use `"unknown"` as default** - Forces users to be explicit.
 
----
+--------------------------------------------------------------------------------
 
 ## Main Arguments
 
@@ -204,6 +207,7 @@ args <- list(
 ### Setting Defaults
 
 **NULL defaults are recommended:**
+
 ```r
 linear_reg <- function(penalty = NULL, mixture = NULL, ...)
 ```
@@ -222,7 +226,7 @@ linear_reg <- function(penalty = NULL, mixture = NULL, ...)
 
 - When NULL would be ambiguous
 
----
+--------------------------------------------------------------------------------
 
 ## Engine Parameter
 
@@ -239,6 +243,7 @@ Pick a default engine based on:
 - Simplicity (fewer dependencies better)
 
 **Examples:**
+
 ```r
 linear_reg(engine = "lm")      # base R, always available
 boost_tree(engine = "xgboost")  # Popular, well-maintained
@@ -265,7 +270,7 @@ new_model_spec(
 
 - Package loading
 
----
+--------------------------------------------------------------------------------
 
 ## Using new_model_spec()
 
@@ -344,7 +349,7 @@ new_model_spec(
 
 - Use `!missing(engine)` to detect
 
----
+--------------------------------------------------------------------------------
 
 ## Return Value
 
@@ -386,7 +391,7 @@ str(spec)
 #>  - attr(*, "class")= chr [1:2] "linear_reg" "model_spec"
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Input Validation
 
@@ -413,6 +418,7 @@ str(spec)
 ### Validation Examples
 
 **Check mode validity:**
+
 ```r
 my_model <- function(mode = "unknown", ...) {
   if (!mode %in% c("unknown", "regression", "classification")) {
@@ -426,6 +432,7 @@ my_model <- function(mode = "unknown", ...) {
 ```
 
 **Check argument types:**
+
 ```r
 linear_reg <- function(penalty = NULL, ...) {
   if (!is.null(penalty) && !is.numeric(penalty)) {
@@ -436,10 +443,10 @@ linear_reg <- function(penalty = NULL, ...) {
 }
 ```
 
-**For tidymodels style, check at registration time instead:**
-Most validation happens during registration and fitting, not in constructor.
+**For tidymodels style, check at registration time instead:** Most validation
+happens during registration and fitting, not in constructor.
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation
 
@@ -515,7 +522,7 @@ linear_reg <- function(mode = "regression",
 
 **Seealso:** Link to related functions
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -542,6 +549,7 @@ my_model <- function(mode = "regression", penalty = NULL, ...) {
 ```
 
 **Register in .onLoad():**
+
 ```r
 .onLoad <- function(libname, pkgname) {
   parsnip::set_new_model("my_model")
@@ -576,7 +584,7 @@ my_model <- function(mode = "regression", penalty = NULL, ...) {
 # R/my_model_data.R contains registration
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -673,7 +681,7 @@ my_model <- function(mode = "unknown",
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Constructors
 
@@ -716,7 +724,7 @@ test_that("mode validation works", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -731,4 +739,5 @@ test_that("mode validation works", {
 7. **Good documentation** - Explain engines, arguments, examples
 8. **Return model_spec** - With correct class hierarchy
 
-**The constructor is the user's first interaction with your model - make it intuitive and well-documented.**
+**The constructor is the user's first interaction with your model - make it
+intuitive and well-documented.**

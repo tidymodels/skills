@@ -2,7 +2,10 @@
 
 This template is for steps that create new columns from existing ones.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, use internal helpers directly: `recipes_eval_select()`, `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, use internal helpers directly: `recipes_eval_select()`,
+> `remove_original_cols()`, `check_name()`, etc. No `recipes::` prefix needed.
+> See the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -34,15 +37,16 @@ Create-new-columns steps:
 
 ## Key Differences from Modify-in-Place
 
-1. **`role` default is `"predictor"`** (not `NA`)
+1. **`role`default is `"predictor"`** (not `NA`)
 2. **Includes `keep_original_cols` parameter**
 3. **Calls `remove_original_cols()` in `bake()`**
 4. **May need to implement `.recipes_estimate_sparsity()`** for sparse support
-5. **`tidy()` returns column names created**, not just input columns
+5. **`tidy()`returns column names created**, not just input columns
 
 ## Complete Template
 
-This template follows the same pattern as `R/dummy.R` and `R/interact.R` in the recipes repository.
+This template follows the same pattern as `R/dummy.R` and `R/interact.R` in the
+recipes repository.
 
 ```r
 #' Title for your step that creates new columns
@@ -272,7 +276,8 @@ tidy.step_yournewcols <- function(x, ...) {
 
 ## Case Weights
 
-**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation type.
+**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation
+type.
 
 ### Include Case Weights IF Step Computes Statistics:
 
@@ -326,7 +331,8 @@ tidy.step_yournewcols <- function(x, ...) {
 
 Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
 
-- **YES** → Include case weights (add parameters, implement weighted calculations, add tests)
+- **YES** → Include case weights (add parameters, implement weighted
+  calculations, add tests)
 
 - **NO** → Skip case weights entirely
 
@@ -348,9 +354,11 @@ Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
 
 - **Consider providing a `naming` parameter** for custom naming functions
 
-- **Validate that new names don't conflict** with existing columns using `recipes::check_name()`
+- **Validate that new names don't conflict** with existing columns using
+  `recipes::check_name()`
 
 Example naming pattern:
+
 ```r
 # For dummy variables
 new_col_names <- paste0(original_col, "_", levels)
@@ -364,13 +372,15 @@ new_col_names <- paste(col1, col2, sep = "_x_")
 
 ### Sparsity support
 
-- **If your step creates sparse columns** (like dummy variables), implement `.recipes_estimate_sparsity()`
+- **If your step creates sparse columns** (like dummy variables), implement
+  `.recipes_estimate_sparsity()`
 
 - **This allows workflows to optimize sparse data handling**
 
 - **Return a list** with `n_cols` (integer) and `sparsity` (numeric 0-1)
 
 Example:
+
 ```r
 .recipes_estimate_sparsity.step_dummy <- function(x, data, ...) {
   col_names <- recipes_eval_select(x$terms, data, get_recipe_info(data))
@@ -459,7 +469,9 @@ bake:
 
 ## Testing
 
-See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See
+[package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+for comprehensive testing guide.
 
 ### Key tests for create-new-columns steps
 
@@ -520,6 +532,8 @@ test_that("tidy returns correct information", {
 
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 
-- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your step:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

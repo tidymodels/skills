@@ -1,8 +1,13 @@
 # Combining Metrics with metric_set()
 
-`metric_set()` allows you to combine multiple yardstick metrics into a single function that calculates all of them at once. This is more efficient than calling metrics individually and integrates seamlessly with tidymodels workflows.
+`metric_set()` allows you to combine multiple yardstick metrics into a single
+function that calculates all of them at once. This is more efficient than
+calling metrics individually and integrates seamlessly with tidymodels
+workflows.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, see how `metric_set()` validates and combines metrics internally. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, see how `metric_set()` validates and combines metrics
+> internally. See the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -28,7 +33,8 @@
 
 **Implementation:**
 
-- Metric set creation: `R/metric_set.R` (implements `metric_set()` and validation)
+- Metric set creation: `R/metric_set.R` (implements `metric_set()` and
+  validation)
 
 - Compatibility checking: Validates metric types can be combined
 
@@ -75,16 +81,19 @@ Metrics in a set must be compatible. You can mix:
 ### ✓ Valid Combinations
 
 **1. All numeric metrics:**
+
 ```r
 numeric_metrics <- metric_set(rmse, mae, rsq, huber_loss)
 ```
 
 **2. Mix of class and class probability metrics:**
+
 ```r
 class_metrics <- metric_set(accuracy, precision, recall, roc_auc, pr_auc)
 ```
 
 **3. Mix of survival metrics (any combination):**
+
 ```r
 surv_metrics <- metric_set(
   concordance_survival,       # Static
@@ -96,6 +105,7 @@ surv_metrics <- metric_set(
 ### ✗ Invalid Combinations
 
 **Cannot mix metric types:**
+
 ```r
 # ERROR: Cannot mix numeric and classification
 metric_set(rmse, accuracy)
@@ -171,7 +181,8 @@ surv_metrics(
 
 ## Important: Named `estimate` Argument
 
-⚠️ **For class/probability and survival metric sets, you MUST name the `estimate` argument.**
+⚠️ **For class/probability and survival metric sets, you MUST name the
+`estimate` argument.**
 
 ```r
 class_metrics <- metric_set(accuracy, roc_auc)
@@ -184,7 +195,8 @@ class_metrics(data, truth = obs, pred)
 # Error: Can't find estimate column
 ```
 
-**Why?** The `estimate` argument comes after `...` in the signature, so unnamed arguments get captured by `...`.
+**Why?** The `estimate` argument comes after `...` in the signature, so unnamed
+arguments get captured by `...`.
 
 ## Working with Groups
 
@@ -209,7 +221,8 @@ hpc_cv |>
 
 ## Using metric_tweak() with metric_set()
 
-Use `metric_tweak()` to set custom defaults for metrics before adding them to a set:
+Use `metric_tweak()` to set custom defaults for metrics before adding them to a
+set:
 
 ```r
 # Create tweaked version with custom parameter
@@ -229,7 +242,8 @@ my_metrics(data, truth = obs, estimate = pred)
 # Both f_meas and f2_meas calculated with different beta values
 ```
 
-**Why this matters:** Once metrics are in a set, you can't change their parameters. Tweak them first.
+**Why this matters:** Once metrics are in a set, you can't change their
+parameters. Tweak them first.
 
 ## Complete Examples
 
@@ -370,7 +384,8 @@ fairness_metrics(data, truth = obs, estimate = pred)
 
 ## Creating Custom Metrics for metric_set()
 
-To use your custom metric in a set, wrap it with the appropriate `new_*_metric()`:
+To use your custom metric in a set, wrap it with the appropriate
+`new_*_metric()`:
 
 ```r
 # Define your metric function
@@ -395,10 +410,9 @@ my_custom_metric <- new_numeric_metric(
 my_metrics <- metric_set(rmse, mae, my_custom_metric)
 ```
 
-**Key requirements:**
-1. Must be wrapped with `new_*_metric()`
-2. Must follow standard yardstick signature patterns
-3. Must return standard yardstick output format
+**Key requirements:** 1. Must be wrapped with `new_*_metric()` 2. Must follow
+standard yardstick signature patterns 3. Must return standard yardstick output
+format
 
 ## Using with tune Package
 
@@ -515,6 +529,7 @@ class_metrics(data, truth, pred)
 ```
 
 **Solution:** Name the estimate argument:
+
 ```r
 class_metrics(data, truth, estimate = pred)
 ```
@@ -527,6 +542,7 @@ metric_set(rmse, my_metric)  # Error
 ```
 
 **Solution:** Wrap custom metrics:
+
 ```r
 my_metric <- new_numeric_metric(my_metric, direction = "minimize")
 metric_set(rmse, my_metric)  # Works
@@ -534,12 +550,15 @@ metric_set(rmse, my_metric)  # Works
 
 ## Best Practices
 
-1. **Define once, use everywhere**: Create metric sets at the top of your analysis
-2. **Name your sets**: Use descriptive names like `classification_metrics`, not `metrics`
+1. **Define once, use everywhere**: Create metric sets at the top of your
+   analysis
+2. **Name your sets**: Use descriptive names like `classification_metrics`, not
+   `metrics`
 3. **Use with groups**: Leverage group-aware behavior for cross-validation
 4. **Tweak before combining**: Set custom parameters with `metric_tweak()` first
 5. **Keep compatible types**: Don't mix numeric, class, and survival metrics
-6. **Named estimate**: Always name the `estimate` argument for class/survival metrics
+6. **Named estimate**: Always name the `estimate` argument for class/survival
+   metrics
 7. **Integration**: Use with tune package for consistent tuning metrics
 
 ## Common Metric Sets
@@ -584,6 +603,7 @@ fairness_set <- metric_set(
 
 - [Groupwise Metrics](groupwise-metrics.md) - Creating disparity metrics
 
-- [metric_tweak()](metric-system.md#using-metric_tweak-for-variations) - Customizing metric parameters
+- [metric_tweak()](metric-system.md#using-metric_tweak-for-variations) -
+  Customizing metric parameters
 
 - `?metric_set` - Full documentation

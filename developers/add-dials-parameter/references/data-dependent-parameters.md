@@ -2,21 +2,28 @@
 
 **Creating parameters with unknown bounds resolved by training data**
 
-This guide covers how to create parameters whose ranges depend on dataset characteristics using `unknown()` and the finalization system.
+This guide covers how to create parameters whose ranges depend on dataset
+characteristics using `unknown()` and the finalization system.
 
-> **Note for Source Development:** If contributing to dials, you can use internal finalization functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal finalization functions. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Data-dependent parameters have ranges that cannot be determined until the training dataset is available. They use `unknown()` placeholders and finalization functions to resolve bounds based on data characteristics.
+Data-dependent parameters have ranges that cannot be determined until the
+training dataset is available. They use `unknown()` placeholders and
+finalization functions to resolve bounds based on data characteristics.
 
 **Reference implementations in dials:**
 
-- Predictor-dependent: `R/param_mtry.R` (uses `get_p` for number of predictors), `R/param_num_comp.R` (PCA components)
+- Predictor-dependent: `R/param_mtry.R` (uses `get_p` for number of predictors),
+  `R/param_num_comp.R` (PCA components)
 
-- Observation-dependent: `R/param_sample_size.R` (uses `get_n` for number of observations), `R/param_min_n.R` (minimum node size)
+- Observation-dependent: `R/param_sample_size.R` (uses `get_n` for number of
+  observations), `R/param_min_n.R` (minimum node size)
 
 - Term-dependent: `R/param_num_terms.R` (uses `get_p` for model terms)
 
@@ -34,17 +41,19 @@ Data-dependent parameters have ranges that cannot be determined until the traini
 
 **Test patterns:**
 
-- Finalization tests: `tests/testthat/test-param_mtry.R` (demonstrates `finalize()` usage)
+- Finalization tests: `tests/testthat/test-param_mtry.R` (demonstrates
+  `finalize()` usage)
 
 - Unknown handling: `tests/testthat/test-unknown.R` (placeholder behavior)
 
----
+--------------------------------------------------------------------------------
 
 ## Understanding unknown()
 
 ### The Placeholder
 
-`unknown()` is a special placeholder for parameter bounds that cannot be determined until you see the data:
+`unknown()` is a special placeholder for parameter bounds that cannot be
+determined until you see the data:
 
 ```r
 # Extension pattern
@@ -87,7 +96,7 @@ range = c(unknown(), 100L)      # Rare: upper fixed, lower unknown
 range = c(unknown(), unknown()) # Very rare: both bounds unknown
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## When Parameters Need Data-Dependent Ranges
 
@@ -171,7 +180,7 @@ num_initial_terms <- function(range = c(1L, dials::unknown())) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## The Finalization System
 
@@ -221,7 +230,7 @@ finalize_function <- function(object, x) {
 
 - Returns modified parameter object
 
----
+--------------------------------------------------------------------------------
 
 ## Built-in Finalize Functions
 
@@ -335,11 +344,12 @@ finalized
 
 **Use for**: Parameters that scale logarithmically with predictors
 
----
+--------------------------------------------------------------------------------
 
 ## Creating Custom Finalize Functions
 
-For complex logic, create custom finalize functions using `range_get()` and `range_set()`.
+For complex logic, create custom finalize functions using `range_get()` and
+`range_set()`.
 
 ### Pattern
 
@@ -444,33 +454,41 @@ get_num_genes <- function(object, x) {
 
 1. **range_get() returns a list**: It has `$lower` and `$upper` components
 2. **Modify the list**: Update `bounds$upper` or `bounds$lower` as needed
-3. **range_set() returns parameter**: It doesn't modify in-place, it returns a new parameter
-4. **Type matters**: Convert to integer for integer parameters, double for double parameters
-5. **Validation**: Always ensure bounds are sensible (lower < upper, at least 1, etc.)
+3. **range_set() returns parameter**: It doesn't modify in-place, it returns a
+   new parameter
+4. **Type matters**: Convert to integer for integer parameters, double for
+   double parameters
+5. **Validation**: Always ensure bounds are sensible (lower < upper, at least 1,
+   etc.)
 
 ### Common Patterns for Custom Finalize
 
 **Pattern 1: Percentage of predictors**
+
 ```r
 upper_bound <- floor(0.8 * ncol(x))  # 80% of features
 ```
 
 **Pattern 2: Percentage of observations**
+
 ```r
 upper_bound <- floor(0.5 * nrow(x))  # 50% of samples
 ```
 
 **Pattern 3: Minimum of both dimensions** (for matrix factorization)
+
 ```r
 upper_bound <- min(nrow(x), ncol(x)) - 1  # Rank constraint
 ```
 
 **Pattern 4: Complex formula** (earth package style)
+
 ```r
 upper_bound <- min(200, max(20, 2 * ncol(x))) + 1
 ```
 
 **Pattern 5: Both bounds** (adaptive neighbors)
+
 ```r
 bounds$lower <- max(3L, floor(0.01 * nrow(x)))
 bounds$upper <- min(50L, floor(0.10 * nrow(x)))
@@ -498,7 +516,7 @@ Before completing a custom finalize function, verify:
 
 - [ ] Tests with sample data of different sizes
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -702,7 +720,7 @@ finalized_large
 #> Range: [10, 50]  # floor(0.01*1000)=10 to min(50, floor(0.10*1000))=50
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## How Finalization Works in tune Workflows
 
@@ -769,7 +787,7 @@ params_finalized
 grid <- dials::grid_regular(params_finalized, levels = 5)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -831,7 +849,7 @@ custom_finalize <- function(object, x) {
 finalize(param, data)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Data-Dependent Parameters
 
@@ -904,31 +922,35 @@ test_that("my_param handles single column", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
-1. **Use built-in finalize functions when possible**: `get_p()`, `get_n()` cover most cases
+1. **Use built-in finalize functions when possible**: `get_p()`, `get_n()` cover
+   most cases
 
-2. **Document finalization logic**: Explain in `@details` how bounds are determined
+2. **Document finalization logic**: Explain in `@details` how bounds are
+   determined
 
 3. **Handle edge cases**: Single column, single row, empty data
 
 4. **Ensure lower < upper**: Always check bounds are valid after finalization
 
-5. **Use integer types appropriately**: Cast to integer with `as.integer()` for integer parameters
+5. **Use integer types appropriately**: Cast to integer with `as.integer()` for
+   integer parameters
 
 6. **Test with various data sizes**: Small, medium, and large datasets
 
 7. **Consider reasonable bounds**: Avoid extreme values that don't make sense
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### Learn More
 
-- **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+- **Quantitative parameters**: [Quantitative Parameters
+  Guide](quantitative-parameters.md)
 
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
@@ -940,6 +962,6 @@ test_that("my_param handles single column", {
 
 - **Source development**: [Source Development Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

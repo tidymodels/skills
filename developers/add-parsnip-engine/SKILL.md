@@ -1,23 +1,29 @@
 ---
 name: add-parsnip-engine
-description: Add new computational engines to existing parsnip models. Use when connecting an existing parsnip model (linear_reg, boost_tree, etc.) to a new computational backend or R package.
+description: Add new computational engines to existing parsnip models. Use when
+  connecting an existing parsnip model (linear_reg, boost_tree, etc.) to a new
+  computational backend or R package.
 ---
 
 # Add Parsnip Engine
 
-Guide for adding new engines to existing parsnip models. This skill covers registering engines (like adding "spark" to `linear_reg()`) without creating entirely new model types.
+Guide for adding new engines to existing parsnip models. This skill covers
+registering engines (like adding "spark" to `linear_reg()`) without creating
+entirely new model types.
 
 **Use this skill when:** Adding a new engine to an existing parsnip model type.
 
-**For creating new models:** See [add-parsnip-model](../add-parsnip-model/SKILL.md) skill instead.
+**For creating new models:** See
+[add-parsnip-model](../add-parsnip-model/SKILL.md) skill instead.
 
----
+--------------------------------------------------------------------------------
 
 ## Two Development Contexts
 
 This skill supports **two distinct development contexts**:
 
 ### 🆕 Extension Development (Default)
+
 **Creating a new R package** that adds engines to existing parsnip models.
 
 - ✅ Use this for: New packages, standalone engines, CRAN submissions
@@ -29,6 +35,7 @@ This skill supports **two distinct development contexts**:
 - 📖 **Guide**: [Extension Development Guide](references/extension-guide.md)
 
 ### 🔧 Source Development (Advanced)
+
 **Contributing directly to parsnip** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/parsnip repository
@@ -39,13 +46,16 @@ This skill supports **two distinct development contexts**:
 
 - 📖 **Guide**: [Source Development Guide](references/source-guide.md)
 
-**This main guide shows extension development patterns.** If you're contributing to parsnip itself, see the [Source Development Guide](references/source-guide.md) for package-specific details.
+**This main guide shows extension development patterns.** If you're contributing
+to parsnip itself, see the [Source Development
+Guide](references/source-guide.md) for package-specific details.
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Started
 
-**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the
+development context:
 
 ```bash
 Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/verify-setup.R"))[1])'
@@ -53,16 +63,17 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 
 **Then follow the appropriate path based on the output:**
 
-- **Output: "All checks for source development complete."**
-  → Go to [Source Development Guide](references/source-guide.md)
+- **Output: "All checks for source development complete."** → Go to [Source
+  Development Guide](references/source-guide.md)
 
-- **Output: "All checks for extension development complete." (no warnings)**
-  → Go to [Extension Development Guide](references/extension-guide.md)
+- **Output: "All checks for extension development complete." (no warnings)** →
+  Go to [Extension Development Guide](references/extension-guide.md)
 
-- **Output: Shows "Warning - [UUID]" messages**
-  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
+- **Output: Shows "Warning - [UUID]" messages** → Go to [Extension
+  Prerequisites](references/package-extension-prerequisites.md) to resolve
+  warnings first
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
@@ -90,19 +101,22 @@ Adding an engine to an existing parsnip model provides:
 
 - Multi-mode support (regression + classification)
 
----
+--------------------------------------------------------------------------------
 
 ## Repository Access (Optional but Recommended)
 
-**INSTRUCTIONS FOR CLAUDE:** Check if `repos/parsnip/` exists in the current working directory. Use this to guide development:
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/parsnip/` exists in the current
+working directory. Use this to guide development:
 
 **If `repos/parsnip/` exists:**
 
 - ✅ Use it as a reference throughout development
 
-- Read source files (e.g., `repos/parsnip/R/linear_reg_data.R`) to study engine registration patterns
+- Read source files (e.g., `repos/parsnip/R/linear_reg_data.R`) to study engine
+  registration patterns
 
-- Read test files (e.g., `repos/parsnip/tests/testthat/test-linear_reg.R`) for testing patterns
+- Read test files (e.g., `repos/parsnip/tests/testthat/test-linear_reg.R`) for
+  testing patterns
 
 - Reference these files when answering complex questions or solving problems
 
@@ -110,7 +124,8 @@ Adding an engine to an existing parsnip model provides:
 
 **If `repos/parsnip/` does NOT exist:**
 
-- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- Suggest cloning the repository using the scripts in [Repository Access
+  Guide](references/package-repository-access.md)
 
 - This is **optional but strongly recommended** for high-quality development
 
@@ -124,7 +139,8 @@ Adding an engine to an existing parsnip model provides:
 
 **When to use repository references:**
 
-- Complex implementation questions (e.g., "How does parsnip handle multi-mode engines?")
+- Complex implementation questions (e.g., "How does parsnip handle multi-mode
+  engines?")
 
 - Debugging issues (compare user's code to working implementation)
 
@@ -134,45 +150,58 @@ Adding an engine to an existing parsnip model provides:
 
 - Architecture decisions (understand internal structure)
 
-See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+See [Repository Access Guide](references/package-repository-access.md) for setup
+instructions.
 
----
+--------------------------------------------------------------------------------
 
 ## Quick Navigation
 
 **Development Guides:**
 
-- [Extension Development Guide](references/extension-guide.md) - Creating new packages that add engines
+- [Extension Development Guide](references/extension-guide.md) - Creating new
+  packages that add engines
 
-- [Source Development Guide](references/source-guide.md) - Contributing PRs to parsnip itself
+- [Source Development Guide](references/source-guide.md) - Contributing PRs to
+  parsnip itself
 
 **Core Implementation References:**
 
-- [Engine Implementation](references/engine-implementation.md) - Complete registration sequence, examples, patterns
+- [Engine Implementation](references/engine-implementation.md) - Complete
+  registration sequence, examples, patterns
 
-- [Fit and Predict Methods](references/fit-predict-methods.md) - Implementation details for fit/predict
+- [Fit and Predict Methods](references/fit-predict-methods.md) - Implementation
+  details for fit/predict
 
 - [Prediction Types](references/prediction-types.md) - All 11 prediction types
 
-- [Mode Handling](references/mode-handling.md) - Multi-mode support (regression + classification)
+- [Mode Handling](references/mode-handling.md) - Multi-mode support (regression
+  + classification)
 
-- [Encoding Options](references/encoding-options.md) - Interface types and data conversion
+- [Encoding Options](references/encoding-options.md) - Interface types and data
+  conversion
 
 **Model-Specific Guides:**
 
-- [Model Specification System](references/model-specification-system.md) - How parsnip models work
+- [Model Specification System](references/model-specification-system.md) - How
+  parsnip models work
 
 **Shared References (Extension Development):**
 
-- [Extension Prerequisites](references/package-extension-prerequisites.md) - Package setup
+- [Extension Prerequisites](references/package-extension-prerequisites.md) -
+  Package setup
 
-- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+- [Development Workflow](references/package-development-workflow.md) - Fast
+  iteration cycle
 
-- [Extension Requirements](references/package-extension-requirements.md) - Complete guide:
+- [Extension Requirements](references/package-extension-requirements.md) -
+  Complete guide:
 
-  - [Best Practices](references/package-extension-requirements.md#best-practices)
+  - [Best
+    Practices](references/package-extension-requirements.md#best-practices)
 
-  - [Testing Patterns](references/package-extension-requirements.md#testing-requirements)
+  - [Testing
+    Patterns](references/package-extension-requirements.md#testing-requirements)
 
   - [Troubleshooting](references/package-extension-requirements.md#common-issues-solutions)
 
@@ -188,15 +217,19 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 
 - [Troubleshooting (Source)](references/troubleshooting-source.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
-**⚠️ IMPORTANT**: Before implementing engines, complete the extension prerequisites sequence:
+**⚠️ IMPORTANT**: Before implementing engines, complete the extension
+prerequisites sequence:
 
-👉 **[Extension Prerequisites Guide](references/package-extension-prerequisites.md)**
+👉 **[Extension Prerequisites
+Guide](references/package-extension-prerequisites.md)**
 
-This guide includes critical steps like `use_claude_code()` (if available) that must run BEFORE adding dependencies. Following the complete sequence ensures proper package initialization and Claude Code integration.
+This guide includes critical steps like `use_claude_code()` (if available) that
+must run BEFORE adding dependencies. Following the complete sequence ensures
+proper package initialization and Claude Code integration.
 
 After completing extension prerequisites, return here to implement your engine.
 
@@ -204,13 +237,15 @@ After completing extension prerequisites, return here to implement your engine.
 
 Before adding an engine, understand:
 
-- How parsnip models work - [Model Specification System](references/model-specification-system.md)
+- How parsnip models work - [Model Specification
+  System](references/model-specification-system.md)
 
-- Fit and predict patterns - [Fit and Predict Methods](references/fit-predict-methods.md)
+- Fit and predict patterns - [Fit and Predict
+  Methods](references/fit-predict-methods.md)
 
 - Available output formats - [Prediction Types](references/prediction-types.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Implementation Overview
 
@@ -228,11 +263,13 @@ Before adding an engine, understand:
 
 **→ Use streamlined approach:**
 
-- Target 2 files: R/zzz.R (15-30 lines), tests/testthat/test-*.R; acceptable to reach 4-6 if needed
+- Target 2 files: R/zzz.R (15-30 lines), tests/testthat/test-\*.R; acceptable to
+  reach 4-6 if needed
 
 - NO summary docs, NO example files
 
-- See [Extension Guide, Simple Single-Mode](references/extension-guide.md#simple-single-mode-2-files-rzzzr-teststest-r)
+- See [Extension Guide, Simple
+  Single-Mode](references/extension-guide.md#simple-single-mode-2-files-rzzzr-teststest-r)
 
 ### Complex Engine?
 
@@ -250,9 +287,10 @@ Before adding an engine, understand:
 
 - See [Encoding Options](references/encoding-options.md) for matrix interfaces
 
-- Still target 2-3 files (R/zzz.R, tests, optional README); acceptable to reach 4-6 if implementation requires it
+- Still target 2-3 files (R/zzz.R, tests, optional README); acceptable to reach
+  4-6 if implementation requires it
 
----
+--------------------------------------------------------------------------------
 
 **Core registration steps:**
 
@@ -267,15 +305,19 @@ Before adding an engine, understand:
 
 **File Discipline:**
 
-- Extension: Create **2-3 files** (R/zzz.R, tests/testthat/test-*.R, optional README.md); acceptable to reach 4-6 files if implementation requires it
+- Extension: Create **2-3 files** (R/zzz.R, tests/testthat/test-\*.R, optional
+  README.md); acceptable to reach 4-6 files if implementation requires it
 
-- Source: Modify **1-2 files** (add to R/*_data.R, add to tests/testthat/test-*.R); acceptable to reach 3-7 files if implementation requires it
+- Source: Modify **1-2 files** (add to R/*\_data.R, add to
+  tests/testthat/test-*.R); acceptable to reach 3-7 files if implementation
+  requires it
 
 - **Never create**: IMPLEMENTATION_SUMMARY.md, example_usage.R, helper files
 
-**See [Engine Implementation Guide](references/engine-implementation.md) for complete details and examples.**
+**See [Engine Implementation Guide](references/engine-implementation.md) for
+complete details and examples.**
 
----
+--------------------------------------------------------------------------------
 
 ## Registration Process
 
@@ -303,7 +345,7 @@ The registration process differs slightly by context:
 
 See respective guides for detailed registration patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Your Engine
 
@@ -323,11 +365,12 @@ See respective guides for detailed registration patterns.
 
 **See testing guides:**
 
-- Extension: [Testing Patterns (Extension)](references/package-extension-requirements.md#testing-requirements)
+- Extension: [Testing Patterns
+  (Extension)](references/package-extension-requirements.md#testing-requirements)
 
 - Source: [Testing Patterns (Source)](references/testing-patterns-source.md)
 
----
+--------------------------------------------------------------------------------
 
 ## When to Add an Engine
 
@@ -351,28 +394,35 @@ See respective guides for detailed registration patterns.
 
 - Only cosmetic differences from existing engines
 
----
+--------------------------------------------------------------------------------
 
 ## Related Skills
 
-- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Create new model specifications (if model doesn't exist yet)
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Create new model
+  specifications (if model doesn't exist yet)
 
-- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Define tunable parameters for engine arguments
+- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Define tunable
+  parameters for engine arguments
 
-- [add-recipe-step](../add-recipe-step/SKILL.md) - Preprocess data before model fitting
+- [add-recipe-step](../add-recipe-step/SKILL.md) - Preprocess data before model
+  fitting
 
-- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Evaluate engine predictions with custom metrics
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Evaluate engine
+  predictions with custom metrics
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 **For Extension Development (creating new packages):**
 
-1. Complete [Extension Prerequisites](references/package-extension-prerequisites.md)
+1. Complete [Extension
+   Prerequisites](references/package-extension-prerequisites.md)
 2. Follow [Extension Development Guide](references/extension-guide.md)
-3. Implement engine using [Engine Implementation Guide](references/engine-implementation.md)
-4. Test thoroughly using [Testing Patterns](references/package-extension-requirements.md#testing-requirements)
+3. Implement engine using [Engine Implementation
+   Guide](references/engine-implementation.md)
+4. Test thoroughly using [Testing
+   Patterns](references/package-extension-requirements.md#testing-requirements)
 5. Consider contributing to parsnip
 
 **For Source Development (contributing to parsnip):**
@@ -380,10 +430,11 @@ See respective guides for detailed registration patterns.
 1. Clone tidymodels/parsnip repository
 2. Follow [Source Development Guide](references/source-guide.md)
 3. Implement engine in appropriate `R/[model]_data.R` file
-4. Add comprehensive tests using [Testing Patterns (Source)](references/testing-patterns-source.md)
+4. Add comprehensive tests using [Testing Patterns
+   (Source)](references/testing-patterns-source.md)
 5. Update NEWS.md and submit PR
 
----
+--------------------------------------------------------------------------------
 
 For questions or contributions, see:
 

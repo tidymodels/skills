@@ -1,8 +1,9 @@
 # Source Guide: Contributing New Models to Parsnip
 
-Guide for contributing new model specifications directly to the tidymodels/parsnip package (source development).
+Guide for contributing new model specifications directly to the
+tidymodels/parsnip package (source development).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -16,11 +17,13 @@ Use this guide when:
 
 **Don't use this guide for:**
 
-- Creating models in your own package → See [extension-guide.md](extension-guide.md)
+- Creating models in your own package → See
+  [extension-guide.md](extension-guide.md)
 
-- Adding engines to existing models → See [../../add-parsnip-engine](../../add-parsnip-engine/SKILL.md)
+- Adding engines to existing models → See
+  [../../add-parsnip-engine](../../add-parsnip-engine/SKILL.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
@@ -42,7 +45,7 @@ Before starting:
 
 - Git/GitHub workflow for PRs
 
----
+--------------------------------------------------------------------------------
 
 ## Key Advantages of Source Development
 
@@ -64,7 +67,7 @@ Before starting:
 
 - Respond to issues/PRs related to your model
 
----
+--------------------------------------------------------------------------------
 
 ## Repository Structure
 
@@ -84,7 +87,7 @@ parsnip/
 └── man/                         # Documentation
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -575,7 +578,7 @@ Then create PR on GitHub with description of:
 
 - Testing done
 
----
+--------------------------------------------------------------------------------
 
 ## Using Internal Functions
 
@@ -606,7 +609,7 @@ model_printer()
 
 - Aware they may change in future versions
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Patterns
 
@@ -631,7 +634,7 @@ model_printer()
 #' my_model() |> fit(mpg ~ ., data = mtcars)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Patterns
 
@@ -664,7 +667,7 @@ test_that("works with test data", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Code Style
 
@@ -687,7 +690,7 @@ set_fit(
 #' @param mode Description
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## PR Checklist
 
@@ -715,7 +718,7 @@ Before submitting:
 
 - [ ] Git history is clean
 
----
+--------------------------------------------------------------------------------
 
 ## Maintenance
 
@@ -745,7 +748,7 @@ After PR is merged:
 
 - Suggest improvements
 
----
+--------------------------------------------------------------------------------
 
 ## Common Review Comments
 
@@ -775,13 +778,13 @@ After PR is merged:
 
 **Style:**
 
-- Use base pipe |>
+- Use base pipe \|>
 
 - Fix indentation
 
 - Remove commented code
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 
@@ -802,4 +805,3 @@ After PR is merged:
 **Testing:**
 
 - [Testing Patterns (Source)](testing-patterns-source.md) - Source testing guide
-

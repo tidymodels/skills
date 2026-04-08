@@ -1,21 +1,21 @@
 # Extension Development Guide: Yardstick Metrics
 
-Complete guide for creating new packages that extend yardstick with custom metrics.
+Complete guide for creating new packages that extend yardstick with custom
+metrics.
 
----
-
+--------------------------------------------------------------------------------
 
 ## PREREQUISITES
 
-**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
+**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE
+LETTER**
 
-👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
-
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites
+Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 **CLAUDE: DO NOT PROCEED WITHOUT GOING THROUGH THE R PACKAGE SETUP GUIDE.**
 
----
-
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -31,27 +31,29 @@ Complete guide for creating new packages that extend yardstick with custom metri
 
 ❌ **Don't use this guide if you are:**
 
-- Contributing a PR directly to the yardstick package → Use [Source Development Guide](source-guide.md)
+- Contributing a PR directly to the yardstick package → Use [Source Development
+  Guide](source-guide.md)
 
-- Working inside the yardstick repository → Use [Source Development Guide](source-guide.md)
+- Working inside the yardstick repository → Use [Source Development
+  Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
 ### Package Setup Required
 
-**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the extension prerequisites:
+**⚠️ IMPORTANT**: Before implementing yardstick metrics, you MUST complete the
+extension prerequisites:
 
-👉 **[Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
+👉 **[Extension Prerequisites Guide](package-extension-prerequisites.md)**
+(REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
 **After setup verification passes, return here to implement your metric.**
 
----
-
-
+--------------------------------------------------------------------------------
 
 ## Key Constraints for Extension Development
 
@@ -85,7 +87,8 @@ if (is.null(case_weights)) {
 
 ### ✅ Only Use Exported Functions (with yardstick:: prefix)
 
-**CRITICAL:** Extension packages MUST explicitly namespace all yardstick functions with `yardstick::`:
+**CRITICAL:** Extension packages MUST explicitly namespace all yardstick
+functions with `yardstick::`:
 
 ```r
 # ✅ CORRECT - Always use yardstick:: prefix
@@ -111,7 +114,9 @@ mae.data.frame <- function(data, truth, estimate, ...) {
 }
 ```
 
-**Why:** Without explicit namespacing, your package will fail R CMD check unless you add all functions to your NAMESPACE imports. Explicit `yardstick::` calls are clearer and safer.
+**Why:** Without explicit namespacing, your package will fail R CMD check unless
+you add all functions to your NAMESPACE imports. Explicit `yardstick::` calls
+are clearer and safer.
 
 **Safe to use (with prefix):**
 
@@ -162,13 +167,14 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
 ### Step 1: Choose Your Metric Type
 
-See the decision tree in the main [SKILL.md](../SKILL.md#choosing-your-metric-type) to determine:
+See the decision tree in the main
+[SKILL.md](../SKILL.md#choosing-your-metric-type) to determine:
 
 - Numeric metric (regression)
 
@@ -303,7 +309,9 @@ Key roxygen tags:
 
 ### Step 6: Test Your Metric
 
-See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for complete details.
+See [Testing Patterns
+(Extension)](package-extension-requirements.md#testing-requirements) for
+complete details.
 
 ```r
 # tests/testthat/test-mae.R
@@ -350,7 +358,8 @@ test_that("mae validates inputs", {
 
 **STOP! Before creating ANY files, read this entire section.**
 
-You will create **EXACTLY 3 files** for extension development. Not 4. Not 5. Not 8. **EXACTLY 3.**
+You will create **EXACTLY 3 files** for extension development. Not 4. Not 5. Not
+8. **EXACTLY 3.**
 
 #### Mandatory Pre-Flight Checklist
 
@@ -374,7 +383,8 @@ Before creating files, verify:
 
 1. **R/[metric_name].R** - Metric implementation with roxygen documentation
 
-   - Contains `[metric]_impl()`, `[metric]_vec()`, and `[metric].data.frame()` methods
+   - Contains `[metric]_impl()`, `[metric]_vec()`, and `[metric].data.frame()`
+     methods
 
    - Includes complete @examples showing usage
 
@@ -392,7 +402,8 @@ Before creating files, verify:
 
    - Tests for edge cases (all correct, all wrong, empty data)
 
-3. **README.md** - Brief usage guide (optional, only if package doesn't have one)
+3. **README.md** - Brief usage guide (optional, only if package doesn't have
+   one)
 
    - Installation instructions
 
@@ -404,7 +415,8 @@ Before creating files, verify:
 
 #### Files You Will NOT Create
 
-**INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY OF THESE FILES.**
+**INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY OF
+THESE FILES.**
 
 **❌ NEVER CREATE THESE FILES:**
 
@@ -442,18 +454,20 @@ Before creating files, verify:
 
 - [packagename]-package.R (package-level documentation, optional)
 
-**These package infrastructure files are ONLY created when initializing a new package. When adding a metric to an existing package, create ONLY the 3 core files listed above.**
+**These package infrastructure files are ONLY created when initializing a new
+package. When adding a metric to an existing package, create ONLY the 3 core
+files listed above.**
 
 #### Content Mapping Table
 
-| Content Type | ❌ WRONG | ✅ CORRECT |
-|--------------|----------|------------|
-| Examples | example_usage.R | roxygen @examples in R file |
-| Implementation notes | IMPLEMENTATION_NOTES.txt | roxygen @details in R file |
-| Metric design rationale | METRIC_DESIGN.md | roxygen @details in R file |
-| Usage guide | QUICKSTART.md | README.md (if needed) |
-| Test examples | test_examples.R | tests/testthat/test-*.R |
-| Validation approach | VALIDATION_APPROACH.md | test comments in test file |
+| Content Type            | ❌ WRONG                 | ✅ CORRECT                  |
+| ----------------------- | ------------------------ | --------------------------- |
+| Examples                | example_usage.R          | roxygen @examples in R file |
+| Implementation notes    | IMPLEMENTATION_NOTES.txt | roxygen @details in R file  |
+| Metric design rationale | METRIC_DESIGN.md         | roxygen @details in R file  |
+| Usage guide             | QUICKSTART.md            | README.md (if needed)       |
+| Test examples           | test_examples.R          | tests/testthat/test-*.R     |
+| Validation approach     | VALIDATION_APPROACH.md   | test comments in test file  |
 
 #### File Creation Discipline
 
@@ -463,15 +477,18 @@ Before creating files, verify:
 
 - **Usage guide:** Goes in README.md (only if package needs one)
 
-- **Examples:** Go in roxygen @examples in the R file, NOT in separate example_usage.R
+- **Examples:** Go in roxygen @examples in the R file, NOT in separate
+  example_usage.R
 
-- **Implementation notes:** Go in roxygen @details in the R file, NOT in separate IMPLEMENTATION_SUMMARY.md
+- **Implementation notes:** Go in roxygen @details in the R file, NOT in
+  separate IMPLEMENTATION_SUMMARY.md
 
 - **Everything else:** Does NOT get created
 
 #### Why This Matters
 
-Creating extra documentation files is the most common mistake in metric development. These files:
+Creating extra documentation files is the most common mistake in metric
+development. These files:
 
 - Create clutter without adding value
 
@@ -485,7 +502,7 @@ Creating extra documentation files is the most common mistake in metric developm
 
 **All necessary documentation belongs in roxygen comments and README. Period.**
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -551,7 +568,7 @@ custom_accuracy_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -559,7 +576,8 @@ custom_accuracy_impl <- function(truth, estimate, case_weights = NULL) {
 
 **CRITICAL: Always use `as.double()` to convert hardhat weights**
 
-Extension development CANNOT use `yardstick:::yardstick_mean()`. You must handle case weights manually with this pattern:
+Extension development CANNOT use `yardstick:::yardstick_mean()`. You must handle
+case weights manually with this pattern:
 
 ```r
 # REQUIRED pattern for extension development:
@@ -616,21 +634,21 @@ if (na_rm) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
-See [Development Workflow](package-development-workflow.md) for complete details.
+See [Development Workflow](package-development-workflow.md) for complete
+details.
 
-**Fast iteration cycle (run repeatedly):**
-1. `devtools::document()` - Generate documentation
-2. `devtools::load_all()` - Load your package
-3. `devtools::test()` - Run tests
+**Fast iteration cycle (run repeatedly):** 1. `devtools::document()` - Generate
+documentation 2. `devtools::load_all()` - Load your package 3.
+`devtools::test()` - Run tests
 
-**Final validation (run once at end):**
-4. `devtools::check()` - Full R CMD check
+**Final validation (run once at end):** 4. `devtools::check()` - Full R CMD
+check
 
----
+--------------------------------------------------------------------------------
 
 ## Package Integration
 
@@ -663,24 +681,26 @@ mae_vec <- function(truth, estimate, ...) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
-See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns
+(Extension)](package-extension-requirements.md#testing-requirements) for
+comprehensive guide.
 
-**Required test categories:**
-1. **Correctness**: Metric calculates correctly
-2. **NA handling**: Both `na_rm = TRUE` and `FALSE`
-3. **Input validation**: Wrong types, mismatched lengths
-4. **Case weights**: Weighted and unweighted differ
-5. **Edge cases**: All correct, all wrong, empty data
+**Required test categories:** 1. **Correctness**: Metric calculates correctly 2.
+**NA handling**: Both `na_rm = TRUE` and `FALSE` 3. **Input validation**: Wrong
+types, mismatched lengths 4. **Case weights**: Weighted and unweighted differ 5.
+**Edge cases**: All correct, all wrong, empty data
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
-See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
+See [Best Practices
+(Extension)](package-extension-requirements.md#best-practices) for complete
+guide.
 
 **Key principles:**
 
@@ -694,11 +714,13 @@ See [Best Practices (Extension)](package-extension-requirements.md#best-practice
 
 - Validate early (in `_vec`), trust data in `_impl`
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting
+(Extension)](package-extension-requirements.md#common-issues-solutions) for
+complete guide.
 
 **Common issues:**
 
@@ -710,7 +732,7 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 - Case weights not working → Convert hardhat weights to numeric
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Documentation
 
@@ -722,7 +744,8 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 - [Probability Metrics](probability-metrics.md) - Probability-based metrics
 
-- [Ordered Probability Metrics](ordered-probability-metrics.md) - Ordinal metrics
+- [Ordered Probability Metrics](ordered-probability-metrics.md) - Ordinal
+  metrics
 
 - [Survival Metrics](static-survival-metrics.md) - Time-to-event metrics
 
@@ -752,22 +775,25 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 - [Troubleshooting](package-extension-requirements.md#common-issues-solutions)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
-1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension
+   Prerequisites](package-extension-prerequisites.md)
 2. **Choose your metric type** from the [main SKILL.md](../SKILL.md)
 3. **Implement your metric** following the step-by-step guide above
-4. **Test thoroughly** using [Testing Patterns](package-extension-requirements.md#testing-requirements)
+4. **Test thoroughly** using [Testing
+   Patterns](package-extension-requirements.md#testing-requirements)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
+- Check [Troubleshooting
+  Guide](package-extension-requirements.md#common-issues-solutions)
 
 - Review existing examples in reference documentation
 

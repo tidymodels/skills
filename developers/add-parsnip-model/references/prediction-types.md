@@ -1,12 +1,14 @@
 # Parsnip Prediction Types
 
-This guide covers all 11 prediction types supported by parsnip, how to implement them, and when to use each type.
+This guide covers all 11 prediction types supported by parsnip, how to implement
+them, and when to use each type.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Parsnip standardizes prediction outputs across different modeling engines. Each prediction type returns a tibble with specific column naming conventions.
+Parsnip standardizes prediction outputs across different modeling engines. Each
+prediction type returns a tibble with specific column naming conventions.
 
 **Available prediction types:**
 
@@ -46,7 +48,7 @@ Parsnip standardizes prediction outputs across different modeling engines. Each 
 
 - `raw` - Raw engine output
 
----
+--------------------------------------------------------------------------------
 
 ## Regression Prediction Types
 
@@ -55,11 +57,13 @@ Parsnip standardizes prediction outputs across different modeling engines. Each 
 **Purpose:** Point predictions for continuous outcomes.
 
 **Output format:**
+
 ```r
 tibble::tibble(.pred = c(1.2, 3.4, 5.6))
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "linear_reg",
@@ -100,6 +104,7 @@ set_pred(
 **Purpose:** Intervals for the mean response at given predictor values.
 
 **Output format:**
+
 ```r
 tibble::tibble(
   .pred_lower = c(1.0, 3.0, 5.0),
@@ -108,6 +113,7 @@ tibble::tibble(
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "linear_reg",
@@ -152,6 +158,7 @@ set_pred(
 - When showing confidence regions in plots
 
 **Common pattern - using `post` for format conversion:**
+
 ```r
 post = function(results, object) {
   # Engine may return matrix with different column names
@@ -165,9 +172,11 @@ post = function(results, object) {
 
 ### Prediction Intervals
 
-**Purpose:** Intervals for individual new observations (wider than confidence intervals).
+**Purpose:** Intervals for individual new observations (wider than confidence
+intervals).
 
 **Output format:**
+
 ```r
 tibble::tibble(
   .pred_lower = c(0.5, 2.5, 4.5),
@@ -176,6 +185,7 @@ tibble::tibble(
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "linear_reg",
@@ -223,7 +233,7 @@ set_pred(
 
 - Use `interval = "prediction"` vs `interval = "confidence"` in args
 
----
+--------------------------------------------------------------------------------
 
 ## Classification Prediction Types
 
@@ -232,11 +242,13 @@ set_pred(
 **Purpose:** Predicted class labels.
 
 **Output format:**
+
 ```r
 tibble::tibble(.pred_class = factor(c("setosa", "versicolor", "virginica")))
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "logistic_reg",
@@ -273,6 +285,7 @@ set_pred(
 - For classification accuracy metrics
 
 **Common pattern - converting probabilities to classes:**
+
 ```r
 post = function(results, object) {
   # results is probability matrix
@@ -288,6 +301,7 @@ post = function(results, object) {
 **Purpose:** Probability estimates for each class.
 
 **Output format:**
+
 ```r
 tibble::tibble(
   .pred_setosa = c(0.8, 0.2, 0.1),
@@ -297,6 +311,7 @@ tibble::tibble(
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "logistic_reg",
@@ -342,6 +357,7 @@ set_pred(
 - When you want prediction confidence
 
 **Common pattern - handling binary classification:**
+
 ```r
 post = function(results, object) {
   # Binary classification may return single column
@@ -361,7 +377,7 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Censored Regression Prediction Types
 
@@ -372,11 +388,13 @@ Used for survival analysis and time-to-event data.
 **Purpose:** Predicted event times.
 
 **Output format:**
+
 ```r
 tibble::tibble(.pred_time = c(120, 450, 890))
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "survival_reg",
@@ -417,6 +435,7 @@ set_pred(
 **Purpose:** Survival probability curves over time.
 
 **Output format:**
+
 ```r
 tibble::tibble(
   .pred = list(
@@ -427,6 +446,7 @@ tibble::tibble(
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "survival_reg",
@@ -473,11 +493,13 @@ set_pred(
 **Purpose:** Hazard rate estimates.
 
 **Output format:**
+
 ```r
 tibble::tibble(.pred_hazard = c(0.01, 0.05, 0.02))
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "survival_reg",
@@ -516,11 +538,13 @@ set_pred(
 **Purpose:** Linear predictor values from survival models.
 
 **Output format:**
+
 ```r
 tibble::tibble(.pred_linear_pred = c(-0.5, 1.2, 0.3))
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "survival_reg",
@@ -554,7 +578,7 @@ set_pred(
 
 - When working on log-hazard scale
 
----
+--------------------------------------------------------------------------------
 
 ## Quantile Regression Prediction Types
 
@@ -563,6 +587,7 @@ set_pred(
 **Purpose:** Predictions at specific quantiles.
 
 **Output format:**
+
 ```r
 tibble::tibble(
   .pred = c(1.5, 3.2, 5.1),
@@ -571,6 +596,7 @@ tibble::tibble(
 ```
 
 Or for multiple quantiles:
+
 ```r
 tibble::tibble(
   .pred_lower = c(1.0, 2.5, 4.5),
@@ -580,6 +606,7 @@ tibble::tibble(
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "linear_reg",
@@ -610,7 +637,8 @@ set_pred(
 
 - `.quantile` - Which quantile was predicted
 
-- For multiple quantiles, use descriptive names (`.pred_lower`, `.pred`, `.pred_upper`)
+- For multiple quantiles, use descriptive names (`.pred_lower`, `.pred`,
+  `.pred_upper`)
 
 **When to use:**
 
@@ -620,19 +648,21 @@ set_pred(
 
 - When you need prediction intervals at specific quantiles
 
----
+--------------------------------------------------------------------------------
 
 ## Raw Predictions
 
 **Purpose:** Return engine's native output without standardization.
 
 **Output format:**
+
 ```r
 # Variable - whatever the engine returns
 # Could be vector, matrix, list, custom object
 ```
 
 **Implementation:**
+
 ```r
 set_pred(
   model = "linear_reg",
@@ -677,7 +707,7 @@ set_pred(
 
 - When you want consistent output format
 
----
+--------------------------------------------------------------------------------
 
 ## Implementation Patterns
 
@@ -783,7 +813,7 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Type Registration
 
@@ -816,7 +846,7 @@ set_pred(..., type = "raw", ...)
 
 - Only register survival types for censored regression mode
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Prediction Types
 
@@ -856,13 +886,14 @@ test_that("conf_int predictions have both bounds", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Issues and Solutions
 
 ### Issue: Wrong Column Names
 
 **Problem:**
+
 ```r
 # Engine returns data.frame with wrong names
 predict(...)
@@ -871,6 +902,7 @@ predict(...)
 ```
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   tibble::tibble(
@@ -883,6 +915,7 @@ post = function(results, object) {
 ### Issue: Wrong Data Type
 
 **Problem:**
+
 ```r
 # Predictions are character, need factor
 predict(...)
@@ -891,6 +924,7 @@ predict(...)
 ```
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   tibble::tibble(
@@ -902,6 +936,7 @@ post = function(results, object) {
 ### Issue: Matrix Instead of Tibble
 
 **Problem:**
+
 ```r
 # Engine returns matrix
 predict(...)
@@ -910,6 +945,7 @@ predict(...)
 ```
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   results <- as.data.frame(results)
@@ -923,6 +959,7 @@ post = function(results, object) {
 **Problem:** Predictions don't match `new_data` rows.
 
 **Solution:** Check in `post`:
+
 ```r
 post = function(results, object) {
   if (length(results) != nrow(new_data)) {
@@ -932,18 +969,20 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
 **Key principles:**
 
 1. **Each type has specific column names** - Follow conventions strictly
-2. **Use `post` for format conversion** - Transform engine output to standard format
+2. **Use `post` for format conversion** - Transform engine output to standard
+   format
 3. **Register each type separately** - Use `set_pred()` for each type
 4. **Not all types for all engines** - Only register what the engine supports
 5. **Test output format** - Verify column names, types, and dimensions
-6. **Mode determines available types** - Regression, classification, censored regression, quantile regression have different types
+6. **Mode determines available types** - Regression, classification, censored
+   regression, quantile regression have different types
 
 **Column naming quick reference:**
 

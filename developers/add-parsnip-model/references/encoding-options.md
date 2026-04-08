@@ -1,12 +1,14 @@
 # Encoding Options in Parsnip
 
-This guide covers the three interface types (formula, matrix, xy) that control how data is passed from parsnip to modeling engines.
+This guide covers the three interface types (formula, matrix, xy) that control
+how data is passed from parsnip to modeling engines.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-**Encoding** determines how parsnip translates the user's data into the format the engine expects.
+**Encoding** determines how parsnip translates the user's data into the format
+the engine expects.
 
 Parsnip supports three interface types:
 
@@ -16,13 +18,14 @@ Parsnip supports three interface types:
 
 The choice depends on what the underlying engine function expects.
 
----
+--------------------------------------------------------------------------------
 
 ## Formula Interface
 
 ### When to Use
 
 Use formula interface when the engine function expects:
+
 ```r
 engine_function(formula, data, ...)
 ```
@@ -38,12 +41,14 @@ engine_function(formula, data, ...)
 ### How It Works
 
 **User provides:**
+
 ```r
 spec <- linear_reg() |> set_engine("lm")
 fit(spec, mpg ~ hp + wt, data = mtcars)
 ```
 
 **Parsnip passes to engine:**
+
 ```r
 lm(formula = mpg ~ hp + wt, data = mtcars)
 ```
@@ -102,13 +107,14 @@ set_fit(
 
 - No factor preprocessing
 
----
+--------------------------------------------------------------------------------
 
 ## Matrix Interface
 
 ### When to Use
 
 Use matrix interface when the engine function expects:
+
 ```r
 engine_function(x, y, ...)
 ```
@@ -126,12 +132,14 @@ Where `x` is a numeric matrix and `y` is a vector.
 ### How It Works
 
 **User provides:**
+
 ```r
 spec <- linear_reg(penalty = 0.1) |> set_engine("glmnet")
 fit(spec, mpg ~ hp + wt, data = mtcars)
 ```
 
 **Parsnip converts and passes to engine:**
+
 ```r
 x <- as.matrix(mtcars[, c("hp", "wt")])
 y <- mtcars$mpg
@@ -223,7 +231,7 @@ fit(spec, y ~ x1 + x2, data = data)
 
 First factor level ("A") becomes baseline (all zeros in dummy columns).
 
----
+--------------------------------------------------------------------------------
 
 ## XY Interface
 
@@ -248,12 +256,14 @@ Use XY interface when:
 ### How It Works
 
 **User provides:**
+
 ```r
 spec <- nearest_neighbor() |> set_engine("kknn")
 fit_xy(spec, x = mtcars[, -1], y = mtcars$mpg)
 ```
 
 **Parsnip passes to engine:**
+
 ```r
 # Arguments translated based on registration
 kknn(train = x, cl = y, ...)
@@ -298,6 +308,7 @@ set_encoding(
 - No formula parsing needed
 
 **When user uses formula with XY engine:**
+
 ```r
 # User still uses formula
 fit(spec, mpg ~ hp + wt, data = mtcars)
@@ -307,7 +318,7 @@ x <- model.matrix(~ hp + wt - 1, data = mtcars)
 y <- mtcars$mpg
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Using `set_encoding()`
 
@@ -371,6 +382,7 @@ set_encoding(
 ### Why Control Encoding?
 
 **Some engines handle intercepts internally:**
+
 ```r
 # glmnet adds its own intercept
 # Don't want intercept in x matrix
@@ -384,6 +396,7 @@ set_encoding(
 ```
 
 **Some engines need one-hot encoding:**
+
 ```r
 # xgboost works better with full one-hot
 set_encoding(
@@ -394,7 +407,7 @@ set_encoding(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Choosing the Right Interface
 
@@ -410,29 +423,33 @@ set_encoding(
 
 - Yes, as `x` and `y` → Use `interface = "matrix"`
 
-- Yes, with different names → Use `interface = "xy"` or `interface = "matrix"` with custom encoding
+- Yes, with different names → Use `interface = "xy"` or `interface = "matrix"`
+  with custom encoding
 
 ### By Engine Type
 
 **Traditional R functions:**
+
 ```r
 lm(), glm(), nls()
 → interface = "formula"
 ```
 
 **Modern ML libraries:**
+
 ```r
 glmnet(), ranger(), xgboost()
 → interface = "matrix"
 ```
 
 **Older ML functions:**
+
 ```r
 knn(), some classification functions
 → interface = "xy"
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Interface Compatibility
 
@@ -441,11 +458,13 @@ knn(), some classification functions
 Regardless of engine interface, users can use either:
 
 **Formula API:**
+
 ```r
 fit(spec, y ~ x1 + x2, data = data)
 ```
 
 **XY API:**
+
 ```r
 fit_xy(spec, x = data[, c("x1", "x2")], y = data$y)
 ```
@@ -483,7 +502,7 @@ fit_xy(spec, x = mtcars[, c("hp", "wt")], y = mtcars$mpg)
 # 3. Calls: lm(formula = y ~ hp + wt, data = df)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Prediction Implications
 
@@ -543,7 +562,7 @@ new_data <- data.frame(x = factor("B"))
 predict(fit, new_data)  # ✗ Error
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Interface Behavior
 
@@ -599,7 +618,7 @@ test_that("correct interface is used", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -686,7 +705,7 @@ set_fit(
 
 For engines with non-standard argument names.
 
----
+--------------------------------------------------------------------------------
 
 ## Interface Troubleshooting
 
@@ -695,6 +714,7 @@ For engines with non-standard argument names.
 **Problem:** Predictions fail because new data has different levels.
 
 **Solution:** Ensure new data has all training levels:
+
 ```r
 new_data$x <- factor(new_data$x, levels = levels(train$x))
 ```
@@ -704,6 +724,7 @@ new_data$x <- factor(new_data$x, levels = levels(train$x))
 **Problem:** Using `interface = "matrix"` but engine needs formula.
 
 **Solution:** Change to `interface = "formula"`:
+
 ```r
 set_fit(..., value = list(interface = "formula", ...))
 ```
@@ -713,6 +734,7 @@ set_fit(..., value = list(interface = "formula", ...))
 **Problem:** One-hot encoding creates too many columns.
 
 **Solution:** Use traditional encoding:
+
 ```r
 set_encoding(
   ...,
@@ -725,6 +747,7 @@ set_encoding(
 **Problem:** Both parsnip and engine add intercept.
 
 **Solution:** Tell parsnip not to add intercept:
+
 ```r
 set_encoding(
   ...,
@@ -735,7 +758,7 @@ set_encoding(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -781,8 +804,8 @@ set_encoding(
 
 **Quick selection guide:**
 
-| Engine Type | Interface | Example |
-|------------|-----------|---------|
-| Base R stats | formula | lm, glm |
-| Modern ML | matrix | glmnet, xgboost |
-| Older ML | xy | knn functions |
+| Engine Type  | Interface | Example         |
+| ------------ | --------- | --------------- |
+| Base R stats | formula   | lm, glm         |
+| Modern ML    | matrix    | glmnet, xgboost |
+| Older ML     | xy        | knn functions   |

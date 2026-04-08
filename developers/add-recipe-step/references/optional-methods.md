@@ -1,8 +1,11 @@
 # Optional S3 Methods for Recipe Steps
 
-Beyond the required methods (`prep`, `bake`, `print`, `tidy`), recipe steps can implement optional methods to support additional functionality.
+Beyond the required methods (`prep`, `bake`, `print`, `tidy`), recipe steps can
+implement optional methods to support additional functionality.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal tunable and sparsity infrastructure. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, you can use internal tunable and sparsity infrastructure. See
+> the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -18,13 +21,17 @@ Optional methods:
 
 **Reference implementations in recipes:**
 
-- Tunable parameters: `R/spline_natural.R` (deg_free tuning), `R/pca.R` (num_comp tuning), `R/normalize.R` (method parameter)
+- Tunable parameters: `R/spline_natural.R` (deg_free tuning), `R/pca.R`
+  (num_comp tuning), `R/normalize.R` (method parameter)
 
-- Package dependencies: `R/umap.R` (requires uwot), `R/kpca.R` (requires kernlab), `R/ica.R` (requires fastICA)
+- Package dependencies: `R/umap.R` (requires uwot), `R/kpca.R` (requires
+  kernlab), `R/ica.R` (requires fastICA)
 
-- Sparsity preservation: `R/scale.R` (preserves sparsity), `R/normalize.R` (preserves sparsity)
+- Sparsity preservation: `R/scale.R` (preserves sparsity), `R/normalize.R`
+  (preserves sparsity)
 
-- Sparsity estimation: `R/dummy.R` (estimates new column sparsity), `R/interact.R` (estimates interaction sparsity)
+- Sparsity estimation: `R/dummy.R` (estimates new column sparsity),
+  `R/interact.R` (estimates interaction sparsity)
 
 **Test patterns:**
 
@@ -110,7 +117,8 @@ The `call_info` references dials parameter objects:
 
 - `dials::threshold()`: Threshold values
 
-If no suitable dials function exists, you may need to create one in your package.
+If no suitable dials function exists, you may need to create one in your
+package.
 
 ## required_pkgs() - Package Dependencies
 
@@ -178,7 +186,9 @@ required_pkgs.step_umap <- function(x, ...) {
 
 ### Runtime checking
 
-The package check happens when the step is **added** to the recipe, not when it's executed. This gives users immediate feedback if they're missing dependencies.
+The package check happens when the step is **added** to the recipe, not when
+it's executed. This gives users immediate feedback if they're missing
+dependencies.
 
 ## .recipes_preserve_sparsity() - Sparse Data Preservation
 
@@ -192,7 +202,8 @@ Implement this if your step:
 
 - Returns sparse output
 
-**Note:** This is for steps that **preserve** sparsity in existing columns, not steps that create new sparse columns.
+**Note:** This is for steps that **preserve** sparsity in existing columns, not
+steps that create new sparse columns.
 
 ### Implementation pattern
 
@@ -208,6 +219,7 @@ Return `TRUE` if sparse stays sparse, `FALSE` otherwise (or don't implement).
 ### Examples
 
 **Preserves sparsity:**
+
 ```r
 # Scaling: multiplying sparse matrix by scalar preserves sparsity
 .recipes_preserve_sparsity.step_scale <- function(x, ...) {
@@ -222,7 +234,8 @@ Return `TRUE` if sparse stays sparse, `FALSE` otherwise (or don't implement).
 
 ### Internal method
 
-The `.recipes_preserve_sparsity()` method is **internal** (note the leading dot). It's used by the recipes infrastructure but not directly by users.
+The `.recipes_preserve_sparsity()` method is **internal** (note the leading
+dot). It's used by the recipes infrastructure but not directly by users.
 
 ## .recipes_estimate_sparsity() - Sparsity Estimation
 
@@ -236,7 +249,8 @@ Implement this if your step:
 
 - Examples: dummy variables, one-hot encoding, interaction terms
 
-**Note:** This is for create-new-columns steps only. See [create-new-columns-steps.md](create-new-columns-steps.md) for more details.
+**Note:** This is for create-new-columns steps only. See
+[create-new-columns-steps.md](create-new-columns-steps.md) for more details.
 
 ### Implementation pattern
 
@@ -416,10 +430,13 @@ Document optional methods in your main step documentation:
 
 - Understand architecture: [step-architecture.md](step-architecture.md)
 
-- Implement basic steps: [modify-in-place-steps.md](modify-in-place-steps.md), [create-new-columns-steps.md](create-new-columns-steps.md)
+- Implement basic steps: [modify-in-place-steps.md](modify-in-place-steps.md),
+  [create-new-columns-steps.md](create-new-columns-steps.md)
 
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 
-- Document thoroughly: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document thoroughly:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Test comprehensively: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Test comprehensively:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -2,19 +2,26 @@
 
 **Using scale transformations with quantitative parameters**
 
-This guide covers how to use transformations to improve grid coverage and parameter sampling for quantitative parameters that span multiple orders of magnitude.
+This guide covers how to use transformations to improve grid coverage and
+parameter sampling for quantitative parameters that span multiple orders of
+magnitude.
 
-> **Note for Source Development:** If contributing to dials, you can use internal transformation utilities. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal transformation utilities. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Transformations apply scale changes to parameter sampling, ensuring even exploration across multiple orders of magnitude. The scales package provides transformation objects that dials integrates into quantitative parameters.
+Transformations apply scale changes to parameter sampling, ensuring even
+exploration across multiple orders of magnitude. The scales package provides
+transformation objects that dials integrates into quantitative parameters.
 
 **Reference implementations in dials:**
 
-- Log10 transformations: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+- Log10 transformations: `R/param_penalty.R` (regularization penalty),
+  `R/param_learn_rate.R` (learning rate)
 
 - Log2 transformations: `R/param_sample_size.R` (sample size proportion)
 
@@ -24,15 +31,18 @@ Transformations apply scale changes to parameter sampling, ensuring even explora
 
 **Test patterns:**
 
-- Transformation tests: `tests/testthat/test-param_penalty.R` (log10 scale validation)
+- Transformation tests: `tests/testthat/test-param_penalty.R` (log10 scale
+  validation)
 
-- Value conversion: `tests/testthat/test-value_transform.R` (transform/inverse behavior)
+- Value conversion: `tests/testthat/test-value_transform.R` (transform/inverse
+  behavior)
 
----
+--------------------------------------------------------------------------------
 
 ## Why Transformations Are Useful
 
-Transformations change the scale on which parameter values are sampled, improving grid coverage and search efficiency.
+Transformations change the scale on which parameter values are sampled,
+improving grid coverage and search efficiency.
 
 ### The Problem: Linear Sampling Across Orders of Magnitude
 
@@ -61,7 +71,8 @@ grid$penalty
 
 ### The Solution: Log-Scale Sampling
 
-With log transformation, equal steps in transformed space give uniform exploration:
+With log transformation, equal steps in transformed space give uniform
+exploration:
 
 ```r
 # WITH transformation (log10 scale)
@@ -86,8 +97,10 @@ grid$penalty
 
 ### Key Benefits
 
-1. **Uniform exploration**: Equal spacing in transformed space ensures even coverage across scales
-2. **Meaningful steps**: For parameters like penalties, relative changes matter more than absolute changes
+1. **Uniform exploration**: Equal spacing in transformed space ensures even
+   coverage across scales
+2. **Meaningful steps**: For parameters like penalties, relative changes matter
+   more than absolute changes
 3. **Better grid coverage**: Grid points distributed where they matter most
 4. **Improved tuning**: More efficient parameter space exploration
 
@@ -121,11 +134,12 @@ grid$penalty
 
 - Linear scale is natural for the domain
 
----
+--------------------------------------------------------------------------------
 
 ## Available Transformations from scales Package
 
-The scales package provides several transformation functions for use with dials parameters.
+The scales package provides several transformation functions for use with dials
+parameters.
 
 ### transform_log10()
 
@@ -304,13 +318,14 @@ variance_param <- function(range = c(1, 100), trans = scales::transform_sqrt()) 
 
 - Moderate range compression
 
----
+--------------------------------------------------------------------------------
 
 ## How Transformations Affect Parameters
 
 ### Range Specification
 
-**Critical**: When `trans` is provided, `range` must be in **transformed space**.
+**Critical**: When `trans` is provided, `range` must be in **transformed
+space**.
 
 ```r
 # Log10 transformation example
@@ -397,7 +412,7 @@ log10(seq_vals)
 # Evenly spaced: steps of 2.5
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Examples
 
@@ -542,11 +557,12 @@ grid_with_trans$with_trans
 #> Excellent coverage: Even exploration across all scales!
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Creating Custom Transformations
 
-For specialized cases, you can create custom transformations with `scales::new_transform()`.
+For specialized cases, you can create custom transformations with
+`scales::new_transform()`.
 
 ### Custom Transformation Structure
 
@@ -613,7 +629,7 @@ probability_param <- function(range = c(-3, 3), trans = transform_logit) {
 #              = 0.047 to 0.953
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -661,31 +677,38 @@ penalty <- function(range = c(-10, 0), trans = transform_log10()) {
 my_trans <- scales::new_transform(...)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
-1. **Match transformation to domain**: Use log for exponential relationships, sqrt for quadratic
+1. **Match transformation to domain**: Use log for exponential relationships,
+   sqrt for quadratic
 
-2. **Specify range in transformed space**: Always remember `range` is in transformed units
+2. **Specify range in transformed space**: Always remember `range` is in
+   transformed units
 
-3. **Document the transformation**: Explain in `@details` what the actual value range is
+3. **Document the transformation**: Explain in `@details` what the actual value
+   range is
 
 4. **Test grid coverage**: Verify that grid points span the intended range
 
-5. **Use standard transformations**: Prefer built-in scales transformations over custom when possible
+5. **Use standard transformations**: Prefer built-in scales transformations over
+   custom when possible
 
-6. **Consider user expectations**: If users think in actual units, document the conversion clearly
+6. **Consider user expectations**: If users think in actual units, document the
+   conversion clearly
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### Learn More
 
-- **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+- **Quantitative parameters**: [Quantitative Parameters
+  Guide](quantitative-parameters.md)
 
-- **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+- **Data-dependent ranges**: [Data-Dependent Parameters
+  Guide](data-dependent-parameters.md)
 
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
@@ -695,6 +718,6 @@ my_trans <- scales::new_transform(...)
 
 - **Source development**: [Source Development Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

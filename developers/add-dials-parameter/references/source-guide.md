@@ -2,9 +2,10 @@
 
 **Contributing parameter definitions to tidymodels/dials repository**
 
-This guide is for developers contributing parameters directly to the dials package via pull requests.
+This guide is for developers contributing parameters directly to the dials
+package via pull requests.
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -26,7 +27,7 @@ This guide is for developers contributing parameters directly to the dials packa
 
 - → Use [Extension Development Guide](extension-guide.md) instead
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
@@ -64,7 +65,7 @@ ls("package:dials", all.names = TRUE)
 penalty()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Understanding dials Architecture
 
@@ -128,7 +129,7 @@ Files prefixed with `aaa_` provide core functionality:
 
 These load before other files due to R's alphabetical loading order.
 
----
+--------------------------------------------------------------------------------
 
 ## Working Without dials:: Prefix
 
@@ -166,7 +167,7 @@ value_sample(param, n = 10)
 value_seq(param, n = 5)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Internal Functions Available
 
@@ -273,7 +274,7 @@ mtry <- function(range = c(1L, unknown()), trans = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## File Naming Conventions
 
@@ -311,7 +312,7 @@ Tests for parameters go in **shared test files**:
 
 See [Testing Patterns (Source)](testing-patterns-source.md) for details.
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Patterns
 
@@ -366,9 +367,10 @@ Show practical usage:
 #' value_sample(penalty(), n = 5)
 ```
 
-See [Roxygen Documentation](package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](package-roxygen-documentation.md) for complete
+patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Creating Parameters
 
@@ -554,16 +556,15 @@ values_activation <- c(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Development Best Practices
 
 **Focus on correctness and completeness:**
 
-✅ **Provide complete, working examples** in roxygen @examples
-✅ **Explain key concepts** briefly (transformations, finalization)
-✅ **Show common patterns** with code snippets
-✅ **Include comprehensive tests** covering all features
+✅ **Provide complete, working examples** in roxygen @examples ✅ **Explain key
+concepts** briefly (transformations, finalization) ✅ **Show common patterns**
+with code snippets ✅ **Include comprehensive tests** covering all features
 
 ⚠️ **But avoid over-explanation:**
 
@@ -587,19 +588,20 @@ values_activation <- c(
 
 - PR description is clear and focused
 
----
+--------------------------------------------------------------------------------
 
 ## File Creation Guidelines for PRs
 
-**═══════════════════════════════════════════════════════**
-**⚠️⚠️⚠️ CRITICAL: PR FILE DISCIPLINE ⚠️⚠️⚠️**
+**═══════════════════════════════════════════════════════** **⚠️⚠️⚠️ CRITICAL:
+PR FILE DISCIPLINE ⚠️⚠️⚠️**
 **═══════════════════════════════════════════════════════**
 
 **🛑 STOP! STOP! STOP! 🛑**
 
 **Before you create even ONE file, read this ENTIRE section.**
 
-**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO FILES ONLY.**
+**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO
+FILES ONLY.**
 
 **═══════════════════════════════════════════════════════**
 
@@ -607,9 +609,10 @@ values_activation <- c(
 
 **READ EACH LINE. CHECK EACH BOX. DO NOT SKIP THIS.**
 
-- [ ] I will create R/param_[name].R with complete roxygen documentation
+- [ ] I will create R/param\_[name].R with complete roxygen documentation
 
-- [ ] I will create tests/testthat/test-param_[name].R (or add to existing test file)
+- [ ] I will create tests/testthat/test-param\_[name].R (or add to existing test
+      file)
 
 - [ ] I will create EXACTLY 2 files total
 
@@ -625,13 +628,14 @@ values_activation <- c(
 
 - [ ] I will NOT create IMPLEMENTATION_NOTES.txt
 
-- [ ] I will NOT create any other .md, .txt, or .R files beyond the 2 required files
+- [ ] I will NOT create any other .md, .txt, or .R files beyond the 2 required
+      files
 
-- [ ] All documentation goes in roxygen comments inside R/param_[name].R
+- [ ] All documentation goes in roxygen comments inside R/param\_[name].R
 
-- [ ] All examples go in roxygen @examples inside R/param_[name].R
+- [ ] All examples go in roxygen @examples inside R/param\_[name].R
 
-- [ ] All implementation notes go in roxygen @details inside R/param_[name].R
+- [ ] All implementation notes go in roxygen @details inside R/param\_[name].R
 
 - [ ] PR description and checklist items go in the CONVERSATION, not in files
 
@@ -639,8 +643,10 @@ values_activation <- c(
 
 ### The ONLY Files You Will Create
 
-1. **R/param_[name].R** - Parameter function with complete roxygen documentation
-2. **tests/testthat/test-param_[name].R** - Comprehensive test suite (or additions to test-params.R)
+1. **R/param\_[name].R** - Parameter function with complete roxygen
+   documentation
+2. **tests/testthat/test-param\_[name].R** - Comprehensive test suite (or
+   additions to test-params.R)
 
 **THAT'S IT. STOP THERE. DO NOT CREATE ANYTHING ELSE.**
 
@@ -648,7 +654,8 @@ values_activation <- c(
 
 ### Files You Will ABSOLUTELY NOT Create
 
-**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
+**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY
+FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
 
 **❌ NEVER, EVER CREATE THESE FILES FOR PRs:**
 
@@ -674,7 +681,8 @@ values_activation <- c(
 
 **Changelog files (ALL PROHIBITED):**
 
-- ❌ NEWS_entry.md or NEWS.md (mention in conversation, maintainer adds to NEWS.md)
+- ❌ NEWS_entry.md or NEWS.md (mention in conversation, maintainer adds to
+  NEWS.md)
 
 - ❌ CHANGELOG.md
 
@@ -682,7 +690,7 @@ values_activation <- c(
 
 - ❌ example_usage.R or USAGE_EXAMPLE.R (examples go in roxygen @examples)
 
-- ❌ test_examples.R (tests go in test-param_[name].R)
+- ❌ test_examples.R (tests go in test-param\_[name].R)
 
 - ❌ WORKFLOW_COMMANDS.sh or setup.sh
 
@@ -700,17 +708,17 @@ values_activation <- c(
 
 **CRITICAL: Everything has a place. No separate files.**
 
-| Content Type | ❌ WRONG (separate file) | ✅ CORRECT (where it goes) |
-|--------------|--------------------------|----------------------------|
-| Examples | example_usage.R | roxygen @examples in R/param_[name].R |
-| Implementation notes | IMPLEMENTATION_NOTES.txt | roxygen @details in R/param_[name].R |
-| Parameter description | README.md | roxygen title/description in R/param_[name].R |
-| PR checklist | PR_CHECKLIST.md | Conversation with user |
-| NEWS entry | NEWS_entry.md | Conversation (maintainer adds to NEWS.md) |
-| Test additions | test-params-addition.R | Conversation (tell user what to add) |
-| Usage guide | QUICK_REFERENCE.md | roxygen @examples in R/param_[name].R |
-| File list | INDEX.md | Not needed (only 2 files) |
-| Summary | SUMMARY.txt | Conversation with user |
+| Content Type          | ❌ WRONG (separate file) | ✅ CORRECT (where it goes)                    |
+| --------------------- | ------------------------ | --------------------------------------------- |
+| Examples              | example_usage.R          | roxygen @examples in R/param_[name].R         |
+| Implementation notes  | IMPLEMENTATION_NOTES.txt | roxygen @details in R/param_[name].R          |
+| Parameter description | README.md                | roxygen title/description in R/param_[name].R |
+| PR checklist          | PR_CHECKLIST.md          | Conversation with user                        |
+| NEWS entry            | NEWS_entry.md            | Conversation (maintainer adds to NEWS.md)     |
+| Test additions        | test-params-addition.R   | Conversation (tell user what to add)          |
+| Usage guide           | QUICK_REFERENCE.md       | roxygen @examples in R/param_[name].R         |
+| File list             | INDEX.md                 | Not needed (only 2 files)                     |
+| Summary               | SUMMARY.txt              | Conversation with user                        |
 
 **═══════════════════════════════════════════════════════**
 
@@ -719,8 +727,10 @@ values_activation <- c(
 **🛑 STOP RIGHT HERE. ANSWER THESE QUESTIONS: 🛑**
 
 1. How many files am I about to create? **Answer: 2**
-2. Are they R/param_[name].R and tests/testthat/test-param_[name].R? **Answer: YES**
-3. Am I about to create any .md, .txt, or other documentation files? **Answer: NO**
+2. Are they R/param\_[name].R and tests/testthat/test-param\_[name].R? **Answer:
+   YES**
+3. Am I about to create any .md, .txt, or other documentation files? **Answer:
+   NO**
 4. Where do examples go? **Answer: In roxygen @examples**
 5. Where do implementation notes go? **Answer: In roxygen @details**
 6. Where does PR description go? **Answer: In conversation**
@@ -745,16 +755,15 @@ Creating documentation files:
 
 - ❌ Shows you didn't read the contribution guidelines
 
-**Everything except code and tests goes in either:**
-1. **Roxygen comments** (documentation, examples, details)
-2. **The conversation** (PR description, checklists, notes)
-3. **Commit messages** (brief summary of changes)
+**Everything except code and tests goes in either:** 1. **Roxygen comments**
+(documentation, examples, details) 2. **The conversation** (PR description,
+checklists, notes) 3. **Commit messages** (brief summary of changes)
 
 **NOT in separate files.**
 
 **═══════════════════════════════════════════════════════**
 
----
+--------------------------------------------------------------------------------
 
 ## PR Submission Checklist
 
@@ -798,7 +807,8 @@ Before submitting your pull request:
 
 - [ ] Snapshots accepted if needed
 
-See [Testing Patterns (Source)](testing-patterns-source.md) for complete testing guide.
+See [Testing Patterns (Source)](testing-patterns-source.md) for complete testing
+guide.
 
 ### Package Checks
 
@@ -828,7 +838,7 @@ Add entry under "Development" section:
 
 - [ ] PR references any related issues
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -840,8 +850,10 @@ Add entry under "Development" section:
 
 ### Create Your Parameter
 
-1. **Choose type**: [Quantitative](quantitative-parameters.md) or [Qualitative](qualitative-parameters.md)
-2. **Add features**: [Transformations](transformations.md) or [Finalization](data-dependent-parameters.md)
+1. **Choose type**: [Quantitative](quantitative-parameters.md) or
+   [Qualitative](qualitative-parameters.md)
+2. **Add features**: [Transformations](transformations.md) or
+   [Finalization](data-dependent-parameters.md)
 3. **Test thoroughly**: [Testing Patterns (Source)](testing-patterns-source.md)
 
 ### Get Help
@@ -852,6 +864,6 @@ Add entry under "Development" section:
 
 - **Examples**: Study `repos/dials/` cloned repository
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

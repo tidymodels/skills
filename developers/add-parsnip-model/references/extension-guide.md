@@ -1,8 +1,9 @@
 # Extension Guide: Creating New Parsnip Models
 
-Step-by-step guide for creating new model specifications in your own R package (extension development).
+Step-by-step guide for creating new model specifications in your own R package
+(extension development).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -16,11 +17,12 @@ Use this guide when:
 
 **Don't use this guide for:**
 
-- Adding engines to existing models → See [add-parsnip-engine](../../add-parsnip-engine/SKILL.md)
+- Adding engines to existing models → See
+  [add-parsnip-engine](../../add-parsnip-engine/SKILL.md)
 
 - Contributing to parsnip source → See [source-guide.md](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
@@ -28,7 +30,8 @@ Before starting, ensure you have:
 
 **R Package Setup:**
 
-- [Extension Prerequisites](./package-extension-prerequisites.md) - Package structure, DESCRIPTION, etc.
+- [Extension Prerequisites](./package-extension-prerequisites.md) - Package
+  structure, DESCRIPTION, etc.
 
 - Basic R package development knowledge
 
@@ -40,7 +43,7 @@ Before starting, ensure you have:
 
 - Understanding of modes and prediction types
 
----
+--------------------------------------------------------------------------------
 
 ## Key Constraints for Extension Development
 
@@ -49,9 +52,10 @@ Before starting, ensure you have:
 1. **Use `parsnip::` prefix** - Always namespace all parsnip functions
 2. **No internal functions** - Cannot use `:::` to access parsnip internals
 3. **Exported functions only** - Only use documented, exported functions
-4. **Registration in .onLoad()** - All `set_*()` calls must run when package loads
+4. **Registration in .onLoad()** - All `set_*()` calls must run when package
+   loads
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -286,7 +290,7 @@ register_my_model_classification <- function() {
 
 Document your model thoroughly:
 
-```r
+````r
 #' @details
 #' ## Available Engines
 #'
@@ -312,7 +316,7 @@ Document your model thoroughly:
 #' ```
 #'
 #' @seealso [parsnip::fit.model_spec()], [parsnip::set_engine()]
-```
+````
 
 ### Step 5: Add Tests
 
@@ -400,7 +404,7 @@ devtools::test()
 devtools::check()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Example: Single-Mode Model
 
@@ -464,7 +468,7 @@ simple_model <- function(penalty = NULL, engine = "default") {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -550,7 +554,7 @@ register_glmnet_engine <- function() {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
@@ -564,6 +568,7 @@ register_glmnet_engine <- function() {
 6. **Iterate** - Fix issues and repeat
 
 **Fast iteration:**
+
 ```r
 # In console
 devtools::load_all()
@@ -575,7 +580,7 @@ predict(fit, mtcars[1:3, ])
 
 See [Development Workflow](./package-development-workflow.md) for more details.
 
----
+--------------------------------------------------------------------------------
 
 ## Integration with Tidymodels
 
@@ -619,7 +624,7 @@ spec <- my_model(penalty = tune(), mixture = tune()) |>
 # Use in tune_grid(), tune_bayes(), etc.
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
@@ -628,6 +633,7 @@ spec <- my_model(penalty = tune(), mixture = tune()) |>
 **Problem:** Missing namespace prefix.
 
 **Solution:**
+
 ```r
 # Wrong
 spec <- new_model_spec(...)
@@ -640,7 +646,8 @@ spec <- parsnip::new_model_spec(...)
 
 **Problem:** Registration didn't run.
 
-**Solution:** Check that `.onLoad()` is defined and `set_model_engine()` is called.
+**Solution:** Check that `.onLoad()` is defined and `set_model_engine()` is
+called.
 
 ```r
 # Debug registration
@@ -659,13 +666,14 @@ parsnip::show_engines("my_model")
 **Problem:** Package dependencies not declared.
 
 **Solution:** Add all dependencies to DESCRIPTION:
+
 ```r
 usethis::use_package("parsnip", "Imports")
 usethis::use_package("rlang", "Imports")
 usethis::use_package("stats", "Imports")  # If using stats functions
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -677,7 +685,7 @@ After creating your model:
 4. **Consider CRAN** - Share with the community
 5. **Maintain** - Keep up with parsnip updates
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 
@@ -685,7 +693,8 @@ After creating your model:
 
 - [Model Constructors](model-constructors.md) - Detailed constructor design
 
-- [Registration Sequence](registration-sequence.md) - Complete registration steps
+- [Registration Sequence](registration-sequence.md) - Complete registration
+  steps
 
 - [Argument Design](argument-design.md) - Main argument patterns
 
@@ -699,9 +708,9 @@ After creating your model:
 
 **Testing:**
 
-
 **Best practices:**
 
-- [Extension Prerequisites](./package-extension-prerequisites.md) - Package setup
+- [Extension Prerequisites](./package-extension-prerequisites.md) - Package
+  setup
 
 - [Development Workflow](./package-development-workflow.md) - Iteration cycle

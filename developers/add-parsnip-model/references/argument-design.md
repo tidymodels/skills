@@ -1,12 +1,15 @@
 # Argument Design for Parsnip Models
 
-This guide covers how to design main arguments for parsnip models that work consistently across different computational engines.
+This guide covers how to design main arguments for parsnip models that work
+consistently across different computational engines.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Main arguments are standardized parameters that work across multiple engines. Good argument design is crucial for a consistent user experience and tune package integration.
+Main arguments are standardized parameters that work across multiple engines.
+Good argument design is crucial for a consistent user experience and tune
+package integration.
 
 **Main arguments should:**
 
@@ -20,7 +23,7 @@ Main arguments are standardized parameters that work across multiple engines. Go
 
 - Be commonly adjusted by users
 
----
+--------------------------------------------------------------------------------
 
 ## Main Arguments vs Engine Arguments
 
@@ -39,6 +42,7 @@ Main arguments are standardized parameters that work across multiple engines. Go
 - Users specify in constructor or with `set_args()`
 
 **Example:**
+
 ```r
 linear_reg(penalty = 0.1, mixture = 0.5)
 #          ^^^^^^^ main arguments
@@ -59,6 +63,7 @@ linear_reg(penalty = 0.1, mixture = 0.5)
 - Use engine's native names
 
 **Example:**
+
 ```r
 linear_reg() |>
   set_engine("glmnet", nlambda = 100, standardize = TRUE)
@@ -87,7 +92,7 @@ linear_reg() |>
 
 - ✓ No clear analog in other engines
 
----
+--------------------------------------------------------------------------------
 
 ## Naming Conventions
 
@@ -128,6 +133,7 @@ Follow established parsnip conventions:
 ### Why Standardize?
 
 **Consistency:**
+
 ```r
 # Same name works across engines
 boost_tree(learn_rate = 0.1) |> set_engine("xgboost")  # eta
@@ -136,6 +142,7 @@ boost_tree(learn_rate = 0.1) |> set_engine("spark")    # stepSize
 ```
 
 **Tuning integration:**
+
 ```r
 # tune knows about learn_rate
 boost_tree(learn_rate = tune()) |>
@@ -147,7 +154,7 @@ dials::learn_rate()
 #> Transformer: log-10 [1e-10, 1]
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Argument Types
 
@@ -223,7 +230,7 @@ nearest_neighbor <- function(neighbors = NULL, weight_func = NULL, ...) {
 
 - `tree_method` - Algorithm variant
 
----
+--------------------------------------------------------------------------------
 
 ## Designing for Multiple Engines
 
@@ -280,6 +287,7 @@ Some engines may need special translation:
 - Other engines: May not support elastic net
 
 **Translation:**
+
 ```r
 set_model_arg(
   model = "linear_reg",
@@ -300,7 +308,7 @@ Clearly state which engines support which arguments:
 #'   `xgboost` engines. Not used by `conditional_inference_tree` engine.
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Default Values
 
@@ -335,6 +343,7 @@ Only set specific defaults when:
 - Users almost always want that value
 
 **Example where specific default makes sense:**
+
 ```r
 mlp <- function(hidden_units = NULL,
                 activation = "relu",  # Good default across engines
@@ -344,7 +353,7 @@ mlp <- function(hidden_units = NULL,
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Integration with Dials
 
@@ -408,15 +417,17 @@ my_custom_param <- function(range = c(0, 10), trans = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Submodel Optimization
 
 ### What are Submodels?
 
-Some engines can generate predictions for multiple parameter values from a single fit.
+Some engines can generate predictions for multiple parameter values from a
+single fit.
 
 **Example: glmnet**
+
 ```r
 # Fits with multiple lambda values simultaneously
 fit <- glmnet(x, y, lambda = c(0.1, 0.01, 0.001))
@@ -452,7 +463,7 @@ set_model_arg(
 
 - Use when engine doesn't support submodels
 
----
+--------------------------------------------------------------------------------
 
 ## Argument Constraints
 
@@ -479,6 +490,7 @@ Document constraints clearly:
 ### Validation Strategy
 
 **Light validation in constructor:**
+
 ```r
 linear_reg <- function(penalty = NULL, ...) {
   if (!is.null(penalty) && penalty < 0) {
@@ -489,6 +501,7 @@ linear_reg <- function(penalty = NULL, ...) {
 ```
 
 **Most validation at fit time:**
+
 ```r
 # Parsnip checks at fit time:
 # - Arguments are correct types
@@ -496,7 +509,7 @@ linear_reg <- function(penalty = NULL, ...) {
 # - Required arguments are present
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Argument Translation Examples
 
@@ -562,7 +575,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Mode-Specific Arguments
 
@@ -582,7 +595,8 @@ boost_tree <- function(mode = "unknown",
 }
 ```
 
-Most tree arguments work for both modes. Mode-specific behavior handled in registration, not constructor.
+Most tree arguments work for both modes. Mode-specific behavior handled in
+registration, not constructor.
 
 **If truly mode-specific:**
 
@@ -592,7 +606,7 @@ Most tree arguments work for both modes. Mode-specific behavior handled in regis
 
 - Rare in practice
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Argument Design
 
@@ -649,7 +663,7 @@ test_that("NULL arguments use engine defaults", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Best Practices
 
@@ -694,7 +708,7 @@ test_that("NULL arguments use engine defaults", {
 #'   set_engine("glmnet")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -745,7 +759,7 @@ ensemble_model <- function(trees = NULL, mtry = NULL, ...) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -770,4 +784,5 @@ ensemble_model <- function(trees = NULL, mtry = NULL, ...) {
 
 - Consistently named
 
-**The main arguments define your model's API - invest time in getting them right.**
+**The main arguments define your model's API - invest time in getting them
+right.**

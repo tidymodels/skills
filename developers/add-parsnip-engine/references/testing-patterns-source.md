@@ -1,12 +1,15 @@
 # Testing Patterns for Parsnip Engine Source Development
 
-Testing strategies for contributing engines to the parsnip package (source development).
+Testing strategies for contributing engines to the parsnip package (source
+development).
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-When contributing engines to parsnip source, testing focuses on engine-specific behavior rather than model constructor patterns (since the model type already exists).
+When contributing engines to parsnip source, testing focuses on engine-specific
+behavior rather than model constructor patterns (since the model type already
+exists).
 
 **Key testing areas:**
 
@@ -20,7 +23,7 @@ When contributing engines to parsnip source, testing focuses on engine-specific 
 
 - Edge cases and error conditions
 
----
+--------------------------------------------------------------------------------
 
 ## Test File Organization
 
@@ -38,7 +41,7 @@ tests/testthat/test-linear_reg-glmnet.R
 tests/testthat/test-boost_tree-lightgbm.R
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Required Test Categories
 
@@ -112,6 +115,7 @@ test_that("formula and xy interfaces give equivalent results", {
 Test each prediction type the engine supports:
 
 **Regression predictions:**
+
 ```r
 test_that("glmnet numeric predictions", {
   skip_if_not_installed("glmnet")
@@ -141,6 +145,7 @@ test_that("glmnet raw predictions", {
 ```
 
 **Classification predictions:**
+
 ```r
 test_that("glmnet class predictions", {
   skip_if_not_installed("glmnet")
@@ -313,7 +318,7 @@ test_that("xgboost classification mode", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Snapshot Testing
 
@@ -344,7 +349,7 @@ test_that("glmnet errors on incompatible mode-type", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Integration Tests
 
@@ -389,7 +394,7 @@ test_that("glmnet works with recipes", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Test Organization Pattern
 
@@ -435,7 +440,7 @@ test_that("works with workflows", { ... })
 test_that("works with recipes", { ... })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Checklist
 
@@ -473,7 +478,7 @@ Before submitting engine PR:
 
 - [ ] Good test coverage
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -524,7 +529,7 @@ expect_true(all(grepl("^\\.pred_", names(preds))))
 expect_equal(rowSums(preds), rep(1, nrow(preds)), tolerance = 1e-10)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Debugging Engine Tests
 
@@ -555,7 +560,7 @@ test_that("debug test", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 

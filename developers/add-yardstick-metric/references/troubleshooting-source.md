@@ -1,12 +1,15 @@
 # Troubleshooting Yardstick Source Development
 
-**Context:** This guide is for **source development** - contributing to the yardstick package directly.
+**Context:** This guide is for **source development** - contributing to the
+yardstick package directly.
 
-**Key focus:** Working with package internals, integration testing, and yardstick-specific issues.
+**Key focus:** Working with package internals, integration testing, and
+yardstick-specific issues.
 
-For extension development (creating new packages), see [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions).
+For extension development (creating new packages), see [Troubleshooting
+(Extension)](package-extension-requirements.md#common-issues-solutions).
 
----
+--------------------------------------------------------------------------------
 
 ## Working with Yardstick Internals
 
@@ -35,11 +38,10 @@ yardstick:::yardstick_mean
 
 **Problem:** Internal function behavior changed and broke my metric.
 
-**Solution:**
-1. Check git history: `git log --all --full-history -- R/your-file.R`
-2. Review recent PRs that modified the internal function
-3. Update your metric to match new behavior
-4. Add tests to prevent future breakage
+**Solution:** 1. Check git history:
+`git log --all --full-history -- R/your-file.R` 2. Review recent PRs that
+modified the internal function 3. Update your metric to match new behavior 4.
+Add tests to prevent future breakage
 
 **Prevention:**
 
@@ -52,6 +54,7 @@ yardstick:::yardstick_mean
 ### Internal Function Not Found
 
 **Problem:**
+
 ```r
 Error: object 'yardstick_helper' not found
 ```
@@ -85,6 +88,7 @@ Error: object 'yardstick_helper' not found
 **Problem:** Metric detects wrong estimator (binary vs multiclass).
 
 **Symptoms:**
+
 ```r
 # Binary data treated as multiclass
 df <- data.frame(
@@ -118,6 +122,7 @@ accuracy.data.frame <- function(data, truth, estimate,
 ### Invalid Estimator Error
 
 **Problem:**
+
 ```r
 Error: `estimator` must be one of "binary", "macro", "micro", or "macro_weighted"
 ```
@@ -126,11 +131,10 @@ Error: `estimator` must be one of "binary", "macro", "micro", or "macro_weighted
 
 **Solution:** This is expected behavior. Error message is correct.
 
-**If you want to add a new estimator type:**
-1. Modify `finalize_estimator_internal()`
-2. Implement the estimator in your `_estimator_impl()` function
-3. Update documentation
-4. Add tests for new estimator
+**If you want to add a new estimator type:** 1. Modify
+`finalize_estimator_internal()` 2. Implement the estimator in your
+`_estimator_impl()` function 3. Update documentation 4. Add tests for new
+estimator
 
 ### Estimator Not Returned
 
@@ -163,6 +167,7 @@ tibble::tibble(
 ### Metric Not Working in metric_set()
 
 **Problem:**
+
 ```r
 metrics <- metric_set(mae, rmse, my_custom_metric)
 metrics(data, truth, estimate)
@@ -213,6 +218,7 @@ mae <- new_numeric_metric(
 **Problem:** All metrics in set show same estimator, but they shouldn't.
 
 **Example:**
+
 ```r
 metrics <- metric_set(accuracy, precision, recall)
 result <- metrics(df, truth, estimate)
@@ -236,6 +242,7 @@ result <- metrics(df, truth, estimate, estimator = "macro")
 ### Mixed Metric Types in metric_set()
 
 **Problem:**
+
 ```r
 metrics <- metric_set(mae, accuracy)  # numeric + class
 # Error: Can't mix metric types
@@ -317,6 +324,7 @@ mae(df, truth, estimate, case_weights = wt)
 ### Case Weights Causing Errors
 
 **Problem:**
+
 ```r
 Error: All case weights must be non-negative
 ```
@@ -330,6 +338,7 @@ Error: All case weights must be non-negative
 ### Check Fails: Examples Too Long
 
 **Problem:**
+
 ```r
 checking examples ... ERROR
 Examples with CPU time > 2.5 times elapsed time
@@ -363,6 +372,7 @@ Examples with CPU time > 2.5 times elapsed time
 ### Check Fails: Snapshot Changes
 
 **Problem:**
+
 ```r
 checking tests ... ERROR
 Snapshot test failed
@@ -383,6 +393,7 @@ testthat::snapshot_accept()
 ### Check Fails: Undefined Global Variables
 
 **Problem:**
+
 ```r
 checking R code for possible problems ... NOTE
   accuracy: no visible binding for global variable '.estimate'
@@ -563,6 +574,7 @@ prob_metric_summarizer(...)
 ### Direction Attribute Missing
 
 **Problem:**
+
 ```r
 attr(my_metric, "direction")
 # NULL
@@ -626,7 +638,7 @@ profvis::profvis({
    for (i in seq_along(truth)) {
      errors[i] <- abs(truth[i] - estimate[i])
    }
-
+   
    # Fast
    errors <- abs(truth - estimate)
    ```
@@ -635,7 +647,7 @@ profvis::profvis({
    ```r
    # Slow - creates copy
    data <- data |> dplyr::filter(!is.na(truth))
-
+   
    # Fast - works with indices
    valid <- !is.na(truth)
    truth <- truth[valid]
@@ -645,7 +657,7 @@ profvis::profvis({
    ```r
    # Use built-in functions
    mean(errors)  # Fast
-
+   
    # Avoid manual calculation
    sum(errors) / length(errors)  # Slower
    ```
@@ -679,8 +691,11 @@ Study similar metrics in the codebase:
 
 ## Next Steps
 
-- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing
+  guidance
 
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
 
-- See [Extension Troubleshooting](package-extension-requirements.md#common-issues-solutions) for common R package issues
+- See [Extension
+  Troubleshooting](package-extension-requirements.md#common-issues-solutions)
+  for common R package issues

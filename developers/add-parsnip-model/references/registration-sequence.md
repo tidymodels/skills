@@ -1,12 +1,15 @@
 # Registration Sequence
 
-This guide covers the complete sequence of registration functions needed to add a new model to parsnip's registry system.
+This guide covers the complete sequence of registration functions needed to add
+a new model to parsnip's registry system.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-After creating a model constructor, you must register all components with parsnip. Registration happens in a specific order and must be complete before the model can be used.
+After creating a model constructor, you must register all components with
+parsnip. Registration happens in a specific order and must be complete before
+the model can be used.
 
 **Registration location:**
 
@@ -14,7 +17,7 @@ After creating a model constructor, you must register all components with parsni
 
 - Source development: In `R/[model]_data.R` file
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Registration Sequence
 
@@ -41,6 +44,7 @@ parsnip::set_new_model("my_model")
 - Before registering modes or engines
 
 **Extension vs Source:**
+
 ```r
 # Extension - use namespace
 parsnip::set_new_model("my_model")
@@ -130,6 +134,7 @@ parsnip::set_dependency(
 - Documents package requirements
 
 **Call once per engine-mode combination** (even if no extra packages needed):
+
 ```r
 # Base R functions still need declaration
 parsnip::set_dependency(
@@ -418,7 +423,7 @@ parsnip::set_pred(
 
 - Example: `object = rlang::expr(object$fit)`
 
----
+--------------------------------------------------------------------------------
 
 ## Registration Example: Complete Model
 
@@ -527,7 +532,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Engine Registration
 
@@ -555,7 +560,7 @@ parsnip::set_dependency("my_model", "keras", c("keras", "tensorflow"), "regressi
 # ... continue with fit and predict for keras
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Registration
 
@@ -597,7 +602,7 @@ parsnip::set_pred("my_model", "xgboost", "classification", "class", ...)
 parsnip::set_pred("my_model", "xgboost", "classification", "prob", ...)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Registration Location
 
@@ -670,7 +675,7 @@ set_pred(...)
 
 - Tests: `tests/testthat/test-my_model.R`
 
----
+--------------------------------------------------------------------------------
 
 ## Checking Registration
 
@@ -714,7 +719,7 @@ predict(fit, mtcars[1:5, ])
 
 - Wrong mode specified
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Registration
 
@@ -745,7 +750,7 @@ test_that("predictions work", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -774,4 +779,5 @@ test_that("predictions work", {
 
 - Test registration works before moving on
 
-**The registration system is the bridge between your constructor and the parsnip engine system.**
+**The registration system is the bridge between your constructor and the parsnip
+engine system.**

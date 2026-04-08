@@ -1,20 +1,21 @@
 # Extension Development Guide: Recipe Steps
 
-Complete guide for creating new packages that extend recipes with custom preprocessing steps.
+Complete guide for creating new packages that extend recipes with custom
+preprocessing steps.
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
 **INSTRUCTIONS FOR CLAUDE:** Check for existing package structure first.
 
-If DESCRIPTION file AND R/ directory exist:
-→ **Skip to "Key Constraints for Extension Development"** (package setup already complete)
+If DESCRIPTION file AND R/ directory exist: → **Skip to "Key Constraints for
+Extension Development"** (package setup already complete)
 
-If package structure does NOT exist:
-→ Package setup is required before implementing recipe steps
+If package structure does NOT exist: → Package setup is required before
+implementing recipe steps
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -30,23 +31,27 @@ If package structure does NOT exist:
 
 ❌ **Don't use this guide if you are:**
 
-- Contributing a PR directly to the recipes package → Use [Source Development Guide](source-guide.md)
+- Contributing a PR directly to the recipes package → Use [Source Development
+  Guide](source-guide.md)
 
-- Working inside the recipes repository → Use [Source Development Guide](source-guide.md)
+- Working inside the recipes repository → Use [Source Development
+  Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Package Setup (Only if DESCRIPTION does not exist)
 
-**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE LETTER**
+**CLAUDE: THIS R PACKAGE SETUP IS CUSTOM. IT NEEDS TO BE FOLLOWED TO THE
+LETTER**
 
-👉 **[FOLLOW THE STEPS IN: Extension Prerequisites Guide](package-extension-prerequisites.md)** (REQUIRED)
+👉 **[FOLLOW THE STEPS IN: Extension Prerequisites
+Guide](package-extension-prerequisites.md)** (REQUIRED)
 
 Complete all steps in the setup guide and ensure the verification script passes.
 
 **After setup verification passes, return here to implement your recipe step.**
 
----
+--------------------------------------------------------------------------------
 
 ## Key Constraints for Extension Development
 
@@ -100,7 +105,7 @@ Safe to use:
 
 - `recipes::remove_original_cols()` (for create-new-columns steps)
 
----
+--------------------------------------------------------------------------------
 
 ## Step Type Decision
 
@@ -136,7 +141,7 @@ Filters or removes rows (e.g., filtering, sampling):
 
 See [Step Architecture](step-architecture.md) for detailed decision tree.
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -377,9 +382,10 @@ test_that("centering validates input types", {
 })
 ```
 
-See [Testing Patterns (Extension)](package-testing-patterns.md) for comprehensive testing guide.
+See [Testing Patterns (Extension)](package-testing-patterns.md) for
+comprehensive testing guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -467,7 +473,7 @@ bake.step_dummy_simple <- function(object, new_data, ...) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -516,19 +522,18 @@ recipes::check_type(
 recipes::check_new_data(col_names, object, new_data)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
-**Fast iteration cycle:**
-1. `devtools::document()` - Generate documentation
-2. `devtools::load_all()` - Load your package
-3. `devtools::test()` - Run tests
-4. `devtools::check()` - Full R CMD check
+**Fast iteration cycle:** 1. `devtools::document()` - Generate documentation 2.
+`devtools::load_all()` - Load your package 3. `devtools::test()` - Run tests 4.
+`devtools::check()` - Full R CMD check
 
-For detailed troubleshooting, see [Development Workflow](package-development-workflow.md).
+For detailed troubleshooting, see [Development
+Workflow](package-development-workflow.md).
 
----
+--------------------------------------------------------------------------------
 
 ## Package Integration
 
@@ -545,16 +550,15 @@ Create `R/{packagename}-package.R`:
 NULL
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation
 
 **INSTRUCTIONS FOR CLAUDE:**
 
-Create ONLY these files by default:
-1. **R/step_*.R** - Complete implementation
-2. **tests/testthat/test-*.R** - Test suite
-3. **README.md** - Overview with basic usage example (200-300 lines)
+Create ONLY these files by default: 1. **R/step\_*.R **- Complete implementation
+2.** tests/testthat/test-*.R** - Test suite 3. **README.md** - Overview with
+basic usage example (200-300 lines)
 
 Do NOT create unless user explicitly requests:
 
@@ -566,9 +570,10 @@ Do NOT create unless user explicitly requests:
 
 - ❌ Additional documentation files
 
-If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
+If user wants more documentation, they will ask (e.g., "add comprehensive
+documentation").
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
@@ -638,9 +643,10 @@ If user wants more documentation, they will ask (e.g., "add comprehensive docume
 
 - **Complex calculations:** 18-25 tests
 
-See [Testing Patterns (Extension)](package-testing-patterns.md) for comprehensive guide.
+See [Testing Patterns (Extension)](package-testing-patterns.md) for
+comprehensive guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -658,11 +664,12 @@ See [Best Practices (Extension)](package-best-practices.md) for complete guide.
 
 - Use recipes helpers instead of reimplementing
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](package-troubleshooting.md) for complete guide.
+See [Troubleshooting (Extension)](package-troubleshooting.md) for complete
+guide.
 
 **Common issues:**
 
@@ -674,7 +681,7 @@ See [Troubleshooting (Extension)](package-troubleshooting.md) for complete guide
 
 - "Object not found" → Use `devtools::load_all()` before testing
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Documentation
 
@@ -702,24 +709,26 @@ See [Troubleshooting (Extension)](package-troubleshooting.md) for complete guide
 
 - [Testing Patterns](package-testing-patterns.md)
 
-- [Roxygen Documentation](package-roxygen-documentation.md) (optional - read only if you need documentation templates)
+- [Roxygen Documentation](package-roxygen-documentation.md) (optional - read
+  only if you need documentation templates)
 
 - [Best Practices](package-best-practices.md)
 
 - [Troubleshooting](package-troubleshooting.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
-1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension
+   Prerequisites](package-extension-prerequisites.md)
 2. **Choose your step type** from [Step Architecture](step-architecture.md)
 3. **Implement your step** following the guide above
 4. **Test thoroughly** using [Testing Patterns](package-testing-patterns.md)
 5. **Run `devtools::check()`** to ensure CRAN compliance
 6. **Publish** to CRAN or share with your team
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 

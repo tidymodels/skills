@@ -1,6 +1,8 @@
 # Repository Access Setup
 
-Having access to tidymodels package source code significantly improves the quality and accuracy of guidance by providing real implementation examples, test patterns, and architectural insights.
+Having access to tidymodels package source code significantly improves the
+quality and accuracy of guidance by providing real implementation examples, test
+patterns, and architectural insights.
 
 ## Overview
 
@@ -20,11 +22,11 @@ When you clone the source repositories locally:
 
 ### What Gets Cloned
 
-- **yardstick**: Performance metrics package (~5 MB shallow clone)
+- **yardstick**: Performance metrics package (\~5 MB shallow clone)
 
-- **recipes**: Preprocessing steps package (~8 MB shallow clone)
+- **recipes**: Preprocessing steps package (\~8 MB shallow clone)
 
-Total disk space: ~15 MB
+Total disk space: \~15 MB
 
 ### What Gets Modified
 
@@ -50,11 +52,11 @@ git --version
 
 **If git is not installed:**
 
-| Platform | Installation Method |
-|----------|-------------------|
-| **macOS** | Install Xcode Command Line Tools:<br>`xcode-select --install`<br>Or download from: https://git-scm.com/downloads |
-| **Linux** | Use your package manager:<br>- Debian/Ubuntu: `sudo apt-get install git`<br>- RHEL/CentOS: `sudo yum install git`<br>- Fedora: `sudo dnf install git` |
-| **Windows** | Download from: https://git-scm.com/downloads<br>Or use package manager:<br>- winget: `winget install Git.Git`<br>- Chocolatey: `choco install git` |
+| Platform    | Installation Method                                                                                                                                   |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **macOS**   | Install Xcode Command Line Tools:<br>`xcode-select --install`<br>Or download from: https://git-scm.com/downloads                                      |
+| **Linux**   | Use your package manager:<br>- Debian/Ubuntu: `sudo apt-get install git`<br>- RHEL/CentOS: `sudo yum install git`<br>- Fedora: `sudo dnf install git` |
+| **Windows** | Download from: https://git-scm.com/downloads<br>Or use package manager:<br>- winget: `winget install Git.Git`<br>- Chocolatey: `choco install git`    |
 
 ## Quick Start
 
@@ -62,17 +64,20 @@ git --version
 
 We provide three platform-native scripts:
 
-| Platform | Script | Notes |
-|----------|--------|-------|
-| macOS, Linux, WSL | `clone-tidymodels-repos.sh` | Bash script |
-| Windows | `clone-tidymodels-repos.ps1` | PowerShell (preferred) |
-| Any platform | `clone-tidymodels-repos.py` | Python 3.6+ fallback |
+| Platform          | Script                       | Notes                  |
+| ----------------- | ---------------------------- | ---------------------- |
+| macOS, Linux, WSL | `clone-tidymodels-repos.sh`  | Bash script            |
+| Windows           | `clone-tidymodels-repos.ps1` | PowerShell (preferred) |
+| Any platform      | `clone-tidymodels-repos.py`  | Python 3.6+ fallback   |
 
 ### Step 2: Run from Your Package Directory
 
-Navigate to your R package directory (where your `DESCRIPTION` file is) and run the appropriate script.
+Navigate to your R package directory (where your `DESCRIPTION` file is) and run
+the appropriate script.
 
-**Note on paths:** The scripts are located in the Claude plugin cache. The `*` wildcard in paths below matches the commit hash and will be automatically expanded by your shell.
+**Note on paths:** The scripts are located in the Claude plugin cache. The `*`
+wildcard in paths below matches the commit hash and will be automatically
+expanded by your shell.
 
 **macOS/Linux/WSL:**
 
@@ -128,26 +133,29 @@ your-package/
 
 All scripts accept package names as arguments:
 
-| Argument | Description |
-|----------|-------------|
-| `yardstick` | Clone only yardstick repository |
-| `recipes` | Clone only recipes repository |
-| `yardstick recipes` | Clone both repositories |
-| `all` | Clone all available repositories |
+| Argument            | Description                      |
+| ------------------- | -------------------------------- |
+| `yardstick`         | Clone only yardstick repository  |
+| `recipes`           | Clone only recipes repository    |
+| `yardstick recipes` | Clone both repositories          |
+| `all`               | Clone all available repositories |
 
 ### Examples
 
 **Clone single package:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 ```
 
 **Clone multiple packages:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick recipes
 ```
 
 **Clone all packages:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
@@ -194,12 +202,12 @@ Modified files:
 
 ### Exit Codes
 
-| Code | Meaning | Action |
-|------|---------|--------|
-| 0 | Success | Repository access configured |
-| 1 | Git not found | Install git (see Prerequisites) |
-| 2 | Clone failed | Check network/disk space |
-| 3 | Permission error | Check directory write permissions |
+| Code | Meaning          | Action                            |
+| ---- | ---------------- | --------------------------------- |
+| 0    | Success          | Repository access configured      |
+| 1    | Git not found    | Install git (see Prerequisites)   |
+| 2    | Clone failed     | Check network/disk space          |
+| 3    | Permission error | Check directory write permissions |
 
 ## PowerShell Execution Policy (Windows)
 
@@ -256,11 +264,13 @@ echo "^repos$" >> .Rbuildignore
 
 ### Permission denied when creating repos/ directory
 
-**Symptom**: Script exits with "Failed to create repos/ directory (permission denied)".
+**Symptom**: Script exits with "Failed to create repos/ directory (permission
+denied)".
 
 **Solutions**:
 
-- Check that you're running the script from a directory where you have write permissions
+- Check that you're running the script from a directory where you have write
+  permissions
 
 - On Windows, try running PowerShell as Administrator
 
@@ -286,17 +296,19 @@ echo "^repos$" >> .Rbuildignore
 
 **Solution**: Free up disk space. Requirements:
 
-- yardstick: ~5 MB
+- yardstick: \~5 MB
 
-- recipes: ~8 MB
+- recipes: \~8 MB
 
-- Total for both: ~15 MB
+- Total for both: \~15 MB
 
 ### Repository already exists
 
-**Symptom**: Script reports "Repository already exists at repos/package (skipping)".
+**Symptom**: Script reports "Repository already exists at repos/package
+(skipping)".
 
-**Explanation**: This is not an error. The script detected an existing clone and skipped it to avoid overwriting.
+**Explanation**: This is not an error. The script detected an existing clone and
+skipped it to avoid overwriting.
 
 **To update an existing repository:**
 
@@ -321,7 +333,8 @@ If too old, use the bash or PowerShell scripts instead, or upgrade Python.
 
 ### During Skill Invocation
 
-Once repositories are cloned, Claude will automatically detect them and use them to provide enhanced guidance with real examples.
+Once repositories are cloned, Claude will automatically detect them and use them
+to provide enhanced guidance with real examples.
 
 ### Referencing Files
 
@@ -392,11 +405,13 @@ rm -rf repos/
 
 ### Do I need to clone repositories to use the skills?
 
-No. Repository access is optional but recommended. Skills will work with built-in reference materials if you choose not to clone.
+No. Repository access is optional but recommended. Skills will work with
+built-in reference materials if you choose not to clone.
 
 ### Will cloned repositories be committed to my package?
 
-No. The scripts automatically add `repos/` to `.gitignore`, preventing the cloned code from being committed.
+No. The scripts automatically add `repos/` to `.gitignore`, preventing the
+cloned code from being committed.
 
 ### Will cloned repositories be included in my package build?
 
@@ -414,7 +429,8 @@ Update frequency depends on your needs:
 
 ### Can I clone repositories to a different location?
 
-Yes, but you'll need to modify the scripts. The default `repos/` location is recommended because:
+Yes, but you'll need to modify the scripts. The default `repos/` location is
+recommended because:
 
 - It's easy to add to ignore files
 
@@ -432,7 +448,8 @@ Shallow clones (`--depth 1`) include only the latest commit, reducing:
 
 - Complexity (no history to navigate)
 
-For reference purposes, you typically only need the current code, not the full history.
+For reference purposes, you typically only need the current code, not the full
+history.
 
 ### What if I want the full git history?
 
@@ -487,6 +504,6 @@ If you encounter issues not covered in troubleshooting:
 4. Review error messages carefully - they often contain helpful hints
 5. Consider manual setup as an alternative
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated**: 2026-03-17

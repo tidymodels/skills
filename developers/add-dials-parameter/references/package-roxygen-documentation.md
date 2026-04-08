@@ -109,6 +109,7 @@ your_function <- function() { ... }
 ```
 
 **For examples requiring optional packages:**
+
 ```r
 #' @examplesIf rlang::is_installed("modeldata")
 #' data(biomass, package = "modeldata")
@@ -427,6 +428,7 @@ step_center <- function(
 ```
 
 Examples:
+
 ```r
 #' \deqn{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2}
 #' \eqn{x_i} represents the i-th observation

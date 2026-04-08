@@ -1,16 +1,20 @@
 # Testing Patterns for Yardstick Source Development
 
-**Context:** This guide is for **source development** - contributing to the yardstick package directly.
+**Context:** This guide is for **source development** - contributing to the
+yardstick package directly.
 
-**Key principle:** ✅ **You CAN use internal functions and test helpers** - you're developing the package itself.
+**Key principle:** ✅ **You CAN use internal functions and test helpers** -
+you're developing the package itself.
 
-For extension development (creating new packages), see [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements).
+For extension development (creating new packages), see [Testing Patterns
+(Extension)](package-extension-requirements.md#testing-requirements).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use Internal Test Helpers
 
-When developing yardstick itself, you have access to internal test data and helpers. Use them to:
+When developing yardstick itself, you have access to internal test data and
+helpers. Use them to:
 
 - Maintain consistency with existing tests
 
@@ -135,6 +139,7 @@ test_that("multiclass metric shows all estimators", {
 ### Updating Snapshots
 
 When metric behavior changes intentionally:
+
 ```r
 # Run tests and review changes
 testthat::snapshot_review()
@@ -448,7 +453,8 @@ testthat::snapshot_review()
 
 ## Next Steps
 
-- Review [Best Practices (Source)](best-practices-source.md) for yardstick coding standards
+- Review [Best Practices (Source)](best-practices-source.md) for yardstick
+  coding standards
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 

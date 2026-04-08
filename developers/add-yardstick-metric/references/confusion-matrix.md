@@ -1,12 +1,17 @@
 # Working with Confusion Matrices
 
-Understanding how to work with confusion matrices is essential for implementing classification metrics in yardstick.
+Understanding how to work with confusion matrices is essential for implementing
+classification metrics in yardstick.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal confusion matrix utilities. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, you can use internal confusion matrix utilities. See the
+> [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
-Confusion matrices are the foundation for classification metrics. The `yardstick_table()` function creates weighted confusion matrices that all classification metrics use.
+Confusion matrices are the foundation for classification metrics. The
+`yardstick_table()` function creates weighted confusion matrices that all
+classification metrics use.
 
 **Implementation:**
 
@@ -16,7 +21,8 @@ Confusion matrices are the foundation for classification metrics. The `yardstick
 
 **Usage examples in metrics:**
 
-- Binary metrics: `R/class-accuracy.R`, `R/class-precision.R` (extract TP/FP/TN/FN)
+- Binary metrics: `R/class-accuracy.R`, `R/class-precision.R` (extract
+  TP/FP/TN/FN)
 
 - Multiclass metrics: `R/class-f_meas.R` (per-class calculations)
 
@@ -26,7 +32,8 @@ Confusion matrices are the foundation for classification metrics. The `yardstick
 
 - Table creation tests: `tests/testthat/test-table.R`
 
-- Weight handling: `tests/testthat/test-class-accuracy.R` (validates weighted confusion matrices)
+- Weight handling: `tests/testthat/test-class-accuracy.R` (validates weighted
+  confusion matrices)
 
 ## Creating Confusion Matrices
 
@@ -38,7 +45,8 @@ xtab <- yardstick::yardstick_table(truth, estimate, case_weights = case_weights)
 
 ## What yardstick_table Returns
 
-`yardstick_table()` returns a base R `table` object (which is technically an array):
+`yardstick_table()` returns a base R `table` object (which is technically an
+array):
 
 ```r
 xtab <- yardstick_table(truth, estimate)
@@ -213,7 +221,8 @@ fp <- xtab[control, event]  # Could be 0
 sensitivity <- tp / (tp + fn)  # Works even if fn = 0 (gives Inf or NaN)
 ```
 
-Zero counts are valid and operations handle them correctly (may result in `Inf` or `NaN` which is expected).
+Zero counts are valid and operations handle them correctly (may result in `Inf`
+or `NaN` which is expected).
 
 ## Factor Level Ordering and the Table
 

@@ -1,6 +1,8 @@
 # Integrated Survival Metrics
 
-Integrated survival metrics aggregate time-dependent performance across all evaluation times into a single overall value. These are summary metrics calculated from dynamic survival metrics.
+Integrated survival metrics aggregate time-dependent performance across all
+evaluation times into a single overall value. These are summary metrics
+calculated from dynamic survival metrics.
 
 ## Overview
 
@@ -24,13 +26,13 @@ Integrated survival metrics aggregate time-dependent performance across all eval
 
 **Examples:** Integrated Brier Score, Integrated ROC AUC
 
-**Reference implementation:** `R/surv-brier_survival_integrated.R` in yardstick repository
+**Reference implementation:** `R/surv-brier_survival_integrated.R` in yardstick
+repository
 
 ## Pattern: Two-Function Approach
 
-Unlike other metric types, integrated metrics typically:
-1. Call the corresponding dynamic metric
-2. Integrate the results
+Unlike other metric types, integrated metrics typically: 1. Call the
+corresponding dynamic metric 2. Integrate the results
 
 ### 1. Implementation Function
 
@@ -142,7 +144,8 @@ my_metric_integrated.data.frame <- function(data, truth, ..., na_rm = TRUE,
 
 ## Complete Example: Integrated Brier Score
 
-Integrated Brier score summarizes time-dependent Brier scores across all evaluation times.
+Integrated Brier score summarizes time-dependent Brier scores across all
+evaluation times.
 
 ```r
 # R/brier_survival_integrated.R
@@ -231,7 +234,8 @@ brier_survival_integrated.data.frame <- function(data, truth, ..., na_rm = TRUE,
 check_dynamic_survival_metric(truth, estimate, case_weights)
 ```
 
-Integrated metrics use the same validation as dynamic metrics since they operate on the same input format.
+Integrated metrics use the same validation as dynamic metrics since they operate
+on the same input format.
 
 **Additional validation:**
 
@@ -241,7 +245,8 @@ Integrated metrics use the same validation as dynamic metrics since they operate
 
 ## Input Format
 
-Same as dynamic survival metrics. See [Dynamic Survival Metrics](dynamic-survival-metrics.md).
+Same as dynamic survival metrics. See [Dynamic Survival
+Metrics](dynamic-survival-metrics.md).
 
 ### Truth: Surv Object
 
@@ -270,7 +275,8 @@ estimate <- list(
 
 ## Integration Method
 
-Integrated metrics use the **trapezoidal rule** to approximate area under the curve:
+Integrated metrics use the **trapezoidal rule** to approximate area under the
+curve:
 
 ```r
 # Example: Brier scores at different times
@@ -413,12 +419,12 @@ if (num_eval_times < 2) {
 
 ## Key Differences from Other Metric Types
 
-| Aspect | Integrated Survival | Dynamic Survival | Static Survival |
-|--------|---------------------|------------------|-----------------|
-| Output | Single value | Multiple (per time) | Single value |
-| Calculation | Integration | Per eval_time | Overall |
-| Predictions | Survival curves | Survival curves | Single numeric |
-| Interpretation | Average over time | Time-specific | Overall |
+| Aspect         | Integrated Survival | Dynamic Survival    | Static Survival |
+| -------------- | ------------------- | ------------------- | --------------- |
+| Output         | Single value        | Multiple (per time) | Single value    |
+| Calculation    | Integration         | Per eval_time       | Overall         |
+| Predictions    | Survival curves     | Survival curves     | Single numeric  |
+| Interpretation | Average over time   | Time-specific       | Overall         |
 
 ## Relationship to Dynamic Metrics
 
@@ -476,8 +482,10 @@ auc <- function(x, y) {
 
 ## See Also
 
-- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Base time-dependent metrics
+- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Base time-dependent
+  metrics
 
-- [Static Survival Metrics](static-survival-metrics.md) - Overall metrics without time
+- [Static Survival Metrics](static-survival-metrics.md) - Overall metrics
+  without time
 
 - [Metric System](metric-system.md) - Understanding metric architecture

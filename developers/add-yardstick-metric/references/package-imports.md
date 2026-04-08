@@ -1,6 +1,7 @@
 # Package Imports and Namespace Management
 
-Guide to properly importing functions from other packages and managing your package's namespace.
+Guide to properly importing functions from other packages and managing your
+package's namespace.
 
 ## The NAMESPACE File
 
@@ -10,7 +11,8 @@ The `NAMESPACE` file controls:
 
 - Which functions your package imports from other packages
 
-**Important:** Never edit `NAMESPACE` directly. Let roxygen2 generate it via `devtools::document()`.
+**Important:** Never edit `NAMESPACE` directly. Let roxygen2 generate it via
+`devtools::document()`.
 
 ## Package-Level Documentation
 
@@ -28,7 +30,8 @@ Create a package-level documentation file to declare imports.
 NULL
 ```
 
-Replace `{packagename}` with your actual package name (e.g., `R/mymetrics-package.R`).
+Replace `{packagename}` with your actual package name (e.g.,
+`R/mymetrics-package.R`).
 
 ### What this does
 
@@ -59,7 +62,8 @@ Replace `{packagename}` with your actual package name (e.g., `R/mymetrics-packag
 "_PACKAGE"
 ```
 
-**Warning:** `@import` imports everything from a package. Use `@importFrom` instead to import only what you need.
+**Warning:** `@import` imports everything from a package. Use `@importFrom`
+instead to import only what you need.
 
 ## When to Add Imports
 
@@ -83,16 +87,19 @@ checking R code for possible problems ... NOTE
 ### Common packages that need imports
 
 **From `stats`:**
+
 ```r
 #' @importFrom stats weighted.mean median sd var quantile
 ```
 
 **From `utils`:**
+
 ```r
 #' @importFrom utils head tail str
 ```
 
 **From `grDevices`:**
+
 ```r
 #' @importFrom grDevices rainbow
 ```
@@ -235,10 +242,9 @@ Only use `@import` for packages designed for it (like rlang):
 
 **Problem:** Function not imported or package not in DESCRIPTION
 
-**Solution:**
-1. Add package to DESCRIPTION: `usethis::use_package("package_name")`
-2. Add import or use `::` notation
-3. Run `devtools::document()`
+**Solution:** 1. Add package to DESCRIPTION:
+`usethis::use_package("package_name")` 2. Add import or use `::` notation 3. Run
+`devtools::document()`
 
 ### "no visible global function definition"
 
@@ -263,7 +269,8 @@ Only use `@import` for packages designed for it (like rlang):
 
 **Problem:** Trying to import internal function
 
-**Solution:** Use `:::` (not recommended for production) or find an exported alternative
+**Solution:** Use `:::` (not recommended for production) or find an exported
+alternative
 
 ## Best Practices
 
@@ -319,7 +326,8 @@ Look for:
 
 ## Next Steps
 
-- Write roxygen documentation: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Write roxygen documentation:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
 - Follow best practices: [package-best-practices.md](package-best-practices.md)
 

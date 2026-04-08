@@ -1,12 +1,13 @@
 # Extension Development: Best Practices
 
-**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages.
+**Context:** This guide is for **extension development** - creating new packages
+that extend tidymodels packages.
 
 **Key principle:** ❌ **Never use internal functions** (accessed with `:::`)
 
 Guide to writing high-quality R code for tidymodels extension packages.
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -253,6 +254,7 @@ for (i in seq_len(n_classes)) {
 ```
 
 **Use `colSums()` and `rowSums()`:**
+
 ```r
 # Good
 class_totals <- colSums(confusion_matrix)
@@ -443,5 +445,4 @@ Or use RStudio: Code → Reformat Code (Cmd/Ctrl + Shift + A)
 
 - Don't commit broken code (except on branches)
 
----
-
+--------------------------------------------------------------------------------

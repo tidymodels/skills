@@ -1,12 +1,15 @@
 # Best Practices for Yardstick Source Development
 
-**Context:** This guide is for **source development** - contributing to the yardstick package directly.
+**Context:** This guide is for **source development** - contributing to the
+yardstick package directly.
 
-**Key principle:** ✅ **You CAN use internal functions** - you're developing the package, so internals are available.
+**Key principle:** ✅ **You CAN use internal functions** - you're developing the
+package, so internals are available.
 
-For extension development (creating new packages), see [Best Practices (Extension)](package-extension-requirements.md#best-practices).
+For extension development (creating new packages), see [Best Practices
+(Extension)](package-extension-requirements.md#best-practices).
 
----
+--------------------------------------------------------------------------------
 
 ## Using Internal Functions in Yardstick
 
@@ -295,7 +298,8 @@ roc_auc <- new_prob_metric(roc_auc, direction = "maximize")
 
 ### Use Metric Summarizers
 
-Don't implement the data frame method from scratch. Use the appropriate summarizer:
+Don't implement the data frame method from scratch. Use the appropriate
+summarizer:
 
 ```r
 # For numeric metrics
@@ -576,10 +580,12 @@ if (na_rm) {
 
 ## Next Steps
 
-- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing
+  guidance
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 
 - Study existing metrics in the yardstick repository
 
-- Follow the [Extension Guide](package-extension-requirements.md#best-practices) for code style basics
+- Follow the [Extension Guide](package-extension-requirements.md#best-practices)
+  for code style basics

@@ -2,13 +2,18 @@
 
 **Create custom tuning parameters for hyperparameter tuning in Tidymodels**
 
-Guide for creating new dials parameters for hyperparameter tuning. Use when a developer needs to define custom tuning parameters for models, recipes, or workflows, including quantitative parameters (continuous/integer), qualitative parameters (categorical), parameters with transformations, and data-dependent parameters requiring finalization.
+Guide for creating new dials parameters for hyperparameter tuning. Use when a
+developer needs to define custom tuning parameters for models, recipes, or
+workflows, including quantitative parameters (continuous/integer), qualitative
+parameters (categorical), parameters with transformations, and data-dependent
+parameters requiring finalization.
 
----
+--------------------------------------------------------------------------------
 
 ## Two Development Contexts
 
-This skill supports **two distinct development contexts** with different capabilities and constraints:
+This skill supports **two distinct development contexts** with different
+capabilities and constraints:
 
 ### 1. Extension Development (Primary Context)
 
@@ -20,13 +25,15 @@ This skill supports **two distinct development contexts** with different capabil
 
 - ❌ Cannot use internal functions (`:::`)
 
-- 📘 **Start here:** [Extension Development Guide](references/extension-guide.md)
+- 📘 **Start here:** [Extension Development
+  Guide](references/extension-guide.md)
 
 **Package detection:** DESCRIPTION file does NOT have `Package: dials`
 
 ### 2. Source Development (Advanced Context)
 
-**Use when:** Contributing parameter definitions directly to tidymodels/dials repository
+**Use when:** Contributing parameter definitions directly to tidymodels/dials
+repository
 
 - ✅ Contribute parameters to dials package itself
 
@@ -40,7 +47,7 @@ This skill supports **two distinct development contexts** with different capabil
 
 **Package detection:** DESCRIPTION file has `Package: dials`
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Started
 
@@ -96,21 +103,24 @@ usethis::create_package("myextension")
 
 3. **When uncertain:**
 
-   - Ask explicitly: "Are you creating a new package or contributing to dials itself?"
+   - Ask explicitly: "Are you creating a new package or contributing to dials
+     itself?"
 
    - Default to extension development (most common use case)
 
 **Apply appropriate patterns:**
 
-- Extension: Use dials:: prefix, link to extension-guide.md, create DESCRIPTION if needed
+- Extension: Use dials:: prefix, link to extension-guide.md, create DESCRIPTION
+  if needed
 
 - Source: No prefix, link to source-guide.md, assume dials repo structure exists
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-**dials** is the tuning parameter infrastructure package for Tidymodels. It provides:
+**dials** is the tuning parameter infrastructure package for Tidymodels. It
+provides:
 
 - Parameter object definitions (quantitative and qualitative)
 
@@ -120,7 +130,8 @@ usethis::create_package("myextension")
 
 - Integration with tune, parsnip, recipes, and workflows packages
 
-The name reflects the idea that tuning predictive models can be like turning a set of dials on a complex machine.
+The name reflects the idea that tuning predictive models can be like turning a
+set of dials on a complex machine.
 
 ### Key Concepts
 
@@ -129,19 +140,22 @@ The name reflects the idea that tuning predictive models can be like turning a s
 3. **Finalization**: Resolving data-dependent parameters with training data
 4. **Grid Integration**: How parameters work with grid generation functions
 
----
+--------------------------------------------------------------------------------
 
 ## Repository Access (Optional but Recommended)
 
-**INSTRUCTIONS FOR CLAUDE:** Check if `repos/dials/` exists in the current working directory. Use this to guide development:
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/dials/` exists in the current
+working directory. Use this to guide development:
 
 **If `repos/dials/` exists:**
 
 - ✅ Use it as a reference throughout development
 
-- Read source files (e.g., `repos/dials/R/param_mtry.R`) to study implementation patterns
+- Read source files (e.g., `repos/dials/R/param_mtry.R`) to study implementation
+  patterns
 
-- Read test files (e.g., `repos/dials/tests/testthat/test-param_mtry.R`) for testing patterns
+- Read test files (e.g., `repos/dials/tests/testthat/test-param_mtry.R`) for
+  testing patterns
 
 - Reference these files when answering complex questions or solving problems
 
@@ -149,7 +163,8 @@ The name reflects the idea that tuning predictive models can be like turning a s
 
 **If `repos/dials/` does NOT exist:**
 
-- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- Suggest cloning the repository using the scripts in [Repository Access
+  Guide](references/package-repository-access.md)
 
 - This is **optional but strongly recommended** for high-quality development
 
@@ -173,9 +188,10 @@ The name reflects the idea that tuning predictive models can be like turning a s
 
 - Architecture decisions (understand internal structure)
 
-See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+See [Repository Access Guide](references/package-repository-access.md) for setup
+instructions.
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Type Decision Tree
 
@@ -215,15 +231,21 @@ See [Repository Access Guide](references/package-repository-access.md) for setup
 
 **Decision guide:**
 
-- **Quantitative, simple range**: Fixed numeric bounds, no transformation → [Quantitative Parameters](references/quantitative-parameters.md)
+- **Quantitative, simple range**: Fixed numeric bounds, no transformation →
+  [Quantitative Parameters](references/quantitative-parameters.md)
 
-- **Quantitative, transformed**: Log scale or other transformation → [Quantitative Parameters](references/quantitative-parameters.md) + [Transformations](references/transformations.md)
+- **Quantitative, transformed**: Log scale or other transformation →
+  [Quantitative Parameters](references/quantitative-parameters.md) +
+  [Transformations](references/transformations.md)
 
-- **Quantitative, data-dependent**: Upper bound depends on dataset → [Quantitative Parameters](references/quantitative-parameters.md) + [Data-Dependent Parameters](references/data-dependent-parameters.md)
+- **Quantitative, data-dependent**: Upper bound depends on dataset →
+  [Quantitative Parameters](references/quantitative-parameters.md) +
+  [Data-Dependent Parameters](references/data-dependent-parameters.md)
 
-- **Qualitative**: Discrete categorical options → [Qualitative Parameters](references/qualitative-parameters.md)
+- **Qualitative**: Discrete categorical options → [Qualitative
+  Parameters](references/qualitative-parameters.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -428,47 +450,60 @@ aggregation <- function(values = values_aggregation) {
 values_aggregation <- c("none", "min", "max", "mean", "sum")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Quick Navigation
 
 ### Core Guides
 
-- [Extension Development Guide](references/extension-guide.md) - Creating new packages with custom parameters
+- [Extension Development Guide](references/extension-guide.md) - Creating new
+  packages with custom parameters
 
-- [Source Development Guide](references/source-guide.md) - Contributing to dials package
+- [Source Development Guide](references/source-guide.md) - Contributing to dials
+  package
 
 ### Parameter Types
 
-- [Parameter System Overview](references/parameter-system.md) - Architecture and parameter classes
+- [Parameter System Overview](references/parameter-system.md) - Architecture and
+  parameter classes
 
-- [Quantitative Parameters](references/quantitative-parameters.md) - Creating numeric parameters
+- [Quantitative Parameters](references/quantitative-parameters.md) - Creating
+  numeric parameters
 
-- [Qualitative Parameters](references/qualitative-parameters.md) - Creating categorical parameters
+- [Qualitative Parameters](references/qualitative-parameters.md) - Creating
+  categorical parameters
 
-- [Transformations](references/transformations.md) - Using log scale and custom transformations
+- [Transformations](references/transformations.md) - Using log scale and custom
+  transformations
 
-- [Data-Dependent Parameters](references/data-dependent-parameters.md) - Using unknown() and finalization
+- [Data-Dependent Parameters](references/data-dependent-parameters.md) - Using
+  unknown() and finalization
 
-- [Grid Integration](references/grid-integration.md) - How parameters work with grids
+- [Grid Integration](references/grid-integration.md) - How parameters work with
+  grids
 
 ### Source Development
 
-- [Testing Patterns (Source)](references/testing-patterns-source.md) - dials-specific testing
+- [Testing Patterns (Source)](references/testing-patterns-source.md) -
+  dials-specific testing
 
-- [Best Practices (Source)](references/best-practices-source.md) - dials conventions and patterns
+- [Best Practices (Source)](references/best-practices-source.md) - dials
+  conventions and patterns
 
-- [Troubleshooting (Source)](references/troubleshooting-source.md) - Common issues in dials
+- [Troubleshooting (Source)](references/troubleshooting-source.md) - Common
+  issues in dials
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
 ### For Extension Development
 
-Before creating custom parameters in a new package, ensure your package is properly set up:
+Before creating custom parameters in a new package, ensure your package is
+properly set up:
 
-- **R Package Structure**: See [Extension Prerequisites](references/package-extension-prerequisites.md)
+- **R Package Structure**: See [Extension
+  Prerequisites](references/package-extension-prerequisites.md)
 
 - **Dependencies**: Add `dials` to DESCRIPTION Imports
 
@@ -498,7 +533,7 @@ To contribute parameters to dials:
 
 See [Source Development Guide](references/source-guide.md) for complete setup.
 
----
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
@@ -512,7 +547,8 @@ For rapid parameter development:
 4. **Document** with roxygen comments
 5. **Verify** with tests
 
-See [Development Workflow](references/package-development-workflow.md) for details.
+See [Development Workflow](references/package-development-workflow.md) for
+details.
 
 ### Testing Your Parameters
 
@@ -530,11 +566,12 @@ Essential tests for all parameters:
 
 See testing guides:
 
-- Extension: [Testing Requirements](references/package-extension-requirements.md#testing-requirements)
+- Extension: [Testing
+  Requirements](references/package-extension-requirements.md#testing-requirements)
 
 - Source: [Testing Patterns (Source)](references/testing-patterns-source.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Package-Specific Patterns
 
@@ -562,7 +599,8 @@ Use roxygen tags consistently:
 #' @export
 ```
 
-See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for
+complete patterns.
 
 ### Creating Companion Values Vectors
 
@@ -576,17 +614,21 @@ values_param_name <- c("option1", "option2", "option3")
 
 This convention is strongly recommended for consistency.
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### For Extension Developers
 
 1. Read [Extension Development Guide](references/extension-guide.md)
-2. Choose your parameter type: [Quantitative](references/quantitative-parameters.md) or [Qualitative](references/qualitative-parameters.md)
+2. Choose your parameter type:
+   [Quantitative](references/quantitative-parameters.md) or
+   [Qualitative](references/qualitative-parameters.md)
 3. Implement your parameter following the examples above
-4. Add tests following [Testing Requirements](references/package-extension-requirements.md#testing-requirements)
-5. Document with roxygen following [Documentation Guide](references/package-roxygen-documentation.md)
+4. Add tests following [Testing
+   Requirements](references/package-extension-requirements.md#testing-requirements)
+5. Document with roxygen following [Documentation
+   Guide](references/package-roxygen-documentation.md)
 
 ### For Source Contributors
 
@@ -599,41 +641,48 @@ This convention is strongly recommended for consistency.
 
 ### Related Skills
 
-- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom metrics may need custom tuning parameters
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom metrics may
+  need custom tuning parameters
 
-- [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps often have tunable parameters
+- [add-recipe-step](../add-recipe-step/SKILL.md) - Recipe steps often have
+  tunable parameters
 
-- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Model specifications have tunable main arguments
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Model specifications have
+  tunable main arguments
 
-- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Model engines have tunable parameters
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Model engines have
+  tunable parameters
 
----
+--------------------------------------------------------------------------------
 
 ## File Creation Guidelines
 
 **Extension development:**
 
-- R/param_[name].R (with complete roxygen docs and examples)
+- R/param\_[name].R (with complete roxygen docs and examples)
 
-- tests/testthat/test-param_[name].R (comprehensive tests)
+- tests/testthat/test-param\_[name].R (comprehensive tests)
 
 - README.md (only if package has no README)
 
-- Expected total: 2-3 files (aim for these targets; acceptable to exceed by 2-3 files if implementation requires it)
+- Expected total: 2-3 files (aim for these targets; acceptable to exceed by 2-3
+  files if implementation requires it)
 
 **Source development:**
 
-- R/param_[name].R (with complete roxygen docs and examples)
+- R/param\_[name].R (with complete roxygen docs and examples)
 
-- tests/testthat/test-param_[name].R (or additions to existing test file)
+- tests/testthat/test-param\_[name].R (or additions to existing test file)
 
-- Expected total: 2 files (aim for these targets; acceptable to exceed by 2-3 files if implementation requires it)
+- Expected total: 2 files (aim for these targets; acceptable to exceed by 2-3
+  files if implementation requires it)
 
 **Files to avoid creating:**
 
 Documentation files (content belongs in roxygen comments):
 
-- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, QUICKSTART.md, QUICK_REFERENCE.md
+- IMPLEMENTATION_SUMMARY.md, IMPLEMENTATION_NOTES.md, QUICKSTART.md,
+  QUICK_REFERENCE.md
 
 - INDEX.md, FILE_GUIDE.md, SUMMARY.md, OVERVIEW.md, INTEGRATION_GUIDE.md
 
@@ -665,10 +714,13 @@ For PRs to dials:
 
 - Test additions → conversation (tell user what to add)
 
-Creating extra documentation files clutters the codebase. All documentation should be in roxygen comments (for code) or in conversation (for PR descriptions).
+Creating extra documentation files clutters the codebase. All documentation
+should be in roxygen comments (for code) or in conversation (for PR
+descriptions).
 
-See extension-guide.md Step 5 and source-guide.md "File Creation Guidelines for PRs" for detailed enforcement rules.
+See extension-guide.md Step 5 and source-guide.md "File Creation Guidelines for
+PRs" for detailed enforcement rules.
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

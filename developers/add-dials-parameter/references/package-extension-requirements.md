@@ -1,14 +1,19 @@
 # Extension Development Requirements
 
-**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages like yardstick or recipes.
+**Context:** This guide is for **extension development** - creating new packages
+that extend tidymodels packages like yardstick or recipes.
 
-**Key principle:** ❌ **Never use internal functions** (accessed with `:::`) - they are not guaranteed to be stable and will cause CRAN check failures.
+**Key principle:** ❌ **Never use internal functions** (accessed with `:::`) -
+they are not guaranteed to be stable and will cause CRAN check failures.
 
-For source development (contributing to tidymodels packages directly), see the package-specific source guides.
+For source development (contributing to tidymodels packages directly), see the
+package-specific source guides.
 
----
+--------------------------------------------------------------------------------
 
-Complete requirements for developing high-quality R package extensions to tidymodels packages. This guide covers best practices, testing, and troubleshooting in one place.
+Complete requirements for developing high-quality R package extensions to
+tidymodels packages. This guide covers best practices, testing, and
+troubleshooting in one place.
 
 ## Table of Contents
 
@@ -76,7 +81,7 @@ Complete requirements for developing high-quality R package extensions to tidymo
 
 4. [Quick Reference](#quick-reference)
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -323,6 +328,7 @@ for (i in seq_len(n_classes)) {
 ```
 
 **Use `colSums()` and `rowSums()`:**
+
 ```r
 # Good
 class_totals <- colSums(confusion_matrix)
@@ -513,18 +519,19 @@ Or use RStudio: Code → Reformat Code (Cmd/Ctrl + Shift + A)
 
 - Don't commit broken code (except on branches)
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Requirements
 
 **INSTRUCTIONS FOR CLAUDE:** Test count should match complexity.
 
-**Minimum: 8-10 essential tests** (all steps)
-**Add feature-specific tests only when applicable** (see details below)
+**Minimum: 8-10 essential tests** (all steps) **Add feature-specific tests only
+when applicable** (see details below)
 
 Target: 8-12 tests for simple steps, 12-18 for moderate, 18-25 for complex.
 
-Comprehensive guide to testing R packages in the tidymodels ecosystem using testthat.
+Comprehensive guide to testing R packages in the tidymodels ecosystem using
+testthat.
 
 ### Test File Organization
 
@@ -582,6 +589,7 @@ multiclass_data <- data.frame(
 #### DON'T: Rely on internal test helpers
 
 **Avoid:**
+
 ```r
 # DON'T use internal yardstick helpers
 data <- data_altman()  # NOT EXPORTED
@@ -627,6 +635,7 @@ test_that("calculations are correct", {
 ```
 
 **For recipe steps:**
+
 ```r
 test_that("working correctly", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -680,6 +689,7 @@ test_that("parameter validation works", {
 ```
 
 **Use snapshots for detailed error messages:**
+
 ```r
 test_that("parameter validation produces clear errors", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -755,6 +765,7 @@ test_that("works with hardhat case weights", {
 ```
 
 **For recipe steps:**
+
 ```r
 test_that("step works with case weights", {
   mtcars_freq <- mtcars
@@ -863,6 +874,7 @@ test_that("works with grouped data", {
 These ensure recipe steps work in edge cases. Required tests:
 
 **1. Bake method errors when columns missing:**
+
 ```r
 test_that("bake method errors when needed columns are missing", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -874,6 +886,7 @@ test_that("bake method errors when needed columns are missing", {
 ```
 
 **2. Empty printing:**
+
 ```r
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars) |>
@@ -935,16 +948,19 @@ test_that("handles extreme values", {
 #### Use expect_snapshot()
 
 **For error messages:**
+
 ```r
 expect_snapshot(error = TRUE, your_function(bad_input))
 ```
 
 **For warnings:**
+
 ```r
 expect_snapshot(warning = TRUE, your_function(questionable_input))
 ```
 
 **For printed output:**
+
 ```r
 expect_snapshot(print(object))
 ```
@@ -1068,7 +1084,7 @@ covr::report()
 
 - Don't obsess over 100% - some code is hard to test
 
----
+--------------------------------------------------------------------------------
 
 ## Common Issues & Solutions
 
@@ -1102,7 +1118,8 @@ writeLines(c(
 
 Or manually edit `.Rbuildignore` to include these patterns.
 
-See [package-extension-prerequisites.md](package-extension-prerequisites.md) for details.
+See [package-extension-prerequisites.md](package-extension-prerequisites.md) for
+details.
 
 #### "No visible global function definition"
 
@@ -1119,6 +1136,7 @@ checking R code for possible problems ... NOTE
 **Solution:** Add package-level documentation file:
 
 Create `R/{packagename}-package.R`:
+
 ```r
 #' @keywords internal
 #' @importFrom stats weighted.mean
@@ -1141,16 +1159,19 @@ checking R code for possible problems ... NOTE
   your_function: no visible binding for global variable 'column_name'
 ```
 
-**Cause:** Using NSE variables (common with dplyr/ggplot2) without declaring them
+**Cause:** Using NSE variables (common with dplyr/ggplot2) without declaring
+them
 
 **Solution:** Use `.data` pronoun or declare globals:
 
 **Option 1: Use .data pronoun (preferred)**
+
 ```r
 dplyr::mutate(data, new_col = .data$column_name * 2)
 ```
 
 **Option 2: Declare global variables**
+
 ```r
 # In R/{packagename}-package.R
 utils::globalVariables(c("column_name", "another_column"))
@@ -1169,6 +1190,7 @@ Error: 'your_function' is not an exported object from 'namespace:yourpackage'
 **Cause:** Missing `@export` tag or namespace not updated
 
 **Solution:**
+
 ```r
 # 1. Add @export to your roxygen block
 #' @export
@@ -1206,8 +1228,7 @@ See yardstick skill for list of internal vs exported functions.
 
 #### Tests fail with "object 'data_altman' not found"
 
-**Symptom:**
-```
+**Symptom:** ```
 Error: object 'data_altman' not found
 ```
 
@@ -1228,14 +1249,14 @@ test_data <- data.frame(
 
 #### "Could not find function in tests"
 
-**Symptom:**
-```
+**Symptom:** ```
 Error in test: could not find function "your_function"
 ```
 
 **Cause:** Package not loaded before running tests
 
 **Solution:**
+
 ```r
 # Load package before testing
 devtools::load_all()
@@ -1244,7 +1265,8 @@ devtools::test()
 
 #### Tests pass locally but fail in check()
 
-**Symptom:** Tests work with `devtools::test()` but fail with `devtools::check()`
+**Symptom:** Tests work with `devtools::test()` but fail with
+`devtools::check()`
 
 **Cause:** Test relies on local environment
 
@@ -1261,6 +1283,7 @@ devtools::test()
 **Problem:** Exact equality fails for floating point
 
 **Solution:** Use tolerance
+
 ```r
 expect_equal(result, expected, tolerance = 1e-7)
 ```
@@ -1270,6 +1293,7 @@ expect_equal(result, expected, tolerance = 1e-7)
 **Problem:** Output changed (expected or unexpected)
 
 **Solution:** Review changes, update snapshots if correct
+
 ```r
 # In test file, after verifying change is correct
 testthat::snapshot_accept()
@@ -1289,8 +1313,7 @@ testthat::snapshot_accept()
 
 #### "Cannot find template 'return'"
 
-**Symptom:**
-```
+**Symptom:** ```
 Error: Cannot find template 'return'
 ```
 
@@ -1308,12 +1331,12 @@ Error: Cannot find template 'return'
 
 #### "Link to unknown function"
 
-**Symptom:**
-```
+**Symptom:** ```
 Warning: Link to unknown function 'some_function'
 ```
 
-**Cause:** Documentation references function that doesn't exist or isn't imported
+**Cause:** Documentation references function that doesn't exist or isn't
+imported
 
 **Solution:**
 
@@ -1332,7 +1355,8 @@ Warning: Link to unknown function 'some_function'
 Error: no applicable method for 'metric_name' applied to an object of class "data.frame"
 ```
 
-**Cause:** Calling `UseMethod()` after `new_*_metric()` or data.frame method not defined
+**Cause:** Calling `UseMethod()` after `new_*_metric()` or data.frame method not
+defined
 
 **Solution:** Correct order:
 
@@ -1387,6 +1411,7 @@ metric_name.data.frame <- function(data, truth, estimate, threshold = 0.5, ...) 
 Common dependency problems and solutions:
 
 **Package not available:**
+
 ```r
 # Install missing package
 install.packages("xxx")
@@ -1397,9 +1422,11 @@ usethis::use_package("xxx")
 
 **Unused dependencies:**
 
-- "Namespace dependencies not required" → Remove unused imports from package-level doc
+- "Namespace dependencies not required" → Remove unused imports from
+  package-level doc
 
-- "All declared Imports should be used" → Remove from DESCRIPTION or add `@importFrom`
+- "All declared Imports should be used" → Remove from DESCRIPTION or add
+  `@importFrom`
 
 Then run `devtools::document()` to update NAMESPACE
 
@@ -1410,6 +1437,7 @@ Then run `devtools::document()` to update NAMESPACE
 **Problem:** Tests take too long during development
 
 **Solution:**
+
 ```r
 # Run only one test file
 devtools::test_active_file()
@@ -1432,6 +1460,7 @@ test_that("slow integration test", {
 **Reminder:** Don't run `check()` during development!
 
 Use the fast iteration cycle instead:
+
 ```r
 devtools::document()  # Fast
 devtools::load_all()  # Fast
@@ -1440,7 +1469,8 @@ devtools::test()      # Fast (seconds to minutes)
 
 Only run `check()` once at the very end.
 
-See [package-development-workflow.md](package-development-workflow.md) for details.
+See [package-development-workflow.md](package-development-workflow.md) for
+details.
 
 ### Memory Issues
 
@@ -1480,10 +1510,8 @@ git commit --no-verify  # Bad practice
 
 **Problem:** Committed .env or credentials
 
-**Solution:**
-1. Remove from git history (complex, search online)
-2. Add to .gitignore
-3. Rotate compromised credentials immediately
+**Solution:** 1. Remove from git history (complex, search online) 2. Add to
+.gitignore 3. Rotate compromised credentials immediately
 
 **Prevention:** Set up .gitignore properly from the start
 
@@ -1530,11 +1558,8 @@ browser()  # Add this line in function code
 
 #### When to ask for help
 
-After you've:
-1. Read relevant documentation
-2. Searched for similar issues
-3. Created a minimal reproducible example
-4. Tried suggested solutions
+After you've: 1. Read relevant documentation 2. Searched for similar issues 3.
+Created a minimal reproducible example 4. Tried suggested solutions
 
 #### Creating a reproducible example
 
@@ -1549,7 +1574,7 @@ reprex::reprex()
 # Paste the output when asking for help
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Quick Reference
 
@@ -1599,10 +1624,13 @@ browser()            # Add breakpoint in code
 
 ### Next Steps
 
-- Complete setup: [package-extension-prerequisites.md](package-extension-prerequisites.md)
+- Complete setup:
+  [package-extension-prerequisites.md](package-extension-prerequisites.md)
 
-- Follow workflow: [package-development-workflow.md](package-development-workflow.md)
+- Follow workflow:
+  [package-development-workflow.md](package-development-workflow.md)
 
-- Document functions: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document functions:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
 - Manage dependencies: [package-imports.md](package-imports.md)

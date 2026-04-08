@@ -1,8 +1,11 @@
 # Recipe Helper Functions Reference
 
-The recipes package provides helper functions to standardize common operations in recipe steps. Use these instead of implementing your own versions.
+The recipes package provides helper functions to standardize common operations
+in recipe steps. Use these instead of implementing your own versions.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, these helper functions are available without the `recipes::` prefix. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, these helper functions are available without the `recipes::`
+> prefix. See the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -38,22 +41,22 @@ The recipes package provides helper functions to standardize common operations i
 
 ## Overview
 
-| Function | Purpose | Typical Usage |
-|----------|---------|---------------|
-| `recipes_eval_select()` | Convert quosures to column names | `prep()` method |
-| `check_type()` | Validate column types | `prep()` method |
-| `check_new_data()` | Verify columns exist in new data | `bake()` method |
-| `check_name()` | Prevent column name conflicts | When creating new columns |
-| `get_case_weights()` | Extract case weights from info | `prep()` method |
-| `are_weights_used()` | Check if weights should be used | `prep()` method |
-| `rand_id()` | Generate unique step IDs | Step constructor |
-| `print_step()` | Standard step printing | `print()` method |
-| `remove_original_cols()` | Handle keep_original_cols | `bake()` method |
-| `sel2char()` | Convert selections to strings | `tidy()` method |
-| `is_trained()` | Check training status | `tidy()` method |
-| `add_step()` | Add step to recipe | Step constructor |
-| `yardstick_any_missing()` | Check for NA values | Both `prep()` and `bake()` |
-| `yardstick_remove_missing()` | Remove rows with NAs | Both `prep()` and `bake()` |
+| Function                     | Purpose                          | Typical Usage              |
+| ---------------------------- | -------------------------------- | -------------------------- |
+| `recipes_eval_select()`      | Convert quosures to column names | `prep()` method            |
+| `check_type()`               | Validate column types            | `prep()` method            |
+| `check_new_data()`           | Verify columns exist in new data | `bake()` method            |
+| `check_name()`               | Prevent column name conflicts    | When creating new columns  |
+| `get_case_weights()`         | Extract case weights from info   | `prep()` method            |
+| `are_weights_used()`         | Check if weights should be used  | `prep()` method            |
+| `rand_id()`                  | Generate unique step IDs         | Step constructor           |
+| `print_step()`               | Standard step printing           | `print()` method           |
+| `remove_original_cols()`     | Handle keep_original_cols        | `bake()` method            |
+| `sel2char()`                 | Convert selections to strings    | `tidy()` method            |
+| `is_trained()`               | Check training status            | `tidy()` method            |
+| `add_step()`                 | Add step to recipe               | Step constructor           |
+| `yardstick_any_missing()`    | Check for NA values              | Both `prep()` and `bake()` |
+| `yardstick_remove_missing()` | Remove rows with NAs             | Both `prep()` and `bake()` |
 
 ## Variable Selection and Resolution
 
@@ -61,9 +64,11 @@ The recipes package provides helper functions to standardize common operations i
 
 **Purpose:** Resolves tidyselect expressions to actual column names.
 
-**When to use:** In `prep()` to convert user's variable selections (like `all_numeric()`) to actual column names.
+**When to use:** In `prep()` to convert user's variable selections (like
+`all_numeric()`) to actual column names.
 
 **Signature:**
+
 ```r
 recipes_eval_select(quos, data, info)
 ```
@@ -77,6 +82,7 @@ recipes_eval_select(quos, data, info)
 - `info`: Recipe info object (from `prep()` parameter)
 
 **Example:**
+
 ```r
 prep.step_yourname <- function(x, training, info = NULL, ...) {
   # Convert user selection to actual column names
@@ -93,9 +99,11 @@ prep.step_yourname <- function(x, training, info = NULL, ...) {
 
 **Purpose:** Converts tidyselect expressions to human-readable strings.
 
-**When to use:** In `tidy()` method for untrained steps to show what will be selected.
+**When to use:** In `tidy()` method for untrained steps to show what will be
+selected.
 
 **Example:**
+
 ```r
 tidy.step_yourname <- function(x, ...) {
   if (recipes::is_trained(x)) {
@@ -111,7 +119,8 @@ tidy.step_yourname <- function(x, ...) {
 }
 ```
 
-**Returns:** Character vector of selection names (e.g., `"all_numeric()"`, `"disp"`)
+**Returns:** Character vector of selection names (e.g., `"all_numeric()"`,
+`"disp"`)
 
 ## Validation Functions
 
@@ -119,9 +128,11 @@ tidy.step_yourname <- function(x, ...) {
 
 **Purpose:** Validates that columns are of expected types.
 
-**When to use:** In `prep()` after resolving column names, before computing parameters.
+**When to use:** In `prep()` after resolving column names, before computing
+parameters.
 
 **Signature:**
+
 ```r
 check_type(dat, types = NULL)
 ```
@@ -133,6 +144,7 @@ check_type(dat, types = NULL)
 - `types`: Character vector of allowed types
 
 **Example:**
+
 ```r
 prep.step_yourname <- function(x, training, info = NULL, ...) {
   col_names <- recipes::recipes_eval_select(x$terms, training, info)
@@ -166,9 +178,11 @@ prep.step_yourname <- function(x, training, info = NULL, ...) {
 
 **Purpose:** Validates that required columns exist in new data.
 
-**When to use:** At the start of `bake()` to ensure columns needed by the step are present.
+**When to use:** At the start of `bake()` to ensure columns needed by the step
+are present.
 
 **Signature:**
+
 ```r
 check_new_data(col_names, object, new_data)
 ```
@@ -182,6 +196,7 @@ check_new_data(col_names, object, new_data)
 - `new_data`: New data frame to validate
 
 **Example:**
+
 ```r
 bake.step_yourname <- function(object, new_data, ...) {
   col_names <- object$columns  # or names(object$params)
@@ -200,9 +215,11 @@ bake.step_yourname <- function(object, new_data, ...) {
 
 **Purpose:** Checks if proposed column name already exists, prevents conflicts.
 
-**When to use:** In `bake()` for create-new-columns steps before adding new columns.
+**When to use:** In `bake()` for create-new-columns steps before adding new
+columns.
 
 **Signature:**
+
 ```r
 check_name(new_names, data, object, newname)
 ```
@@ -218,6 +235,7 @@ check_name(new_names, data, object, newname)
 - `newname`: Alternative name to suggest if conflict exists
 
 **Example:**
+
 ```r
 bake.step_yourname <- function(object, new_data, ...) {
   # Generate new column names
@@ -246,6 +264,7 @@ bake.step_yourname <- function(object, new_data, ...) {
 **When to use:** In `prep()` to get case weights for weighted computations.
 
 **Signature:**
+
 ```r
 get_case_weights(info, data)
 ```
@@ -257,6 +276,7 @@ get_case_weights(info, data)
 - `data`: Training data
 
 **Example:**
+
 ```r
 prep.step_yourname <- function(x, training, info = NULL, ...) {
   col_names <- recipes::recipes_eval_select(x$terms, training, info)
@@ -283,6 +303,7 @@ prep.step_yourname <- function(x, training, info = NULL, ...) {
 **When to use:** After `get_case_weights()` to decide whether to use them.
 
 **Signature:**
+
 ```r
 are_weights_used(wts, unsupervised = FALSE)
 ```
@@ -291,9 +312,11 @@ are_weights_used(wts, unsupervised = FALSE)
 
 - `wts`: Weights from `get_case_weights()`
 
-- `unsupervised`: Whether this is an unsupervised operation (TRUE for most recipe steps)
+- `unsupervised`: Whether this is an unsupervised operation (TRUE for most
+  recipe steps)
 
 **Example:**
+
 ```r
 wts <- recipes::get_case_weights(info, training)
 were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)
@@ -320,11 +343,13 @@ step_yourname_new(
 **When to use:** In your step constructor function.
 
 **Signature:**
+
 ```r
 add_step(recipe, step_object)
 ```
 
 **Example:**
+
 ```r
 step_yourname <- function(recipe, ...) {
   recipes::add_step(
@@ -346,11 +371,13 @@ step_yourname <- function(recipe, ...) {
 **When to use:** As default value for `id` parameter in step constructor.
 
 **Signature:**
+
 ```r
 rand_id(prefix)
 ```
 
 **Example:**
+
 ```r
 step_yourname <- function(
   recipe,
@@ -369,9 +396,11 @@ step_yourname <- function(
 
 **Purpose:** Removes original columns based on `keep_original_cols` parameter.
 
-**When to use:** In `bake()` for create-new-columns steps, after adding new columns.
+**When to use:** In `bake()` for create-new-columns steps, after adding new
+columns.
 
 **Signature:**
+
 ```r
 remove_original_cols(data, object, col_names)
 ```
@@ -385,6 +414,7 @@ remove_original_cols(data, object, col_names)
 - `col_names`: Character vector of original column names
 
 **Example:**
+
 ```r
 bake.step_yourname <- function(object, new_data, ...) {
   col_names <- object$columns
@@ -400,9 +430,11 @@ bake.step_yourname <- function(object, new_data, ...) {
 }
 ```
 
-**Returns:** Data frame with original columns removed (if `keep_original_cols = FALSE`).
+**Returns:** Data frame with original columns removed (if
+`keep_original_cols = FALSE`).
 
-**Important:** Only use for steps with `keep_original_cols` parameter. The helper correctly handles role preservation and column ordering.
+**Important:** Only use for steps with `keep_original_cols` parameter. The
+helper correctly handles role preservation and column ordering.
 
 ## Status and Printing
 
@@ -413,6 +445,7 @@ bake.step_yourname <- function(object, new_data, ...) {
 **When to use:** In `tidy()` method to decide what to return.
 
 **Example:**
+
 ```r
 tidy.step_yourname <- function(x, ...) {
   if (recipes::is_trained(x)) {
@@ -443,6 +476,7 @@ tidy.step_yourname <- function(x, ...) {
 **When to use:** In `print()` method.
 
 **Signature:**
+
 ```r
 print_step(col_names, terms, trained, title, width, case_weights = NULL)
 ```
@@ -462,6 +496,7 @@ print_step(col_names, terms, trained, title, width, case_weights = NULL)
 - `case_weights`: Whether case weights were used
 
 **Example:**
+
 ```r
 print.step_yourname <- function(x, width = max(20, options()$width - 30), ...) {
   title <- "Centering for "
@@ -477,8 +512,7 @@ print.step_yourname <- function(x, width = max(20, options()$width - 30), ...) {
 }
 ```
 
-**Output:**
-```
+**Output:** ```
 Centering for disp, hp, ... (3 columns) [trained]
 ```
 
@@ -491,6 +525,7 @@ Centering for disp, hp, ... (3 columns) [trained]
 **When to use:** When `na_rm = FALSE`, to decide whether to return NA.
 
 **Example:**
+
 ```r
 if (!na_rm) {
   if (yardstick::yardstick_any_missing(truth, estimate, case_weights)) {
@@ -508,6 +543,7 @@ if (!na_rm) {
 **When to use:** When `na_rm = TRUE`, to filter out missing values.
 
 **Example:**
+
 ```r
 if (na_rm) {
   result <- yardstick::yardstick_remove_missing(truth, estimate, case_weights)
@@ -582,13 +618,16 @@ bake.step_yourname <- function(object, new_data, ...) {
 
 ## Internal Helpers (Source Development Only)
 
-When contributing to recipes itself, all the helpers listed above can be used **without the `recipes::` prefix**. They're internal functions available directly in the package environment.
+When contributing to recipes itself, all the helpers listed above can be used
+**without the `recipes::` prefix**. They're internal functions available
+directly in the package environment.
 
 ### Additional Internal Helpers
 
 When developing recipes source code, you may also encounter:
 
-- **Variable selection internals**: Functions that support `recipes_eval_select()`
+- **Variable selection internals**: Functions that support
+  `recipes_eval_select()`
 
 - **Type checking internals**: Extended validation beyond `check_type()`
 
@@ -610,27 +649,34 @@ check_type(training[, col_names], types = c("double", "integer"))
 
 ### When to Create New Internal Helpers
 
-If contributing to recipes and you find yourself duplicating logic across multiple steps:
+If contributing to recipes and you find yourself duplicating logic across
+multiple steps:
 
-1. **Check existing internals first**: Browse `R/aaa-*.R` and `R/utils-*.R` files
+1. **Check existing internals first**: Browse `R/aaa-*.R` and `R/utils-*.R`
+   files
 2. **Consider generalization**: Will this helper be useful for other steps?
 3. **Document thoroughly**: Use `@keywords internal` and `@noRd`
 4. **Don't export**: Internal helpers should not be in `NAMESPACE`
 
-See the [Source Development Guide](source-guide.md) for complete patterns and examples.
+See the [Source Development Guide](source-guide.md) for complete patterns and
+examples.
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 - Understand step architecture: [step-architecture.md](step-architecture.md)
 
-- Implement modify-in-place steps: [modify-in-place-steps.md](modify-in-place-steps.md)
+- Implement modify-in-place steps:
+  [modify-in-place-steps.md](modify-in-place-steps.md)
 
-- Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
+- Implement create-new-columns steps:
+  [create-new-columns-steps.md](create-new-columns-steps.md)
 
-- Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
+- Implement row-operation steps:
+  [row-operation-steps.md](row-operation-steps.md)
 
 - Add optional methods: [optional-methods.md](optional-methods.md)
 
-- Review best practices: [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)
+- Review best practices:
+  [package-extension-requirements.md#best-practices](package-extension-requirements.md#best-practices)

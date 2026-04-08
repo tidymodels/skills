@@ -2,17 +2,21 @@
 
 **How parameters work with grid generation and tune workflows**
 
-This guide covers how dials parameters integrate with grid generation functions and tune workflows for hyperparameter tuning.
+This guide covers how dials parameters integrate with grid generation functions
+and tune workflows for hyperparameter tuning.
 
-> **Note for Source Development:** If contributing to dials, you can use internal grid generation utilities. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal grid generation utilities. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
 dials parameters are designed to work seamlessly with:
 
-1. **Grid generation**: `grid_regular()`, `grid_random()`, `grid_space_filling()`
+1. **Grid generation**: `grid_regular()`, `grid_random()`,
+   `grid_space_filling()`
 2. **Value utilities**: `value_sample()`, `value_seq()`
 3. **Parameter sets**: `parameters()` for combining multiple parameters
 4. **Workflow extraction**: `extract_parameter_set_dials()` from workflows
@@ -30,9 +34,11 @@ dials parameters are designed to work seamlessly with:
 
 **Parameter sets:**
 
-- Parameter collections: `R/parameters.R` (implements `parameters()` for combining)
+- Parameter collections: `R/parameters.R` (implements `parameters()` for
+  combining)
 
-- Workflow extraction: `R/extract_parameter_set_dials.R` (extracts params from workflows)
+- Workflow extraction: `R/extract_parameter_set_dials.R` (extracts params from
+  workflows)
 
 **Test patterns:**
 
@@ -40,7 +46,7 @@ dials parameters are designed to work seamlessly with:
 
 - Parameter set tests: `tests/testthat/test-parameters.R` (collection behavior)
 
----
+--------------------------------------------------------------------------------
 
 ## Grid Generation Functions
 
@@ -191,7 +197,7 @@ grid
 
 - Good for small grid sizes
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Value Utilities
 
@@ -261,7 +267,7 @@ seq_vals
 # Returns first n values (or cycles if n > length)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## How Parameter Properties Affect Grids
 
@@ -354,7 +360,7 @@ seq_vals
 #> Excludes 0 and 1
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Sets
 
@@ -415,7 +421,7 @@ param_set_updated
 #>  mixture   mixture nparam[+] quant_param
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extracting Parameters from Workflows
 
@@ -476,7 +482,7 @@ params_updated <- params_finalized |>
 grid <- dials::grid_regular(params_updated, levels = 3)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Workflow Examples
 
@@ -612,7 +618,7 @@ grid <- dials::grid_regular(params_finalized, levels = 3)
 results <- tune_grid(wf, resamples = cv_folds, grid = grid)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -680,7 +686,7 @@ updated <- finalized |>
   recipes::update(penalty = penalty(range = c(-5, -1)))
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -748,7 +754,7 @@ log10(grid$penalty)
 #> Should be evenly spaced
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
@@ -798,17 +804,20 @@ param <- new_quant_param(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### Learn More
 
-- **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+- **Quantitative parameters**: [Quantitative Parameters
+  Guide](quantitative-parameters.md)
 
-- **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+- **Qualitative parameters**: [Qualitative Parameters
+  Guide](qualitative-parameters.md)
 
-- **Data-dependent parameters**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+- **Data-dependent parameters**: [Data-Dependent Parameters
+  Guide](data-dependent-parameters.md)
 
 - **Transformations**: [Transformations Guide](transformations.md)
 
@@ -826,6 +835,6 @@ param <- new_quant_param(
 
 - [Bayesian optimization](https://www.tidymodels.org/learn/work/bayes-opt/)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

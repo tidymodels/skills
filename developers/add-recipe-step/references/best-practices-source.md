@@ -1,12 +1,15 @@
 # Best Practices for Recipes Source Development
 
-**Context:** This guide is for **source development** - contributing to the recipes package directly.
+**Context:** This guide is for **source development** - contributing to the
+recipes package directly.
 
-**Key principle:** ✅ **You CAN use internal functions** - you're developing the package, so internals are available.
+**Key principle:** ✅ **You CAN use internal functions** - you're developing the
+package, so internals are available.
 
-For extension development (creating new packages), see [Best Practices (Extension)](package-extension-requirements.md#best-practices).
+For extension development (creating new packages), see [Best Practices
+(Extension)](package-extension-requirements.md#best-practices).
 
----
+--------------------------------------------------------------------------------
 
 ## Using Internal Functions in Recipes
 
@@ -722,10 +725,13 @@ step_name <- function(
 
 ## Next Steps
 
-- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing
+  guidance
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 
 - Study existing steps in the recipes repository
 
-- Follow [Extension Best Practices](package-extension-requirements.md#best-practices) for code style basics
+- Follow [Extension Best
+  Practices](package-extension-requirements.md#best-practices) for code style
+  basics

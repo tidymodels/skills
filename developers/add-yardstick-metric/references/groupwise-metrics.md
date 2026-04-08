@@ -1,14 +1,19 @@
 # Groupwise Metrics
 
-Groupwise metrics quantify the disparity in metric values across groups. They are especially useful for fairness analysis but can be applied to any situation where you want to measure how much a metric varies across subgroups.
+Groupwise metrics quantify the disparity in metric values across groups. They
+are especially useful for fairness analysis but can be applied to any situation
+where you want to measure how much a metric varies across subgroups.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, see internal groupwise infrastructure. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, see internal groupwise infrastructure. See the [Source
+> Development Guide](source-guide.md) for details.
 
 ## Overview
 
 **Use when:**
 
-- You want to measure disparity in performance across groups (e.g., demographic groups)
+- You want to measure disparity in performance across groups (e.g., demographic
+  groups)
 
 - You need fairness metrics for ML models
 
@@ -30,7 +35,8 @@ Groupwise metrics quantify the disparity in metric values across groups. They ar
 
 - Groupwise constructor: `R/groupwise.R` (implements `new_groupwise_metric()`)
 
-- Built-in groupwise metrics: `R/groupwise-accuracy_diff.R`, `R/groupwise-accuracy_ratio.R`
+- Built-in groupwise metrics: `R/groupwise-accuracy_diff.R`,
+  `R/groupwise-accuracy_ratio.R`
 
 - Aggregation functions: Range, difference, ratio calculations
 
@@ -54,7 +60,8 @@ Groupwise metrics quantify the disparity in metric values across groups. They ar
 
 ### All Metrics Are Group-Aware
 
-**Every yardstick metric** respects `dplyr::group_by()`. When you pass grouped data to a metric, it computes the metric for each group separately.
+**Every yardstick metric** respects `dplyr::group_by()`. When you pass grouped
+data to a metric, it computes the metric for each group separately.
 
 ```r
 # Group-aware behavior (built into all metrics)
@@ -71,7 +78,8 @@ hpc_cv |>
 
 ### Groupwise Metrics Are Different
 
-**Groupwise metrics** add an extra layer: they temporarily group by a specified column, compute metrics for those groups, then aggregate the results.
+**Groupwise metrics** add an extra layer: they temporarily group by a specified
+column, compute metrics for those groups, then aggregate the results.
 
 ```r
 # Groupwise metric
@@ -160,11 +168,13 @@ hpc |>
 
 ## Aggregation Functions
 
-The `aggregate` function determines how to combine metric values across groups into a single disparity measure.
+The `aggregate` function determines how to combine metric values across groups
+into a single disparity measure.
 
 ### Common Aggregation Patterns
 
 **1. Difference of range (max - min):**
+
 ```r
 diff_range <- function(x) {
   diff(range(x$.estimate))
@@ -174,6 +184,7 @@ diff_range <- function(x) {
 ```
 
 **2. Ratio of range:**
+
 ```r
 ratio_range <- function(x) {
   range_vals <- range(x$.estimate)
@@ -182,6 +193,7 @@ ratio_range <- function(x) {
 ```
 
 **3. Standard deviation:**
+
 ```r
 sd_metric <- function(x) {
   sd(x$.estimate)
@@ -189,6 +201,7 @@ sd_metric <- function(x) {
 ```
 
 **4. Max absolute difference from overall mean:**
+
 ```r
 max_abs_diff <- function(x) {
   overall_mean <- mean(x$.estimate)
@@ -197,6 +210,7 @@ max_abs_diff <- function(x) {
 ```
 
 **5. Custom comparison:**
+
 ```r
 # Compare first group to others
 first_vs_rest <- function(x) {
@@ -246,7 +260,8 @@ my_metrics(data, truth = obs, estimate = pred)
 
 ### With Existing Groups
 
-Groupwise metrics are group-aware. When data has existing groups, results are computed per group:
+Groupwise metrics are group-aware. When data has existing groups, results are
+computed per group:
 
 ```r
 # Compute accuracy difference by batch within each resample
@@ -263,7 +278,8 @@ hpc |>
 
 ### Cannot Group By Same Variable
 
-You cannot group data by the same variable that the groupwise metric uses internally:
+You cannot group data by the same variable that the groupwise metric uses
+internally:
 
 ```r
 # ERROR: batch is used both ways
@@ -281,7 +297,8 @@ Yardstick includes several fairness metrics built with `new_groupwise_metric()`:
 
 ### demographic_parity()
 
-Measures disparity in detection prevalence (predicted positive rate) across groups.
+Measures disparity in detection prevalence (predicted positive rate) across
+groups.
 
 ```r
 dem_parity <- demographic_parity(group_column)
@@ -483,13 +500,18 @@ test_that("groupwise metric works with existing groups", {
 
 ## Best Practices
 
-1. **Choose meaningful aggregation**: The aggregation function should reflect your fairness/disparity goals
+1. **Choose meaningful aggregation**: The aggregation function should reflect
+   your fairness/disparity goals
 2. **Use descriptive names**: Make it clear what disparity is being measured
-3. **Set appropriate direction**: Usually "minimize" for fairness metrics (zero = fair)
-4. **Document interpretation**: Explain what the value means (e.g., "difference in accuracy between groups")
+3. **Set appropriate direction**: Usually "minimize" for fairness metrics (zero
+   = fair)
+4. **Document interpretation**: Explain what the value means (e.g., "difference
+   in accuracy between groups")
 5. **Validate group sizes**: Ensure adequate sample sizes in each group
-6. **Consider multiple metrics**: Look at disparity across several metrics, not just one
-7. **Test with equal groups**: Verify metric returns zero when groups are identical
+6. **Consider multiple metrics**: Look at disparity across several metrics, not
+   just one
+7. **Test with equal groups**: Verify metric returns zero when groups are
+   identical
 
 ## Common Use Cases
 
@@ -529,8 +551,10 @@ test_that("groupwise metric works with existing groups", {
 
 1. **Group size matters**: Small groups lead to unstable estimates
 2. **Multiple groups**: Some aggregations work better with 2 groups than many
-3. **Statistical significance**: Groupwise metrics don't include confidence intervals
-4. **Intersectionality**: Single groupwise metric doesn't capture interactions between groups
+3. **Statistical significance**: Groupwise metrics don't include confidence
+   intervals
+4. **Intersectionality**: Single groupwise metric doesn't capture interactions
+   between groups
 5. **Context dependent**: What counts as "fair" depends on your application
 
 ## See Also

@@ -1,10 +1,12 @@
 # Creating Numeric Metrics
 
-Numeric metrics are the simplest to implement. They measure continuous predictions against continuous truth values.
+Numeric metrics are the simplest to implement. They measure continuous
+predictions against continuous truth values.
 
 ## Overview
 
-Numeric metrics are used for regression problems where both truth and predictions are continuous values. Examples include:
+Numeric metrics are used for regression problems where both truth and
+predictions are continuous values. Examples include:
 
 - Mean Squared Error (MSE)
 
@@ -72,7 +74,10 @@ mse_impl <- function(truth, estimate, case_weights = NULL) {
 
 - Handle hardhat weight classes by converting to numeric
 
-> **Source Development:** When contributing to yardstick itself, you can use `yardstick_mean()` instead of manually handling case weights. This internal helper automatically handles hardhat weights and unweighted cases. See [Best Practices (Source)](best-practices-source.md).
+> **Source Development:** When contributing to yardstick itself, you can use
+> `yardstick_mean()` instead of manually handling case weights. This internal
+> helper automatically handles hardhat weights and unweighted cases. See [Best
+> Practices (Source)](best-practices-source.md).
 
 ## Step 2: Create the vector function
 
@@ -154,18 +159,21 @@ mse.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 ### Direction values
 
 **"minimize"**: Lower is better (MSE, RMSE, MAE)
+
 ```r
 direction = "minimize"
 range = c(0, Inf)
 ```
 
 **"maximize"**: Higher is better (R-squared, correlation)
+
 ```r
 direction = "maximize"
 range = c(-Inf, 1)  # or c(0, 1) depending on metric
 ```
 
 **"zero"**: Zero is optimal (bias, some error metrics)
+
 ```r
 direction = "zero"
 range = c(-Inf, Inf)
@@ -173,7 +181,8 @@ range = c(-Inf, Inf)
 
 ## Step 4: Handling Custom Parameters (Optional)
 
-If your metric needs custom parameters beyond the standard ones (na_rm, case_weights), use the `fn_options` parameter in `numeric_metric_summarizer()`.
+If your metric needs custom parameters beyond the standard ones (na_rm,
+case_weights), use the `fn_options` parameter in `numeric_metric_summarizer()`.
 
 ### Example with threshold parameter
 
@@ -230,6 +239,7 @@ threshold_accuracy_vec <- function(truth, estimate, threshold = 0.1, na_rm = TRU
 ### Common validation patterns
 
 **Numeric range:**
+
 ```r
 if (threshold < 0 || threshold > 1) {
   cli::cli_abort("{.arg threshold} must be between 0 and 1.")
@@ -237,6 +247,7 @@ if (threshold < 0 || threshold > 1) {
 ```
 
 **Single value:**
+
 ```r
 if (length(param) != 1) {
   cli::cli_abort("{.arg param} must be a single value.")
@@ -244,13 +255,15 @@ if (length(param) != 1) {
 ```
 
 **Character options:**
+
 ```r
 param <- rlang::arg_match(param, c("option1", "option2"))
 ```
 
 ## Complete Example
 
-Here's a complete implementation of a simple metric. This follows the same pattern as `R/num-mae.R` in the yardstick repository.
+Here's a complete implementation of a simple metric. This follows the same
+pattern as `R/num-mae.R` in the yardstick repository.
 
 ```r
 # File: R/num-mae.R
@@ -351,13 +364,17 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 
 ## Testing Numeric Metrics
 
-See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See
+[package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+for comprehensive testing guide.
 
 **Reference test files:**
 
-- Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling, weights)
+- Standard tests: `tests/testthat/test-num-mae.R` (correctness, NA handling,
+  weights)
 
-- Edge cases: `tests/testthat/test-num-huber_loss.R` (parameter validation, robustness)
+- Edge cases: `tests/testthat/test-num-huber_loss.R` (parameter validation,
+  robustness)
 
 ### Key tests for numeric metrics
 
@@ -405,9 +422,11 @@ Use `num-` prefix to indicate numeric metrics.
 
 ## Next Steps
 
-- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your metric:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
 
 - Understand metric system: [metric-system.md](metric-system.md)
 

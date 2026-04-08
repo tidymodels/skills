@@ -1,6 +1,7 @@
 # Evaluation Tests for add-parsnip-engine Skill
 
-This directory contains quantitative evaluation tests for the `add-parsnip-engine` skill.
+This directory contains quantitative evaluation tests for the
+`add-parsnip-engine` skill.
 
 ## Test Coverage
 
@@ -12,19 +13,24 @@ The evaluation suite includes 7 test cases covering:
 
 - **Eval 2**: Matrix interface engine with encoding (Keras for linear_reg)
 
-- **Eval 3**: Multi-mode engine (H2O for boost_tree with regression + classification)
+- **Eval 3**: Multi-mode engine (H2O for boost_tree with regression +
+  classification)
 
 ### Source Development (Evals 4-6)
 
-- **Eval 4**: Contributing single-mode engine to parsnip (xgboost for linear_reg)
+- **Eval 4**: Contributing single-mode engine to parsnip (xgboost for
+  linear_reg)
 
-- **Eval 5**: Contributing multi-mode engine (LightGBM for boost_tree with regression + classification)
+- **Eval 5**: Contributing multi-mode engine (LightGBM for boost_tree with
+  regression + classification)
 
-- **Eval 6**: Contributing complex three-mode engine (ranger for random_forest with regression + classification + survival)
+- **Eval 6**: Contributing complex three-mode engine (ranger for random_forest
+  with regression + classification + survival)
 
 ### Critical Behavior (Eval 7)
 
-- **Eval 7**: Refusing to use internal functions (`parsnip:::`) and providing alternatives
+- **Eval 7**: Refusing to use internal functions (`parsnip:::`) and providing
+  alternatives
 
 ## Key Patterns Tested
 
@@ -118,7 +124,7 @@ The `grading-config.json` file defines automated checks:
 
 - Registration functions present
 
-- Adds to existing *_data.R file
+- Adds to existing \*_data.R file
 
 - Complete tests with proper checks
 
@@ -265,24 +271,32 @@ python skill-development/grade-evaluations.py \
 
 ## Known Limitations
 
-1. **False Positives**: The `no_internal_functions` check may flag explanatory comments in eval 7 (critical behavior test) that discuss internal functions while correctly refusing to use them.
+1. **False Positives**: The `no_internal_functions` check may flag explanatory
+   comments in eval 7 (critical behavior test) that discuss internal functions
+   while correctly refusing to use them.
 
-2. **File Count**: Source development file count depends on whether tests are added to existing files or new files created. Both patterns are acceptable.
+2. **File Count**: Source development file count depends on whether tests are
+   added to existing files or new files created. Both patterns are acceptable.
 
-3. **Interface Detection**: The interface check uses regex and may miss interfaces specified via variables or complex logic.
+3. **Interface Detection**: The interface check uses regex and may miss
+   interfaces specified via variables or complex logic.
 
-4. **Multi-Mode Complexity**: Eval 6 (three modes) is intentionally challenging and lower pass rates are expected.
+4. **Multi-Mode Complexity**: Eval 6 (three modes) is intentionally challenging
+   and lower pass rates are expected.
 
 ## Future Enhancements
 
 Potential additions to evaluation suite:
 
 1. **Custom xy interface**: Test engines with non-standard argument names
-2. **Submodel handling**: Test has_submodel parameter for models that support prediction at multiple tuning values
-3. **Pre/post processing**: More complex transformations in prediction registration
+2. **Submodel handling**: Test has_submodel parameter for models that support
+   prediction at multiple tuning values
+3. **Pre/post processing**: More complex transformations in prediction
+   registration
 4. **Error handling**: Test graceful failure when engine package not installed
 5. **Multiple dependencies**: Test engines requiring multiple packages
-6. **Engine-specific arguments**: Test set_model_arg with engine-specific parameters beyond main arguments
+6. **Engine-specific arguments**: Test set_model_arg with engine-specific
+   parameters beyond main arguments
 
 ## Maintenance
 

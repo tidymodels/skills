@@ -1,12 +1,15 @@
 # Engine Implementation Guide
 
-Complete guide to implementing engines for existing parsnip models. This is the focused, actionable guide for the most common parsnip development task.
+Complete guide to implementing engines for existing parsnip models. This is the
+focused, actionable guide for the most common parsnip development task.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-An **engine** connects a parsnip model specification to a computational implementation. Adding an engine means making an existing model work with a new R package, Python library, or custom algorithm.
+An **engine** connects a parsnip model specification to a computational
+implementation. Adding an engine means making an existing model work with a new
+R package, Python library, or custom algorithm.
 
 **This guide covers:**
 
@@ -20,7 +23,7 @@ An **engine** connects a parsnip model specification to a computational implemen
 
 - Testing engines
 
----
+--------------------------------------------------------------------------------
 
 ## Implementation Philosophy
 
@@ -30,13 +33,16 @@ When implementing engines, write minimal, focused code:
 
 - ✅ **DO:** Get straight to registration - run verification, add engine, test
 
-- ✅ **DO:** Link to references for complex topics instead of inline explanations
+- ✅ **DO:** Link to references for complex topics instead of inline
+  explanations
 
 - ✅ **DO:** Create 2-3 files total (R/, tests/, optional README)
 
-- ❌ **DON'T:** Create summary documents (IMPLEMENTATION_SUMMARY.md, QUICK_REFERENCE.md)
+- ❌ **DON'T:** Create summary documents (IMPLEMENTATION_SUMMARY.md,
+  QUICK_REFERENCE.md)
 
-- ❌ **DON'T:** Create example files (example_usage.R) - examples go in README or tests
+- ❌ **DON'T:** Create example files (example_usage.R) - examples go in README
+  or tests
 
 - ❌ **DON'T:** Over-explain in comments - code should be self-documenting
 
@@ -79,9 +85,10 @@ find . -type f \( -name "*.R" -o -name "*.md" \) | wc -l
 
 **Expected counts:**
 
-- Extension development: 2-3 files (R/zzz.R, tests/test-*.R, optional README.md)
+- Extension development: 2-3 files (R/zzz.R, tests/test-\*.R, optional
+  README.md)
 
-- Source development: 0-1 new files (modify existing R/*_data.R, test-*.R)
+- Source development: 0-1 new files (modify existing R/*\_data.R, test-*.R)
 
 **If you created >3 files, CONSOLIDATE immediately:**
 
@@ -96,9 +103,10 @@ find . -type f \( -name "*.R" -o -name "*.md" \) | wc -l
    - Simple helpers go inline; complex ones indicate over-engineering
 4. Merge duplicate content into single files
 
-**Check before proceeding** - don't continue with 8+ files thinking "file discipline failed." Fix it before moving forward.
+**Check before proceeding** - don't continue with 8+ files thinking "file
+discipline failed." Fix it before moving forward.
 
----
+--------------------------------------------------------------------------------
 
 ## Planning Your Engine
 
@@ -134,13 +142,14 @@ parsnip::show_engines("linear_reg")
 
 **Don't add an engine when:**
 
-- Model type doesn't exist → See [add-parsnip-model](../../add-parsnip-model/SKILL.md)
+- Model type doesn't exist → See
+  [add-parsnip-model](../../add-parsnip-model/SKILL.md)
 
 - Engine already exists with same functionality
 
 - Package is experimental or unmaintained
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Registration Sequence
 
@@ -253,7 +262,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Choosing Interface Type
 
@@ -327,7 +336,7 @@ parsnip::set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Implementing Predictions
 
@@ -409,7 +418,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Engines
 
@@ -471,7 +480,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Example: Adding glmnet to linear_reg
 
@@ -574,7 +583,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Example: Adding H2O to linear_reg
 
@@ -674,7 +683,7 @@ fit <- fit(spec, mpg ~ ., data = mtcars)
 predict(fit, mtcars[1:5, ])
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Your Engine
 
@@ -724,7 +733,7 @@ test_that("my_engine formula and xy equivalent", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -827,7 +836,7 @@ parsnip::set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
@@ -836,6 +845,7 @@ parsnip::set_pred(
 **Problem:** Engine not registered.
 
 **Solution:**
+
 ```r
 parsnip::set_model_engine("linear_reg", "regression", "my_engine")
 ```
@@ -845,6 +855,7 @@ parsnip::set_model_engine("linear_reg", "regression", "my_engine")
 **Problem:** Package not declared as dependency.
 
 **Solution:**
+
 ```r
 parsnip::set_dependency("linear_reg", "my_engine", "mypackage", "regression")
 ```
@@ -854,6 +865,7 @@ parsnip::set_dependency("linear_reg", "my_engine", "mypackage", "regression")
 **Problem:** Engine returns matrix but need tibble.
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   tibble::tibble(.pred = as.numeric(results))
@@ -865,6 +877,7 @@ post = function(results, object) {
 **Problem:** Main argument not mapped to engine argument.
 
 **Solution:**
+
 ```r
 parsnip::set_model_arg(
   model = "linear_reg",
@@ -876,7 +889,7 @@ parsnip::set_model_arg(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -887,7 +900,7 @@ After implementing your engine:
 3. **Benchmark** - Compare with existing engines
 4. **Share** - Consider contributing to parsnip
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 

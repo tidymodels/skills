@@ -1,8 +1,9 @@
 # Mode Handling in Parsnip
 
-This guide covers how to work with modes in parsnip models, including setting modes, mode-specific behaviors, and implementing multi-mode models.
+This guide covers how to work with modes in parsnip models, including setting
+modes, mode-specific behaviors, and implementing multi-mode models.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
@@ -26,7 +27,7 @@ Parsnip supports four modes:
 
 - `"quantile regression"` - Quantile predictions
 
----
+--------------------------------------------------------------------------------
 
 ## Mode Basics
 
@@ -65,6 +66,7 @@ Parsnip supports four modes:
 ### Setting Modes
 
 **In model constructor:**
+
 ```r
 # Default mode
 linear_reg(mode = "regression")
@@ -74,6 +76,7 @@ boost_tree(mode = "classification")
 ```
 
 **With `set_mode()`:**
+
 ```r
 # Change mode after creation
 spec <- nearest_neighbor() |>
@@ -81,6 +84,7 @@ spec <- nearest_neighbor() |>
 ```
 
 **Mode is required before fitting:**
+
 ```r
 # This will error
 spec <- nearest_neighbor()
@@ -92,7 +96,7 @@ spec <- nearest_neighbor() |> set_mode("classification")
 fit(spec, Species ~ ., data = iris)  # ✓ Works
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Single-Mode Models
 
@@ -109,6 +113,7 @@ linear_reg() |> set_mode("classification")
 ```
 
 **Registration:**
+
 ```r
 set_model_mode(
   model = "linear_reg",
@@ -145,6 +150,7 @@ logistic_reg() |> set_mode("regression")
 ```
 
 **Registration:**
+
 ```r
 set_model_mode(
   model = "logistic_reg",
@@ -159,7 +165,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Models
 
@@ -170,6 +176,7 @@ Some models can be used for multiple tasks.
 **Common examples:**
 
 **`boost_tree()`** - Regression and classification:
+
 ```r
 # For regression
 boost_tree(mode = "regression") |>
@@ -181,12 +188,14 @@ boost_tree(mode = "classification") |>
 ```
 
 **`nearest_neighbor()`** - Regression and classification:
+
 ```r
 nearest_neighbor(mode = "regression")
 nearest_neighbor(mode = "classification")
 ```
 
 **`decision_tree()`** - Regression and classification:
+
 ```r
 decision_tree(mode = "regression")
 decision_tree(mode = "classification")
@@ -195,6 +204,7 @@ decision_tree(mode = "classification")
 ### Implementing Multi-Mode Models
 
 **Register all modes:**
+
 ```r
 # Declare both modes are supported
 set_model_mode(
@@ -209,6 +219,7 @@ set_model_mode(
 ```
 
 **Register fit for each mode:**
+
 ```r
 # Regression fit
 set_fit(
@@ -236,6 +247,7 @@ set_fit(
 ```
 
 **Register predictions for each mode:**
+
 ```r
 # Regression predictions
 set_pred(
@@ -307,7 +319,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Mode Detection and Validation
 
@@ -342,7 +354,7 @@ if (is.null(spec$mode) || spec$mode == "unknown") {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Mode-Specific Prediction Behavior
 
@@ -384,7 +396,7 @@ predict(fit, mtcars, type = "prob")
 #> Error: `type = 'prob'` is not available for regression models
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Engine-Mode Compatibility
 
@@ -406,6 +418,7 @@ boost_tree(mode = "classification") |> set_engine("other")  # ✗
 ```
 
 **Check available combinations:**
+
 ```r
 parsnip::show_engines("boost_tree")
 #> Shows which engines support which modes
@@ -425,7 +438,7 @@ set_model_engine(
 # No set_model_engine() call with mode = "regression"
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Unknown Mode Pattern
 
@@ -454,7 +467,7 @@ spec <- spec |> set_mode("classification")
 
 - There's a clear default mode
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Mode Behavior
 
@@ -530,7 +543,7 @@ test_that("mode must match outcome type", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Mode Documentation
 
@@ -554,7 +567,7 @@ boost_tree <- function(
 
 Explain which modes are supported:
 
-```
+````
 ## Modes
 
 This model can be used for:
@@ -567,7 +580,7 @@ Set the mode with:
 ```r
 boost_tree(mode = "regression")
 boost_tree(mode = "classification")
-```
+````
 
 ### Mode-Specific Examples
 
@@ -583,7 +596,7 @@ spec <- boost_tree(mode = "classification") |> set_engine("xgboost")
 fit(spec, Species ~ ., data = iris)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -689,7 +702,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Mode Troubleshooting
 
@@ -698,6 +711,7 @@ set_fit(
 **Problem:** Mode is unknown when trying to fit.
 
 **Solution:**
+
 ```r
 spec <- nearest_neighbor() |> set_mode("classification")
 ```
@@ -707,6 +721,7 @@ spec <- nearest_neighbor() |> set_mode("classification")
 **Problem:** Trying to use single-mode model with wrong mode.
 
 **Solution:** Check model documentation for supported modes:
+
 ```r
 # linear_reg only supports regression
 spec <- linear_reg()  # Automatically sets mode = "regression"
@@ -717,6 +732,7 @@ spec <- linear_reg()  # Automatically sets mode = "regression"
 **Problem:** Requesting `prob` for regression model.
 
 **Solution:** Check which prediction types are available for the mode:
+
 ```r
 # Regression supports: numeric, conf_int, pred_int, raw
 # Classification supports: class, prob, raw
@@ -727,28 +743,31 @@ spec <- linear_reg()  # Automatically sets mode = "regression"
 **Problem:** Combination not registered.
 
 **Solution:** Check available engines:
+
 ```r
 parsnip::show_engines("boost_tree")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
 **Key points:**
 
 1. **Mode determines prediction types** - Each mode has specific available types
-2. **Single-mode models set automatically** - Linear/logistic regression fix their mode
+2. **Single-mode models set automatically** - Linear/logistic regression fix
+   their mode
 3. **Multi-mode models need explicit setting** - Use `set_mode()` before fitting
-4. **Register separately for each mode** - Use `set_fit()` and `set_pred()` for each
+4. **Register separately for each mode** - Use `set_fit()` and `set_pred()` for
+   each
 5. **Not all engines support all modes** - Check with `show_engines()`
 6. **Validation happens at fit time** - Mode must match outcome type
 
 **Quick reference:**
 
-| Mode | Outcome Type | Prediction Types |
-|------|-------------|------------------|
-| regression | numeric | numeric, conf_int, pred_int, raw |
-| classification | factor | class, prob, raw |
-| censored regression | Surv | time, survival, hazard, linear_pred, raw |
-| quantile regression | numeric | quantile, raw |
+| Mode                | Outcome Type | Prediction Types                         |
+| ------------------- | ------------ | ---------------------------------------- |
+| regression          | numeric      | numeric, conf_int, pred_int, raw         |
+| classification      | factor       | class, prob, raw                         |
+| censored regression | Surv         | time, survival, hazard, linear_pred, raw |
+| quantile regression | numeric      | quantile, raw                            |

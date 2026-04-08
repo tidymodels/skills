@@ -1,8 +1,9 @@
 # Implementing Fit and Predict Methods
 
-This guide covers how to implement fit and predict methods for parsnip models. This applies to both new model specifications and new engines.
+This guide covers how to implement fit and predict methods for parsnip models.
+This applies to both new model specifications and new engines.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
@@ -16,7 +17,7 @@ The fit/predict lifecycle in parsnip:
 6. **Engine prediction** function is called
 7. **Result standardized** to tibble format with `.pred` columns
 
----
+--------------------------------------------------------------------------------
 
 ## Fit Method Structure
 
@@ -40,7 +41,8 @@ fit(object, formula, data, control = control_parsnip(), ...)
 
 ### Fit Implementation via `set_fit()`
 
-Instead of writing `fit.model_spec()` methods directly, you use `set_fit()` to register how to fit:
+Instead of writing `fit.model_spec()` methods directly, you use `set_fit()` to
+register how to fit:
 
 ```r
 set_fit(
@@ -77,6 +79,7 @@ set_fit(
 parsnip handles data conversion based on `interface`:
 
 **Formula interface (`"formula"`):**
+
 ```r
 # User provides:
 fit(spec, mpg ~ hp + wt, data = mtcars)
@@ -86,6 +89,7 @@ lm(formula = mpg ~ hp + wt, data = mtcars)
 ```
 
 **Matrix interface (`"matrix"`):**
+
 ```r
 # User provides:
 fit(spec, mpg ~ hp + wt, data = mtcars)
@@ -97,6 +101,7 @@ glmnet(x = as.matrix(mtcars[, c("hp", "wt")]), y = mtcars$mpg)
 parsnip automatically converts formula to matrices.
 
 **XY interface (`"xy"`):**
+
 ```r
 # User can provide:
 fit_xy(spec, x = predictors, y = outcome)
@@ -137,7 +142,7 @@ model_fit <- structure(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Predict Method Structure
 
@@ -262,7 +267,7 @@ set_pred(..., type = "raw", ...)
 
 Each can have different `pre`, `post`, and `args`.
 
----
+--------------------------------------------------------------------------------
 
 ## Common Implementation Patterns
 
@@ -412,23 +417,26 @@ set_pred(
 
 Register fit and predictions separately for each mode.
 
----
+--------------------------------------------------------------------------------
 
 ## Column Naming Conventions
 
 parsnip has strict conventions for prediction column names:
 
 **Numeric predictions:**
+
 ```r
 tibble::tibble(.pred = c(1.2, 3.4, 5.6))
 ```
 
 **Class predictions:**
+
 ```r
 tibble::tibble(.pred_class = factor(c("A", "B", "A")))
 ```
 
 **Probability predictions:**
+
 ```r
 tibble::tibble(
   .pred_A = c(0.8, 0.2, 0.7),
@@ -437,6 +445,7 @@ tibble::tibble(
 ```
 
 **Confidence intervals:**
+
 ```r
 tibble::tibble(
   .pred_lower = c(1.0, 3.0, 5.0),
@@ -446,7 +455,7 @@ tibble::tibble(
 
 Always use these exact names in `post` functions.
 
----
+--------------------------------------------------------------------------------
 
 ## Error Handling
 
@@ -489,13 +498,14 @@ pre = function(new_data, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Fit and Predict
 
 Essential tests for any fit/predict implementation:
 
 **Fit tests:**
+
 ```r
 test_that("model fits with formula", {
   spec <- my_model() |> set_engine("custom")
@@ -511,6 +521,7 @@ test_that("model fits with xy", {
 ```
 
 **Predict tests:**
+
 ```r
 test_that("numeric predictions work", {
   spec <- my_model() |> set_engine("custom")
@@ -532,6 +543,7 @@ test_that("predictions match new_data rows", {
 ```
 
 **Interface tests:**
+
 ```r
 test_that("formula and xy produce same results", {
   spec <- my_model() |> set_engine("custom")
@@ -546,7 +558,7 @@ test_that("formula and xy produce same results", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Development
 
@@ -555,12 +567,14 @@ test_that("formula and xy produce same results", {
 When creating engines in your own package:
 
 **Always use `parsnip::` prefix:**
+
 ```r
 parsnip::set_fit(...)
 parsnip::set_pred(...)
 ```
 
 **You can only use exported functions:**
+
 ```r
 func = c(pkg = "stats", fun = "lm")  # ✅ Exported
 func = c(fun = "lm")                  # ✅ Also works
@@ -571,12 +585,14 @@ func = c(fun = "lm")                  # ✅ Also works
 When contributing to parsnip itself:
 
 **No prefix needed:**
+
 ```r
 set_fit(...)
 set_pred(...)
 ```
 
 **Can reference internal functions:**
+
 ```r
 func = c(pkg = "parsnip", fun = "xgb_train")  # Internal helper
 ```
@@ -587,7 +603,7 @@ func = c(pkg = "parsnip", fun = "xgb_train")  # Internal helper
 
 - Group all engines for a model together
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -602,4 +618,5 @@ Implementing fit and predict:
 7. **Register each mode separately** if multi-mode
 8. **Test thoroughly** with different data types and interfaces
 
-The registration system handles most complexity - you just specify what to call and how to format results.
+The registration system handles most complexity - you just specify what to call
+and how to format results.

@@ -1,6 +1,8 @@
 # Quantile Metrics
 
-Quantile metrics evaluate quantile predictions (probabilistic forecasts represented as quantiles) against observed numeric values. These metrics assess the quality of uncertainty quantification.
+Quantile metrics evaluate quantile predictions (probabilistic forecasts
+represented as quantiles) against observed numeric values. These metrics assess
+the quality of uncertainty quantification.
 
 ## Overview
 
@@ -24,7 +26,8 @@ Quantile metrics evaluate quantile predictions (probabilistic forecasts represen
 
 **Examples:** Weighted Interval Score (WIS), Pinball Loss
 
-**Reference implementation:** `R/quant-weighted_interval_score.R` in yardstick repository
+**Reference implementation:** `R/quant-weighted_interval_score.R` in yardstick
+repository
 
 ## Pattern: Three-Function Approach
 
@@ -182,7 +185,8 @@ my_metric.data.frame <- function(data, truth, estimate, quantile_levels = NULL,
 
 ## Complete Example: Weighted Interval Score
 
-The weighted interval score (WIS) is a quantile-based approximation of the continuous ranked probability score (CRPS).
+The weighted interval score (WIS) is a quantile-based approximation of the
+continuous ranked probability score (CRPS).
 
 ```r
 # R/weighted_interval_score.R
@@ -544,12 +548,12 @@ as.vector(res, "double")
 
 ## Key Differences from Other Metric Types
 
-| Aspect | Quantile | Numeric | Probability |
-|--------|----------|---------|-------------|
-| Truth type | Numeric | Numeric | Factor |
-| Estimate type | quantile_pred | Numeric | Probabilities |
-| Purpose | Uncertainty quantification | Point prediction | Classification |
-| Output | Distributional accuracy | Point accuracy | Class accuracy |
+| Aspect        | Quantile                   | Numeric          | Probability    |
+| ------------- | -------------------------- | ---------------- | -------------- |
+| Truth type    | Numeric                    | Numeric          | Factor         |
+| Estimate type | quantile_pred              | Numeric          | Probabilities  |
+| Purpose       | Uncertainty quantification | Point prediction | Classification |
+| Output        | Distributional accuracy    | Point accuracy   | Class accuracy |
 
 ## Statistical Background
 
@@ -561,8 +565,7 @@ L(y, q, τ) = (τ - 1) * (y - q)  if y < q
 L(y, q, τ) = τ * (y - q)        if y ≥ q
 ```
 
-Or equivalently:
-```
+Or equivalently: ```
 L(y, q, τ) = max(τ * (y - q), (1 - τ) * (q - y))
 ```
 
@@ -577,11 +580,14 @@ The factor of 2 scales it to match interval-based scoring.
 
 ## Best Practices
 
-1. **Use appropriate quantile levels**: Include median (0.5) and symmetric intervals (e.g., 0.1/0.9, 0.25/0.75)
-2. **Handle missing quantiles carefully**: Choose strategy based on your use case
+1. **Use appropriate quantile levels**: Include median (0.5) and symmetric
+   intervals (e.g., 0.1/0.9, 0.25/0.75)
+2. **Handle missing quantiles carefully**: Choose strategy based on your use
+   case
 3. **Validate quantile_pred objects**: Use `check_quantile_metric()`
 4. **Document quantile strategy**: Explain how missing quantiles are handled
-5. **Consider calibration**: Quantiles should be calibrated (e.g., 90% interval contains 90% of values)
+5. **Consider calibration**: Quantiles should be calibrated (e.g., 90% interval
+   contains 90% of values)
 6. **Use fn_options**: Pass extra parameters via `fn_options` in summarizer
 7. **Test edge cases**: Missing quantiles, single quantile, all NAs
 
@@ -616,4 +622,5 @@ Imports:
 
 - [Metric System](metric-system.md) - Understanding metric architecture
 
-- [Testing Patterns](package-extension-requirements.md#testing-requirements) - Comprehensive test guide
+- [Testing Patterns](package-extension-requirements.md#testing-requirements) -
+  Comprehensive test guide

@@ -1,6 +1,8 @@
 # Static Survival Metrics
 
-Static survival metrics evaluate a single numeric prediction against right-censored survival data. These metrics produce one overall value per observation.
+Static survival metrics evaluate a single numeric prediction against
+right-censored survival data. These metrics produce one overall value per
+observation.
 
 ## Overview
 
@@ -22,7 +24,8 @@ Static survival metrics evaluate a single numeric prediction against right-censo
 
 **Examples:** Concordance Index
 
-**Reference implementation:** `R/surv-concordance_survival.R` in yardstick repository
+**Reference implementation:** `R/surv-concordance_survival.R` in yardstick
+repository
 
 ## Pattern: Three-Function Approach
 
@@ -119,7 +122,8 @@ my_metric.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 
 ## Complete Example: Concordance Index
 
-The concordance index measures the proportion of comparable pairs where predictions and outcomes are concordant.
+The concordance index measures the proportion of comparable pairs where
+predictions and outcomes are concordant.
 
 ```r
 # R/concordance_survival.R
@@ -221,9 +225,8 @@ estimate <- c(4.5, 9.0, 8.5, 11.0)  # Predicted times or risk scores
 
 ## Understanding Comparable Pairs
 
-Two observations are comparable if:
-1. Both experienced an event (at different times), or
-2. The observation with shorter time experienced an event
+Two observations are comparable if: 1. Both experienced an event (at different
+times), or 2. The observation with shorter time experienced an event
 
 A pair is concordant if:
 
@@ -331,12 +334,12 @@ if (is.null(case_weights)) {
 
 ## Key Differences from Other Metric Types
 
-| Aspect | Static Survival | Dynamic Survival | Numeric |
-|--------|----------------|------------------|---------|
-| Truth type | Surv object | Surv object | Numeric |
-| Estimate type | Single numeric | List of data.frames | Numeric |
-| Output | One value | One value per eval_time | One value |
-| Censoring | Explicitly handled | Explicitly handled | Not applicable |
+| Aspect        | Static Survival    | Dynamic Survival        | Numeric        |
+| ------------- | ------------------ | ----------------------- | -------------- |
+| Truth type    | Surv object        | Surv object             | Numeric        |
+| Estimate type | Single numeric     | List of data.frames     | Numeric        |
+| Output        | One value          | One value per eval_time | One value      |
+| Censoring     | Explicitly handled | Explicitly handled      | Not applicable |
 
 ## Dependencies
 
@@ -354,11 +357,13 @@ Imports:
 
 ## Best Practices
 
-1. **Use appropriate survival functions**: Leverage existing implementations from survival package
+1. **Use appropriate survival functions**: Leverage existing implementations
+   from survival package
 2. **Handle censoring correctly**: Use functions that account for censoring
 3. **Validate Surv objects**: Use `check_static_survival_metric()`
 4. **Convert case weights**: Always cast to double with `vctrs::vec_cast()`
-5. **Document interpretation**: Explain what concordance/other metrics mean for survival data
+5. **Document interpretation**: Explain what concordance/other metrics mean for
+   survival data
 6. **Handle edge cases**: Consider all-censored data, ties, etc.
 
 ## Common Metrics
@@ -367,14 +372,18 @@ Imports:
 
 - **Somers' D**: Related to concordance, ranges from -1 to 1
 
-- **Royston's D**: See [linear-predictor-survival-metrics.md](linear-predictor-survival-metrics.md)
+- **Royston's D**: See
+  [linear-predictor-survival-metrics.md](linear-predictor-survival-metrics.md)
 
 ## See Also
 
-- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent metrics
+- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent
+  metrics
 
-- [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated over time
+- [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated
+  over time
 
-- [Linear Predictor Survival Metrics](linear-predictor-survival-metrics.md) - Using linear predictors
+- [Linear Predictor Survival Metrics](linear-predictor-survival-metrics.md) -
+  Using linear predictors
 
 - [Metric System](metric-system.md) - Understanding metric architecture

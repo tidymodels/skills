@@ -2,9 +2,10 @@
 
 **dials-specific testing patterns for contributing to tidymodels/dials**
 
-This guide covers testing patterns specific to source development when contributing parameters to the dials package itself.
+This guide covers testing patterns specific to source development when
+contributing parameters to the dials package itself.
 
----
+--------------------------------------------------------------------------------
 
 ## Key Differences from Extension Testing
 
@@ -62,7 +63,7 @@ test_that("my_parameter works", {
 
 **Source development**: Access to internal test helpers and utilities
 
----
+--------------------------------------------------------------------------------
 
 ## Test File Organization in dials
 
@@ -89,7 +90,8 @@ test_that("my_parameter has correct range", {
 })
 ```
 
-**Keep alphabetical order**: Add new tests in alphabetical order by parameter name
+**Keep alphabetical order**: Add new tests in alphabetical order by parameter
+name
 
 ### test-constructors.R
 
@@ -174,7 +176,7 @@ test_that("my_parameter works with grids", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Required Test Categories
 
@@ -404,7 +406,7 @@ test_that("my_parameter edge cases", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Test Examples
 
@@ -564,7 +566,7 @@ test_that("values_activation is correct", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Using expect_snapshot()
 
@@ -627,7 +629,7 @@ testthat::snapshot_accept()
 
 - Tests that might have platform-specific output
 
----
+--------------------------------------------------------------------------------
 
 ## Source-Specific Patterns
 
@@ -696,7 +698,7 @@ test_that("penalty range validation", {
 # ... later parameters ...
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Running Tests
 
@@ -728,7 +730,7 @@ testthat::test_file(
 devtools::check()  # Runs all tests plus R CMD check
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -772,7 +774,7 @@ For data-dependent parameters, test with small, medium, and large datasets.
 
 Always use `set.seed()` before random grid generation in tests.
 
----
+--------------------------------------------------------------------------------
 
 ## Checklist for New Parameter
 
@@ -784,17 +786,17 @@ When adding a new parameter, ensure tests cover:
 
 - [ ] Grid generation in `test-grids.R`
 
-  - [ ] `grid_regular()`
+      - [ ] `grid_regular()`
 
-  - [ ] `grid_random()`
+      - [ ] `grid_random()`
 
-  - [ ] `grid_space_filling()`
+      - [ ] `grid_space_filling()`
 
 - [ ] Value utilities work
 
-  - [ ] `value_sample()`
+      - [ ] `value_sample()`
 
-  - [ ] `value_seq()`
+      - [ ] `value_seq()`
 
 - [ ] Transformation (if applicable)
 
@@ -810,7 +812,7 @@ When adding a new parameter, ensure tests cover:
 
 - [ ] Snapshots accepted: `testthat::snapshot_accept()`
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -828,6 +830,6 @@ When adding a new parameter, ensure tests cover:
 
 - [Testing chapter in R Packages book](https://r-pkgs.org/testing-basics.html)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

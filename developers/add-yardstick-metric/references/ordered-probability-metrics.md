@@ -1,6 +1,8 @@
 # Ordered Probability Metrics
 
-Ordered probability metrics evaluate predicted probabilities for ordered factor outcomes. These metrics are specifically designed for ordinal classification where the class levels have a natural ordering.
+Ordered probability metrics evaluate predicted probabilities for ordered factor
+outcomes. These metrics are specifically designed for ordinal classification
+where the class levels have a natural ordering.
 
 ## Overview
 
@@ -22,7 +24,8 @@ Ordered probability metrics evaluate predicted probabilities for ordered factor 
 
 **Examples:** Ranked Probability Score (RPS)
 
-**Reference implementation:** `R/orderedprob-ranked_prob_score.R` in yardstick repository
+**Reference implementation:** `R/orderedprob-ranked_prob_score.R` in yardstick
+repository
 
 ## Pattern: Three-Function Approach
 
@@ -128,7 +131,8 @@ my_metric.data.frame <- function(data, truth, ..., na_rm = TRUE,
 
 ## Complete Example: Ranked Probability Score
 
-The ranked probability score (RPS) is a Brier score for ordinal data that uses cumulative probabilities.
+The ranked probability score (RPS) is a Brier score for ordinal data that uses
+cumulative probabilities.
 
 ```r
 # R/ranked_prob_score.R
@@ -251,7 +255,8 @@ cum_probs <- cumsum(probs)  # 0.2, 0.7, 1.0
 # P(class <= 1), P(class <= 2), P(class <= 3)
 ```
 
-This respects the ordering: being one class away is better than being two classes away.
+This respects the ordering: being one class away is better than being two
+classes away.
 
 ## Testing
 
@@ -323,26 +328,31 @@ cum_ind <- cumulative_rows(inds)
 
 ## Key Differences from Regular Probability Metrics
 
-| Aspect | Regular Probability | Ordered Probability |
-|--------|---------------------|---------------------|
-| Truth type | Factor | Ordered factor |
-| Calculation | Uses raw probabilities | Uses cumulative probabilities |
-| Class ordering | Not considered | Explicitly used |
-| Averaging | Macro/micro/weighted | No averaging (standard only) |
-| Use case | Nominal classification | Ordinal classification |
+| Aspect         | Regular Probability    | Ordered Probability           |
+| -------------- | ---------------------- | ----------------------------- |
+| Truth type     | Factor                 | Ordered factor                |
+| Calculation    | Uses raw probabilities | Uses cumulative probabilities |
+| Class ordering | Not considered         | Explicitly used               |
+| Averaging      | Macro/micro/weighted   | No averaging (standard only)  |
+| Use case       | Nominal classification | Ordinal classification        |
 
 ## Best Practices
 
-1. **Always validate ordered factor**: Use `check_ordered_prob_metric()` to ensure truth is ordered
+1. **Always validate ordered factor**: Use `check_ordered_prob_metric()` to
+   ensure truth is ordered
 2. **Use cumulative probabilities**: This respects the ordering of classes
-3. **Handle case weights consistently**: Convert to numeric with `vctrs::vec_cast()`
-4. **No averaging types**: Ordered metrics work the same regardless of class count
+3. **Handle case weights consistently**: Convert to numeric with
+   `vctrs::vec_cast()`
+4. **No averaging types**: Ordered metrics work the same regardless of class
+   count
 5. **Document ordering assumptions**: Make clear that class order matters
 
 ## See Also
 
-- [Probability Metrics](probability-metrics.md) - Regular (nominal) probability metrics
+- [Probability Metrics](probability-metrics.md) - Regular (nominal) probability
+  metrics
 
 - [Metric System](metric-system.md) - Understanding metric architecture
 
-- [Testing Patterns](package-extension-requirements.md#testing-requirements) - Comprehensive test guide
+- [Testing Patterns](package-extension-requirements.md#testing-requirements) -
+  Comprehensive test guide

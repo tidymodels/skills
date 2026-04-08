@@ -2,25 +2,33 @@
 
 **Understanding dials architecture and parameter classes**
 
-This document provides a deep dive into how dials implements the tuning parameter system for Tidymodels.
+This document provides a deep dive into how dials implements the tuning
+parameter system for Tidymodels.
 
-> **Note for Source Development:** If contributing to dials, you can use internal infrastructure and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal infrastructure and helper functions. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-The dials parameter system provides type-safe tuning parameter definitions with flexible ranges, transformations, and integration with Tidymodels workflows.
+The dials parameter system provides type-safe tuning parameter definitions with
+flexible ranges, transformations, and integration with Tidymodels workflows.
 
 **Core implementation files:**
 
-- Parameter constructors: `R/constructor.R` (defines `new_quant_param()` and `new_qual_param()`)
+- Parameter constructors: `R/constructor.R` (defines `new_quant_param()` and
+  `new_qual_param()`)
 
-- Value generation: `R/value.R` (implements `value_sample()`, `value_seq()`, `value_set()`)
+- Value generation: `R/value.R` (implements `value_sample()`, `value_seq()`,
+  `value_set()`)
 
-- Finalization system: `R/finalize.R` (implements `finalize()` and finalization functions)
+- Finalization system: `R/finalize.R` (implements `finalize()` and finalization
+  functions)
 
-- Parameter sets: `R/parameters.R` (implements `parameters()` for parameter collections)
+- Parameter sets: `R/parameters.R` (implements `parameters()` for parameter
+  collections)
 
 **Grid generation:**
 
@@ -38,11 +46,12 @@ The dials parameter system provides type-safe tuning parameter definitions with 
 
 - Grid generation: `tests/testthat/test-grids.R`
 
----
+--------------------------------------------------------------------------------
 
 ## dials Role in Tidymodels
 
-**dials** is the tuning parameter infrastructure package for Tidymodels. It sits between model specifications and the tuning process:
+**dials** is the tuning parameter infrastructure package for Tidymodels. It sits
+between model specifications and the tuning process:
 
 ```
 parsnip/recipes  →  dials  →  tune  →  workflows
@@ -60,15 +69,17 @@ parsnip/recipes  →  dials  →  tune  →  workflows
 
 ### Design Philosophy
 
-- **Type-safe**: Parameters enforce type constraints (integer, double, character, logical)
+- **Type-safe**: Parameters enforce type constraints (integer, double,
+  character, logical)
 
 - **Flexible ranges**: Fixed or data-dependent bounds
 
 - **Scale-aware**: Transformations ensure proper sampling across scales
 
-- **Integration-ready**: Seamless workflow with tune, parsnip, recipes, workflows
+- **Integration-ready**: Seamless workflow with tune, parsnip, recipes,
+  workflows
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Classes
 
@@ -100,7 +111,8 @@ structure(
 
 - `range`: Two-element list with `lower` and `upper` bounds
 
-- `inclusive`: Whether endpoints can be sampled `c(lower_inclusive, upper_inclusive)`
+- `inclusive`: Whether endpoints can be sampled
+  `c(lower_inclusive, upper_inclusive)`
 
 - `trans`: Optional transformation from scales package
 
@@ -163,7 +175,7 @@ structure(
 
 - Model variants or modes
 
----
+--------------------------------------------------------------------------------
 
 ## Constructor Functions
 
@@ -250,7 +262,7 @@ activation <- function(values = values_activation) {
 values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Properties in Detail
 
@@ -302,7 +314,8 @@ range = c(1L, unknown()) # Upper bound depends on data
 range = c(0.01, unknown()) # Lower fixed, upper unknown
 ```
 
-See [Data-Dependent Parameters](data-dependent-parameters.md) for details on `unknown()`.
+See [Data-Dependent Parameters](data-dependent-parameters.md) for details on
+`unknown()`.
 
 ### inclusive
 
@@ -433,7 +446,8 @@ get_initial_mars_terms <- function(object, x) {
 }
 ```
 
-See [Data-Dependent Parameters](data-dependent-parameters.md) for complete guide.
+See [Data-Dependent Parameters](data-dependent-parameters.md) for complete
+guide.
 
 ### values (Qualitative Only)
 
@@ -481,7 +495,7 @@ new_qual_param(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Integration with Tidymodels
 
@@ -566,7 +580,7 @@ workflow() |>
   )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Design Considerations
 
@@ -594,7 +608,8 @@ workflow() |>
 
 - Each option is fundamentally different
 
-**Examples**: activation function, optimizer, distance metric, aggregation method
+**Examples**: activation function, optimizer, distance metric, aggregation
+method
 
 ### Choosing Ranges
 
@@ -637,7 +652,8 @@ range = c(0, 1)
 
 - **Penalties**: Log scale (10^-6, 10^-3, 1 are equally spaced)
 
-- **Learning rates**: Log scale (magnitudes matter more than absolute differences)
+- **Learning rates**: Log scale (magnitudes matter more than absolute
+  differences)
 
 - **Counts**: Usually linear (1, 2, 3, 4 are naturally equally spaced)
 
@@ -663,21 +679,25 @@ range = c(0, 1)
 
 - Parameter meaningfulness depends on data dimensions
 
-**Examples**: mtry (≤ # predictors), num_comp (≤ # columns), sample_size (≤ # rows)
+**Examples**: mtry (≤ # predictors), num_comp (≤ # columns), sample_size (≤ #
+rows)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### Learn More
 
-- **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+- **Quantitative parameters**: [Quantitative Parameters
+  Guide](quantitative-parameters.md)
 
-- **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+- **Qualitative parameters**: [Qualitative Parameters
+  Guide](qualitative-parameters.md)
 
 - **Transformations**: [Transformations Guide](transformations.md)
 
-- **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+- **Data-dependent ranges**: [Data-Dependent Parameters
+  Guide](data-dependent-parameters.md)
 
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
@@ -687,6 +707,6 @@ range = c(0, 1)
 
 - **Source development**: [Source Development Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

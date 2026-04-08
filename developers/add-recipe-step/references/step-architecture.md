@@ -1,8 +1,13 @@
 # Understanding Recipe Step Architecture
 
-Before implementing a recipe step, understand the recipe step architecture and workflow.
+Before implementing a recipe step, understand the recipe step architecture and
+workflow.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal helper functions like `recipes_eval_select()`, `check_type()`, and `get_case_weights()` without the `recipes::` prefix. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, you can use internal helper functions like
+> `recipes_eval_select()`, `check_type()`, and `get_case_weights()` without the
+> `recipes::` prefix. See the [Source Development Guide](source-guide.md) for
+> details.
 
 **Reference implementations showing complete architecture:**
 
@@ -290,7 +295,8 @@ Steps can:
 
 ## Case Weights
 
-**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation type.
+**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation
+type.
 
 ### Include Case Weights IF Step Computes Statistics:
 
@@ -310,7 +316,8 @@ Steps can:
 
 - ✅ Any formula that aggregates across rows
 
-**Why:** These operations produce different results with weighted vs unweighted data.
+**Why:** These operations produce different results with weighted vs unweighted
+data.
 
 **Examples that NEED case weights:**
 
@@ -416,11 +423,14 @@ new_data[[col]] <- new_data[[col]] - means[[col]]
 
 ## Next Steps
 
-- Implement modify-in-place steps: [modify-in-place-steps.md](modify-in-place-steps.md)
+- Implement modify-in-place steps:
+  [modify-in-place-steps.md](modify-in-place-steps.md)
 
-- Implement create-new-columns steps: [create-new-columns-steps.md](create-new-columns-steps.md)
+- Implement create-new-columns steps:
+  [create-new-columns-steps.md](create-new-columns-steps.md)
 
-- Implement row-operation steps: [row-operation-steps.md](row-operation-steps.md)
+- Implement row-operation steps:
+  [row-operation-steps.md](row-operation-steps.md)
 
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 

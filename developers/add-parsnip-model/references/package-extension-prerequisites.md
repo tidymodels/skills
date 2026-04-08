@@ -1,16 +1,19 @@
 # Extension Prerequisites
 
-**Complete these steps IN ORDER before implementing any metrics or recipe steps.**
+**Complete these steps IN ORDER before implementing any metrics or recipe
+steps.**
 
-This is the single source of truth for extension prerequisites. Do not proceed with development until all steps are complete and verification passes.
+This is the single source of truth for extension prerequisites. Do not proceed
+with development until all steps are complete and verification passes.
 
----
+--------------------------------------------------------------------------------
 
 ## Setup Checklist
 
 ### Step 1: Create Package Structure
 
-**INSTRUCTIONS FOR CLAUDE:** Check if DESCRIPTION file exists. If not, run this command via Bash tool:
+**INSTRUCTIONS FOR CLAUDE:** Check if DESCRIPTION file exists. If not, run this
+command via Bash tool:
 
 ```bash
 Rscript -e 'usethis::create_package(".", open = FALSE)'
@@ -26,13 +29,15 @@ This creates:
 
 - `.Rbuildignore` - Files to exclude from package builds
 
-**After running**: Use Read tool to confirm DESCRIPTION file exists before proceeding.
+**After running**: Use Read tool to confirm DESCRIPTION file exists before
+proceeding.
 
----
+--------------------------------------------------------------------------------
 
 ### Step 2: Claude Code Integration (REQUIRED)
 
-**INSTRUCTIONS FOR CLAUDE:** Run these commands via Bash tool to set up Claude Code integration:
+**INSTRUCTIONS FOR CLAUDE:** Run these commands via Bash tool to set up Claude
+Code integration:
 
 ```bash
 # Check usethis version
@@ -55,37 +60,45 @@ Rscript -e 'usethis::use_claude_code()'
 
 **After running `use_claude_code()`:**
 
-1. Use `AskUserQuestion` to prompt: "The extension prerequisites created `.claude/CLAUDE.md` with R package development instructions. Should I read this file now to incorporate tidyverse development patterns?"
+1. Use `AskUserQuestion` to prompt: "The extension prerequisites created
+   `.claude/CLAUDE.md` with R package development instructions. Should I read
+   this file now to incorporate tidyverse development patterns?"
 
    - Option 1: "Yes, read CLAUDE.md now (Recommended)"
 
    - Option 2: "Skip for now"
 
-2. If user chooses "Yes", read `.claude/CLAUDE.md` using the Read tool before continuing
+2. If user chooses "Yes", read `.claude/CLAUDE.md` using the Read tool before
+   continuing
 
 3. Continue with remaining setup following any instructions from CLAUDE.md
 
-**Verification**: Use Read tool to confirm `.claude/CLAUDE.md` exists before proceeding.
+**Verification**: Use Read tool to confirm `.claude/CLAUDE.md` exists before
+proceeding.
 
----
+--------------------------------------------------------------------------------
 
 ### Step 3: Clone Reference Repositories (STRONGLY RECOMMENDED)
 
 Clone the source repository to access reference implementations:
 
-**INSTRUCTIONS FOR CLAUDE:** The `*` wildcard in these paths will be expanded by bash. Run these commands via Bash tool.
+**INSTRUCTIONS FOR CLAUDE:** The `*` wildcard in these paths will be expanded by
+bash. Run these commands via Bash tool.
 
 **For yardstick metrics:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh yardstick
 ```
 
 **For recipe steps:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh recipes
 ```
 
 **For both:**
+
 ```bash
 ~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/clone-tidymodels-repos.sh all
 ```
@@ -100,17 +113,22 @@ Clone the source repository to access reference implementations:
 
 - Significantly improves development quality
 
-**Note**: This step can be skipped if user prefers, but development quality will be lower. If verification shows repository warnings, ask the user if they want to proceed without repos.
+**Note**: This step can be skipped if user prefers, but development quality will
+be lower. If verification shows repository warnings, ask the user if they want
+to proceed without repos.
 
-**After running**: Confirm `repos/yardstick/` or `repos/recipes/` directory exists.
+**After running**: Confirm `repos/yardstick/` or `repos/recipes/` directory
+exists.
 
----
+--------------------------------------------------------------------------------
 
 ### Step 4: Add Dependencies
 
-**INSTRUCTIONS FOR CLAUDE:** Run these commands via Bash tool based on what you're developing:
+**INSTRUCTIONS FOR CLAUDE:** Run these commands via Bash tool based on what
+you're developing:
 
 **For yardstick metrics:**
+
 ```bash
 Rscript -e 'usethis::use_package("yardstick")'
 Rscript -e 'usethis::use_package("rlang")'
@@ -118,6 +136,7 @@ Rscript -e 'usethis::use_package("cli")'
 ```
 
 **For recipe steps:**
+
 ```bash
 Rscript -e 'usethis::use_package("recipes")'
 Rscript -e 'usethis::use_package("rlang")'
@@ -127,13 +146,15 @@ Rscript -e 'usethis::use_package("vctrs")'
 ```
 
 **Optional (for examples):**
+
 ```bash
 Rscript -e 'usethis::use_package("modeldata", type = "Suggests")'
 ```
 
-**Verification**: Use Read tool to confirm dependencies appear in DESCRIPTION's Imports field.
+**Verification**: Use Read tool to confirm dependencies appear in DESCRIPTION's
+Imports field.
 
----
+--------------------------------------------------------------------------------
 
 ### Step 5: Setup Testing Infrastructure
 
@@ -149,9 +170,10 @@ This creates:
 
 - `tests/testthat.R` - Test runner
 
-**Verification**: Use Bash tool (`ls -la tests/testthat/`) to confirm `tests/testthat/` directory exists.
+**Verification**: Use Bash tool (`ls -la tests/testthat/`) to confirm
+`tests/testthat/` directory exists.
 
----
+--------------------------------------------------------------------------------
 
 ### Step 6: Verify Setup (MANDATORY)
 
@@ -171,70 +193,87 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 
 - Dependencies (correct packages in Imports)
 
----
+--------------------------------------------------------------------------------
 
 ## Resolving Verification Warnings
 
-After running verify-setup.R, you may see warnings as UUIDs. Use this reference to resolve each warning.
+After running verify-setup.R, you may see warnings as UUIDs. Use this reference
+to resolve each warning.
 
 ### Warning: e7f4c89a-1234
-**Issue:** DESCRIPTION file not found
-**Resolution:** Go to [Step 1: Create Package Structure](#step-1-create-package-structure)
-**INSTRUCTIONS FOR CLAUDE:** Run Step 1 commands directly via Bash tool using `Rscript -e`
+
+**Issue:** DESCRIPTION file not found **Resolution:** Go to [Step 1: Create
+Package Structure](#step-1-create-package-structure) **INSTRUCTIONS FOR
+CLAUDE:** Run Step 1 commands directly via Bash tool using `Rscript -e`
 
 ### Warning: b3d9e6f2-5678
-**Issue:** R/ directory not found
-**Resolution:** Go to [Step 1: Create Package Structure](#step-1-create-package-structure)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'dir.create("R")'` via Bash tool
+
+**Issue:** R/ directory not found **Resolution:** Go to [Step 1: Create Package
+Structure](#step-1-create-package-structure) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'dir.create("R")'` via Bash tool
 
 ### Warning: a1c5d8f3-9012
-**Issue:** tests/testthat/ directory not found
-**Resolution:** Go to [Step 5: Setup Testing Infrastructure](#step-5-setup-testing-infrastructure)
-**INSTRUCTIONS FOR CLAUDE:** Run Step 5 commands directly via Bash tool using `Rscript -e`
+
+**Issue:** tests/testthat/ directory not found **Resolution:** Go to [Step 5:
+Setup Testing Infrastructure](#step-5-setup-testing-infrastructure)
+**INSTRUCTIONS FOR CLAUDE:** Run Step 5 commands directly via Bash tool using
+`Rscript -e`
 
 ### Warning: f9b2e4d7-3456
-**Issue:** .claude/CLAUDE.md not found
-**Resolution:** Go to [Step 2: Claude Code Integration](#step-2-claude-code-integration-required)
-**INSTRUCTIONS FOR CLAUDE:** Run Step 2 commands directly via Bash tool using `Rscript -e`, then read `.claude/CLAUDE.md`
+
+**Issue:** .claude/CLAUDE.md not found **Resolution:** Go to [Step 2: Claude
+Code Integration](#step-2-claude-code-integration-required) **INSTRUCTIONS FOR
+CLAUDE:** Run Step 2 commands directly via Bash tool using `Rscript -e`, then
+read `.claude/CLAUDE.md`
 
 ### Warning: c8a7f1b5-7890
-**Issue:** Reference repository not found
-**Resolution:** Go to [Step 3: Clone Reference Repositories](#step-3-clone-reference-repositories-strongly-recommended)
-**Note:** This warning can be skipped with user approval (see [Repository Warnings](#repository-warnings-user-choice))
+
+**Issue:** Reference repository not found **Resolution:** Go to [Step 3: Clone
+Reference
+Repositories](#step-3-clone-reference-repositories-strongly-recommended)
+**Note:** This warning can be skipped with user approval (see [Repository
+Warnings](#repository-warnings-user-choice))
 
 ### Warning: d4e8b9c2-1111
-**Issue:** yardstick not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("yardstick")'` via Bash tool
+
+**Issue:** yardstick not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("yardstick")'` via Bash tool
 
 ### Warning: d4e8b9c2-2222
-**Issue:** recipes not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("recipes")'` via Bash tool
+
+**Issue:** recipes not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("recipes")'` via Bash tool
 
 ### Warning: d4e8b9c2-3333
-**Issue:** rlang not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("rlang")'` via Bash tool
+
+**Issue:** rlang not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("rlang")'` via Bash tool
 
 ### Warning: d4e8b9c2-4444
-**Issue:** cli not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("cli")'` via Bash tool
+
+**Issue:** cli not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("cli")'` via Bash tool
 
 ### Warning: d4e8b9c2-5555
-**Issue:** tibble not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("tibble")'` via Bash tool
+
+**Issue:** tibble not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("tibble")'` via Bash tool
 
 ### Warning: d4e8b9c2-6666
-**Issue:** vctrs not in Imports
-**Resolution:** Go to [Step 4: Add Dependencies](#step-4-add-dependencies)
-**INSTRUCTIONS FOR CLAUDE:** Run `Rscript -e 'usethis::use_package("vctrs")'` via Bash tool
 
-**After resolving warnings:** Re-run verification script via Bash tool. Do NOT proceed until all checks pass.
+**Issue:** vctrs not in Imports **Resolution:** Go to [Step 4: Add
+Dependencies](#step-4-add-dependencies) **INSTRUCTIONS FOR CLAUDE:** Run
+`Rscript -e 'usethis::use_package("vctrs")'` via Bash tool
 
----
+**After resolving warnings:** Re-run verification script via Bash tool. Do NOT
+proceed until all checks pass.
+
+--------------------------------------------------------------------------------
 
 ### Repository Warnings (USER CHOICE)
 
@@ -242,13 +281,16 @@ After running verify-setup.R, you may see warnings as UUIDs. Use this reference 
 
 **INSTRUCTIONS FOR CLAUDE:**
 
-1. **Explain the impact**: "Reference implementations help provide accurate code examples and significantly improve development quality."
+1. **Explain the impact**: "Reference implementations help provide accurate code
+   examples and significantly improve development quality."
 
-2. **Ask the user**: "Would you like to clone the reference repository now? (Strongly recommended)"
+2. **Ask the user**: "Would you like to clone the reference repository now?
+   (Strongly recommended)"
 
 3. **If user chooses to skip**:
 
-   - Confirm: "Proceeding without reference repository. Implementation quality may be lower."
+   - Confirm: "Proceeding without reference repository. Implementation quality
+     may be lower."
 
    - Continue to implementation
 
@@ -260,30 +302,33 @@ After running verify-setup.R, you may see warnings as UUIDs. Use this reference 
 
    - Confirm repos are now found
 
-**Only repository warnings (c8a7f1b5-7890) can be skipped with user approval. All other warnings MUST be fixed.**
+**Only repository warnings (c8a7f1b5-7890) can be skipped with user approval.
+All other warnings MUST be fixed.**
 
----
+--------------------------------------------------------------------------------
 
 ## Success Criteria
 
 ✅ **All checks pass OR user explicitly approves skipping repository cloning**
 
-You should see:
-```
+You should see: ```
 All checks for extension development complete.
 ```
 
-**After verification passes**: Return to your implementation guide to start developing your metric or recipe step.
+**After verification passes**: Return to your implementation guide to start
+developing your metric or recipe step.
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Configuration (Optional)
 
-These are optional enhancements you can add after completing the mandatory setup steps above.
+These are optional enhancements you can add after completing the mandatory setup
+steps above.
 
 ### Setting up .Rbuildignore
 
-Add patterns to exclude from package builds to prevent R CMD check NOTEs about non-standard files.
+Add patterns to exclude from package builds to prevent R CMD check NOTEs about
+non-standard files.
 
 **INSTRUCTIONS FOR CLAUDE:** Run this command via Bash tool:
 
@@ -316,13 +361,16 @@ This prevents `R CMD check` NOTEs about non-standard files like:
 ### Setting up roxygen2 documentation
 
 **INSTRUCTIONS FOR CLAUDE:** If not already configured, run via Bash tool:
+
 ```bash
 Rscript -e 'usethis::use_roxygen_md()'  # Enable markdown in roxygen comments
 ```
 
 ### Setting up a license
 
-**INSTRUCTIONS FOR CLAUDE:** Choose and run the appropriate command via Bash tool:
+**INSTRUCTIONS FOR CLAUDE:** Choose and run the appropriate command via Bash
+tool:
+
 ```bash
 Rscript -e 'usethis::use_mit_license()'      # Permissive
 # or
@@ -334,6 +382,7 @@ Rscript -e 'usethis::use_apache_license()'   # Permissive with patent grant
 ### Setting up a README
 
 **INSTRUCTIONS FOR CLAUDE:** Run via Bash tool:
+
 ```bash
 Rscript -e 'usethis::use_readme_md()'  # For packages
 # or
@@ -363,12 +412,14 @@ your-package/
 ### Required vs Suggested packages
 
 **Imports** (required dependencies):
+
 ```bash
 Rscript -e 'usethis::use_package("rlang")'      # Always needed
 Rscript -e 'usethis::use_package("cli")'        # For error messages
 ```
 
 **Suggests** (optional dependencies):
+
 ```bash
 Rscript -e 'usethis::use_package("modeldata", type = "Suggests")'  # For examples
 Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plotting
@@ -397,6 +448,7 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 **Problem:** You're using a function but haven't declared the dependency
 
 **Solution (for Claude):** Run via Bash tool:
+
 ```bash
 Rscript -e 'usethis::use_package("package_name")'
 ```
@@ -411,9 +463,11 @@ Rscript -e 'usethis::use_package("package_name")'
 
 **Problem:** Using non-standard evaluation (NSE) without declaring variables
 
-**Solution:** See [package-roxygen-documentation.md](package-roxygen-documentation.md) for `@importFrom` usage
+**Solution:** See
+[package-roxygen-documentation.md](package-roxygen-documentation.md) for
+`@importFrom` usage
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Material
 
@@ -444,6 +498,7 @@ your-package/
 ### Dependency Management
 
 **Imports** (required dependencies):
+
 ```bash
 Rscript -e 'usethis::use_package("rlang")'      # Always needed
 Rscript -e 'usethis::use_package("cli")'        # For error messages
@@ -452,6 +507,7 @@ Rscript -e 'usethis::use_package("recipes")'    # For recipe steps
 ```
 
 **Suggests** (optional dependencies):
+
 ```bash
 Rscript -e 'usethis::use_package("modeldata", type = "Suggests")'  # For examples
 Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plotting
@@ -465,16 +521,16 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 
 ### Common Setup Issues
 
-**"Package not found" during check:**
-→ Run via Bash tool: `Rscript -e 'usethis::use_package("package_name")'`
+**"Package not found" during check:** → Run via Bash tool:
+`Rscript -e 'usethis::use_package("package_name")'`
 
-**"Non-standard file" NOTE:**
-→ Add pattern to `.Rbuildignore`
+**"Non-standard file" NOTE:** → Add pattern to `.Rbuildignore`
 
-**"No visible binding for global variable":**
-→ See [package-roxygen-documentation.md](package-roxygen-documentation.md) for `@importFrom` usage
+**"No visible binding for global variable":** → See
+[package-roxygen-documentation.md](package-roxygen-documentation.md) for
+`@importFrom` usage
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -482,18 +538,23 @@ Rscript -e 'usethis::use_package("ggplot2", type = "Suggests")'    # For plottin
 
 After verification passes, you MUST proceed to the Extension Development Guide:
 
-**For yardstick metrics:**
-→ **[Extension Development Guide](../../add-yardstick-metric/references/extension-guide.md)** - Start implementing your metric
+**For yardstick metrics:** → **[Extension Development
+Guide](../../add-yardstick-metric/references/extension-guide.md)** - Start
+implementing your metric
 
-**For recipe steps:**
-→ **[Extension Development Guide](../../add-recipe-step/references/extension-guide.md)** - Start implementing your step
+**For recipe steps:** → **[Extension Development
+Guide](../../add-recipe-step/references/extension-guide.md)** - Start
+implementing your step
 
-**DO NOT** skip the Extension Development Guide. It contains critical implementation patterns and step-by-step instructions.
+**DO NOT** skip the Extension Development Guide. It contains critical
+implementation patterns and step-by-step instructions.
 
 **Additional resources (reference as needed):**
 
-- [package-development-workflow.md](package-development-workflow.md) - Fast iteration cycle
+- [package-development-workflow.md](package-development-workflow.md) - Fast
+  iteration cycle
 
 - [package-testing-patterns.md](package-testing-patterns.md) - Writing tests
 
-- [package-roxygen-documentation.md](package-roxygen-documentation.md) - Documentation templates
+- [package-roxygen-documentation.md](package-roxygen-documentation.md) -
+  Documentation templates

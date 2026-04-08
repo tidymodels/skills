@@ -1,12 +1,15 @@
 # Testing Patterns for Parsnip Model Source Development
 
-Testing strategies specifically for contributing new models to the parsnip package (source development).
+Testing strategies specifically for contributing new models to the parsnip
+package (source development).
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-When contributing models to parsnip source, testing requirements are more comprehensive than for extensions. You have access to parsnip's internal test infrastructure and must follow established patterns.
+When contributing models to parsnip source, testing requirements are more
+comprehensive than for extensions. You have access to parsnip's internal test
+infrastructure and must follow established patterns.
 
 **Key differences from extension testing:**
 
@@ -18,14 +21,13 @@ When contributing models to parsnip source, testing requirements are more compre
 
 - Organized by model and engine
 
----
+--------------------------------------------------------------------------------
 
 ## Test File Organization
 
 ### File Naming Conventions
 
-**Model constructor tests:**
-```
+**Model constructor tests:** ```
 tests/testthat/test-my_model.R
 ```
 
@@ -43,7 +45,7 @@ tests/testthat/test-my_model-glmnet.R
 
 - Group related tests with comment separators
 
----
+--------------------------------------------------------------------------------
 
 ## Required Test Categories
 
@@ -329,7 +331,7 @@ test_that("my_model works with recipes", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Snapshot Testing Patterns
 
@@ -387,7 +389,7 @@ test_that("print method works", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Testing
 
@@ -432,7 +434,7 @@ test_that("my_model classification mode fits", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Engine Testing
 
@@ -466,7 +468,7 @@ test_that("my_model with glmnet engine", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Using Test Helpers
 
@@ -504,7 +506,7 @@ test_that("my_model works with standard test data", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Test Organization Pattern
 
@@ -554,7 +556,7 @@ test_that("factors", { ... })
 test_that("errors", { ... })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Coverage Requirements
 
@@ -575,11 +577,12 @@ Aim for comprehensive coverage:
 - ✅ Edge cases
 
 **Check coverage:**
+
 ```r
 covr::package_coverage()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Test Patterns
 
@@ -617,7 +620,7 @@ expect_named(preds, ".pred")
 expect_true(all(grepl("^\\.pred_", names(preds))))
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Checklist
 
@@ -653,7 +656,7 @@ Before submitting PR:
 
 - [ ] Good test coverage (>90%)
 
----
+--------------------------------------------------------------------------------
 
 ## Debugging Failed Tests
 
@@ -693,7 +696,7 @@ testthat::snapshot_review()
 testthat::snapshot_accept()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 
@@ -710,4 +713,3 @@ testthat::snapshot_accept()
 - [Best Practices (Source)](best-practices-source.md) - Code conventions
 
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
-

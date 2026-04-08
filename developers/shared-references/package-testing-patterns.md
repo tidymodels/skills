@@ -1,23 +1,25 @@
 # Extension Development: Testing Patterns
 
-**Context:** This guide is for **extension development** - creating new packages that extend tidymodels packages.
+**Context:** This guide is for **extension development** - creating new packages
+that extend tidymodels packages.
 
 **Key principle:** ❌ **Never use internal functions** (accessed with `:::`)
 
 Complete testing requirements and patterns for tidymodels extension packages.
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Requirements
 
 **INSTRUCTIONS FOR CLAUDE:** Test count should match complexity.
 
-**Minimum: 8-10 essential tests** (all steps)
-**Add feature-specific tests only when applicable** (see details below)
+**Minimum: 8-10 essential tests** (all steps) **Add feature-specific tests only
+when applicable** (see details below)
 
 Target: 8-12 tests for simple steps, 12-18 for moderate, 18-25 for complex.
 
-Comprehensive guide to testing R packages in the tidymodels ecosystem using testthat.
+Comprehensive guide to testing R packages in the tidymodels ecosystem using
+testthat.
 
 ### Test File Organization
 
@@ -75,6 +77,7 @@ multiclass_data <- data.frame(
 #### DON'T: Rely on internal test helpers
 
 **Avoid:**
+
 ```r
 # DON'T use internal yardstick helpers
 data <- data_altman()  # NOT EXPORTED
@@ -120,6 +123,7 @@ test_that("calculations are correct", {
 ```
 
 **For recipe steps:**
+
 ```r
 test_that("working correctly", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -173,6 +177,7 @@ test_that("parameter validation works", {
 ```
 
 **Use snapshots for detailed error messages:**
+
 ```r
 test_that("parameter validation produces clear errors", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -248,6 +253,7 @@ test_that("works with hardhat case weights", {
 ```
 
 **For recipe steps:**
+
 ```r
 test_that("step works with case weights", {
   mtcars_freq <- mtcars
@@ -356,6 +362,7 @@ test_that("works with grouped data", {
 These ensure recipe steps work in edge cases. Required tests:
 
 **1. Bake method errors when columns missing:**
+
 ```r
 test_that("bake method errors when needed columns are missing", {
   rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -367,6 +374,7 @@ test_that("bake method errors when needed columns are missing", {
 ```
 
 **2. Empty printing:**
+
 ```r
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars) |>
@@ -428,16 +436,19 @@ test_that("handles extreme values", {
 #### Use expect_snapshot()
 
 **For error messages:**
+
 ```r
 expect_snapshot(error = TRUE, your_function(bad_input))
 ```
 
 **For warnings:**
+
 ```r
 expect_snapshot(warning = TRUE, your_function(questionable_input))
 ```
 
 **For printed output:**
+
 ```r
 expect_snapshot(print(object))
 ```
@@ -561,5 +572,4 @@ covr::report()
 
 - Don't obsess over 100% - some code is hard to test
 
----
-
+--------------------------------------------------------------------------------

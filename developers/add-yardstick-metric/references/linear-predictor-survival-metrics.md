@@ -1,6 +1,8 @@
 # Linear Predictor Survival Metrics
 
-Linear predictor survival metrics evaluate linear predictor values (from Cox models or similar) against right-censored survival data. These metrics assess the prognostic separation provided by the linear predictor.
+Linear predictor survival metrics evaluate linear predictor values (from Cox
+models or similar) against right-censored survival data. These metrics assess
+the prognostic separation provided by the linear predictor.
 
 ## Overview
 
@@ -133,7 +135,8 @@ my_metric.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 
 ## Complete Example: Royston's D Statistic
 
-Royston's D measures prognostic separation based on the standard deviation of the prognostic index.
+Royston's D measures prognostic separation based on the standard deviation of
+the prognostic index.
 
 ```r
 # R/royston_survival.R
@@ -408,12 +411,12 @@ normal_scores <- normal_score_blom(estimate, case_weights)
 
 ## Key Differences from Other Metric Types
 
-| Aspect | Linear Pred Survival | Static Survival | Dynamic Survival |
-|--------|---------------------|-----------------|------------------|
-| Estimate type | Linear predictor | Any numeric | Survival probabilities |
-| Range | Unbounded | Often bounded | Probabilities (0-1) |
-| Typical source | Cox model | Various | Survival curves |
-| Use case | Prognostic separation | Overall concordance | Time-specific |
+| Aspect         | Linear Pred Survival  | Static Survival     | Dynamic Survival       |
+| -------------- | --------------------- | ------------------- | ---------------------- |
+| Estimate type  | Linear predictor      | Any numeric         | Survival probabilities |
+| Range          | Unbounded             | Often bounded       | Probabilities (0-1)    |
+| Typical source | Cox model             | Various             | Survival curves        |
+| Use case       | Prognostic separation | Overall concordance | Time-specific          |
 
 ## Statistical Background
 
@@ -425,7 +428,7 @@ normal_scores <- normal_score_blom(estimate, case_weights)
 
 - R²_D represents explained variation on log hazard scale
 
-- D = β * κ where β is coefficient, κ is scaling constant
+- D = β \* κ where β is coefficient, κ is scaling constant
 
 ### Interpretation
 
@@ -439,7 +442,8 @@ normal_scores <- normal_score_blom(estimate, case_weights)
 ## Best Practices
 
 1. **Use with Cox models**: These metrics are designed for Cox model output
-2. **Apply transformations**: Use normal scores or other transformations as appropriate
+2. **Apply transformations**: Use normal scores or other transformations as
+   appropriate
 3. **Validate inputs**: Use `check_linear_pred_survival_metric()`
 4. **Handle case weights**: Convert to numeric with `vctrs::vec_cast()`
 5. **Document statistical basis**: Explain the underlying statistical model
@@ -474,8 +478,10 @@ Imports:
 
 ## See Also
 
-- [Static Survival Metrics](static-survival-metrics.md) - Other overall survival metrics
+- [Static Survival Metrics](static-survival-metrics.md) - Other overall survival
+  metrics
 
-- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent metrics
+- [Dynamic Survival Metrics](dynamic-survival-metrics.md) - Time-dependent
+  metrics
 
 - [Metric System](metric-system.md) - Understanding metric architecture

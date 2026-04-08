@@ -2,9 +2,10 @@
 
 **Creating custom tuning parameters in new R packages**
 
-This guide is for developers creating new R packages that define custom tuning parameters using dials.
+This guide is for developers creating new R packages that define custom tuning
+parameters using dials.
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -26,13 +27,14 @@ This guide is for developers creating new R packages that define custom tuning p
 
 - → Use [Source Development Guide](source-guide.md) instead
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
 Before creating custom parameters, ensure your R package is properly set up:
 
-**📘 See [Extension Prerequisites](package-extension-prerequisites.md) for complete setup instructions.**
+**📘 See [Extension Prerequisites](package-extension-prerequisites.md) for
+complete setup instructions.**
 
 Key requirements:
 
@@ -44,7 +46,7 @@ Key requirements:
 
 - testthat testing framework installed
 
----
+--------------------------------------------------------------------------------
 
 ## Critical Requirements
 
@@ -58,7 +60,7 @@ When creating dials parameters, certain patterns are **non-negotiable**:
    dials::new_quant_param(...)
    dials::unknown()
    dials::finalize()
-
+   
    # ❌ WRONG - Do not use internal functions
    new_quant_param(...)  # Missing prefix
    dials:::internal_helper()  # Using internal function
@@ -114,12 +116,12 @@ When creating dials parameters, certain patterns are **non-negotiable**:
 
 **INSTRUCTIONS FOR CLAUDE:**
 
-If the user attempts to use internal functions in extension development:
-1. **STOP and explain the constraint**
-2. Provide the correct exported function alternative
-3. If no alternative exists, explain they need source development instead
+If the user attempts to use internal functions in extension development: 1.
+**STOP and explain the constraint** 2. Provide the correct exported function
+alternative 3. If no alternative exists, explain they need source development
+instead
 
----
+--------------------------------------------------------------------------------
 
 ## Key Constraints
 
@@ -155,7 +157,7 @@ When developing in an extension package:
 
 - Test parameter behavior with grid functions
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -163,7 +165,8 @@ When developing in an extension package:
 
 Decide whether you need a quantitative or qualitative parameter:
 
-**Quantitative (`dials::new_quant_param()`)**: Numeric values (continuous or integer)
+**Quantitative (`dials::new_quant_param()`)**: Numeric values (continuous or
+integer)
 
 - Examples: penalties, thresholds, counts, rates
 
@@ -236,7 +239,8 @@ Include complete roxygen documentation:
 #' @export
 ```
 
-See [Roxygen Documentation](package-roxygen-documentation.md) for complete patterns.
+See [Roxygen Documentation](package-roxygen-documentation.md) for complete
+patterns.
 
 ### Step 4: Export Parameter
 
@@ -261,15 +265,16 @@ devtools::document()  # Generates NAMESPACE and .Rd files
 
 **STOP! Before creating ANY files, read this entire section.**
 
-You will create **EXACTLY 3 files** for extension development. Not 4. Not 5. Not 8. **EXACTLY 3.**
+You will create **EXACTLY 3 files** for extension development. Not 4. Not 5. Not
+8. **EXACTLY 3.**
 
 #### Mandatory Pre-Flight Checklist
 
 Before creating files, verify:
 
-- [ ] I will create R/param_[name].R
+- [ ] I will create R/param\_[name].R
 
-- [ ] I will create tests/testthat/test-param_[name].R
+- [ ] I will create tests/testthat/test-param\_[name].R
 
 - [ ] I will create README.md (ONLY if package has no README)
 
@@ -281,13 +286,15 @@ Before creating files, verify:
 
 #### Files You Will Create
 
-1. **R/param_[name].R** - Parameter function with roxygen documentation
-2. **tests/testthat/test-param_[name].R** - Comprehensive tests
-3. **README.md** - Brief usage guide (optional, only if package doesn't have one)
+1. **R/param\_[name].R** - Parameter function with roxygen documentation
+2. **tests/testthat/test-param\_[name].R** - Comprehensive tests
+3. **README.md** - Brief usage guide (optional, only if package doesn't have
+   one)
 
 #### Files You Will NOT Create
 
-**INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY OF THESE FILES.**
+**INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY OF
+THESE FILES.**
 
 **❌ NEVER CREATE THESE FILES:**
 
@@ -323,25 +330,30 @@ Before creating files, verify:
 
 - [packagename]-package.R (package-level documentation, optional)
 
-**These package infrastructure files are ONLY created when initializing a new package. When adding a parameter to an existing package, create ONLY the 3 core files listed above.**
+**These package infrastructure files are ONLY created when initializing a new
+package. When adding a parameter to an existing package, create ONLY the 3 core
+files listed above.**
 
 #### File Creation Discipline
 
-- **Parameter code:** Goes in R/param_[name].R with roxygen @examples
+- **Parameter code:** Goes in R/param\_[name].R with roxygen @examples
 
-- **Tests:** Go in tests/testthat/test-param_[name].R
+- **Tests:** Go in tests/testthat/test-param\_[name].R
 
 - **Usage guide:** Goes in README.md (only if package needs one)
 
-- **Examples:** Go in roxygen @examples in the R file, NOT in separate example_usage.R
+- **Examples:** Go in roxygen @examples in the R file, NOT in separate
+  example_usage.R
 
-- **Implementation notes:** Go in roxygen @details in the R file, NOT in separate IMPLEMENTATION_SUMMARY.md
+- **Implementation notes:** Go in roxygen @details in the R file, NOT in
+  separate IMPLEMENTATION_SUMMARY.md
 
 - **Everything else:** Does NOT get created
 
 #### Why This Matters
 
-Creating extra documentation files is the most common mistake in parameter development. These files:
+Creating extra documentation files is the most common mistake in parameter
+development. These files:
 
 - Create clutter without adding value
 
@@ -376,18 +388,19 @@ test_that("my_parameter works with grid functions", {
 })
 ```
 
-See [Testing Requirements](package-extension-requirements.md#testing-requirements) for complete testing guide.
+See [Testing
+Requirements](package-extension-requirements.md#testing-requirements) for
+complete testing guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Development Best Practices
 
 **Focus on correctness and completeness:**
 
-✅ **Provide complete, working examples** in roxygen @examples
-✅ **Explain key concepts** briefly (transformations, finalization)
-✅ **Show common patterns** with code snippets
-✅ **Include comprehensive tests** covering all features
+✅ **Provide complete, working examples** in roxygen @examples ✅ **Explain key
+concepts** briefly (transformations, finalization) ✅ **Show common patterns**
+with code snippets ✅ **Include comprehensive tests** covering all features
 
 ⚠️ **But avoid over-explanation:**
 
@@ -409,7 +422,7 @@ See [Testing Requirements](package-extension-requirements.md#testing-requirement
 
 - Code follows dials conventions (naming, structure, style)
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -491,7 +504,8 @@ regularization <- function(range = c(-5, 0),
 }
 ```
 
-See [Transformations](transformations.md) for detailed guide on using transformations.
+See [Transformations](transformations.md) for detailed guide on using
+transformations.
 
 ### Example 3: Data-Dependent Quantitative Parameter
 
@@ -532,7 +546,8 @@ max_features <- function(range = c(1L, dials::unknown()), trans = NULL) {
 }
 ```
 
-See [Data-Dependent Parameters](data-dependent-parameters.md) for complete guide including step-by-step custom finalization.
+See [Data-Dependent Parameters](data-dependent-parameters.md) for complete guide
+including step-by-step custom finalization.
 
 ### Example 3B: Custom Finalization Logic
 
@@ -603,7 +618,8 @@ get_num_genes <- function(object, x) {
 
 - Always ensure bounds are valid (correct type, lower < upper, at least 1)
 
-See [Data-Dependent Parameters](data-dependent-parameters.md) for detailed step-by-step guide on custom finalization.
+See [Data-Dependent Parameters](data-dependent-parameters.md) for detailed
+step-by-step guide on custom finalization.
 
 ### Example 4: Qualitative Parameter
 
@@ -647,7 +663,7 @@ values_method <- c("mean", "median", "min", "max")
 
 See [Qualitative Parameters](qualitative-parameters.md) for complete guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -705,7 +721,8 @@ learning_rate <- function(range = c(-5, -1),
 
 ### Pattern 4: Qualitative with Companion Values Vector
 
-**CRITICAL:** Qualitative parameters MUST follow this pattern. This is non-negotiable.
+**CRITICAL:** Qualitative parameters MUST follow this pattern. This is
+non-negotiable.
 
 For categorical parameters, you create **TWO things that work together**:
 
@@ -799,16 +816,17 @@ Before completing a qualitative parameter, verify:
 
 - [ ] Examples show both the function and values vector
 
-- [ ] Both items are in the SAME file (R/param_[name].R)
+- [ ] Both items are in the SAME file (R/param\_[name].R)
 
 #### Common Mistakes
 
-❌ **Missing companion vector** - Parameter alone without values vector
-❌ **Missing @rdname** - Function and vector on separate help pages
-❌ **Missing @export on vector** - Values vector not accessible to users
-❌ **Wrong naming** - Not using `values_` prefix for vector
+❌ **Missing companion vector** - Parameter alone without values vector ❌
+**Missing @rdname** - Function and vector on separate help pages ❌ **Missing
+@export on vector** - Values vector not accessible to users ❌ **Wrong naming**
 
----
+- Not using `values_` prefix for vector
+
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
@@ -826,9 +844,10 @@ Before completing a qualitative parameter, verify:
 5. **Generate** docs with `devtools::document()`
 6. **Test** with `devtools::test()`
 
-See [Development Workflow](package-development-workflow.md) for detailed workflow patterns.
+See [Development Workflow](package-development-workflow.md) for detailed
+workflow patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Package Integration
 
@@ -867,7 +886,7 @@ params <- params |>
 grid <- dials::grid_regular(params, levels = 5)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
@@ -943,15 +962,18 @@ test_that("my_parameter rejects invalid ranges", {
 })
 ```
 
-See [Testing Requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See [Testing
+Requirements](package-extension-requirements.md#testing-requirements) for
+comprehensive testing guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
 ### General Best Practices
 
-**📘 See [Best Practices](package-extension-requirements.md#best-practices) for universal R package patterns.**
+**📘 See [Best Practices](package-extension-requirements.md#best-practices) for
+universal R package patterns.**
 
 Key practices:
 
@@ -967,19 +989,22 @@ Key practices:
 
 1. **Choose meaningful names**: `learning_rate()` not `lr()`
 2. **Use appropriate ranges**: Match typical use cases
-3. **Add transformations when needed**: Log scale for parameters spanning orders of magnitude
+3. **Add transformations when needed**: Log scale for parameters spanning orders
+   of magnitude
 4. **Document finalization**: Explain data-dependent parameters clearly
 5. **Create values vectors**: For qualitative parameters, use `values_*` naming
 6. **Test grid integration**: Ensure parameters work with all grid functions
 7. **Provide examples**: Show parameter in realistic tune workflow
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
 ### Common Issues
 
-**📘 See [Common Issues & Solutions](package-extension-requirements.md#common-issues-solutions) for general troubleshooting.**
+**📘 See [Common Issues &
+Solutions](package-extension-requirements.md#common-issues-solutions) for
+general troubleshooting.**
 
 ### Parameter-Specific Issues
 
@@ -993,21 +1018,25 @@ Solution: Provide two-element vector: `range = c(lower, upper)`
 
 **Issue: "values must be character"**
 
-Solution: For qualitative parameters, ensure `type = "character"` matches `values` type
+Solution: For qualitative parameters, ensure `type = "character"` matches
+`values` type
 
 **Issue: Grid generation produces unexpected values**
 
-Solution: Check if transformation is applied correctly. Range should be in transformed units.
+Solution: Check if transformation is applied correctly. Range should be in
+transformed units.
 
 **Issue: Parameter won't finalize with data**
 
-Solution: Ensure finalize function is provided and has correct signature: `function(object, x)`
+Solution: Ensure finalize function is provided and has correct signature:
+`function(object, x)`
 
 **Issue: Integer range produces no values**
 
-Solution: Check `inclusive` argument. With `c(FALSE, FALSE)` and small integer range, no valid values may exist.
+Solution: Check `inclusive` argument. With `c(FALSE, FALSE)` and small integer
+range, no valid values may exist.
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -1021,7 +1050,8 @@ Solution: Check `inclusive` argument. With `c(FALSE, FALSE)` and small integer r
 
    - [Transformations](transformations.md) for log-scale parameters
 
-   - [Data-Dependent Parameters](data-dependent-parameters.md) for unknown bounds
+   - [Data-Dependent Parameters](data-dependent-parameters.md) for unknown
+     bounds
 
 3. **Integrate with tune**:
 
@@ -1033,6 +1063,6 @@ Solution: Check `inclusive` argument. With `c(FALSE, FALSE)` and small integer r
 
    - Read tidymodels.org tutorial on custom parameters
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

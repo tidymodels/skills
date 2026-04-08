@@ -1,8 +1,9 @@
 # Source Development Guide: Contributing to Recipes
 
-Complete guide for contributing new preprocessing steps to the recipes package itself.
+Complete guide for contributing new preprocessing steps to the recipes package
+itself.
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -18,11 +19,13 @@ Complete guide for contributing new preprocessing steps to the recipes package i
 
 ❌ **Don't use this guide if you are:**
 
-- Creating a new package that extends recipes → Use [Extension Development Guide](extension-guide.md)
+- Creating a new package that extends recipes → Use [Extension Development
+  Guide](extension-guide.md)
 
-- Building standalone steps → Use [Extension Development Guide](extension-guide.md)
+- Building standalone steps → Use [Extension Development
+  Guide](extension-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
@@ -49,7 +52,7 @@ devtools::install_dev_deps()
 devtools::load_all()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Understanding Recipes Architecture
 
@@ -81,7 +84,7 @@ recipes/
 
 - Examples: `test-center.R`, `test-normalize.R`
 
----
+--------------------------------------------------------------------------------
 
 ## Working with Internal Functions
 
@@ -157,9 +160,10 @@ print_step(x$columns, x$terms, x$trained, title, width,
 term_names <- sel2char(x$terms)
 ```
 
-See [Best Practices (Source)](best-practices-source.md) for complete guide to internal functions.
+See [Best Practices (Source)](best-practices-source.md) for complete guide to
+internal functions.
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -500,7 +504,8 @@ test_that("centering handles NA", {
 
 - **Complex calculations:** 18-25 tests
 
-See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive guide and internal test helpers.
+See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive
+guide and internal test helpers.
 
 ### Step 4: Run Tests and Check
 
@@ -518,7 +523,7 @@ devtools::test()
 devtools::check()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Patterns
 
@@ -552,10 +557,9 @@ Available templates are in templates or inline documentation.
 
 **INSTRUCTIONS FOR CLAUDE:**
 
-Create ONLY these files by default:
-1. **R/[step_name].R** - Complete implementation
-2. **tests/testthat/test-[step_name].R** - Test suite
-3. **README.md** - Overview with basic usage example (200-300 lines)
+Create ONLY these files by default: 1. **R/[step_name].R** - Complete
+implementation 2. **tests/testthat/test-[step_name].R** - Test suite 3.
+**README.md** - Overview with basic usage example (200-300 lines)
 
 Do NOT create unless user explicitly requests:
 
@@ -567,9 +571,10 @@ Do NOT create unless user explicitly requests:
 
 - ❌ Additional documentation files
 
-If user wants more documentation, they will ask (e.g., "add comprehensive documentation").
+If user wants more documentation, they will ask (e.g., "add comprehensive
+documentation").
 
----
+--------------------------------------------------------------------------------
 
 ## The Three-Function Pattern
 
@@ -608,7 +613,7 @@ print.step_center <- function(x, ...) { }
 tidy.step_center <- function(x, ...) { }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Step Type Best Practices
 
@@ -645,7 +650,7 @@ if (object$skip) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Creating New Internal Helpers
 
@@ -692,7 +697,7 @@ Use:
 
 - Don't export
 
----
+--------------------------------------------------------------------------------
 
 ## Error Messages
 
@@ -718,7 +723,7 @@ prep.step_center <- function(x, training, info = NULL, ...,
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## PR Submission
 
@@ -732,7 +737,7 @@ prep.step_center <- function(x, training, info = NULL, ...,
 2. **Update NEWS.md:**
    ```md
    ## recipes (development version)
-
+   
    * Added `step_center()` for centering numeric predictors (#123).
    ```
 
@@ -770,17 +775,20 @@ Common feedback:
 
 - Fix code style issues
 
-See [Troubleshooting (Source)](troubleshooting-source.md) for common review feedback.
+See [Troubleshooting (Source)](troubleshooting-source.md) for common review
+feedback.
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Documentation
 
 ### Source Development
 
-- [Testing Patterns (Source)](testing-patterns-source.md) - Testing with internal helpers
+- [Testing Patterns (Source)](testing-patterns-source.md) - Testing with
+  internal helpers
 
-- [Best Practices (Source)](best-practices-source.md) - Code style and internal functions
+- [Best Practices (Source)](best-practices-source.md) - Code style and internal
+  functions
 
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
@@ -808,7 +816,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 
 - [Roxygen Documentation](package-roxygen-documentation.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -819,7 +827,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 5. **Run `devtools::check()`**
 6. **Submit PR** to tidymodels/recipes
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 

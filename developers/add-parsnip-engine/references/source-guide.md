@@ -1,8 +1,9 @@
 # Source Guide: Contributing Engines to Parsnip
 
-Guide for contributing engines directly to the tidymodels/parsnip package (source development).
+Guide for contributing engines directly to the tidymodels/parsnip package
+(source development).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -16,11 +17,13 @@ Use this guide when:
 
 **Don't use this guide for:**
 
-- Adding engines in your own package → See [extension-guide.md](extension-guide.md)
+- Adding engines in your own package → See
+  [extension-guide.md](extension-guide.md)
 
-- Creating new model types → See [../../add-parsnip-model](../../add-parsnip-model/SKILL.md)
+- Creating new model types → See
+  [../../add-parsnip-model](../../add-parsnip-model/SKILL.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Quick Start
 
@@ -84,24 +87,24 @@ set_pred(
 )
 ```
 
-Add tests to `tests/testthat/test-linear_reg.R` or create `test-linear_reg-my_engine.R`.
+Add tests to `tests/testthat/test-linear_reg.R` or create
+`test-linear_reg-my_engine.R`.
 
 Update `NEWS.md`:
+
 ```markdown
 ## New Features
 
 * Added "my_engine" engine for `linear_reg()` (#PR_NUMBER)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Key Advantages
 
-**Source development benefits:**
-1. No `parsnip::` prefix needed
-2. Can use internal functions if necessary
-3. Part of official tidymodels
-4. Better discovery by users
+**Source development benefits:** 1. No `parsnip::` prefix needed 2. Can use
+internal functions if necessary 3. Part of official tidymodels 4. Better
+discovery by users
 
 **Responsibilities:**
 
@@ -113,7 +116,7 @@ Update `NEWS.md`:
 
 - Respond to issues
 
----
+--------------------------------------------------------------------------------
 
 ## File Organization
 
@@ -163,6 +166,7 @@ test_that("my_engine fits", {
 ```
 
 **Or create engine-specific test file:**
+
 ```r
 # tests/testthat/test-linear_reg-my_engine.R
 # Only if many tests or complex scenarios
@@ -174,7 +178,7 @@ test_that("my_engine fits", {
 
 - Source development: **1-2 files** (additions to existing files)
 
----
+--------------------------------------------------------------------------------
 
 ## NO Prefix Pattern
 
@@ -198,9 +202,10 @@ set_dependency("linear_reg", "my_engine", "mypackage", "regression")
 
 - Using `parsnip::` is redundant and against conventions
 
-**Quick check:** If you see `parsnip::` in your registration code, you're doing it wrong for source development.
+**Quick check:** If you see `parsnip::` in your registration code, you're doing
+it wrong for source development.
 
----
+--------------------------------------------------------------------------------
 
 ## Deterministic Source Development Pattern
 
@@ -291,10 +296,10 @@ test_that("xgboost fits", {
 * Added "xgboost" engine for `linear_reg()` (@your_github, #PR_NUMBER)
 ```
 
-**Total files modified: 2** (R/*_data.R, tests/testthat/test-*.R)
-**Total files created: 0** (add to existing files)
+**Total files modified: 2** (R/*\_data.R, tests/testthat/test-*.R) **Total files
+created: 0** (add to existing files)
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
@@ -332,7 +337,7 @@ test_that("my_engine formula and xy equivalent", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## PR Checklist
 
@@ -350,13 +355,14 @@ test_that("my_engine formula and xy equivalent", {
 
 - [ ] Snapshot tests for errors (if applicable)
 
----
+--------------------------------------------------------------------------------
 
 ## Additional Resources
 
 See:
 
-- [Engine Implementation](engine-implementation.md) - Complete registration guide
+- [Engine Implementation](engine-implementation.md) - Complete registration
+  guide
 
 - [Best Practices (Source)](best-practices-source.md) - Parsnip conventions
 

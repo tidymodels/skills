@@ -1,26 +1,31 @@
 # Parsnip Model Specification System
 
-This document explains the architecture and design of parsnip's model specification system. This applies to both creating new models and adding engines to existing models.
+This document explains the architecture and design of parsnip's model
+specification system. This applies to both creating new models and adding
+engines to existing models.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-**parsnip** provides a unified interface to diverse modeling functions across R packages. It separates:
+**parsnip** provides a unified interface to diverse modeling functions across R
+packages. It separates:
 
 1. **Model specification** - What type of model (linear_reg, boost_tree, etc.)
 2. **Engine** - How to compute it (lm, glmnet, xgboost, etc.)
 3. **Mode** - What type of prediction (regression, classification, etc.)
 
-This separation allows the same model specification to work with multiple computational engines while maintaining a consistent interface.
+This separation allows the same model specification to work with multiple
+computational engines while maintaining a consistent interface.
 
----
+--------------------------------------------------------------------------------
 
 ## Model Specification Objects
 
 ### Structure
 
-A model specification is an S3 object created by functions like `linear_reg()`, `boost_tree()`, etc. It contains:
+A model specification is an S3 object created by functions like `linear_reg()`,
+`boost_tree()`, etc. It contains:
 
 ```r
 linear_reg()
@@ -62,7 +67,8 @@ This allows:
 
 - Model-specific behaviors
 
-The class is created using `make_classes()` which prepends the model type to `"model_spec"`.
+The class is created using `make_classes()` which prepends the model type to
+`"model_spec"`.
 
 ### Difference from Fitted Models
 
@@ -86,7 +92,7 @@ The class is created using `make_classes()` which prepends the model type to `"m
 
 - Used for prediction
 
----
+--------------------------------------------------------------------------------
 
 ## Engine Registration System
 
@@ -117,7 +123,8 @@ env <- get_model_env()
 ls(env)  # Lists all registered models
 ```
 
-For each model, there's a table of engine/mode combinations with their fit and prediction specifications.
+For each model, there's a table of engine/mode combinations with their fit and
+prediction specifications.
 
 ### Looking Up Available Engines
 
@@ -128,7 +135,7 @@ show_engines("linear_reg")
 
 This queries the registration database to show what's available.
 
----
+--------------------------------------------------------------------------------
 
 ## Model Modes
 
@@ -149,11 +156,13 @@ From `R/aaa_models.R`, parsnip supports:
 ### Setting Modes
 
 **In constructor (default mode):**
+
 ```r
 linear_reg(mode = "regression")  # Default
 ```
 
 **Change with `set_mode()`:**
+
 ```r
 nearest_neighbor(mode = "unknown") |>
   set_mode("classification")
@@ -185,7 +194,7 @@ Different modes have different:
 
 - Error if engine doesn't support the mode
 
----
+--------------------------------------------------------------------------------
 
 ## Main Arguments vs Engine Arguments
 
@@ -246,19 +255,21 @@ boost_tree() |>
 
 These bypass translation and go straight to the engine.
 
----
+--------------------------------------------------------------------------------
 
 ## Integration with Tidymodels Ecosystem
 
 ### Fitting Workflows
 
 **Direct fit:**
+
 ```r
 spec <- linear_reg() |> set_engine("lm")
 fit <- fit(spec, mpg ~ ., data = mtcars)
 ```
 
 **With workflows:**
+
 ```r
 library(workflows)
 
@@ -272,6 +283,7 @@ fit <- fit(wf, data = mtcars)
 ### Prediction
 
 **Multiple types:**
+
 ```r
 predict(fit, new_data = mtcars, type = "numeric")
 predict(fit, new_data = mtcars, type = "conf_int")
@@ -282,6 +294,7 @@ The type depends on mode and engine capabilities.
 ### Tuning
 
 **With tune package:**
+
 ```r
 spec <- boost_tree(trees = tune(), tree_depth = tune()) |>
   set_engine("xgboost")
@@ -307,7 +320,7 @@ workflow() |>
   fit(data = mtcars)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## The Fit → Model_fit → Predict Pipeline
 
@@ -372,17 +385,15 @@ When `predict()` is called:
 
 This pipeline ensures consistent interface while allowing engine flexibility.
 
----
+--------------------------------------------------------------------------------
 
 ## Design Considerations
 
 ### When Creating New Models
 
-**Consider:**
-1. Is this model type distinct from existing ones?
-2. What main arguments are common across implementations?
-3. What modes should it support?
-4. What prediction types make sense?
+**Consider:** 1. Is this model type distinct from existing ones? 2. What main
+arguments are common across implementations? 3. What modes should it support? 4.
+What prediction types make sense?
 
 **Example:** `survival_reg()` is distinct from `linear_reg()` because:
 
@@ -394,12 +405,10 @@ This pipeline ensures consistent interface while allowing engine flexibility.
 
 ### When Adding Engines
 
-**Consider:**
-1. Does the model type already exist?
-2. What's the natural interface (formula, matrix, xy)?
-3. Which prediction types can this engine support?
-4. What main arguments does it support?
-5. What engine-specific arguments are valuable?
+**Consider:** 1. Does the model type already exist? 2. What's the natural
+interface (formula, matrix, xy)? 3. Which prediction types can this engine
+support? 4. What main arguments does it support? 5. What engine-specific
+arguments are valuable?
 
 ### Model Naming
 
@@ -411,7 +420,7 @@ Follow parsnip conventions:
 
 - Function form: `nearest_neighbor()`, not `nearest_neighbors` or `knn`
 
----
+--------------------------------------------------------------------------------
 
 ## Internal Architecture
 
@@ -467,7 +476,7 @@ Follow parsnip conventions:
 
 - Core helper functions
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
@@ -489,4 +498,5 @@ This design enables:
 
 - Extension by third-party packages
 
-Understanding this architecture is essential for both creating new models and adding engines to existing ones.
+Understanding this architecture is essential for both creating new models and
+adding engines to existing ones.

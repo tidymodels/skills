@@ -1,16 +1,20 @@
 # Testing Patterns for Recipes Source Development
 
-**Context:** This guide is for **source development** - contributing to the recipes package directly.
+**Context:** This guide is for **source development** - contributing to the
+recipes package directly.
 
-**Key principle:** ✅ **You CAN use internal functions and test helpers** - you're developing the package itself.
+**Key principle:** ✅ **You CAN use internal functions and test helpers** -
+you're developing the package itself.
 
-For extension development (creating new packages), see [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements).
+For extension development (creating new packages), see [Testing Patterns
+(Extension)](package-extension-requirements.md#testing-requirements).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use Internal Test Helpers
 
-When developing recipes itself, you have access to internal test data and helper functions. Use them to:
+When developing recipes itself, you have access to internal test data and helper
+functions. Use them to:
 
 - Maintain consistency with existing tests
 
@@ -530,7 +534,8 @@ devtools::test(filter = "center")
 
 ## Next Steps
 
-- Review [Best Practices (Source)](best-practices-source.md) for recipes coding standards
+- Review [Best Practices (Source)](best-practices-source.md) for recipes coding
+  standards
 
 - Check [Troubleshooting (Source)](troubleshooting-source.md) for common issues
 

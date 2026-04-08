@@ -1,8 +1,12 @@
 # Creating Modify-in-Place Steps
 
-This is the simplest type of step. It transforms existing columns without creating new ones.
+This is the simplest type of step. It transforms existing columns without
+creating new ones.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, you can use internal helpers directly (no `recipes::` prefix needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, you can use internal helpers directly (no `recipes::` prefix
+> needed): `recipes_eval_select()`, `check_type()`, `check_new_data()`, etc. See
+> the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -28,7 +32,8 @@ Modify-in-place steps:
 
 **Test patterns:**
 
-- Basic transformations: `tests/testthat/test-center.R`, `tests/testthat/test-scale.R`
+- Basic transformations: `tests/testthat/test-center.R`,
+  `tests/testthat/test-scale.R`
 
 - Parameterized steps: `tests/testthat/test-normalize.R`
 
@@ -44,7 +49,8 @@ Modify-in-place steps:
 
 ## Complete Template
 
-This template follows the same pattern as `R/center.R` in the recipes repository.
+This template follows the same pattern as `R/center.R` in the recipes
+repository.
 
 ```r
 #' Title for your preprocessing step
@@ -299,7 +305,8 @@ tidy.step_yourname <- function(x, ...) {
 
 ## Case Weights
 
-**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation type.
+**INSTRUCTIONS FOR CLAUDE:** Include case weight handling based on operation
+type.
 
 ### Include Case Weights IF Step Computes Statistics:
 
@@ -353,7 +360,8 @@ tidy.step_yourname <- function(x, ...) {
 
 Ask: "Does prep() compute a statistic by aggregating across multiple rows?"
 
-- **YES** → Include case weights (add parameters, implement weighted calculations, add tests)
+- **YES** → Include case weights (add parameters, implement weighted
+  calculations, add tests)
 
 - **NO** → Skip case weights entirely
 
@@ -442,7 +450,9 @@ bake:
 
 ## Testing
 
-See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See
+[package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+for comprehensive testing guide.
 
 ### Key tests for modify-in-place steps
 
@@ -490,6 +500,8 @@ test_that("working correctly", {
 
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 
-- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your step:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

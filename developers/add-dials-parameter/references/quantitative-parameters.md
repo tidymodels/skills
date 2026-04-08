@@ -2,23 +2,31 @@
 
 **Creating numeric tuning parameters for continuous and integer values**
 
-This guide covers everything you need to create quantitative parameters with `new_quant_param()`.
+This guide covers everything you need to create quantitative parameters with
+`new_quant_param()`.
 
-> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal validation and helper functions. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Quantitative parameters represent numeric values that can vary continuously or discretely across a defined range. These are the most common type of tuning parameters in machine learning.
+Quantitative parameters represent numeric values that can vary continuously or
+discretely across a defined range. These are the most common type of tuning
+parameters in machine learning.
 
 **Reference implementations in dials:**
 
-- Simple quantitative: `R/param_penalty.R` (regularization penalty), `R/param_learn_rate.R` (learning rate)
+- Simple quantitative: `R/param_penalty.R` (regularization penalty),
+  `R/param_learn_rate.R` (learning rate)
 
-- With transformations: `R/param_penalty.R` (log10 transformation), `R/param_sample_size.R` (log2 transformation)
+- With transformations: `R/param_penalty.R` (log10 transformation),
+  `R/param_sample_size.R` (log2 transformation)
 
-- Data-dependent: `R/param_mtry.R` (finalize with `get_p`), `R/param_num_comp.R` (finalize with `get_p`)
+- Data-dependent: `R/param_mtry.R` (finalize with `get_p`), `R/param_num_comp.R`
+  (finalize with `get_p`)
 
 - Integer parameters: `R/param_num_trees.R`, `R/param_num_terms.R`
 
@@ -30,7 +38,7 @@ Quantitative parameters represent numeric values that can vary continuously or d
 
 - Transformation tests: `tests/testthat/test-param_learn_rate.R`
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use Quantitative Parameters
 
@@ -60,13 +68,14 @@ Use quantitative parameters when your tuning parameter:
 
 **When NOT to use**:
 
-- ❌ Categorical choices (use [Qualitative Parameters](qualitative-parameters.md))
+- ❌ Categorical choices (use [Qualitative
+  Parameters](qualitative-parameters.md))
 
 - ❌ Text-based options (method names, algorithms)
 
 - ❌ Unordered discrete options
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Function Structure
 
@@ -114,7 +123,7 @@ my_parameter <- function(range = c(lower, upper), trans = NULL) {
 
 - Match transformations to how parameter is used in practice
 
----
+--------------------------------------------------------------------------------
 
 ## Required Arguments
 
@@ -186,7 +195,8 @@ range = c(1L, unknown())     # Upper bound depends on data
 range = c(0.01, unknown())   # Lower fixed, upper from data
 ```
 
-See [Data-Dependent Parameters](data-dependent-parameters.md) for `unknown()` details.
+See [Data-Dependent Parameters](data-dependent-parameters.md) for `unknown()`
+details.
 
 ### inclusive
 
@@ -224,9 +234,10 @@ inclusive = c(TRUE, FALSE)
 
 **⚠️ Warning with integer ranges**:
 
-With `inclusive = c(FALSE, FALSE)` and `range = c(1L, 3L)`, only value 2 is valid. Be careful with small integer ranges!
+With `inclusive = c(FALSE, FALSE)` and `range = c(1L, 3L)`, only value 2 is
+valid. Be careful with small integer ranges!
 
----
+--------------------------------------------------------------------------------
 
 ## Optional Arguments
 
@@ -328,7 +339,7 @@ label = c(learn_rate = "Learning Rate")
 label = c(num_comp = "# Principal Components")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -460,7 +471,7 @@ mtry <- function(range = c(1L, unknown()), trans = NULL) {
 
 **Use for**: feature counts, component counts, sample sizes
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -666,7 +677,7 @@ finalized_large
 #> Range: [1, 201]  # min(200, max(20, 2*100)) + 1 = 201
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -722,7 +733,7 @@ transform_log10()  # Available in dials namespace
 
 See [Source Development Guide](source-guide.md) for complete guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Considerations
 
@@ -801,11 +812,13 @@ test_that("my_parameter rejects invalid ranges", {
 })
 ```
 
-For extension development, see [Testing Requirements](package-extension-requirements.md#testing-requirements).
+For extension development, see [Testing
+Requirements](package-extension-requirements.md#testing-requirements).
 
-For source development, see [Testing Patterns (Source)](testing-patterns-source.md).
+For source development, see [Testing Patterns
+(Source)](testing-patterns-source.md).
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -813,13 +826,15 @@ For source development, see [Testing Patterns (Source)](testing-patterns-source.
 
 - **Transformations**: [Transformations Guide](transformations.md)
 
-- **Data-dependent ranges**: [Data-Dependent Parameters Guide](data-dependent-parameters.md)
+- **Data-dependent ranges**: [Data-Dependent Parameters
+  Guide](data-dependent-parameters.md)
 
 - **Grid integration**: [Grid Integration Guide](grid-integration.md)
 
 ### Explore Related Topics
 
-- **Qualitative parameters**: [Qualitative Parameters Guide](qualitative-parameters.md)
+- **Qualitative parameters**: [Qualitative Parameters
+  Guide](qualitative-parameters.md)
 
 - **Parameter system**: [Parameter System Overview](parameter-system.md)
 
@@ -829,6 +844,6 @@ For source development, see [Testing Patterns (Source)](testing-patterns-source.
 
 - **Source development**: [Source Development Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

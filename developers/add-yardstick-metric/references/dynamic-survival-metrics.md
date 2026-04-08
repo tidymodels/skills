@@ -1,6 +1,7 @@
 # Dynamic Survival Metrics
 
-Dynamic survival metrics evaluate time-dependent survival predictions at specific evaluation times. These metrics produce one value per evaluation time.
+Dynamic survival metrics evaluate time-dependent survival predictions at
+specific evaluation times. These metrics produce one value per evaluation time.
 
 ## Overview
 
@@ -248,7 +249,8 @@ This validates:
 
 - `estimate` is a list-column of data.frames
 
-- Each data.frame has required columns: `.eval_time`, `.pred_survival`, `.weight_censored`
+- Each data.frame has required columns: `.eval_time`, `.pred_survival`,
+  `.weight_censored`
 
 - `case_weights` are valid (if provided)
 
@@ -409,21 +411,23 @@ dplyr::bind_rows(estimate) |>
 
 ## Key Differences from Other Metric Types
 
-| Aspect | Dynamic Survival | Static Survival | Integrated Survival |
-|--------|------------------|-----------------|---------------------|
-| Output | Multiple rows (one per time) | Single value | Single value |
-| Predictions | Survival probabilities | Single numeric | Survival probabilities |
-| Eval times | Explicit `.eval_time` | Not applicable | Integrated over times |
-| Use case | Time-specific performance | Overall performance | Overall performance |
+| Aspect      | Dynamic Survival             | Static Survival     | Integrated Survival    |
+| ----------- | ---------------------------- | ------------------- | ---------------------- |
+| Output      | Multiple rows (one per time) | Single value        | Single value           |
+| Predictions | Survival probabilities       | Single numeric      | Survival probabilities |
+| Eval times  | Explicit `.eval_time`        | Not applicable      | Integrated over times  |
+| Use case    | Time-specific performance    | Overall performance | Overall performance    |
 
 ## Best Practices
 
 1. **Use IPCW weights**: Always include `.weight_censored` in predictions
 2. **Validate structure**: Use `check_dynamic_survival_metric()`
-3. **Handle both categories**: Account for events before and survival past eval_time
+3. **Handle both categories**: Account for events before and survival past
+   eval_time
 4. **Group by eval_time**: Let the vec function handle grouping automatically
 5. **Document time interpretation**: Explain what each eval_time represents
-6. **Consider censoring patterns**: IPCW works best with informative censoring distribution
+6. **Consider censoring patterns**: IPCW works best with informative censoring
+   distribution
 
 ## Common Metrics
 
@@ -435,7 +439,8 @@ dplyr::bind_rows(estimate) |>
 
 ## See Also
 
-- [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated over time
+- [Integrated Survival Metrics](integrated-survival-metrics.md) - Integrated
+  over time
 
 - [Static Survival Metrics](static-survival-metrics.md) - Overall metrics
 

@@ -2,9 +2,10 @@
 
 **Common issues and solutions for dials source development**
 
-This guide covers troubleshooting specific to contributing parameters to the dials package.
+This guide covers troubleshooting specific to contributing parameters to the
+dials package.
 
----
+--------------------------------------------------------------------------------
 
 ## Common Parameter Issues
 
@@ -29,7 +30,7 @@ my_param <- function(range = c(0, 0.5, 1)) { ... }
 my_param <- function(range = c(0, 1)) { ... }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 2: Lower Bound Must Be Less Than Upper Bound
 
@@ -51,7 +52,7 @@ my_param(range = c(1, 0))
 my_param(range = c(0, 1))
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 3: Type Mismatch Between type and values
 
@@ -61,7 +62,8 @@ my_param(range = c(0, 1))
 Error: The values for 'param' must be character
 ```
 
-**Cause**: Qualitative parameter has `type = "character"` but `values` are numeric or wrong type
+**Cause**: Qualitative parameter has `type = "character"` but `values` are
+numeric or wrong type
 
 **Solution**: Ensure type matches values
 
@@ -87,13 +89,14 @@ activation <- function(values = values_activation) {
 values_activation <- c("relu", "sigmoid", "tanh")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 4: Grid Values Look Wrong with Transformation
 
 **Problem**: Generated grid values don't match expected range
 
-**Cause**: Range specified in actual units but transformation expects transformed units
+**Cause**: Range specified in actual units but transformation expects
+transformed units
 
 **Example**:
 
@@ -121,9 +124,10 @@ grid$penalty
 #> Correct!
 ```
 
-**Solution**: Always specify range in **transformed space** when using transformations
+**Solution**: Always specify range in **transformed space** when using
+transformations
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 5: Parameter Won't Finalize
 
@@ -163,7 +167,7 @@ mtry <- function(range = c(1L, unknown()), trans = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 6: Can't Generate Grid with Unknown Bound
 
@@ -189,11 +193,12 @@ finalized <- finalize(param, train_data)
 grid <- grid_regular(finalized, levels = 5)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 7: Integer Range Produces No Valid Values
 
-**Problem**: Integer parameter with exclusive bounds produces no or very few valid values
+**Problem**: Integer parameter with exclusive bounds produces no or very few
+valid values
 
 **Example**:
 
@@ -237,7 +242,7 @@ my_param <- function(range = c(1L, 20L)) {
 # Valid values: 2, 3, 4, ..., 19 (plenty of values)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 8: Snapshot Mismatch
 
@@ -263,7 +268,7 @@ testthat::snapshot_accept()
 devtools::test()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## PR-Specific Issues
 
@@ -277,7 +282,8 @@ Missing link or links in documentation object 'my_parameter.Rd':
   'some_function()'
 ```
 
-**Cause**: Documentation references function that doesn't exist or isn't linked correctly
+**Cause**: Documentation references function that doesn't exist or isn't linked
+correctly
 
 **Solution**: Fix roxygen cross-references
 
@@ -292,7 +298,7 @@ Missing link or links in documentation object 'my_parameter.Rd':
 #' @seealso [other_package::some_function()]
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 10: NEWS.md Format
 
@@ -323,7 +329,7 @@ Missing link or links in documentation object 'my_parameter.Rd':
 
 - Use present tense
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 11: Alphabetical Ordering in test-params.R
 
@@ -354,7 +360,7 @@ test_that("penalty range validation", {
 # ... later parameters ...
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue 12: devtools::check() Failures
 
@@ -401,13 +407,16 @@ checking package namespace information ... WARNING
 Object 'my_function' is imported from 'pkg' but is not used
 ```
 
-**Solution**: Remove unused imports from NAMESPACE (regenerate with `devtools::document()`)
+**Solution**: Remove unused imports from NAMESPACE (regenerate with
+`devtools::document()`)
 
----
+--------------------------------------------------------------------------------
 
 ## Universal Issues
 
-These issues also apply to extension development. See [Common Issues & Solutions](package-extension-requirements.md#common-issues-solutions) for details.
+These issues also apply to extension development. See [Common Issues &
+Solutions](package-extension-requirements.md#common-issues-solutions) for
+details.
 
 ### Issue: could not find function
 
@@ -423,7 +432,7 @@ Error: could not find function "my_parameter"
 devtools::load_all()  # Reload package
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue: object not found in namespace
 
@@ -446,7 +455,7 @@ Then regenerate documentation:
 devtools::document()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ### Issue: Test failures
 
@@ -485,7 +494,7 @@ expect_equal(result, 0.123456789)
 expect_equal(result, 0.123456789, tolerance = 1e-7)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Debugging Strategies
 
@@ -595,7 +604,7 @@ testthat::test_file(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 
@@ -609,9 +618,12 @@ testthat::test_file(
 
 ### Where to Ask
 
-1. **GitHub Issues**: [tidymodels/dials issues](https://github.com/tidymodels/dials/issues)
-2. **GitHub Discussions**: [tidymodels discussions](https://github.com/tidymodels/tidymodels/discussions)
-3. **RStudio Community**: [Tidymodels category](https://community.rstudio.com/c/ml/15)
+1. **GitHub Issues**: [tidymodels/dials
+   issues](https://github.com/tidymodels/dials/issues)
+2. **GitHub Discussions**: [tidymodels
+   discussions](https://github.com/tidymodels/tidymodels/discussions)
+3. **RStudio Community**: [Tidymodels
+   category](https://community.rstudio.com/c/ml/15)
 
 ### What to Include
 
@@ -645,20 +657,20 @@ grid <- grid_regular(param, levels = 5)
 4. **Expected vs actual behavior**
 5. **Session info**: `sessionInfo()` or `devtools::session_info()`
 
----
+--------------------------------------------------------------------------------
 
 ## Quick Reference
 
 ### Most Common Issues
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Range error | Wrong length or order | Two-element vector, lower < upper |
-| Type mismatch | values type ≠ type arg | Match types |
-| Grid values wrong | Range in actual units with trans | Range in transformed units |
-| Won't finalize | No finalize function | Add finalize = get_p or custom |
-| Can't generate grid | Unknown not finalized | finalize(param, data) first |
-| Snapshot mismatch | Error message changed | testthat::snapshot_accept() |
+| Issue               | Cause                            | Solution                          |
+| ------------------- | -------------------------------- | --------------------------------- |
+| Range error         | Wrong length or order            | Two-element vector, lower < upper |
+| Type mismatch       | values type ≠ type arg           | Match types                       |
+| Grid values wrong   | Range in actual units with trans | Range in transformed units        |
+| Won't finalize      | No finalize function             | Add finalize = get_p or custom    |
+| Can't generate grid | Unknown not finalized            | finalize(param, data) first       |
+| Snapshot mismatch   | Error message changed            | testthat::snapshot_accept()       |
 
 ### Quick Fixes
 
@@ -682,7 +694,7 @@ devtools::check()
 devtools::spell_check()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Checklist for Debugging
 
@@ -708,7 +720,7 @@ When encountering an issue:
 
 - [ ] Ask for help with complete information
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -728,6 +740,6 @@ When encountering an issue:
 
 - [Tidymodels Community](https://community.rstudio.com/c/ml/15)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

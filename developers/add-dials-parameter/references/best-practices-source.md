@@ -2,9 +2,10 @@
 
 **dials-specific best practices for contributing to tidymodels/dials**
 
-This guide covers conventions, patterns, and best practices specific to source development in the dials package.
+This guide covers conventions, patterns, and best practices specific to source
+development in the dials package.
 
----
+--------------------------------------------------------------------------------
 
 ## File Naming Conventions
 
@@ -28,7 +29,8 @@ R/
 
 - One parameter per file (usually)
 
-- Related parameters may share a file (e.g., `activation()` and `activation_2()`)
+- Related parameters may share a file (e.g., `activation()` and
+  `activation_2()`)
 
 **Examples**:
 
@@ -63,7 +65,7 @@ tests/testthat/
 └── test-special-param.R  # Only if parameter needs many unique tests
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Function Naming
 
@@ -115,7 +117,7 @@ mtry()              # Standard mtry
 mtry_prop()         # mtry as proportion
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Range Specification
 
@@ -175,7 +177,7 @@ inclusive = c(TRUE, TRUE)
 inclusive = c(FALSE, FALSE)  # E.g., probabilities strictly between 0 and 1
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Label Formatting
 
@@ -219,7 +221,7 @@ c(threshold = "threshold")                 # Not title case
 c(weight_func = "distance weight func")    # Inconsistent case
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Patterns
 
@@ -303,7 +305,7 @@ Show how to use the parameter:
 #'   set_engine("glmnet")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Creating Companion values_* Vectors
 
@@ -363,7 +365,7 @@ activation <- function(values = values_activation) { ... }
 values_activation <- c(...)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## When to Create Parameter Variants
 
@@ -416,7 +418,7 @@ cost(trans = transform_log())
 cost(trans = NULL)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Universal Best Practices
 
@@ -489,9 +491,10 @@ stop("The range is invalid")
 
 - Use meaningful variable names
 
-See [Tidyverse Style Guide](https://style.tidyverse.org/) for complete guidelines.
+See [Tidyverse Style Guide](https://style.tidyverse.org/) for complete
+guidelines.
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter-Specific Best Practices
 
@@ -569,7 +572,7 @@ get_custom_bound <- function(object, x) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## PR Best Practices
 
@@ -614,7 +617,7 @@ Include:
 
 - Related issues
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns Reference
 
@@ -701,7 +704,7 @@ activation <- function(values = values_activation) {
 values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Checklist for New Parameter
 
@@ -765,7 +768,7 @@ Before submitting PR:
 
 - [ ] PR description complete
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -785,6 +788,6 @@ Before submitting PR:
 
 - [roxygen2 Documentation](https://roxygen2.r-lib.org/)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

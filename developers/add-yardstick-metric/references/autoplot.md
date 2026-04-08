@@ -1,20 +1,26 @@
 # Autoplot Support for Metrics
 
-**Note:** Autoplot is optional functionality. Only implement if your metric produces multi-dimensional data that benefits from visualization.
+**Note:** Autoplot is optional functionality. Only implement if your metric
+produces multi-dimensional data that benefits from visualization.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, see existing autoplot implementations for patterns. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, see existing autoplot implementations for patterns. See the
+> [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
-Autoplot provides visualization methods for metrics that produce multi-dimensional results like curves or confusion matrices.
+Autoplot provides visualization methods for metrics that produce
+multi-dimensional results like curves or confusion matrices.
 
 **Implementation examples:**
 
-- Curve visualization: `R/prob-roc_curve.R` (ROC curve autoplot), `R/prob-pr_curve.R` (PR curve autoplot)
+- Curve visualization: `R/prob-roc_curve.R` (ROC curve autoplot),
+  `R/prob-pr_curve.R` (PR curve autoplot)
 
 - Confusion matrix: `R/class-conf_mat.R` (heatmap and mosaic plot autoplots)
 
-- Calibration plots: `R/prob-cal_plot_breaks.R` (calibration curve visualization)
+- Calibration plots: `R/prob-cal_plot_breaks.R` (calibration curve
+  visualization)
 
 - Gain/lift curves: `R/prob-gain_curve.R`, `R/prob-lift_curve.R`
 
@@ -30,15 +36,18 @@ Autoplot provides visualization methods for metrics that produce multi-dimension
 
 **Test patterns:**
 
-- Autoplot tests: `tests/testthat/test-prob-roc_curve.R` (includes autoplot validation)
+- Autoplot tests: `tests/testthat/test-prob-roc_curve.R` (includes autoplot
+  validation)
 
-- ggplot2 dependency: Tests check for graceful failure when ggplot2 not available
+- ggplot2 dependency: Tests check for graceful failure when ggplot2 not
+  available
 
 ## When to Implement Autoplot
 
 ### Autoplot is appropriate for:
 
-- **Confusion matrices**: Binary or multiclass classification results (heatmaps, mosaic plots)
+- **Confusion matrices**: Binary or multiclass classification results (heatmaps,
+  mosaic plots)
 
 - **Curve metrics**: ROC curves, PR curves, gain/lift curves
 
@@ -151,7 +160,8 @@ autoplot_conf_mat_heatmap <- function(object, ...) {
 
 ## Handling the `...` Parameter
 
-The `...` parameter in `autoplot()` methods should be passed to ggplot2 functions when appropriate:
+The `...` parameter in `autoplot()` methods should be passed to ggplot2
+functions when appropriate:
 
 ```r
 #' @export
@@ -196,7 +206,8 @@ autoplot.conf_mat <- function(object, type = "heatmap", ...) {
 
 ## Data Structure Requirements
 
-Your metric should return a data frame or object with data suitable for plotting:
+Your metric should return a data frame or object with data suitable for
+plotting:
 
 ```r
 # For curve metrics
@@ -355,4 +366,5 @@ autoplot.roc_curve <- function(object, ...) {
 
 - Consider user customization needs
 
-For most metrics, autoplot is optional. Focus on correctness and completeness of the metric calculation first.
+For most metrics, autoplot is optional. Focus on correctness and completeness of
+the metric calculation first.

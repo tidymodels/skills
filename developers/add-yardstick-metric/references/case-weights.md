@@ -1,26 +1,36 @@
 # Handling Case Weights in Metrics
 
-Case weights allow different observations to contribute differently to metric calculations. Understanding how to handle them properly is important for creating robust metrics.
+Case weights allow different observations to contribute differently to metric
+calculations. Understanding how to handle them properly is important for
+creating robust metrics.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use `yardstick_mean()` which automatically handles hardhat weights. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, you can use `yardstick_mean()` which automatically handles
+> hardhat weights. See the [Source Development Guide](source-guide.md) for
+> details.
 
 ## Overview
 
-Case weights enable weighted metric calculations where different observations have different importance or represent different frequencies.
+Case weights enable weighted metric calculations where different observations
+have different importance or represent different frequencies.
 
 **Implementation examples:**
 
-- Numeric metrics with weights: `R/num-mae.R` (uses `weighted.mean()`), `R/num-rmse.R`
+- Numeric metrics with weights: `R/num-mae.R` (uses `weighted.mean()`),
+  `R/num-rmse.R`
 
-- Class metrics with weights: `R/class-accuracy.R` (passes to `yardstick_table()`)
+- Class metrics with weights: `R/class-accuracy.R` (passes to
+  `yardstick_table()`)
 
-- Survival metrics with weights: `R/surv-concordance_survival.R` (uses survival package weights)
+- Survival metrics with weights: `R/surv-concordance_survival.R` (uses survival
+  package weights)
 
 **Weight handling utilities:**
 
 - Table weighting: `R/table.R` (implements weighted confusion matrices)
 
-- NA removal with weights: `R/yardstick_remove_missing.R` (preserves weight correspondence)
+- NA removal with weights: `R/yardstick_remove_missing.R` (preserves weight
+  correspondence)
 
 - Weight validation: `R/check.R` (validates weight vectors)
 
@@ -57,7 +67,8 @@ metric.data.frame <- function(data, truth, estimate, na_rm = TRUE,
 
 ## Handling Hardhat Weights
 
-Hardhat (the package underlying tidymodels) provides special weight classes. Convert them to numeric:
+Hardhat (the package underlying tidymodels) provides special weight classes.
+Convert them to numeric:
 
 ```r
 if (!is.null(case_weights)) {
@@ -294,7 +305,8 @@ result <- weighted.mean(c(1, 2, 3), w = weights)
 
 ### Negative weights
 
-Negative weights are mathematically possible but uncommon. Your validation (`check_*_metric()`) should catch invalid weights.
+Negative weights are mathematically possible but uncommon. Your validation
+(`check_*_metric()`) should catch invalid weights.
 
 ## Performance Tips
 
@@ -312,4 +324,5 @@ Negative weights are mathematically possible but uncommon. Your validation (`che
 
 - Create class metrics: [class-metrics.md](class-metrics.md)
 
-- Test comprehensively: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Test comprehensively:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -1,20 +1,23 @@
 # Best Practices for Parsnip Source Development
 
-Guidelines and best practices for contributing to the parsnip package source code.
+Guidelines and best practices for contributing to the parsnip package source
+code.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-When contributing to parsnip itself (not creating extensions), follow these practices to maintain code quality and consistency with the existing codebase.
+When contributing to parsnip itself (not creating extensions), follow these
+practices to maintain code quality and consistency with the existing codebase.
 
----
+--------------------------------------------------------------------------------
 
 ## Code Organization
 
 ### File Structure
 
 **Model constructors:** `R/[model_type].R`
+
 ```r
 R/linear_reg.R      # linear_reg() constructor
 R/boost_tree.R      # boost_tree() constructor
@@ -22,12 +25,14 @@ R/rand_forest.R     # rand_forest() constructor
 ```
 
 **Engine registrations:** `R/[model]_data.R`
+
 ```r
 R/linear_reg_data.R     # All linear_reg engines
 R/boost_tree_data.R     # All boost_tree engines
 ```
 
 **Infrastructure:** Core system files
+
 ```r
 R/aaa_models.R      # Model environment setup
 R/misc.R            # Helper functions
@@ -61,7 +66,7 @@ set_fit(...)
 set_pred(...)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Registration Patterns
 
@@ -132,6 +137,7 @@ set_pred(
 ### Use Consistent Naming
 
 **Main arguments:** Follow established parsnip conventions
+
 ```r
 # ✓ Good - consistent with other models
 penalty    # not lambda, not reg_param
@@ -140,6 +146,7 @@ trees      # not n_estimators, not num_boost_round
 ```
 
 **Engine names:** Use package or algorithm name
+
 ```r
 # ✓ Good
 "lm"        # From stats package
@@ -152,7 +159,7 @@ trees      # not n_estimators, not num_boost_round
 "boosted_trees"
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Using Internal Functions
 
@@ -173,18 +180,21 @@ pre = function(new_data, object) {
 ### Common Internal Helpers
 
 **Data conversion:**
+
 ```r
 parsnip:::convert_data_to_matrix()
 parsnip:::prepare_survival_data()
 ```
 
 **Prediction post-processing:**
+
 ```r
 parsnip:::format_class_predictions()
 parsnip:::format_prob_matrix()
 ```
 
 **Validation:**
+
 ```r
 parsnip:::check_outcome_type()
 parsnip:::validate_prediction_type()
@@ -207,7 +217,7 @@ set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Error Handling
 
@@ -256,19 +266,21 @@ if (!requireNamespace("glmnet", quietly = TRUE)) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
 ### Test Files Organization
 
 **Model-specific tests:** `tests/testthat/test-[model].R`
+
 ```r
 tests/testthat/test-boost_tree.R
 tests/testthat/test-linear_reg.R
 ```
 
 **Engine-specific tests:** Within model test file
+
 ```r
 # In test-linear_reg.R
 
@@ -376,7 +388,7 @@ test_that("glmnet engine errors appropriately", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation
 
@@ -471,7 +483,7 @@ Explain what each engine needs:
 #'   fit(mpg ~ ., data = mtcars)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Argument Translation
 
@@ -515,7 +527,7 @@ set_model_arg(
 set_model_arg(...)
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Compatibility Considerations
 
@@ -557,7 +569,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Implementation
 
@@ -621,7 +633,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Performance Considerations
 
@@ -662,19 +674,25 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
 **Key practices:**
 
-1. **Follow file organization** - Constructors in `R/[model].R`, registrations in `R/[model]_data.R`
-2. **Complete registration sequence** - Engine, dependency, args, fit, encoding, predictions
+1. **Follow file organization** - Constructors in `R/[model].R`, registrations
+   in `R/[model]_data.R`
+2. **Complete registration sequence** - Engine, dependency, args, fit, encoding,
+   predictions
 3. **Use consistent naming** - Follow tidymodels conventions for main arguments
-4. **Can use internal functions** - Source development has access to `:::` functions
-5. **Write comprehensive tests** - Test each engine, both interfaces, error conditions
-6. **Document thoroughly** - Model constructor, engine details, argument translations
-7. **Handle multi-mode carefully** - Register each mode separately, share common code
+4. **Can use internal functions** - Source development has access to `:::`
+   functions
+5. **Write comprehensive tests** - Test each engine, both interfaces, error
+   conditions
+6. **Document thoroughly** - Model constructor, engine details, argument
+   translations
+7. **Handle multi-mode carefully** - Register each mode separately, share common
+   code
 8. **Consider performance** - Use lazy evaluation, avoid unnecessary conversions
 
 **Before submitting:**

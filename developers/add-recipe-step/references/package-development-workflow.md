@@ -232,6 +232,7 @@ Speed up your workflow with keyboard shortcuts:
 **Problem:** Missing `@export` in roxygen or namespace not updated
 
 **Solution:**
+
 ```r
 # Add @export to your roxygen block
 devtools::document()  # Update namespace
@@ -254,7 +255,8 @@ devtools::load_all()  # Load updated package
 
 **Problem:** Using NSE without proper imports
 
-**Solution:** See [package-imports.md](package-imports.md) for proper namespace usage
+**Solution:** See [package-imports.md](package-imports.md) for proper namespace
+usage
 
 ## Performance Tips
 
@@ -288,7 +290,8 @@ test_that("complex output matches", {
 
 ## Git Workflow (Source Development)
 
-If you're contributing to tidymodels packages (recipes, yardstick, etc.), you'll also need basic git workflow.
+If you're contributing to tidymodels packages (recipes, yardstick, etc.), you'll
+also need basic git workflow.
 
 ### Initial Setup
 
@@ -350,14 +353,17 @@ git pull origin main
 git log --oneline
 ```
 
-**Note:** This is a minimal git guide. For complete git documentation, see the official Git documentation or GitHub guides.
+**Note:** This is a minimal git guide. For complete git documentation, see the
+official Git documentation or GitHub guides.
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
-- Learn testing patterns: [package-testing-patterns.md](package-testing-patterns.md)
+- Learn testing patterns:
+  [package-testing-patterns.md](package-testing-patterns.md)
 
-- Set up proper documentation: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Set up proper documentation:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
 - Follow best practices: [package-best-practices.md](package-best-practices.md)

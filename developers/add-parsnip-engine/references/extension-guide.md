@@ -1,8 +1,9 @@
 # Extension Guide: Adding Engines to Parsnip Models
 
-Step-by-step guide for adding engines to existing parsnip models in your own R package (extension development).
+Step-by-step guide for adding engines to existing parsnip models in your own R
+package (extension development).
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -16,17 +17,19 @@ Use this guide when:
 
 **Don't use this guide for:**
 
-- Creating new model types → See [add-parsnip-model](../../add-parsnip-model/SKILL.md)
+- Creating new model types → See
+  [add-parsnip-model](../../add-parsnip-model/SKILL.md)
 
 - Contributing to parsnip source → See [source-guide.md](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
 **R Package Setup:**
 
-- [Extension Prerequisites](package-extension-prerequisites.md) - Complete package setup
+- [Extension Prerequisites](package-extension-prerequisites.md) - Complete
+  package setup
 
 - Basic R package development knowledge
 
@@ -36,7 +39,7 @@ Use this guide when:
 
 - Which model you're extending
 
----
+--------------------------------------------------------------------------------
 
 ## Key Constraints for Extension Development
 
@@ -84,21 +87,26 @@ You must implement all logic yourself without relying on parsnip internals.
 
 **When user asks to use internal functions:**
 
-1. **Refuse immediately** - "Extension packages cannot use `parsnip:::function()` - these are unstable and will cause CRAN check failures."
+1. **Refuse immediately** - "Extension packages cannot use
+   `parsnip:::function()` - these are unstable and will cause CRAN check
+   failures."
 
 2. **Provide fast alternative:**
 
-   - Factor encoding: Use `set_encoding(options = list(predictor_indicators = "traditional"))`
+   - Factor encoding: Use
+     `set_encoding(options = list(predictor_indicators = "traditional"))`
 
    - Validation: Implement yourself or use base R checks
 
    - Utilities: Write your own simple version
 
-3. **Mention source development option** - "If internal functions are truly needed, contribute via PR to parsnip instead."
+3. **Mention source development option** - "If internal functions are truly
+   needed, contribute via PR to parsnip instead."
 
-**Keep response to 2-3 sentences. Don't explain WHY at length - just refuse, suggest alternative, move on.**
+**Keep response to 2-3 sentences. Don't explain WHY at length - just refuse,
+suggest alternative, move on.**
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -150,7 +158,8 @@ Decide on:
 
    - Other tunable parameters?
 
-See [Engine Implementation Guide](engine-implementation.md) for detailed planning guidance.
+See [Engine Implementation Guide](engine-implementation.md) for detailed
+planning guidance.
 
 ### Step 2: Create Registration Function
 
@@ -264,7 +273,8 @@ register_my_engine <- function() {
 }
 ```
 
-See [Engine Implementation Guide](engine-implementation.md) for detailed explanation of each step.
+See [Engine Implementation Guide](engine-implementation.md) for detailed
+explanation of each step.
 
 ### Step 5: Test Thoroughly
 
@@ -324,7 +334,7 @@ test_that("my_engine formula and xy equivalent", {
 
 - Run `devtools::check()` for final validation
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -574,7 +584,7 @@ register_xgboost_engine <- function() {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -641,11 +651,12 @@ parsnip::set_dependency("linear_reg", "my_engine", "helperpkg", "regression")
 parsnip::set_dependency("linear_reg", "my_engine", "matrixpkg", "regression")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Development Workflow
 
-See [Development Workflow](package-development-workflow.md) for complete details.
+See [Development Workflow](package-development-workflow.md) for complete
+details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -657,7 +668,7 @@ See [Development Workflow](package-development-workflow.md) for complete details
 
 4. `devtools::check()` - Full R CMD check
 
----
+--------------------------------------------------------------------------------
 
 ## Package Integration
 
@@ -726,11 +737,13 @@ predict(fit, mtcars[1:5, ])
 ```
 ````
 
----
+--------------------------------------------------------------------------------
 
 ## Testing
 
-See [Testing Patterns (Extension)](package-extension-requirements.md#testing-requirements) for comprehensive guide.
+See [Testing Patterns
+(Extension)](package-extension-requirements.md#testing-requirements) for
+comprehensive guide.
 
 **Required test categories:**
 
@@ -740,11 +753,13 @@ See [Testing Patterns (Extension)](package-extension-requirements.md#testing-req
 4. **Interface Tests** - Formula and xy interfaces equivalent
 5. **Edge Cases** - Missing data, single row, factor handling
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
-See [Best Practices (Extension)](package-extension-requirements.md#best-practices) for complete guide.
+See [Best Practices
+(Extension)](package-extension-requirements.md#best-practices) for complete
+guide.
 
 **Key principles:**
 
@@ -760,11 +775,13 @@ See [Best Practices (Extension)](package-extension-requirements.md#best-practice
 
 - Document engine limitations
 
----
+--------------------------------------------------------------------------------
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions) for complete guide.
+See [Troubleshooting
+(Extension)](package-extension-requirements.md#common-issues-solutions) for
+complete guide.
 
 **Common issues:**
 
@@ -776,7 +793,7 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 - Interface mismatch → Verify `protect` names match engine expectations
 
----
+--------------------------------------------------------------------------------
 
 ## Implementation Patterns
 
@@ -784,19 +801,23 @@ See [Troubleshooting (Extension)](package-extension-requirements.md#common-issue
 
 ### Simple Single-Mode (2 files: R/zzz.R, tests/test-*.R)
 
-For single mode + formula/data.frame interface. See [mode-handling.md](mode-handling.md) for multi-mode.
+For single mode + formula/data.frame interface. See
+[mode-handling.md](mode-handling.md) for multi-mode.
 
 ### Matrix Interface (2 files + set_encoding)
 
-For matrix/xy interfaces, add `set_encoding()` after `set_fit()`. See [encoding-options.md](encoding-options.md) for details.
+For matrix/xy interfaces, add `set_encoding()` after `set_fit()`. See
+[encoding-options.md](encoding-options.md) for details.
 
 ### Multi-Mode (2-3 files: R/zzz.R, tests, optional README)
 
-Register each mode separately with mode-specific defaults. Classification needs both "class" and "prob" predictions. See [mode-handling.md](mode-handling.md) for complete examples.
+Register each mode separately with mode-specific defaults. Classification needs
+both "class" and "prob" predictions. See [mode-handling.md](mode-handling.md)
+for complete examples.
 
 **Keep it minimal** - reference docs for details, don't replicate them.
 
----
+--------------------------------------------------------------------------------
 
 ## File Organization
 
@@ -824,19 +845,20 @@ Register each mode separately with mode-specific defaults. Classification needs 
 
 **Content belongs in code:**
 
-| Content Type | ❌ Wrong | ✅ Correct |
-| --- | --- | --- |
-| Examples | example_usage.R | roxygen @examples |
-| Notes | IMPLEMENTATION_NOTES.txt | roxygen @details |
-| Design decisions | DESIGN_DECISIONS.md | roxygen @details |
+| Content Type     | ❌ Wrong                 | ✅ Correct        |
+| ---------------- | ------------------------ | ----------------- |
+| Examples         | example_usage.R          | roxygen @examples |
+| Notes            | IMPLEMENTATION_NOTES.txt | roxygen @details  |
+| Design decisions | DESIGN_DECISIONS.md      | roxygen @details  |
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Documentation
 
 ### Engine Implementation
 
-- [Engine Implementation Guide](engine-implementation.md) - Complete registration details
+- [Engine Implementation Guide](engine-implementation.md) - Complete
+  registration details
 
 - [Fit and Predict Methods](fit-predict-methods.md) - Implementation patterns
 
@@ -848,7 +870,8 @@ Register each mode separately with mode-specific defaults. Classification needs 
 
 ### Model System
 
-- [Model Specification System](model-specification-system.md) - How parsnip models work
+- [Model Specification System](model-specification-system.md) - How parsnip
+  models work
 
 ### Shared References
 
@@ -862,22 +885,24 @@ Register each mode separately with mode-specific defaults. Classification needs 
 
 - [Package Imports](package-imports.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
-1. **Complete extension prerequisites** following [Extension Prerequisites](package-extension-prerequisites.md)
+1. **Complete extension prerequisites** following [Extension
+   Prerequisites](package-extension-prerequisites.md)
 2. **Plan your engine** - Model, modes, interface, prediction types
 3. **Implement registration** - Follow step-by-step guide above
 4. **Test thoroughly** - All interfaces and prediction types
 5. **Document** - README with usage examples
 6. **Consider contributing** - PR to parsnip if broadly useful
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 
-- Check [Troubleshooting Guide](package-extension-requirements.md#common-issues-solutions)
+- Check [Troubleshooting
+  Guide](package-extension-requirements.md#common-issues-solutions)
 
 - Review existing engines in reference documentation
 

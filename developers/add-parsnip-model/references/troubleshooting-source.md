@@ -1,25 +1,26 @@
 # Troubleshooting Parsnip Source Development
 
-Common issues and solutions when contributing to the parsnip package source code.
+Common issues and solutions when contributing to the parsnip package source
+code.
 
----
+--------------------------------------------------------------------------------
 
 ## Registration Issues
 
 ### Issue: Engine Not Found
 
 **Symptom:**
+
 ```r
 linear_reg() |> set_engine("myengine")
 #> Error: Engine 'myengine' is not registered for linear_reg
 ```
 
-**Causes:**
-1. Forgot to register engine with `set_model_engine()`
-2. Registration code not executed
-3. Typo in engine name
+**Causes:** 1. Forgot to register engine with `set_model_engine()` 2.
+Registration code not executed 3. Typo in engine name
 
 **Solution:**
+
 ```r
 # Ensure this runs before use
 set_model_engine(
@@ -35,16 +36,17 @@ parsnip::show_engines("linear_reg")
 ### Issue: Mode Not Available
 
 **Symptom:**
+
 ```r
 linear_reg() |> set_mode("classification")
 #> Error: linear_reg can only be used for regression
 ```
 
-**Causes:**
-1. Model only supports one mode
-2. Mode not registered with `set_model_mode()`
+**Causes:** 1. Model only supports one mode 2. Mode not registered with
+`set_model_mode()`
 
 **Solution:**
+
 ```r
 # For single-mode models, this is expected
 # Don't try to change the mode
@@ -59,17 +61,17 @@ set_model_mode(
 ### Issue: Prediction Type Not Available
 
 **Symptom:**
+
 ```r
 predict(fit, data, type = "conf_int")
 #> Error: `type = 'conf_int'` is not available
 ```
 
-**Causes:**
-1. Forgot to register prediction type with `set_pred()`
-2. Engine doesn't support this prediction type
-3. Wrong mode for prediction type
+**Causes:** 1. Forgot to register prediction type with `set_pred()` 2. Engine
+doesn't support this prediction type 3. Wrong mode for prediction type
 
 **Solution:**
+
 ```r
 # Register the prediction type
 set_pred(
@@ -84,24 +86,24 @@ set_pred(
 # Should be documented in model help file
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Fit Method Issues
 
 ### Issue: Formula Not Passed Correctly
 
 **Symptom:**
+
 ```r
 fit(spec, mpg ~ hp, data = mtcars)
 #> Error: object 'mpg' not found
 ```
 
-**Causes:**
-1. Wrong interface type
-2. Formula being evaluated too early
-3. Missing `protect = c("formula", "data")`
+**Causes:** 1. Wrong interface type 2. Formula being evaluated too early 3.
+Missing `protect = c("formula", "data")`
 
 **Solution:**
+
 ```r
 set_fit(
   ...,
@@ -117,17 +119,17 @@ set_fit(
 ### Issue: Matrix Conversion Fails
 
 **Symptom:**
+
 ```r
 fit(spec, y ~ x, data = data)
 #> Error: (list) object cannot be coerced to type 'double'
 ```
 
-**Causes:**
-1. Data contains non-numeric columns that can't be converted
-2. Factor encoding failed
-3. Missing data not handled
+**Causes:** 1. Data contains non-numeric columns that can't be converted 2.
+Factor encoding failed 3. Missing data not handled
 
 **Solution:**
+
 ```r
 # Check data types before conversion
 pre = function(data, object) {
@@ -146,16 +148,17 @@ pre = function(data, object) {
 ### Issue: Arguments Not Translated
 
 **Symptom:**
+
 ```r
 linear_reg(penalty = 0.1) |> set_engine("glmnet") |> fit(...)
 # Warning: unused argument (penalty = 0.1)
 ```
 
-**Causes:**
-1. Missing `set_model_arg()` registration
-2. Wrong argument name in translation
+**Causes:** 1. Missing `set_model_arg()` registration 2. Wrong argument name in
+translation
 
 **Solution:**
+
 ```r
 # Register argument translation
 set_model_arg(
@@ -168,13 +171,14 @@ set_model_arg(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Predict Method Issues
 
 ### Issue: Wrong Column Names
 
 **Symptom:**
+
 ```r
 predict(fit, data)
 #>   prediction
@@ -183,11 +187,11 @@ predict(fit, data)
 
 Should have `.pred` column name.
 
-**Causes:**
-1. Engine returns data frame with wrong names
-2. Missing `post` function to standardize
+**Causes:** 1. Engine returns data frame with wrong names 2. Missing `post`
+function to standardize
 
 **Solution:**
+
 ```r
 set_pred(
   ...,
@@ -203,17 +207,18 @@ set_pred(
 ### Issue: Predictions Wrong Type
 
 **Symptom:**
+
 ```r
 predict(fit, data, type = "class")
 #>   .pred_class
 #> 1 "A"          # character, should be factor
 ```
 
-**Causes:**
-1. Engine returns character instead of factor
-2. Missing type conversion in `post`
+**Causes:** 1. Engine returns character instead of factor 2. Missing type
+conversion in `post`
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   tibble::tibble(
@@ -225,17 +230,18 @@ post = function(results, object) {
 ### Issue: Predictions Wrong Dimensions
 
 **Symptom:**
+
 ```r
 predict(fit, data[1:5, ])
 #>   .pred
 #> 1  21.4  # Only 1 row, should be 5
 ```
 
-**Causes:**
-1. Engine returns aggregated results
-2. Prediction function not working correctly
+**Causes:** 1. Engine returns aggregated results 2. Prediction function not
+working correctly
 
 **Solution:**
+
 ```r
 # Debug the prediction function
 set_pred(
@@ -260,17 +266,18 @@ set_pred(
 ### Issue: Probability Columns Don't Sum to 1
 
 **Symptom:**
+
 ```r
 predict(fit, data, type = "prob")
 #>   .pred_A .pred_B
 #> 1    0.8     0.3   # Sum is 1.1, not 1.0
 ```
 
-**Causes:**
-1. Engine returns unnormalized probabilities
-2. Conversion error in `post`
+**Causes:** 1. Engine returns unnormalized probabilities 2. Conversion error in
+`post`
 
 **Solution:**
+
 ```r
 post = function(results, object) {
   # Normalize probabilities
@@ -284,24 +291,25 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Encoding Issues
 
 ### Issue: Too Many Dummy Variables
 
 **Symptom:**
+
 ```r
 # 3-level factor creates 3 dummy columns instead of 2
 fit <- fit(spec, y ~ x, data = data)
 # Model matrix has columns: x_A, x_B, x_C
 ```
 
-**Causes:**
-1. Using one-hot encoding instead of traditional
-2. Wrong `predictor_indicators` setting
+**Causes:** 1. Using one-hot encoding instead of traditional 2. Wrong
+`predictor_indicators` setting
 
 **Solution:**
+
 ```r
 set_encoding(
   ...,
@@ -314,17 +322,18 @@ set_encoding(
 ### Issue: Intercept Handled Twice
 
 **Symptom:**
+
 ```r
 # Singular matrix error or perfect collinearity
 fit <- fit(spec, y ~ x, data = data)
 #> Error: system is computationally singular
 ```
 
-**Causes:**
-1. Both parsnip and engine adding intercept
-2. Engine expects no intercept in matrix
+**Causes:** 1. Both parsnip and engine adding intercept 2. Engine expects no
+intercept in matrix
 
 **Solution:**
+
 ```r
 set_encoding(
   ...,
@@ -338,16 +347,17 @@ set_encoding(
 ### Issue: Factor Levels Mismatch
 
 **Symptom:**
+
 ```r
 predict(fit, new_data)
 #> Error: factor x has new levels not in training data
 ```
 
-**Causes:**
-1. New data has different levels than training data
-2. Levels not properly preserved
+**Causes:** 1. New data has different levels than training data 2. Levels not
+properly preserved
 
 **Solution:**
+
 ```r
 # In prediction, check and fix levels
 set_pred(
@@ -370,23 +380,24 @@ set_pred(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Package Dependency Issues
 
 ### Issue: Package Not Available
 
 **Symptom:**
+
 ```r
 linear_reg() |> set_engine("glmnet")
 #> Error: package 'glmnet' is required but not installed
 ```
 
-**Causes:**
-1. Missing `set_dependency()` call
-2. Package not in Imports or Suggests
+**Causes:** 1. Missing `set_dependency()` call 2. Package not in Imports or
+Suggests
 
 **Solution:**
+
 ```r
 # Register dependency
 set_dependency(
@@ -403,17 +414,17 @@ set_dependency(
 ### Issue: Function Not Found
 
 **Symptom:**
+
 ```r
 fit(spec, y ~ x, data = data)
 #> Error: could not find function "glmnet"
 ```
 
-**Causes:**
-1. Wrong package name in `func`
-2. Package not loaded
-3. Function not exported
+**Causes:** 1. Wrong package name in `func` 2. Package not loaded 3. Function
+not exported
 
 **Solution:**
+
 ```r
 # Use full package specification
 set_fit(
@@ -434,23 +445,24 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Multi-Mode Issues
 
 ### Issue: Wrong Mode Selected
 
 **Symptom:**
+
 ```r
 boost_tree() |> fit(Species ~ ., data = iris)
 #> Error: Please set the mode
 ```
 
-**Causes:**
-1. Model supports multiple modes but none specified
-2. Default mode is "unknown"
+**Causes:** 1. Model supports multiple modes but none specified 2. Default mode
+is "unknown"
 
 **Solution:**
+
 ```r
 # Explicitly set mode
 spec <- boost_tree() |> set_mode("classification")
@@ -462,6 +474,7 @@ spec <- boost_tree(mode = "classification")
 ### Issue: Mode-Specific Behavior Not Working
 
 **Symptom:**
+
 ```r
 # Both modes using same defaults when they should differ
 fit_reg <- fit(boost_tree(mode = "regression"), y ~ x, data = data)
@@ -469,11 +482,11 @@ fit_cls <- fit(boost_tree(mode = "classification"), y ~ x, data = data)
 # Both use same objective function
 ```
 
-**Causes:**
-1. Forgot to register mode-specific settings
-2. `set_fit()` defaults not mode-specific
+**Causes:** 1. Forgot to register mode-specific settings 2. `set_fit()` defaults
+not mode-specific
 
 **Solution:**
+
 ```r
 # Register different defaults for each mode
 set_fit(
@@ -495,13 +508,14 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Issues
 
 ### Issue: Tests Fail When Package Not Installed
 
 **Symptom:**
+
 ```r
 test_that("glmnet engine works", {
   spec <- linear_reg() |> set_engine("glmnet")
@@ -511,6 +525,7 @@ test_that("glmnet engine works", {
 ```
 
 **Solution:**
+
 ```r
 # Skip test if package not available
 test_that("glmnet engine works", {
@@ -525,6 +540,7 @@ test_that("glmnet engine works", {
 ### Issue: Formula and XY Tests Give Different Results
 
 **Symptom:**
+
 ```r
 test_that("formula and xy equivalent", {
   fit_formula <- fit(spec, y ~ x, data = data)
@@ -538,12 +554,11 @@ test_that("formula and xy equivalent", {
 })
 ```
 
-**Causes:**
-1. Formula includes intercept, xy doesn't
-2. Factor encoding differs
+**Causes:** 1. Formula includes intercept, xy doesn't 2. Factor encoding differs
 3. Different data preprocessing
 
 **Solution:**
+
 ```r
 # Use appropriate tolerance
 expect_equal(pred_formula, pred_xy, tolerance = 1e-5)
@@ -563,13 +578,14 @@ test_that("understand difference", {
 })
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Issues
 
 ### Issue: Examples Don't Work
 
 **Symptom:**
+
 ```r
 # In documentation
 #' @examples
@@ -578,6 +594,7 @@ test_that("understand difference", {
 ```
 
 **Solution:**
+
 ```r
 # Wrap in \dontrun{} if package may not be installed
 #' @examples
@@ -603,6 +620,7 @@ test_that("understand difference", {
 **Problem:** Users don't know what packages are needed.
 
 **Solution:**
+
 ```r
 # Document clearly
 #' @details
@@ -623,7 +641,7 @@ test_that("understand difference", {
 #' - Set epochs via set_engine()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Performance Issues
 
@@ -631,12 +649,11 @@ test_that("understand difference", {
 
 **Symptom:** Fitting takes much longer than expected.
 
-**Causes:**
-1. Unnecessary data conversions
-2. Repeated matrix conversions
-3. Inefficient factor encoding
+**Causes:** 1. Unnecessary data conversions 2. Repeated matrix conversions 3.
+Inefficient factor encoding
 
 **Solution:**
+
 ```r
 # Cache conversions if possible
 set_fit(
@@ -664,12 +681,11 @@ pre = function(data, object) {
 
 **Symptom:** R runs out of memory during fit or predict.
 
-**Causes:**
-1. Copying large datasets unnecessarily
-2. Creating intermediate objects
-3. Not releasing memory
+**Causes:** 1. Copying large datasets unnecessarily 2. Creating intermediate
+objects 3. Not releasing memory
 
 **Solution:**
+
 ```r
 # Avoid unnecessary copies
 post = function(results, object) {
@@ -691,13 +707,14 @@ post = function(results, object) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Version Compatibility Issues
 
 ### Issue: Function Signature Changed
 
 **Symptom:**
+
 ```r
 fit(spec, y ~ x, data = data)
 # Error: argument "newarg" is missing
@@ -706,6 +723,7 @@ fit(spec, y ~ x, data = data)
 Package updated and added required argument.
 
 **Solution:**
+
 ```r
 # Check version and use appropriate signature
 set_fit(
@@ -728,11 +746,13 @@ set_fit(
 ### Issue: Deprecated Function
 
 **Symptom:**
+
 ```r
 # Warning: 'old_function' is deprecated, use 'new_function'
 ```
 
 **Solution:**
+
 ```r
 # Update to new function
 set_fit(
@@ -761,7 +781,7 @@ set_fit(
 )
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Debugging Strategies
 
@@ -825,7 +845,7 @@ fit_info <- parsnip:::get_from_env("linear_reg_fit")
 pred_info <- parsnip:::get_from_env("linear_reg_predict")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 
@@ -862,13 +882,13 @@ devtools::load_all()
 devtools::test()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Summary
 
 **Common issue categories:**
 
-1. **Registration** - Missing set_* calls, typos, wrong names
+1. **Registration** - Missing set\_\* calls, typos, wrong names
 2. **Fit method** - Interface type, argument translation, data conversion
 3. **Predict method** - Column names, data types, dimensions
 4. **Encoding** - Dummy variables, intercept, factor levels
@@ -895,8 +915,6 @@ devtools::test()
 
 - [ ] Use `devtools::check()` for comprehensive validation
 
-**When stuck:**
-1. Look at similar models in parsnip source
-2. Run existing tests to see patterns
-3. Use verbose output and browser()
-4. Ask on GitHub issues or tidymodels Slack
+**When stuck:** 1. Look at similar models in parsnip source 2. Run existing
+tests to see patterns 3. Use verbose output and browser() 4. Ask on GitHub
+issues or tidymodels Slack

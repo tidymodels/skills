@@ -1,22 +1,31 @@
 # Understanding the Yardstick Metric System
 
-Before creating metrics, understanding how yardstick's metric system works helps you build metrics that integrate properly with the ecosystem.
+Before creating metrics, understanding how yardstick's metric system works helps
+you build metrics that integrate properly with the ecosystem.
 
-> **Note for Source Development:** If you're contributing directly to the yardstick package, you can use internal helper functions like `yardstick_mean()`, `finalize_estimator_internal()`, and validation helpers. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> yardstick package, you can use internal helper functions like
+> `yardstick_mean()`, `finalize_estimator_internal()`, and validation helpers.
+> See the [Source Development Guide](source-guide.md) for details.
 
 ## Overview
 
-The yardstick metric system provides a consistent interface for creating, composing, and evaluating performance metrics across different prediction types.
+The yardstick metric system provides a consistent interface for creating,
+composing, and evaluating performance metrics across different prediction types.
 
 **Core system implementations:**
 
-- Metric constructors: `R/metric.R` (defines `new_numeric_metric()`, `new_class_metric()`, `new_prob_metric()`, etc.)
+- Metric constructors: `R/metric.R` (defines `new_numeric_metric()`,
+  `new_class_metric()`, `new_prob_metric()`, etc.)
 
-- Metric composition: `R/metric_set.R` (implements `metric_set()` for combining metrics)
+- Metric composition: `R/metric_set.R` (implements `metric_set()` for combining
+  metrics)
 
-- Estimator finalization: `R/finalize_estimator.R` (determines binary/macro/micro/etc.)
+- Estimator finalization: `R/finalize_estimator.R` (determines
+  binary/macro/micro/etc.)
 
-- Data frame methods: `R/num_metric.R`, `R/class_metric.R`, `R/prob_metric.R` (metric summarizers)
+- Data frame methods: `R/num_metric.R`, `R/class_metric.R`, `R/prob_metric.R`
+  (metric summarizers)
 
 **Integration patterns:**
 
@@ -36,7 +45,8 @@ The yardstick metric system provides a consistent interface for creating, compos
 
 ## What `new_*_metric()` does
 
-When you wrap your metric function with `new_numeric_metric()`, `new_class_metric()`, or `new_prob_metric()`, it:
+When you wrap your metric function with `new_numeric_metric()`,
+`new_class_metric()`, or `new_prob_metric()`, it:
 
 1. **Sets attributes** that describe your metric:
 
@@ -149,7 +159,8 @@ This enables S3 dispatch for methods like `autoplot.mse()`.
 
 ## Design Considerations
 
-Before implementing a new metric, consider whether you actually need to create one.
+Before implementing a new metric, consider whether you actually need to create
+one.
 
 ### When to create a new metric
 
@@ -165,7 +176,8 @@ Before implementing a new metric, consider whether you actually need to create o
 
 **Don't create a new metric if:**
 
-- It's just a transformation of an existing metric (use `metric_tweak()` instead)
+- It's just a transformation of an existing metric (use `metric_tweak()`
+  instead)
 
 - It can be composed from existing metrics
 
@@ -207,6 +219,7 @@ This is much simpler than creating a full new metric.
 - When in doubt, use the full name
 
 **Avoid conflicts:**
+
 ```r
 # Bad: too generic
 error()  # Conflicts with base::error
@@ -228,6 +241,7 @@ classification_metric()
 ### Parameter design
 
 **What should be arguments:**
+
 ```r
 # Hyperparameters that affect calculation
 huber_loss(data, truth, estimate, delta = 1.0)
@@ -248,6 +262,7 @@ classification_cost(data, truth, estimate, costs = c(1, 2))
 - Options that should be separate metrics
 
 **Keep parameters minimal:**
+
 ```r
 # Good: focused parameters
 mse(data, truth, estimate, na_rm = TRUE, case_weights = NULL)
@@ -259,6 +274,7 @@ mse(data, truth, estimate, na_rm = TRUE, case_weights = NULL,
 ```
 
 Users can always wrap your metric if they need variations:
+
 ```r
 my_custom_mse <- function(data, truth, estimate) {
   result <- mse(data, truth, estimate)
@@ -281,6 +297,7 @@ combined_scores()         # Use metric_set() instead
 ```
 
 **Compose with `metric_set()` instead:**
+
 ```r
 # Let users compose metrics
 metrics <- metric_set(accuracy, precision, recall, f_meas)
@@ -298,6 +315,7 @@ metrics(data, truth, estimate)
 - Allow customization through parameters when appropriate
 
 **Example:**
+
 ```r
 # Bad: too specific
 credit_risk_score(data, truth, estimate)  # Hard-codes credit risk logic
@@ -309,7 +327,8 @@ classification_cost(data, truth, estimate, costs = c(fp = 2, fn = 5))
 
 ## Exported vs Internal Functions
 
-Many yardstick helper functions are INTERNAL and not exported. Using them will cause runtime errors.
+Many yardstick helper functions are INTERNAL and not exported. Using them will
+cause runtime errors.
 
 ### ❌ Don't Use (Internal/Not Exported)
 
@@ -330,6 +349,7 @@ Many yardstick helper functions are INTERNAL and not exported. Using them will c
 ### ✅ Use Instead
 
 **For weighted calculations:**
+
 ```r
 # Instead of yardstick_mean(), use base R weighted.mean()
 if (is.null(case_weights)) {

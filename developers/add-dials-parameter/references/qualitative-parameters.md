@@ -2,21 +2,28 @@
 
 **Creating categorical tuning parameters with discrete options**
 
-This guide covers everything you need to create qualitative parameters with `new_qual_param()`.
+This guide covers everything you need to create qualitative parameters with
+`new_qual_param()`.
 
-> **Note for Source Development:** If contributing to dials, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for dials-specific patterns.
+> **Note for Source Development:** If contributing to dials, you can use
+> internal validation and helper functions. See the [Source Development
+> Guide](source-guide.md) for dials-specific patterns.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
-Qualitative parameters represent categorical choices where options have no inherent numeric ordering. These parameters define discrete sets of alternatives for algorithm configuration.
+Qualitative parameters represent categorical choices where options have no
+inherent numeric ordering. These parameters define discrete sets of alternatives
+for algorithm configuration.
 
 **Reference implementations in dials:**
 
-- Simple qualitative: `R/param_weight_func.R` (weight function choices), `R/param_activation.R` (activation functions)
+- Simple qualitative: `R/param_weight_func.R` (weight function choices),
+  `R/param_activation.R` (activation functions)
 
-- Multiple parameters: `R/param_activation.R` (contains `activation()` and `activation_2()`)
+- Multiple parameters: `R/param_activation.R` (contains `activation()` and
+  `activation_2()`)
 
 - Preprocessing methods: `R/param_normalize.R` (normalization methods)
 
@@ -28,7 +35,7 @@ Qualitative parameters represent categorical choices where options have no inher
 
 - Multiple parameter tests: `tests/testthat/test-param_activation.R`
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use Qualitative Parameters
 
@@ -58,13 +65,14 @@ Use qualitative parameters when your tuning parameter:
 
 **When NOT to use**:
 
-- ❌ Numeric values with ordering (use [Quantitative Parameters](quantitative-parameters.md))
+- ❌ Numeric values with ordering (use [Quantitative
+  Parameters](quantitative-parameters.md))
 
 - ❌ Counts or continuous values
 
 - ❌ Parameters where interpolation makes sense
 
----
+--------------------------------------------------------------------------------
 
 ## Parameter Function Structure
 
@@ -112,7 +120,7 @@ values_my_parameter <- c("option1", "option2", "option3")
 
 - Let users subset or replace options
 
----
+--------------------------------------------------------------------------------
 
 ## Required Arguments
 
@@ -203,7 +211,7 @@ This pattern:
 
 - ✅ Follows dials package conventions
 
----
+--------------------------------------------------------------------------------
 
 ## Optional Arguments
 
@@ -299,15 +307,18 @@ label = c(aggregation = "Aggregation Method")
 finalize = NULL  # Almost always NULL for categorical
 ```
 
-Qualitative parameters typically don't need finalization because options don't depend on data characteristics. The rare exception might be a parameter where available options depend on data properties, but this is uncommon.
+Qualitative parameters typically don't need finalization because options don't
+depend on data characteristics. The rare exception might be a parameter where
+available options depend on data properties, but this is uncommon.
 
----
+--------------------------------------------------------------------------------
 
 ## Creating Companion values_* Vectors
 
 ### Pattern and Convention
 
-**Strong recommendation**: Always create a `values_*` vector alongside your parameter function.
+**Strong recommendation**: Always create a `values_*` vector alongside your
+parameter function.
 
 ```r
 #' Activation function
@@ -385,7 +396,8 @@ activation(values = values_activation[1:4])
 
 ### Step-by-Step: Creating Companion Vectors
 
-Here's a detailed walkthrough for creating qualitative parameters with companion vectors:
+Here's a detailed walkthrough for creating qualitative parameters with companion
+vectors:
 
 ```r
 # STEP 1: Define the values vector with @rdname and @export
@@ -412,7 +424,8 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 
 **Key Components Explained:**
 
-1. **@rdname tag**: Links the values vector to the parameter function documentation
+1. **@rdnametag**: Links the values vector to the parameter function
+   documentation
 
    - Both appear on the same help page
 
@@ -420,7 +433,7 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 
    - Maintains consistency between function and values
 
-2. **values_* naming**: Following the `values_[parameter_name]` convention
+2. **values\_\* naming**: Following the `values_[parameter_name]` convention
 
    - Clear relationship between parameter and its values
 
@@ -428,7 +441,7 @@ values_activation <- c("relu", "sigmoid", "tanh", "softmax")
 
    - Easy to discover and use
 
-3. **@export on both**: Both the function AND the vector must be exported
+3. **@exporton both**: Both the function AND the vector must be exported
 
    - Parameter function: Users call this to create the parameter
 
@@ -454,13 +467,14 @@ Before completing a qualitative parameter with companion vector, verify:
 
 - [ ] Added `@export` to BOTH the function and the vector
 
-- [ ] Set function default argument to reference the vector: `values = values_my_parameter`
+- [ ] Set function default argument to reference the vector:
+      `values = values_my_parameter`
 
 - [ ] Vector contains at least one valid option
 
 - [ ] Vector type matches the `type` argument in `new_qual_param()`
 
----
+--------------------------------------------------------------------------------
 
 ## Common Patterns
 
@@ -584,7 +598,7 @@ activation_2 <- function(values = values_activation_2) {
 values_activation_2 <- c("sigmoid", "softmax", "linear")
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Complete Examples
 
@@ -730,7 +744,7 @@ grid
 #>  # ... with 7 more rows
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Extension vs Source Patterns
 
@@ -782,7 +796,7 @@ value_sample(my_param(), n = 3)
 
 See [Source Development Guide](source-guide.md) for complete guide.
 
----
+--------------------------------------------------------------------------------
 
 ## Testing Considerations
 
@@ -867,17 +881,20 @@ test_that("values_my_parameter is exported and correct", {
 })
 ```
 
-For extension development, see [Testing Requirements](package-extension-requirements.md#testing-requirements).
+For extension development, see [Testing
+Requirements](package-extension-requirements.md#testing-requirements).
 
-For source development, see [Testing Patterns (Source)](testing-patterns-source.md).
+For source development, see [Testing Patterns
+(Source)](testing-patterns-source.md).
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
 ### Learn Related Topics
 
-- **Quantitative parameters**: [Quantitative Parameters Guide](quantitative-parameters.md)
+- **Quantitative parameters**: [Quantitative Parameters
+  Guide](quantitative-parameters.md)
 
 - **Parameter system**: [Parameter System Overview](parameter-system.md)
 
@@ -889,6 +906,6 @@ For source development, see [Testing Patterns (Source)](testing-patterns-source.
 
 - **Source development**: [Source Development Guide](source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 **Last Updated:** 2026-03-31

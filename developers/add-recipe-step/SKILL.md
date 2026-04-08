@@ -1,19 +1,23 @@
 ---
 name: add-recipe-step
-description: Create a new preprocessing step for the recipes package following tidymodels conventions
+description: Create a new preprocessing step for the recipes package following
+  tidymodels conventions
 ---
 
 # Add Recipe Step
 
-Guide for developing new preprocessing steps that extend the recipes package. This skill provides best practices, complete code templates, and testing patterns for creating custom recipe steps.
+Guide for developing new preprocessing steps that extend the recipes package.
+This skill provides best practices, complete code templates, and testing
+patterns for creating custom recipe steps.
 
----
+--------------------------------------------------------------------------------
 
 ## Two Development Contexts
 
 This skill supports **two distinct development contexts**:
 
 ### 🆕 Extension Development (Default)
+
 **Creating a new R package** that extends recipes with custom steps.
 
 - ✅ Use this for: New packages, standalone steps, CRAN submissions
@@ -21,18 +25,19 @@ This skill supports **two distinct development contexts**:
 - ⚠️ **Constraint**: Must use `recipes::` prefix for all functions
 
 ### 🔧 Source Development (Advanced)
+
 **Contributing directly to recipes** via pull requests.
 
 - ✅ Use this for: Contributing to tidymodels/recipes repository
 
 - ✨ **Benefit**: Can use internal functions directly (no prefix needed)
 
-
----
+--------------------------------------------------------------------------------
 
 ## Getting Started
 
-**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the development context:
+**INSTRUCTIONS FOR CLAUDE:** Run the verification script first to determine the
+development context:
 
 ```bash
 Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skills/tidymodels-dev/*/tidymodels/shared-references/scripts/verify-setup.R"))[1])'
@@ -40,16 +45,17 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 
 **Then follow the appropriate path based on the output:**
 
-- **Output: "All checks for source development complete."**
-  → Go to [Source Development Guide](references/source-guide.md)
+- **Output: "All checks for source development complete."** → Go to [Source
+  Development Guide](references/source-guide.md)
 
-- **Output: "All checks for extension development complete." (no warnings)**
-  → Go to [Extension Development Guide](references/extension-guide.md)
+- **Output: "All checks for extension development complete." (no warnings)** →
+  Go to [Extension Development Guide](references/extension-guide.md)
 
-- **Output: Shows "Warning - [UUID]" messages**
-  → Go to [Extension Prerequisites](references/package-extension-prerequisites.md) to resolve warnings first
+- **Output: Shows "Warning - [UUID]" messages** → Go to [Extension
+  Prerequisites](references/package-extension-prerequisites.md) to resolve
+  warnings first
 
----
+--------------------------------------------------------------------------------
 
 ## Implementation Workflow
 
@@ -59,11 +65,14 @@ Rscript -e 'source(Sys.glob(path.expand("~/.claude/plugins/cache/tidymodels-skil
 
 Determine step type from user requirements, then read ONLY that reference:
 
-- **Modifies existing columns?** Read [modify-in-place-steps.md](references/modify-in-place-steps.md) ONLY
+- **Modifies existing columns?** Read
+  [modify-in-place-steps.md](references/modify-in-place-steps.md) ONLY
 
-- **Creates new columns?** Read [create-new-columns-steps.md](references/create-new-columns-steps.md) ONLY
+- **Creates new columns?** Read
+  [create-new-columns-steps.md](references/create-new-columns-steps.md) ONLY
 
-- **Filters/removes rows?** Read [row-operation-steps.md](references/row-operation-steps.md) ONLY
+- **Filters/removes rows?** Read
+  [row-operation-steps.md](references/row-operation-steps.md) ONLY
 
 Do NOT read all three references. Read only the one needed for this step type.
 
@@ -71,15 +80,17 @@ Do NOT read all three references. Read only the one needed for this step type.
 
 Read other references ONLY if specifically mentioned or needed:
 
-- **User asks about helpers?** Read [helper-functions.md](references/helper-functions.md)
+- **User asks about helpers?** Read
+  [helper-functions.md](references/helper-functions.md)
 
-- **User mentions tunable?** Read [optional-methods.md](references/optional-methods.md)
+- **User mentions tunable?** Read
+  [optional-methods.md](references/optional-methods.md)
 
 - **Troubleshooting?** Read troubleshooting references
 
 Default: Don't pre-load optional references.
 
----
+--------------------------------------------------------------------------------
 
 ## Overview
 
@@ -101,15 +112,18 @@ Creating a custom recipe step provides:
 
 ## Repository Access (Optional but Recommended)
 
-**INSTRUCTIONS FOR CLAUDE:** Check if `repos/recipes/` exists in the current working directory. Use this to guide development:
+**INSTRUCTIONS FOR CLAUDE:** Check if `repos/recipes/` exists in the current
+working directory. Use this to guide development:
 
 **If `repos/recipes/` exists:**
 
 - ✅ Use it as a reference throughout development
 
-- Read source files (e.g., `repos/recipes/R/center.R`) to study implementation patterns
+- Read source files (e.g., `repos/recipes/R/center.R`) to study implementation
+  patterns
 
-- Read test files (e.g., `repos/recipes/tests/testthat/test-step_center.R`) for testing patterns
+- Read test files (e.g., `repos/recipes/tests/testthat/test-step_center.R`) for
+  testing patterns
 
 - Reference these files when answering complex questions or solving problems
 
@@ -117,7 +131,8 @@ Creating a custom recipe step provides:
 
 **If `repos/recipes/` does NOT exist:**
 
-- Suggest cloning the repository using the scripts in [Repository Access Guide](references/package-repository-access.md)
+- Suggest cloning the repository using the scripts in [Repository Access
+  Guide](references/package-repository-access.md)
 
 - This is **optional but strongly recommended** for high-quality development
 
@@ -131,7 +146,8 @@ Creating a custom recipe step provides:
 
 **When to use repository references:**
 
-- Complex implementation questions (e.g., "How does recipes handle variable roles?")
+- Complex implementation questions (e.g., "How does recipes handle variable
+  roles?")
 
 - Debugging issues (compare user's code to working implementation)
 
@@ -141,57 +157,76 @@ Creating a custom recipe step provides:
 
 - Architecture decisions (understand internal structure)
 
-See [Repository Access Guide](references/package-repository-access.md) for setup instructions.
+See [Repository Access Guide](references/package-repository-access.md) for setup
+instructions.
 
 ## Quick Navigation
 
 **Development Guides:**
 
-- [Extension Development Guide](references/extension-guide.md) - Creating new packages that extend recipes
+- [Extension Development Guide](references/extension-guide.md) - Creating new
+  packages that extend recipes
 
-- [Source Development Guide](references/source-guide.md) - Contributing PRs to recipes itself
+- [Source Development Guide](references/source-guide.md) - Contributing PRs to
+  recipes itself
 
 **Reference Files:**
 
-- [Step Architecture](references/step-architecture.md) - Three-function pattern, prep/bake workflow, step types
+- [Step Architecture](references/step-architecture.md) - Three-function pattern,
+  prep/bake workflow, step types
 
-- [Modify-in-Place Steps](references/modify-in-place-steps.md) - Transform existing columns
+- [Modify-in-Place Steps](references/modify-in-place-steps.md) - Transform
+  existing columns
 
-- [Create-New-Columns Steps](references/create-new-columns-steps.md) - Generate new columns
+- [Create-New-Columns Steps](references/create-new-columns-steps.md) - Generate
+  new columns
 
-- [Row-Operation Steps](references/row-operation-steps.md) - Filter or remove rows
+- [Row-Operation Steps](references/row-operation-steps.md) - Filter or remove
+  rows
 
-- [Optional Methods](references/optional-methods.md) - tunable(), required_pkgs(), sparsity methods
+- [Optional Methods](references/optional-methods.md) - tunable(),
+  required_pkgs(), sparsity methods
 
-- [Helper Functions](references/helper-functions.md) - recipes helper function reference
+- [Helper Functions](references/helper-functions.md) - recipes helper function
+  reference
 
 **Shared References (Extension Development):**
 
-- [Extension Prerequisites](references/package-extension-prerequisites.md) - Extension prerequisites
+- [Extension Prerequisites](references/package-extension-prerequisites.md) -
+  Extension prerequisites
 
-- [Development Workflow](references/package-development-workflow.md) - Fast iteration cycle
+- [Development Workflow](references/package-development-workflow.md) - Fast
+  iteration cycle
 
-- [Testing Patterns (Extension)](references/package-testing-patterns.md) - Extension testing guide
+- [Testing Patterns (Extension)](references/package-testing-patterns.md) -
+  Extension testing guide
 
-- [Roxygen Documentation](references/package-roxygen-documentation.md) - Documentation templates
+- [Roxygen Documentation](references/package-roxygen-documentation.md) -
+  Documentation templates
 
 - [Package Imports](references/package-imports.md) - Managing dependencies
 
-- [Best Practices (Extension)](references/package-best-practices.md) - Extension code style
+- [Best Practices (Extension)](references/package-best-practices.md) - Extension
+  code style
 
-- [Troubleshooting (Extension)](references/package-troubleshooting.md) - Extension issues
+- [Troubleshooting (Extension)](references/package-troubleshooting.md) -
+  Extension issues
 
 **Source Development Specific:**
 
-- [Testing Patterns (Source)](references/testing-patterns-source.md) - Using internal helpers
+- [Testing Patterns (Source)](references/testing-patterns-source.md) - Using
+  internal helpers
 
-- [Best Practices (Source)](references/best-practices-source.md) - Using internal functions
+- [Best Practices (Source)](references/best-practices-source.md) - Using
+  internal functions
 
-- [Troubleshooting (Source)](references/troubleshooting-source.md) - Source-specific issues
+- [Troubleshooting (Source)](references/troubleshooting-source.md) -
+  Source-specific issues
 
 ## Development Workflow
 
-See [Development Workflow](references/package-development-workflow.md) for complete details.
+See [Development Workflow](references/package-development-workflow.md) for
+complete details.
 
 **Fast iteration cycle (run repeatedly):**
 
@@ -203,7 +238,8 @@ See [Development Workflow](references/package-development-workflow.md) for compl
 
 4. `devtools::check()` - Full R CMD check
 
-**WARNING:** Do NOT run `check()` during iteration. It takes 1-2 minutes and is unnecessary until you're done.
+**WARNING:** Do NOT run `check()` during iteration. It takes 1-2 minutes and is
+unnecessary until you're done.
 
 ## Understanding Recipe Steps
 
@@ -262,6 +298,7 @@ Every recipe step consists of three functions:
 - Returns transformed data
 
 **Example workflow:**
+
 ```r
 # Define recipe with step
 rec <- recipe(mpg ~ ., data = mtcars) |>
@@ -315,17 +352,23 @@ Choose the appropriate template based on what your step does:
 
 **Decision guide:**
 
-- **Modify-in-place**: Transforms existing columns → [Modify-in-Place Steps](references/modify-in-place-steps.md)
+- **Modify-in-place**: Transforms existing columns → [Modify-in-Place
+  Steps](references/modify-in-place-steps.md)
 
-- **Create new columns**: Generates new columns from existing → [Create-New-Columns Steps](references/create-new-columns-steps.md)
+- **Create new columns**: Generates new columns from existing →
+  [Create-New-Columns Steps](references/create-new-columns-steps.md)
 
-- **Row operations**: Filters or removes rows → [Row-Operation Steps](references/row-operation-steps.md)
+- **Row operations**: Filters or removes rows → [Row-Operation
+  Steps](references/row-operation-steps.md)
 
 ## Complete Example: Modify-in-Place Step (Centering)
 
-This example shows all required components for a modify-in-place step **using extension development patterns** (with `recipes::` prefix).
+This example shows all required components for a modify-in-place step **using
+extension development patterns** (with `recipes::` prefix).
 
-**For source development**, see [Source Development Guide](references/source-guide.md) for examples using internal functions directly.
+**For source development**, see [Source Development
+Guide](references/source-guide.md) for examples using internal functions
+directly.
 
 **Reference implementation:** `R/center.R` in recipes repository
 
@@ -630,7 +673,8 @@ test_that("centering works with case weights", {
 
 **Reference test pattern:** `tests/testthat/test-center.R` in recipes repository
 
-See [Testing Patterns](references/package-testing-patterns.md) for comprehensive testing guide.
+See [Testing Patterns](references/package-testing-patterns.md) for comprehensive
+testing guide.
 
 ## Implementation Guide by Step Type
 
@@ -668,7 +712,8 @@ See [Testing Patterns](references/package-testing-patterns.md) for comprehensive
 
 **Pattern:** role = "predictor", keep_original_cols parameter
 
-**Complete guide:** [Create-New-Columns Steps](references/create-new-columns-steps.md)
+**Complete guide:** [Create-New-Columns
+Steps](references/create-new-columns-steps.md)
 
 **Key points:**
 
@@ -756,9 +801,11 @@ See [Optional Methods](references/optional-methods.md) for complete details.
 
 ## Documentation
 
-See [Roxygen Documentation](references/package-roxygen-documentation.md) for complete templates.
+See [Roxygen Documentation](references/package-roxygen-documentation.md) for
+complete templates.
 
 **Required roxygen tags:**
+
 ```r
 #' @inheritParams step_center
 #' @param ... One or more selector functions
@@ -772,19 +819,19 @@ See [Roxygen Documentation](references/package-roxygen-documentation.md) for com
 
 ## Testing
 
-See [Testing Patterns (Extension)](references/package-testing-patterns.md) for comprehensive guide.
+See [Testing Patterns (Extension)](references/package-testing-patterns.md) for
+comprehensive guide.
 
-**Required test categories:**
-1. **Correctness**: Step transforms data correctly
-2. **Variable selection**: Works with all_numeric(), all_predictors(), etc.
-3. **NA handling**: Both na_rm = TRUE and FALSE
-4. **Case weights**: Weighted and unweighted differ
-5. **Infrastructure**: Works in full recipe pipeline
-6. **Edge cases**: Empty data, all same values, etc.
+**Required test categories:** 1. **Correctness**: Step transforms data correctly
+2. **Variable selection**: Works with all_numeric(), all_predictors(), etc. 3.
+**NA handling**: Both na_rm = TRUE and FALSE 4. **Case weights**: Weighted and
+unweighted differ 5. **Infrastructure**: Works in full recipe pipeline 6. **Edge
+cases**: Empty data, all same values, etc.
 
 ## Package-Specific Patterns (Source Development)
 
-If you're contributing to recipes itself, you have access to internal functions and conventions not available in extension development.
+If you're contributing to recipes itself, you have access to internal functions
+and conventions not available in extension development.
 
 ### File Naming Conventions
 
@@ -802,7 +849,8 @@ Recipes organizes steps by category:
 
 ### Internal Functions Available
 
-When developing recipes itself, you can use functions directly (no `recipes::` prefix):
+When developing recipes itself, you can use functions directly (no `recipes::`
+prefix):
 
 - `recipes_eval_select()` - Variable selection
 
@@ -821,6 +869,7 @@ When developing recipes itself, you can use functions directly (no `recipes::` p
 ### Documentation Patterns
 
 Recipes uses extensive parameter inheritance:
+
 ```r
 #' @inheritParams step_normalize
 #' @template step-return
@@ -849,9 +898,10 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 }
 ```
 
-**Complete source development guide:** [Source Development Guide](references/source-guide.md)
+**Complete source development guide:** [Source Development
+Guide](references/source-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Best Practices
 
@@ -871,7 +921,8 @@ See [Best Practices](references/package-best-practices.md) for complete guide.
 
 ## Troubleshooting
 
-See [Troubleshooting (Extension)](references/package-troubleshooting.md) for complete guide.
+See [Troubleshooting (Extension)](references/package-troubleshooting.md) for
+complete guide.
 
 **Common issues:**
 
@@ -885,25 +936,34 @@ See [Troubleshooting (Extension)](references/package-troubleshooting.md) for com
 
 ## Related Skills
 
-- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom recipe steps may generate outputs that need custom metrics
+- [add-yardstick-metric](../add-yardstick-metric/SKILL.md) - Custom recipe steps
+  may generate outputs that need custom metrics
 
-- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Recipe steps often have tunable parameters that can be optimized
+- [add-dials-parameter](../add-dials-parameter/SKILL.md) - Recipe steps often
+  have tunable parameters that can be optimized
 
-- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Preprocessed data flows into model specifications
+- [add-parsnip-model](../add-parsnip-model/SKILL.md) - Preprocessed data flows
+  into model specifications
 
-- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Recipe steps prepare data for model engines
+- [add-parsnip-engine](../add-parsnip-engine/SKILL.md) - Recipe steps prepare
+  data for model engines
 
 ## Next Steps
 
 **For Extension Development (creating new packages):**
 
-1. **Extension prerequisites:** [Extension Prerequisites](references/package-extension-prerequisites.md) - START HERE
+1. **Extension prerequisites:** [Extension
+   Prerequisites](references/package-extension-prerequisites.md) - START HERE
 
 **For Source Development (contributing to recipes):**
 
 1. **Start here:** [Source Development Guide](references/source-guide.md)
-2. **Clone repository:** See [Repository Access](references/package-repository-access.md)
+2. **Clone repository:** See [Repository
+   Access](references/package-repository-access.md)
 3. **Study existing steps:** Browse `R/center.R`, `R/dummy.R`, `R/pca.R`, etc.
-4. **Follow package conventions:** File naming, internal functions, three-function pattern
-5. **Test with internal helpers:** See [Testing Patterns (Source)](references/testing-patterns-source.md)
-6. **Submit PR:** See [Source Development Guide](references/source-guide.md) for PR process
+4. **Follow package conventions:** File naming, internal functions,
+   three-function pattern
+5. **Test with internal helpers:** See [Testing Patterns
+   (Source)](references/testing-patterns-source.md)
+6. **Submit PR:** See [Source Development Guide](references/source-guide.md) for
+   PR process

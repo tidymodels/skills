@@ -1,6 +1,7 @@
 # Evaluations for add-yardstick-metric Skill
 
-This directory contains quantitative evaluation test cases for the `add-yardstick-metric` skill.
+This directory contains quantitative evaluation test cases for the
+`add-yardstick-metric` skill.
 
 ## Overview
 
@@ -22,7 +23,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Extension development for retail forecasting package
 
-- **Tests:** Three-function pattern, case weights, NA handling, extension patterns (yardstick:: prefix)
+- **Tests:** Three-function pattern, case weights, NA handling, extension
+  patterns (yardstick:: prefix)
 
 ### Eval 2: Class Metric with Multiclass (Extension Dev)
 
@@ -30,7 +32,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Extension development for medical diagnostics
 
-- **Tests:** Confusion matrix usage, event_level parameter, multiclass averaging, case weights
+- **Tests:** Confusion matrix usage, event_level parameter, multiclass
+  averaging, case weights
 
 ### Eval 3: Probability Metric (Extension Dev)
 
@@ -38,7 +41,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Extension development for probabilistic forecasting
 
-- **Tests:** Probability validation, logistic regression, calibration assessment, case weights
+- **Tests:** Probability validation, logistic regression, calibration
+  assessment, case weights
 
 ### Eval 4: Robust Numeric Metric (Source Dev PR)
 
@@ -46,7 +50,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Contributing to yardstick itself
 
-- **Tests:** Internal helpers (yardstick_median), file naming (R/num-*.R), no supplementary files, source patterns
+- **Tests:** Internal helpers (yardstick_median), file naming (R/num-\*.R), no
+  supplementary files, source patterns
 
 ### Eval 5: Binary Classification Metric (Source Dev PR)
 
@@ -54,7 +59,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Contributing to yardstick for imbalanced datasets
 
-- **Tests:** Binary + multiclass patterns, internal test data, confusion matrix, event_level
+- **Tests:** Binary + multiclass patterns, internal test data, confusion matrix,
+  event_level
 
 ### Eval 6: Complex Probability Metric (Source Dev PR)
 
@@ -62,7 +68,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Context:** Contributing advanced calibration metric
 
-- **Tests:** Binning logic, probability validation, edge cases, file naming (R/prob-*.R)
+- **Tests:** Binning logic, probability validation, edge cases, file naming
+  (R/prob-\*.R)
 
 ### Eval 7: Critical Behavior Test (Extension Dev)
 
@@ -70,7 +77,8 @@ These evaluations measure the skill's effectiveness across different scenarios:
 
 - **Expected:** Skill explicitly refuses and provides alternatives
 
-- **Tests:** Constraint enforcement, alternative suggestions, working implementation without :::
+- **Tests:** Constraint enforcement, alternative suggestions, working
+  implementation without :::
 
 ## Evaluation Structure
 
@@ -95,18 +103,26 @@ Each test case in `evals.json` contains:
 Each test case now includes explicit assertions across 5 categories:
 
 ### 1. File Discipline (Priority 1)
+
 Tests that ONLY the required files are created (no supplementary docs).
 
 ### 2. Code Structure (High Priority)
-Tests that all functions are present with correct signatures, patterns, and prefixes.
+
+Tests that all functions are present with correct signatures, patterns, and
+prefixes.
 
 ### 3. Functional Correctness (High Priority)
-Tests that metrics calculate correctly, formulas are right, and edge cases handled.
+
+Tests that metrics calculate correctly, formulas are right, and edge cases
+handled.
 
 ### 4. Test Quality (High Priority)
-Tests that test suites actually verify correctness with known values, not just run.
+
+Tests that test suites actually verify correctness with known values, not just
+run.
 
 ### 5. Integration & Documentation (Medium Priority)
+
 Tests that metrics work with yardstick infrastructure and docs are complete.
 
 ## Key Assertions
@@ -115,7 +131,8 @@ These evaluations specifically test:
 
 ### File Discipline (Priority 1)
 
-- ✅ Creates EXACTLY 2-3 files for extension dev (R file, test file, optional README)
+- ✅ Creates EXACTLY 2-3 files for extension dev (R file, test file, optional
+  README)
 
 - ✅ Creates EXACTLY 2 files for source dev (R file, test file)
 
@@ -131,7 +148,8 @@ These evaluations specifically test:
 
 - ✅ Three-function pattern for most metrics (_impl, _vec, .data.frame)
 
-- ✅ Proper use of yardstick infrastructure (new_*_metric, check_*_metric, yardstick_remove_missing)
+- ✅ Proper use of yardstick infrastructure (new\_**metric, check***metric,
+  yardstick*remove_missing)
 
 ### Testing Coverage (High Priority)
 
@@ -173,12 +191,10 @@ Use the skill-creator skill to:
 4. Review outputs in the eval viewer
 ```
 
-The evaluation workflow:
-1. Spawn subagents for each test case (with skill and without/baseline)
-2. Grade outputs against expectations
-3. Aggregate results into benchmark.json
-4. Analyze patterns and failures
-5. Iterate on skill improvements
+The evaluation workflow: 1. Spawn subagents for each test case (with skill and
+without/baseline) 2. Grade outputs against expectations 3. Aggregate results
+into benchmark.json 4. Analyze patterns and failures 5. Iterate on skill
+improvements
 
 ## Success Metrics
 
@@ -288,7 +304,8 @@ From lessons learned (SKILL_IMPLEMENTATION_GUIDE.md):
 
 3. **Testing Coverage:**
 
-   - Are all 5 test categories covered (correctness, NA, validation, case weights, edge cases)?
+   - Are all 5 test categories covered (correctness, NA, validation, case
+     weights, edge cases)?
 
    - Do tests actually verify the metric works?
 
@@ -324,8 +341,8 @@ Based on add-dials-parameter experience:
 4. **Measure delta** from previous iteration
 5. **Continue until** target metrics achieved (85%+ overall)
 
----
+--------------------------------------------------------------------------------
 
-**Created:** 2026-04-03
-**Based on:** Lessons learned from add-dials-parameter and add-recipe-step evaluations
-**Expected improvement:** 50-85 percentage point improvement over baseline
+**Created:** 2026-04-03 **Based on:** Lessons learned from add-dials-parameter
+and add-recipe-step evaluations **Expected improvement:** 50-85 percentage point
+improvement over baseline

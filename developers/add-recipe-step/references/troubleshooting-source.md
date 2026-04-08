@@ -1,12 +1,15 @@
 # Troubleshooting Recipes Source Development
 
-**Context:** This guide is for **source development** - contributing to the recipes package directly.
+**Context:** This guide is for **source development** - contributing to the
+recipes package directly.
 
-**Key focus:** Working with package internals, prep/bake workflow issues, and recipes-specific problems.
+**Key focus:** Working with package internals, prep/bake workflow issues, and
+recipes-specific problems.
 
-For extension development (creating new packages), see [Troubleshooting (Extension)](package-extension-requirements.md#common-issues-solutions).
+For extension development (creating new packages), see [Troubleshooting
+(Extension)](package-extension-requirements.md#common-issues-solutions).
 
----
+--------------------------------------------------------------------------------
 
 ## Working with Recipes Internals
 
@@ -37,11 +40,10 @@ recipes:::recipes_eval_select
 
 **Problem:** Internal function changed and broke my step.
 
-**Solution:**
-1. Check git history: `git log --all --full-history -- R/your-file.R`
-2. Review recent PRs that modified the function
-3. Update your step to match new behavior
-4. Add regression tests
+**Solution:** 1. Check git history:
+`git log --all --full-history -- R/your-file.R` 2. Review recent PRs that
+modified the function 3. Update your step to match new behavior 4. Add
+regression tests
 
 **Prevention:**
 
@@ -54,6 +56,7 @@ recipes:::recipes_eval_select
 ### Internal Function Not Found
 
 **Problem:**
+
 ```r
 Error: object 'internal_helper' not found
 ```
@@ -83,6 +86,7 @@ Error: object 'internal_helper' not found
 **Problem:** `all_numeric()` or other selector isn't working.
 
 **Symptom:**
+
 ```r
 rec <- recipe(mpg ~ ., data = mtcars) |>
   step_center(all_numeric())
@@ -139,6 +143,7 @@ has_role("predictor")
 **Problem:** Step works on training data but fails on new data.
 
 **Symptom:**
+
 ```r
 bake(prepped_rec, new_data)
 # Error: Column 'x' doesn't exist
@@ -164,6 +169,7 @@ bake.step_center <- function(object, new_data, ...) {
 **Problem:** Selecting columns by name doesn't work.
 
 **Example:**
+
 ```r
 step_center(disp, hp)  # Doesn't work
 ```
@@ -256,6 +262,7 @@ if (!object$trained) {
 **Problem:** Parameters calculated in prep() aren't available in bake().
 
 **Example:**
+
 ```r
 prep.step_center <- function(x, training, info = NULL, ...) {
   col_names <- recipes_eval_select(x$terms, training, info)
@@ -294,6 +301,7 @@ prep.step_center <- function(x, training, info = NULL, ...) {
 **Problem:** Transformation applied multiple times.
 
 **Example:**
+
 ```r
 rec <- recipe(mpg ~ ., data = mtcars) |>
   step_center(disp)
@@ -305,7 +313,8 @@ baked2 <- bake(prepped, baked1)  # Applied again!
 
 **Cause:** bake() is designed to be idempotent but data might not be.
 
-**Solution:** Document that bake() should only be used on original data, or make transformation truly idempotent.
+**Solution:** Document that bake() should only be used on original data, or make
+transformation truly idempotent.
 
 ## Case Weight Issues
 
@@ -367,6 +376,7 @@ if (is.null(wts)) {
 ### Weights Not Recognized
 
 **Problem:**
+
 ```r
 Error: No case weights found
 ```
@@ -407,6 +417,7 @@ rec <- recipe(y ~ ., data = df) |>
 **Problem:** Column role changed after step.
 
 **Check:**
+
 ```r
 rec <- recipe(mpg ~ ., data = mtcars) |>
   step_your_step(disp)
@@ -456,6 +467,7 @@ bake.step_dummy <- function(object, new_data, ...) {
 **Problem:** Row-operation step applied to test data.
 
 **Example:**
+
 ```r
 rec <- recipe(~ ., data = mtcars) |>
   step_filter(mpg > 20)  # Should only filter training
@@ -603,6 +615,7 @@ bake.step_center <- function(object, new_data, ...) {
 ### Check Fails: Example Errors
 
 **Problem:**
+
 ```r
 checking examples ... ERROR
 Error in step_your_step(...): object not found
@@ -652,6 +665,7 @@ for (i in 1:10) {  # Instead of 1:1000
 ### Check Fails: Undefined Global Variables
 
 **Problem:**
+
 ```r
 checking R code for possible problems ... NOTE
   step_center: no visible binding for global variable 'disp'
@@ -692,7 +706,7 @@ profvis::profvis({
    for (i in seq_len(nrow(data))) {
      data[i, col] <- transform(data[i, col])
    }
-
+   
    # Fast
    data[[col]] <- transform(data[[col]])
    ```
@@ -703,7 +717,7 @@ profvis::profvis({
    for (col in cols) {
      new_data <- new_data |> dplyr::mutate(...)
    }
-
+   
    # Fast - vectorized
    for (col in cols) {
      new_data[[col]] <- transform(new_data[[col]])
@@ -714,7 +728,7 @@ profvis::profvis({
    ```r
    # Use built-in functions
    colMeans(data)
-
+   
    # Avoid manual
    vapply(data, mean, numeric(1))
    ```
@@ -764,6 +778,7 @@ git commit
 ### "Add tests for selectors"
 
 Requested tests:
+
 ```r
 test_that("step works with all_numeric()", { ... })
 test_that("step works with all_numeric_predictors()", { ... })
@@ -802,8 +817,7 @@ Reviewer suggests existing internal function:
 
 ### Check Existing Issues
 
-Search recipes GitHub:
-https://github.com/tidymodels/recipes/issues
+Search recipes GitHub: https://github.com/tidymodels/recipes/issues
 
 ### Study Existing Steps
 
@@ -825,8 +839,11 @@ Look at similar steps:
 
 ## Next Steps
 
-- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing guidance
+- Review [Testing Patterns (Source)](testing-patterns-source.md) for testing
+  guidance
 
 - Check [Best Practices (Source)](best-practices-source.md) for coding standards
 
-- See [Extension Troubleshooting](package-extension-requirements.md#common-issues-solutions) for general R package issues
+- See [Extension
+  Troubleshooting](package-extension-requirements.md#common-issues-solutions)
+  for general R package issues

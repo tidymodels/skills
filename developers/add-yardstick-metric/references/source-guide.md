@@ -2,7 +2,7 @@
 
 Complete guide for contributing new metrics to the yardstick package itself.
 
----
+--------------------------------------------------------------------------------
 
 ## When to Use This Guide
 
@@ -18,11 +18,13 @@ Complete guide for contributing new metrics to the yardstick package itself.
 
 ❌ **Don't use this guide if you are:**
 
-- Creating a new package that extends yardstick → Use [Extension Development Guide](extension-guide.md)
+- Creating a new package that extends yardstick → Use [Extension Development
+  Guide](extension-guide.md)
 
-- Building standalone metrics → Use [Extension Development Guide](extension-guide.md)
+- Building standalone metrics → Use [Extension Development
+  Guide](extension-guide.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Prerequisites
 
@@ -49,7 +51,7 @@ devtools::install_dev_deps()
 devtools::load_all()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Understanding Yardstick's Architecture
 
@@ -87,13 +89,14 @@ yardstick/
 
 - `R/num-mae.R` → `tests/testthat/test-num-mae.R`
 
----
+--------------------------------------------------------------------------------
 
 ## Working with Internal Functions
 
 ### ✅ You MUST Use Internal Helpers
 
-When developing yardstick itself, **always use existing internal functions** - don't reimplement what already exists:
+When developing yardstick itself, **always use existing internal functions** -
+don't reimplement what already exists:
 
 ```r
 # ✅ CORRECT - Use internal helper
@@ -113,7 +116,9 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
-**Why this matters:** Internal helpers ensure consistency across all yardstick metrics and handle edge cases correctly. Reviewers will request changes if you reimplement existing functionality.
+**Why this matters:** Internal helpers ensure consistency across all yardstick
+metrics and handle edge cases correctly. Reviewers will request changes if you
+reimplement existing functionality.
 
 ### Common Internal Helpers
 
@@ -175,11 +180,13 @@ ls("package:yardstick", all.names = TRUE)
 yardstick:::yardstick_mean
 ```
 
-See [Best Practices (Source)](best-practices-source.md) for complete guide to internal functions.
+See [Best Practices (Source)](best-practices-source.md) for complete guide to
+internal functions.
 
 ### ❌ NO Package Prefix in Source Development
 
-**CRITICAL:** When developing yardstick itself, **never** use `yardstick::` prefix:
+**CRITICAL:** When developing yardstick itself, **never** use `yardstick::`
+prefix:
 
 ```r
 # ✅ CORRECT - No prefix (same package)
@@ -213,9 +220,10 @@ mae.data.frame <- function(data, truth, estimate, ...) {
 }
 ```
 
-**Why:** You're developing the package itself - these functions are in the same namespace and don't need prefixing.
+**Why:** You're developing the package itself - these functions are in the same
+namespace and don't need prefixing.
 
----
+--------------------------------------------------------------------------------
 
 ## Step-by-Step Implementation
 
@@ -336,9 +344,11 @@ mae <- function(data, ...) {
 #' @template event_first
 ```
 
-Templates are defined in `man-roxygen/` directory and handle common documentation patterns.
+Templates are defined in `man-roxygen/` directory and handle common
+documentation patterns.
 
-**Why @examples matters:** Examples are critical for usability - they show users how to actually use the metric. Reviewers will request examples if missing.
+**Why @examples matters:** Examples are critical for usability - they show users
+how to actually use the metric. Reviewers will request examples if missing.
 
 ### Step 4: Create Test File
 
@@ -397,7 +407,8 @@ test_that("mae works with case weights", {
 })
 ```
 
-See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive testing guide.
+See [Testing Patterns (Source)](testing-patterns-source.md) for comprehensive
+testing guide.
 
 ### Step 5: Run Tests and Check
 
@@ -415,19 +426,20 @@ devtools::test()
 devtools::check()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## File Creation Guidelines for PRs
 
-**═══════════════════════════════════════════════════════**
-**⚠️⚠️⚠️ CRITICAL: PR FILE DISCIPLINE ⚠️⚠️⚠️**
+**═══════════════════════════════════════════════════════** **⚠️⚠️⚠️ CRITICAL:
+PR FILE DISCIPLINE ⚠️⚠️⚠️**
 **═══════════════════════════════════════════════════════**
 
 **🛑 STOP! STOP! STOP! 🛑**
 
 **Before you create even ONE file, read this ENTIRE section.**
 
-**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO FILES ONLY.**
+**You will create EXACTLY 2 files.** That's it. Two. Not 3. Not 4. Not 5. **TWO
+FILES ONLY.**
 
 **═══════════════════════════════════════════════════════**
 
@@ -461,7 +473,8 @@ Before creating ANY files:
 
 ### The ONLY Files You Will Create
 
-1. **R/[type]-[metric_name].R** - Metric function with complete roxygen documentation
+1. **R/[type]-[metric_name].R** - Metric function with complete roxygen
+   documentation
 
    - Example: `R/num-mae.R`, `R/class-accuracy.R`, `R/prob-roc_auc.R`
 
@@ -473,7 +486,8 @@ Before creating ANY files:
 
    - Example: `tests/testthat/test-num-mae.R`
 
-   - Or add tests to existing file like `tests/testthat/test-class-metrics.R` if appropriate
+   - Or add tests to existing file like `tests/testthat/test-class-metrics.R` if
+     appropriate
 
 **That's it. Two files. Nothing else.**
 
@@ -481,7 +495,8 @@ Before creating ANY files:
 
 ### Files You Will ABSOLUTELY NOT Create
 
-**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
+**🛑 INSTRUCTIONS FOR CLAUDE: STOP IMMEDIATELY IF YOU ARE ABOUT TO CREATE ANY
+FILE NOT LISTED IN "THE ONLY FILES YOU WILL CREATE" SECTION ABOVE. 🛑**
 
 **❌ NEVER CREATE:**
 
@@ -553,16 +568,16 @@ Before creating ANY files:
 
 **CRITICAL: Everything has a place. No separate files.**
 
-| Content | ❌ WRONG | ✅ CORRECT |
-|---------|----------|------------|
-| Examples | example_usage.R | roxygen @examples in R file |
-| Metric design rationale | METRIC_DESIGN.md | roxygen @details in R file |
-| Implementation notes | IMPLEMENTATION_NOTES.txt | roxygen @details in R file |
-| Usage instructions | QUICKSTART.md | roxygen @examples in R file |
-| PR description | PR_DESCRIPTION.md | Conversation with user |
-| NEWS entry | NEWS_entry.md | Mention in conversation |
-| Test examples | test_examples.R | Tests in test file |
-| Validation approach | VALIDATION_APPROACH.md | Comments in test file |
+| Content                 | ❌ WRONG                 | ✅ CORRECT                  |
+| ----------------------- | ------------------------ | --------------------------- |
+| Examples                | example_usage.R          | roxygen @examples in R file |
+| Metric design rationale | METRIC_DESIGN.md         | roxygen @details in R file  |
+| Implementation notes    | IMPLEMENTATION_NOTES.txt | roxygen @details in R file  |
+| Usage instructions      | QUICKSTART.md            | roxygen @examples in R file |
+| PR description          | PR_DESCRIPTION.md        | Conversation with user      |
+| NEWS entry              | NEWS_entry.md            | Mention in conversation     |
+| Test examples           | test_examples.R          | Tests in test file          |
+| Validation approach     | VALIDATION_APPROACH.md   | Comments in test file       |
 
 **═══════════════════════════════════════════════════════**
 
@@ -576,7 +591,8 @@ Before creating ANY files:
 4. Have I put all examples in roxygen @examples? (YES)
 5. Have I put all notes in roxygen @details? (YES)
 
-**If you answered incorrectly to ANY question above, STOP. Re-read this section.**
+**If you answered incorrectly to ANY question above, STOP. Re-read this
+section.**
 
 **═══════════════════════════════════════════════════════**
 
@@ -604,13 +620,14 @@ When you submit a PR:
 
 - Tests go in tests/testthat/
 
-- Everything else (PR description, NEWS entry, examples) you discuss with the user in conversation
+- Everything else (PR description, NEWS entry, examples) you discuss with the
+  user in conversation
 
 **No exceptions. No "helpful" documentation files. Just code and tests.**
 
 **═══════════════════════════════════════════════════════**
 
----
+--------------------------------------------------------------------------------
 
 ## Documentation Patterns
 
@@ -648,7 +665,7 @@ Use `@inheritParams` extensively:
 
 This inherits all parameters from `rmse` documentation.
 
----
+--------------------------------------------------------------------------------
 
 ## Multiclass Metrics
 
@@ -698,7 +715,7 @@ accuracy_vec <- function(truth, estimate, estimator = NULL,
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Using Internal Test Data
 
@@ -717,7 +734,7 @@ data <- data_hpc_cv1()
 
 See [Testing Patterns (Source)](testing-patterns-source.md) for complete list.
 
----
+--------------------------------------------------------------------------------
 
 ## Snapshot Testing
 
@@ -749,7 +766,7 @@ testthat::snapshot_review()
 testthat::snapshot_accept()
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Consistency with Existing Metrics
 
@@ -795,7 +812,7 @@ mae_impl <- function(truth, estimate, case_weights = NULL) {
 }
 ```
 
----
+--------------------------------------------------------------------------------
 
 ## Creating New Internal Helpers
 
@@ -833,7 +850,7 @@ Use:
 
 - Don't use `@export`
 
----
+--------------------------------------------------------------------------------
 
 ## Error Messages
 
@@ -850,7 +867,7 @@ if (invalid) {
 
 Always pass `call` parameter for better error context.
 
----
+--------------------------------------------------------------------------------
 
 ## PR Submission
 
@@ -860,12 +877,11 @@ Always pass `call` parameter for better error context.
    ```r
    devtools::check()
    ```
-   Fix all errors, warnings, and notes.
 
 2. **Update NEWS.md:**
    ```md
    ## yardstick (development version)
-
+   
    * Added `mae()` metric for mean absolute error (#123).
    ```
 
@@ -903,17 +919,20 @@ The tidymodels team will review your PR. Common feedback:
 
 - Fix code style issues
 
-See [Troubleshooting (Source)](troubleshooting-source.md) for common review feedback.
+See [Troubleshooting (Source)](troubleshooting-source.md) for common review
+feedback.
 
----
+--------------------------------------------------------------------------------
 
 ## Reference Documentation
 
 ### Source Development
 
-- [Testing Patterns (Source)](testing-patterns-source.md) - Testing with internal helpers
+- [Testing Patterns (Source)](testing-patterns-source.md) - Testing with
+  internal helpers
 
-- [Best Practices (Source)](best-practices-source.md) - Code style and internal functions
+- [Best Practices (Source)](best-practices-source.md) - Code style and internal
+  functions
 
 - [Troubleshooting (Source)](troubleshooting-source.md) - Common issues
 
@@ -943,7 +962,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 
 - [Roxygen Documentation](package-roxygen-documentation.md)
 
----
+--------------------------------------------------------------------------------
 
 ## Next Steps
 
@@ -954,7 +973,7 @@ See [Troubleshooting (Source)](troubleshooting-source.md) for common review feed
 5. **Run `devtools::check()`**
 6. **Submit PR** to tidymodels/yardstick
 
----
+--------------------------------------------------------------------------------
 
 ## Getting Help
 

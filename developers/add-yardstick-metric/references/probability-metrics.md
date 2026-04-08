@@ -1,12 +1,17 @@
 # Creating Probability Metrics
 
-Probability metrics evaluate predicted probabilities rather than hard classifications. These metrics are used when your model outputs probability estimates for each class.
+Probability metrics evaluate predicted probabilities rather than hard
+classifications. These metrics are used when your model outputs probability
+estimates for each class.
 
-> **Note for Source Development:** If contributing to yardstick, you can use internal validation and helper functions. See the [Source Development Guide](source-guide.md) for yardstick-specific patterns.
+> **Note for Source Development:** If contributing to yardstick, you can use
+> internal validation and helper functions. See the [Source Development
+> Guide](source-guide.md) for yardstick-specific patterns.
 
 ## Overview
 
-Probability metrics work with continuous probability values rather than discrete class predictions. Examples include:
+Probability metrics work with continuous probability values rather than discrete
+class predictions. Examples include:
 
 - ROC AUC (Area Under the Receiver Operating Characteristic Curve)
 
@@ -24,7 +29,8 @@ Probability metrics work with continuous probability values rather than discrete
 
 - Precision-Recall: `R/prob-pr_auc.R`, `R/prob-average_precision.R`
 
-- Probability scoring: `R/prob-brier_class.R`, `R/prob-mn_log_loss.R` (multinomial log loss)
+- Probability scoring: `R/prob-brier_class.R`, `R/prob-mn_log_loss.R`
+  (multinomial log loss)
 
 **Test patterns:**
 
@@ -78,7 +84,8 @@ df <- tibble(
 )
 ```
 
-**Column naming convention:** `.pred_{level}` where `{level}` matches the factor level.
+**Column naming convention:** `.pred_{level}` where `{level}` matches the factor
+level.
 
 ## Implementation Steps
 
@@ -203,7 +210,8 @@ brier_class.data.frame <- function(data, truth, estimate, estimator = NULL,
 
 ## Handling Multiple Probability Columns
 
-For multiclass probability metrics, the `estimate` parameter can refer to multiple columns:
+For multiclass probability metrics, the `estimate` parameter can refer to
+multiple columns:
 
 ```r
 # User specifies probability columns with dplyr selection
@@ -213,21 +221,25 @@ roc_auc(data, truth, c(.pred_A, .pred_B, .pred_C))
 roc_auc(data, truth, starts_with(".pred_"))
 ```
 
-The `prob_metric_summarizer()` handles extracting the appropriate probability columns based on the truth factor levels.
+The `prob_metric_summarizer()` handles extracting the appropriate probability
+columns based on the truth factor levels.
 
 **Your implementation receives:**
 
 - `truth`: factor vector
 
-- `estimate`: matrix or data frame of probabilities (for multiclass) OR numeric vector (for binary)
+- `estimate`: matrix or data frame of probabilities (for multiclass) OR numeric
+  vector (for binary)
 
 For binary metrics:
+
 ```r
 # estimate is just the probability for the event level
 # prob_metric_summarizer handles this for you
 ```
 
 For multiclass metrics:
+
 ```r
 # estimate is a matrix with columns for each class
 # You need to handle the full probability distribution
@@ -257,6 +269,7 @@ brier_class_multiclass <- function(truth, prob_matrix, estimator) {
 ```
 
 Then in your vector function:
+
 ```r
 if (estimator == "binary") {
   brier_class_binary(truth, estimate, event_level)
@@ -423,6 +436,8 @@ Use `prob-` prefix to indicate probability metrics.
 
 - Understand class metrics: [class-metrics.md](class-metrics.md)
 
-- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your metric:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

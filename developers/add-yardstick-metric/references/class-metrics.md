@@ -1,10 +1,12 @@
 # Creating Class Metrics
 
-Class metrics are more complex than numeric metrics due to multiclass support and the need to handle different averaging strategies.
+Class metrics are more complex than numeric metrics due to multiclass support
+and the need to handle different averaging strategies.
 
 ## Overview
 
-Class metrics are used for classification problems where predictions and truth are categorical (factor) variables. Examples include:
+Class metrics are used for classification problems where predictions and truth
+are categorical (factor) variables. Examples include:
 
 - Accuracy
 
@@ -16,7 +18,8 @@ Class metrics are used for classification problems where predictions and truth a
 
 **Canonical implementations in yardstick:**
 
-- Simple binary metrics: `R/class-accuracy.R`, `R/class-precision.R`, `R/class-recall.R`
+- Simple binary metrics: `R/class-accuracy.R`, `R/class-precision.R`,
+  `R/class-recall.R`
 
 - F-measure family: `R/class-f_meas.R` (combines precision and recall)
 
@@ -98,8 +101,11 @@ miss_rate_multiclass <- function(data, estimator) {
 }
 ```
 
-> **Source Development:** When contributing to yardstick itself, you can use `finalize_estimator_internal()` to handle estimator selection and validation. This internal helper manages binary, macro, micro, and macro_weighted estimators automatically. See [Best Practices (Source)](best-practices-source.md).
-```
+> **Source Development:** When contributing to yardstick itself, you can use
+> `finalize_estimator_internal()` to handle estimator selection and validation.
+> This internal helper manages binary, macro, micro, and macro_weighted
+> estimators automatically. See [Best Practices
+> (Source)](best-practices-source.md). \`\`\`
 
 **Estimator types:**
 
@@ -185,7 +191,8 @@ miss_rate_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,
 
 - Validate `na_rm` parameter
 
-- Use `abort_if_class_pred()` and `as_factor_from_class_pred()` for class_pred handling
+- Use `abort_if_class_pred()` and `as_factor_from_class_pred()` for class_pred
+  handling
 
 - Call `finalize_estimator()` to determine appropriate estimator
 
@@ -259,7 +266,8 @@ finalize_estimator_internal.miss_rate <- function(metric_dispatcher, x,
 
 ## Factor Level Ordering
 
-Factor levels critically affect how classification metrics are calculated. Understanding this helps avoid confusion and errors.
+Factor levels critically affect how classification metrics are calculated.
+Understanding this helps avoid confusion and errors.
 
 ### How factor levels determine the confusion matrix
 
@@ -284,7 +292,8 @@ yardstick::yardstick_table(truth, estimate)
 
 ### Binary classification: which level is "positive"?
 
-For binary metrics, the "positive" class depends on **both** factor order and `event_level`:
+For binary metrics, the "positive" class depends on **both** factor order and
+`event_level`:
 
 ```r
 # With levels = c("yes", "no") and event_level = "first"
@@ -335,8 +344,7 @@ yardstick::yardstick_table(filtered, filtered)
 # C 0 0 0  # Empty row/column for unused level
 ```
 
-**Best practice in your tests:**
-Create factors with only the levels you need:
+**Best practice in your tests:** Create factors with only the levels you need:
 
 ```r
 # Good: explicit levels matching the data
@@ -366,13 +374,17 @@ estimate <- factor(c("pos", "neg"), levels = c("neg", "pos"))  # Different order
 
 ## Event Level Mechanics
 
-For binary classification, `event_level` specifies which factor level is the "positive" class: `"first"` (default) or `"second"`.
+For binary classification, `event_level` specifies which factor level is the
+"positive" class: `"first"` (default) or `"second"`.
 
 ### Why it matters
 
-Asymmetric metrics (sensitivity, specificity, precision, recall) depend on which class is "positive". Changing `event_level` swaps their meaning. Symmetric metrics (accuracy, MCC) are unaffected.
+Asymmetric metrics (sensitivity, specificity, precision, recall) depend on which
+class is "positive". Changing `event_level` swaps their meaning. Symmetric
+metrics (accuracy, MCC) are unaffected.
 
 **Example:**
+
 ```r
 truth <- factor(c("disease", "disease", "healthy", "healthy"),
                 levels = c("disease", "healthy"))
@@ -388,7 +400,8 @@ estimate <- factor(c("disease", "healthy", "healthy", "healthy"),
 # specificity = 0.5 (swapped with sensitivity above)
 ```
 
-**Best practice:** Order factor levels so the positive class is first, then use default `event_level = "first"`.
+**Best practice:** Order factor levels so the positive class is first, then use
+default `event_level = "first"`.
 
 ### Implementation pattern
 
@@ -412,9 +425,11 @@ your_metric_vec <- function(truth, estimate, ..., event_level = "first") {
 }
 ```
 
-**For symmetric metrics:** Include `event_level` parameter for consistency but don't use it.
+**For symmetric metrics:** Include `event_level` parameter for consistency but
+don't use it.
 
-**For asymmetric metrics:** Always include `event_level`, use it to determine positive class, and document its effect.
+**For asymmetric metrics:** Always include `event_level`, use it to determine
+positive class, and document its effect.
 
 ### Testing event_level
 
@@ -461,7 +476,8 @@ Calculate metric for each class, weight by class frequency:
 # Weighted: (0.8*100 + 0.6*50 + 0.9*150) / 300 = 0.82
 ```
 
-**Use when:** More frequent classes should have more influence on overall metric.
+**Use when:** More frequent classes should have more influence on overall
+metric.
 
 ### Micro averaging
 
@@ -476,7 +492,9 @@ Aggregate contributions across all classes, then calculate:
 
 ## Testing Class Metrics
 
-See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See
+[package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+for comprehensive testing guide.
 
 ### Key tests for class metrics
 
@@ -536,6 +554,8 @@ Use `class-` prefix to indicate classification metrics.
 
 - Handle case weights: [case-weights.md](case-weights.md)
 
-- Document your metric: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your metric:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

@@ -2,7 +2,11 @@
 
 This template is for steps that add, remove, or filter rows from the data.
 
-> **Note for Source Development:** If you're contributing directly to the recipes package, internal helpers are available without the `recipes::` prefix. Row operations are simpler but still benefit from helpers like `recipes_eval_select()` when applicable. See the [Source Development Guide](source-guide.md) for details.
+> **Note for Source Development:** If you're contributing directly to the
+> recipes package, internal helpers are available without the `recipes::`
+> prefix. Row operations are simpler but still benefit from helpers like
+> `recipes_eval_select()` when applicable. See the [Source Development
+> Guide](source-guide.md) for details.
 
 ## Overview
 
@@ -32,10 +36,14 @@ Row-operation steps:
 
 ## Key Characteristics
 
-1. **`skip = TRUE` default**: Most row operations should not be applied to new data during `bake()`
-2. **Often no parameters learned**: Many row operations don't need `prep()` to learn anything
-3. **Used primarily in training**: Filtering, sampling, and similar operations typically only apply to training data
-4. **May affect downstream steps**: Removing rows can impact statistics computed by later steps
+1. **`skip = TRUE`default**: Most row operations should not be applied to new
+   data during `bake()`
+2. **Often no parameters learned**: Many row operations don't need `prep()` to
+   learn anything
+3. **Used primarily in training**: Filtering, sampling, and similar operations
+   typically only apply to training data
+4. **May affect downstream steps**: Removing rows can impact statistics computed
+   by later steps
 
 ## When skip = TRUE Makes Sense
 
@@ -66,11 +74,13 @@ Rare cases where row operations should apply to new data:
 
 - Enforcing data quality requirements that apply universally
 
-**Use skip = FALSE cautiously** - usually better to handle at the data preparation stage.
+**Use skip = FALSE cautiously** - usually better to handle at the data
+preparation stage.
 
 ## Complete Template
 
-This template follows the same pattern as `R/filter.R` and `R/sample.R` in the recipes repository.
+This template follows the same pattern as `R/filter.R` and `R/sample.R` in the
+recipes repository.
 
 ```r
 #' Title for your row operation step
@@ -298,7 +308,9 @@ bake:
 
 ## Testing Row-Operation Steps
 
-See [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements) for comprehensive testing guide.
+See
+[package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+for comprehensive testing guide.
 
 ### Key tests for row-operation steps
 
@@ -399,6 +411,8 @@ Consider alternatives in these cases:
 
 - Learn helper functions: [helper-functions.md](helper-functions.md)
 
-- Document your step: [package-roxygen-documentation.md](package-roxygen-documentation.md)
+- Document your step:
+  [package-roxygen-documentation.md](package-roxygen-documentation.md)
 
-- Write tests: [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)
+- Write tests:
+  [package-extension-requirements.md#testing-requirements](package-extension-requirements.md#testing-requirements)

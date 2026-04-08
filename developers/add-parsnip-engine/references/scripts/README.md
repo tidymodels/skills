@@ -4,21 +4,25 @@ Repository cloning scripts for tidymodels development reference.
 
 ## Purpose
 
-These scripts clone tidymodels package repositories (yardstick, recipes, dials, parsnip) into a local `repos/` directory for development reference. Having local access to the source code helps Claude provide more accurate guidance with real implementation examples during skill execution.
+These scripts clone tidymodels package repositories (yardstick, recipes, dials,
+parsnip) into a local `repos/` directory for development reference. Having local
+access to the source code helps Claude provide more accurate guidance with real
+implementation examples during skill execution.
 
 ## Scripts
 
 We provide three platform-native scripts for the best user experience:
 
-| Script | Platform | Description |
-|--------|----------|-------------|
-| `clone-tidymodels-repos.sh` | macOS, Linux, WSL, Git Bash | Bash script (preferred for Unix-like systems) |
-| `clone-tidymodels-repos.ps1` | Windows | PowerShell script (native to Windows 7+) |
-| `clone-tidymodels-repos.py` | Universal | Python 3.6+ fallback (works on all platforms) |
+| Script                       | Platform                    | Description                                   |
+| ---------------------------- | --------------------------- | --------------------------------------------- |
+| `clone-tidymodels-repos.sh`  | macOS, Linux, WSL, Git Bash | Bash script (preferred for Unix-like systems) |
+| `clone-tidymodels-repos.ps1` | Windows                     | PowerShell script (native to Windows 7+)      |
+| `clone-tidymodels-repos.py`  | Universal                   | Python 3.6+ fallback (works on all platforms) |
 
 ## Quick Start
 
-**Note:** These examples assume you're running from the `skills` repository root. If running from elsewhere, adjust the path accordingly.
+**Note:** These examples assume you're running from the `skills` repository
+root. If running from elsewhere, adjust the path accordingly.
 
 ### macOS / Linux / WSL
 
@@ -90,31 +94,35 @@ python developers/shared-references/scripts/clone-tidymodels-repos.py yardstick
 
 1. **Check git installation** - Verifies git is available
 2. **Create repos/ directory** - Creates directory if it doesn't exist
-3. **Clone repositories** - Shallow clones specified packages (~5-8 MB each)
-4. **Update ignore files** - Adds `repos/` to .gitignore and `^repos$` to .Rbuildignore
+3. **Clone repositories** - Shallow clones specified packages (\~5-8 MB each)
+4. **Update ignore files** - Adds `repos/` to .gitignore and `^repos$` to
+   .Rbuildignore
 
 ## Exit Codes
 
 All scripts use consistent exit codes:
 
-| Code | Meaning |
-|------|---------|
-| 0 | Success |
-| 1 | Git not found |
-| 2 | Clone failed (network/disk space issues) |
-| 3 | Permission error (cannot create repos/ directory) |
+| Code | Meaning                                           |
+| ---- | ------------------------------------------------- |
+| 0    | Success                                           |
+| 1    | Git not found                                     |
+| 2    | Clone failed (network/disk space issues)          |
+| 3    | Permission error (cannot create repos/ directory) |
 
 ## Requirements
 
 - **Git**: Must be installed and available in PATH
 
-  - macOS: Install Xcode Command Line Tools or download from https://git-scm.com/downloads
+  - macOS: Install Xcode Command Line Tools or download from
+    https://git-scm.com/downloads
 
-  - Linux: Install via package manager (`apt-get install git`, `yum install git`, etc.)
+  - Linux: Install via package manager (`apt-get install git`,
+    `yum install git`, etc.)
 
   - Windows: Download from https://git-scm.com/downloads
 
-- **Disk Space**: ~5-8 MB per repository (yardstick, recipes, dials, parsnip - shallow clones)
+- **Disk Space**: \~5-8 MB per repository (yardstick, recipes, dials, parsnip -
+  shallow clones)
 
 - **Python script only**: Python 3.6 or higher
 
@@ -148,11 +156,14 @@ my-package/
 └── .Rbuildignore            # Modified to include ^repos$
 ```
 
-The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildignore` files, so cloned repositories won't be committed to your package or included in builds.
+The `repos/` directory is automatically added to your `.gitignore` and
+`.Rbuildignore` files, so cloned repositories won't be committed to your package
+or included in builds.
 
 ## Features
 
-- **Shallow clones**: Uses `git clone --depth 1` for speed and disk space efficiency
+- **Shallow clones**: Uses `git clone --depth 1` for speed and disk space
+  efficiency
 
 - **Idempotent**: Safe to run multiple times (skips existing repositories)
 
@@ -168,7 +179,8 @@ The `repos/` directory is automatically added to your `.gitignore` and `.Rbuildi
 
 If git is not installed:
 
-- **macOS**: Install Xcode Command Line Tools or visit https://git-scm.com/downloads
+- **macOS**: Install Xcode Command Line Tools or visit
+  https://git-scm.com/downloads
 
 - **Linux**: Use package manager (e.g., `sudo apt-get install git`)
 
@@ -196,17 +208,21 @@ If cloning fails:
 
 ### Repository already exists
 
-If a repository already exists in `repos/`, the script will skip it with a warning. This is expected behavior and not an error.
+If a repository already exists in `repos/`, the script will skip it with a
+warning. This is expected behavior and not an error.
 
 To update an existing repository, navigate to it and run:
+
 ```bash
 cd repos/yardstick && git pull
 ```
 
 ## For More Information
 
-See the comprehensive documentation: `developers/shared-references/package-repository-access.md`
+See the comprehensive documentation:
+`developers/shared-references/package-repository-access.md`
 
 ## License
 
-These scripts are part of the skills repository. See the repository's LICENSE for details.
+These scripts are part of the skills repository. See the repository's LICENSE
+for details.
