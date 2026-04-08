@@ -2,11 +2,12 @@
 """
 Build and verify skills.
 
-This script orchestrates four operations by calling discrete scripts:
+This script orchestrates five operations by calling discrete scripts:
 1. BUILD: Localizes shared files to each skill's references folder (build-skills.py)
 2. FORMAT: Adds blank lines before bullets in all markdown files (add-blank-lines.py)
-3. VERIFY: Checks all markdown links and file references (verify-references.py)
-4. DOCS: Verifies that skills have corresponding .qmd files in docs/ (verify-docs.py)
+3. PANACHE: Formats all markdown files using panache (runs silently)
+4. VERIFY: Checks all markdown links and file references (verify-references.py)
+5. DOCS: Verifies that skills have corresponding .qmd files in docs/ (verify-docs.py)
 
 Usage:
     ./build-verify.py [directory]
@@ -53,6 +54,32 @@ def run_script(script_name: str, root_dir: Path, label: str) -> int:
         return 1
 
 
+def run_panache_format(root_dir: Path) -> int:
+    """Run panache format silently. Only shows output on error."""
+    try:
+        result = subprocess.run(
+            ["panache", "format", str(root_dir)],
+            capture_output=True,
+            text=True
+        )
+
+        # Only print output if there was an error
+        if result.returncode != 0:
+            if result.stdout:
+                print(result.stdout, end='')
+            if result.stderr:
+                print(result.stderr, end='')
+
+        return result.returncode
+
+    except FileNotFoundError:
+        print("⏭️  Skipping panache format (not installed)")
+        return 0
+    except Exception as e:
+        print(f"Error running panache format: {e}")
+        return 1
+
+
 def main():
     # Determine root directories
     if len(sys.argv) > 1:
@@ -69,6 +96,7 @@ def main():
 
     # Process each directory
     all_format_passed = True
+    all_panache_passed = True
     all_verify_passed = True
     all_docs_passed = True
 
@@ -96,18 +124,24 @@ def main():
         if format_exit_code != 0:
             all_format_passed = False
 
-        # Step 3: Verify (check references)
+        # Step 3: Panache format (runs silently)
+        panache_exit_code = run_panache_format(root_path)
+        if panache_exit_code != 0:
+            all_panache_passed = False
+
+        # Step 4: Verify (check references)
         verify_exit_code = run_script("verify-references.py", root_path, "VERIFY")
         if verify_exit_code != 0:
             all_verify_passed = False
 
-        # Step 4: Verify docs (check .qmd files exist)
+        # Step 5: Verify docs (check .qmd files exist)
         docs_exit_code = run_script("verify-docs.py", root_path, "DOCS")
         if docs_exit_code != 0:
             all_docs_passed = False
 
     # Final summary
     all_checks_passed = (all_format_passed and
+                         all_panache_passed and
                          all_verify_passed and
                          all_docs_passed)
     print()
