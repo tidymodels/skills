@@ -11,9 +11,10 @@ This script orchestrates four operations by calling discrete scripts:
 Usage:
     ./build-verify.py [directory]
 
-    If no directory specified, uses parent directory relative to script location
+    If no directory specified, runs against both ../developers/ and ../users/
 
 Examples:
+    ./build-verify.py              # Runs against both developers/ and users/
     ./build-verify.py ../developers/
     ./build-verify.py ../users/
 """
@@ -53,42 +54,69 @@ def run_script(script_name: str, root_dir: Path, label: str) -> int:
 
 
 def main():
-    # Determine root directory
+    # Determine root directories
     if len(sys.argv) > 1:
-        root_dir = sys.argv[1]
+        # Single directory specified
+        root_dirs = [sys.argv[1]]
     else:
-        # Default to parent directory relative to script location
+        # Default to both users/ and developers/ directories
         script_dir = Path(__file__).parent
-        root_dir = script_dir.parent
+        parent_dir = script_dir.parent
+        root_dirs = [
+            str(parent_dir / "developers"),
+            str(parent_dir / "users")
+        ]
 
-    root_path = Path(root_dir)
-    if not root_path.exists():
-        print(f"Error: Directory does not exist: {root_dir}")
-        sys.exit(1)
+    # Process each directory
+    all_format_passed = True
+    all_verify_passed = True
+    all_docs_passed = True
 
-    # Step 1: Build (localize shared files)
-    build_exit_code = run_script("build-skills.py", root_path, "BUILD")
-    if build_exit_code != 0:
-        print("Build failed. Skipping remaining steps.")
-        sys.exit(1)
+    for root_dir in root_dirs:
+        root_path = Path(root_dir)
+        if not root_path.exists():
+            print(f"Error: Directory does not exist: {root_dir}")
+            sys.exit(1)
 
-    # Step 2: Format (add blank lines before bullets)
-    format_exit_code = run_script("add-blank-lines.py", root_path, "FORMAT")
+        # Print separator if processing multiple directories
+        if len(root_dirs) > 1:
+            print()
+            print("=" * 60)
+            print(f"Processing: {root_path.name}/")
+            print("=" * 60)
 
-    # Step 3: Verify (check references)
-    verify_exit_code = run_script("verify-references.py", root_path, "VERIFY")
+        # Step 1: Build (localize shared files)
+        build_exit_code = run_script("build-skills.py", root_path, "BUILD")
+        if build_exit_code != 0:
+            print(f"Build failed for {root_path.name}/. Skipping remaining steps.")
+            sys.exit(1)
 
-    # Step 4: Verify docs (check .qmd files exist)
-    docs_exit_code = run_script("verify-docs.py", root_path, "DOCS")
+        # Step 2: Format (add blank lines before bullets)
+        format_exit_code = run_script("add-blank-lines.py", root_path, "FORMAT")
+        if format_exit_code != 0:
+            all_format_passed = False
+
+        # Step 3: Verify (check references)
+        verify_exit_code = run_script("verify-references.py", root_path, "VERIFY")
+        if verify_exit_code != 0:
+            all_verify_passed = False
+
+        # Step 4: Verify docs (check .qmd files exist)
+        docs_exit_code = run_script("verify-docs.py", root_path, "DOCS")
+        if docs_exit_code != 0:
+            all_docs_passed = False
 
     # Final summary
-    all_checks_passed = (format_exit_code == 0 and
-                         verify_exit_code == 0 and
-                         docs_exit_code == 0)
+    all_checks_passed = (all_format_passed and
+                         all_verify_passed and
+                         all_docs_passed)
+    print()
+    print("=" * 60)
     if all_checks_passed:
         print("✅ BUILD, FORMAT, AND VERIFY SUCCESSFUL")
     else:
         print("❌ VERIFICATION FAILED - Fix errors above before committing")
+    print("=" * 60)
     print()
 
     sys.exit(0 if all_checks_passed else 1)

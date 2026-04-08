@@ -33,12 +33,11 @@ class DocsVerifier:
 
     def verify_all(self, quiet=False):
         """Check that skills have corresponding .qmd files."""
+        header = "=" * 17 + " DOCS: Checking .qmd files " + "=" * 16
         if quiet:
-            print("DOCS: Checking .qmd files")
+            print(header)
         else:
-            print("=" * 60)
-            print("DOCS: Checking .qmd files")
-            print("=" * 60)
+            print(header)
             print()
 
         # Determine which folder we're checking (developers or users)
@@ -78,7 +77,7 @@ class DocsVerifier:
                 continue
 
             # Skip workspace directories
-            if item.name.endswith('-workspace'):
+            if '-workspace' in item.name:
                 print(f"Skipping {item.name}")
                 continue
 

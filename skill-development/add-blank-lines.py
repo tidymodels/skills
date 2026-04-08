@@ -75,6 +75,21 @@ def process_file(file_path):
     return True, False
 
 
+def should_skip_file(file_path):
+    """Check if a file should be skipped based on its path."""
+    # Skip files in directories containing "-workspace"
+    for part in file_path.parts:
+        if '-workspace' in part:
+            return True
+
+    # Skip files in directories starting with "."
+    for part in file_path.parts:
+        if part.startswith('.'):
+            return True
+
+    return False
+
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python add-blank-lines.py <markdown-file-or-directory>")
@@ -88,10 +103,15 @@ def main():
 
     # If it's a directory, process all .md files recursively
     if input_path.is_dir():
-        md_files = list(input_path.rglob("*.md"))
+        all_md_files = list(input_path.rglob("*.md"))
+        md_files = [f for f in all_md_files if not should_skip_file(f)]
+
         if not md_files:
             print(f"No .md files found in {input_path}")
             sys.exit(0)
+
+        if len(all_md_files) != len(md_files):
+            print(f"Skipped {len(all_md_files) - len(md_files)} files in workspace/hidden directories")
 
         print(f"Processing {len(md_files)} markdown files...")
         success_count = 0

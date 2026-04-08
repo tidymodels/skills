@@ -37,9 +37,9 @@ class ReferenceVerifier:
             if part.startswith('.'):
                 return True
 
-        # Skip files in directories ending with "-workspace"
+        # Skip files in directories containing "-workspace"
         for part in file_path.parts:
-            if part.endswith('-workspace'):
+            if '-workspace' in part:
                 return True
 
         # Skip shared-references directories
@@ -74,18 +74,17 @@ class ReferenceVerifier:
 
     def verify_all(self, quiet=False):
         """Run all verification checks."""
+        header = "=" * 16 + " VERIFY: Checking References " + "=" * 15
         if quiet:
-            print("VERIFY: Checking References")
+            print(header)
         else:
-            print("=" * 60)
-            print("VERIFY: Checking References")
-            print("=" * 60)
+            print(header)
             print()
 
         # Find workspace folders to skip
         workspace_folders = set()
         for item in self.root_dir.rglob("*"):
-            if item.is_dir() and item.name.endswith('-workspace'):
+            if item.is_dir() and '-workspace' in item.name:
                 try:
                     rel_path = item.relative_to(self.root_dir)
                     workspace_folders.add(str(rel_path))

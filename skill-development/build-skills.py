@@ -42,7 +42,7 @@ class Builder:
                 continue
 
             # Skip workspace directories
-            if item.name.endswith('-workspace'):
+            if '-workspace' in item.name:
                 continue
 
             # Skip shared-references directories
@@ -60,12 +60,11 @@ class Builder:
 
     def build_all(self, quiet=False):
         """Copy shared files to each skill's references folder."""
+        header = "=" * 14 + " BUILD: Localizing Shared Files " + "=" * 14
         if quiet:
-            print("BUILD: Localizing Shared Files")
+            print(header)
         else:
-            print("=" * 60)
-            print("BUILD: Localizing Shared Files to Skills")
-            print("=" * 60)
+            print(header)
             print()
 
         if not self.shared_dir.exists():
