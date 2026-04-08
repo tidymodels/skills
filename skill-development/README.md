@@ -26,7 +26,8 @@ skill-development/build-verify.py developers/
 
 **Usage**:
 ```bash
-./build-verify.py ../developers/
+./build-verify.py                # Runs against both developers/ and users/ (default)
+./build-verify.py ../developers/ # Single directory
 ./build-verify.py ../users/
 ```
 
@@ -35,6 +36,11 @@ skill-development/build-verify.py developers/
 - After updating shared references
 - After modifying skill structure
 - After adding or renaming skills
+
+**Output format**:
+- Each step displays a visible 60-character header (e.g., `================ VERIFY: Checking References ===============`)
+- No blank lines between steps for compact, easy-to-scan output
+- Workspace directories (containing `-workspace`) are automatically skipped
 
 **Note**: This is a thin orchestrator. Each step can be run independently using the discrete scripts below.
 
@@ -45,13 +51,15 @@ skill-development/build-verify.py developers/
 
 **What it does**:
 - Copies files from `shared-references/` to each skill's `references/` folder
-- Copies files from `shared-references-parsnip/` for parsnip-related skills
+- Copies files from `shared-references-parsnip/` for skills with "parsnip" in the name
 - Copies scripts from `shared-references/scripts/` to each skill
+- Skips directories containing `-workspace` in the name
 
 **Usage**:
 ```bash
 ./build-skills.py ../developers/
 ./build-skills.py ../users/
+./build-skills.py ../developers/ --verbose  # Show skipped workspace folders
 ```
 
 **When to use**:
@@ -69,11 +77,13 @@ skill-development/build-verify.py developers/
 - Checks that referenced files exist
 - Validates anchors within markdown files
 - Checks file path references in script files
+- Skips directories containing `-workspace` in the name
 
 **Usage**:
 ```bash
 ./verify-references.py ../developers/
 ./verify-references.py ../users/
+./verify-references.py ../developers/ --verbose  # Show skipped workspace folders
 ```
 
 **When to use**:
@@ -89,11 +99,13 @@ skill-development/build-verify.py developers/
 **What it does**:
 - Confirms each skill has a corresponding `.qmd` file in `docs/`
 - Verifies each `.md` file in skill's `references/` has a matching `.qmd` in `docs/*/references/`
+- Skips directories containing `-workspace` in the name
 
 **Usage**:
 ```bash
 ./verify-docs.py ../developers/
 ./verify-docs.py ../users/
+./verify-docs.py ../developers/ --verbose  # Show skipped workspace folders
 ```
 
 **When to use**:
@@ -205,6 +217,7 @@ skill-development/build-verify.py developers/
 - Improves markdown readability when rendered
 - Preserves existing formatting and spacing
 - **Supports recursive directory processing** - processes all `.md` files in a directory tree
+- Skips directories containing `-workspace` in the name
 
 **Usage**:
 ```bash
@@ -216,6 +229,9 @@ skill-development/build-verify.py developers/
 ./add-blank-lines.py <directory>
 ./add-blank-lines.py ../developers/
 ./add-blank-lines.py ../developers/shared-references/
+
+# Show skipped workspace/hidden directories
+./add-blank-lines.py ../developers/ --verbose
 ```
 
 **When to use**:
@@ -307,3 +323,6 @@ When working on specific aspects, you can run discrete scripts:
 - `build-verify.py` is a thin orchestrator that calls discrete scripts - each step can be run independently
 - `rename-and-update.py` and `replace-text.py` work repository-wide (all folders)
 - Discrete scripts (`build-skills.py`, `verify-references.py`, `verify-docs.py`, `add-blank-lines.py`) can be used individually for focused tasks
+- All scripts automatically skip directories containing `-workspace` (e.g., `add-yardstick-metric-workspace`, `my-workspace-old`)
+- Use `--verbose` flag with build/verify scripts to see which workspace directories are being skipped
+- `build-verify.py` runs against both `developers/` and `users/` when no directory is specified

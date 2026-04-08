@@ -1320,19 +1320,24 @@ How to clone tidymodels repositories (optional but recommended).
 
 **✅ After editing any shared file, run:**
 ```bash
-cd tidymodels
-./dev-scripts/build-verify.py
+# From project root - runs both developers/ and users/ by default
+./skill-development/build-verify.py
+
+# Or specify a specific directory
+./skill-development/build-verify.py developers/
+./skill-development/build-verify.py users/
 ```
 
 This script:
 1. Copies the updated files from `shared-references/` and `shared-references/scripts/` to each skill's `references/` folder
 2. Verifies all markdown links and file references are valid
+3. Automatically skips workspace directories (those containing `-workspace`)
 
 **Workflow:**
 ```
 Edit shared-references/package-extension-prerequisites.md
     ↓
-Run ./dev-scripts/build-verify.py
+Run ./skill-development/build-verify.py
     ↓
 Changes copied to all skills' references/ folders + verification runs
 ```
@@ -1466,7 +1471,7 @@ When you add a new skill, update related skills:
    - [ ] Documentation is clear and concise
    - [ ] Navigation is intuitive
    - [ ] Covers both happy path and edge cases
-   - [ ] **Run `./dev-scripts/build-verify.py` with no errors**
+   - [ ] **Run `./skill-development/build-verify.py` with no errors**
 
 ### Manual Testing
 
@@ -1518,10 +1523,10 @@ When you add a new skill, update related skills:
 10. **Use generic error messages** - Be specific to the context
 11. **Leave broken links** - Test all cross-references
 12. **Commit changes without running build-verify.py** - Always build and verify before committing
-   - ❌ NEVER commit skill changes without running `./dev-scripts/build-verify.py` first
+   - ❌ NEVER commit skill changes without running `./skill-development/build-verify.py` first
    - ✅ ALWAYS run build-verify.py to ensure shared files are synced and links work
    - **Why:** Keeps all skills in sync, prevents broken links from reaching repository
-   - **How:** Run `cd tidymodels && ./dev-scripts/build-verify.py` before every commit
+   - **How:** Run `./skill-development/build-verify.py` from project root before every commit (runs both developers/ and users/ by default)
 
 ### ✅ Do:
 1. **Use references as single source of truth** - SKILL.md links, references contain content
@@ -1541,7 +1546,7 @@ When you add a new skill, update related skills:
 15. **Follow naming conventions** - Consistent with existing skills
 16. **Include troubleshooting** - Anticipate common problems
 17. **Run build-verify.py before committing** - Ensures files are synced and verified
-   - Run `cd tidymodels && ./dev-scripts/build-verify.py` after any skill changes
+   - Run `./skill-development/build-verify.py` after any skill changes (runs both developers/ and users/ by default)
    - Fix all errors before committing
    - This is CRITICAL for maintaining quality
 
