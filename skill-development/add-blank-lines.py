@@ -91,11 +91,15 @@ def should_skip_file(file_path):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python add-blank-lines.py <markdown-file-or-directory>")
+    # Parse arguments
+    verbose = '--verbose' in sys.argv
+    args = [arg for arg in sys.argv[1:] if arg != '--verbose']
+
+    if len(args) != 1:
+        print("Usage: python add-blank-lines.py <markdown-file-or-directory> [--verbose]")
         sys.exit(1)
 
-    input_path = Path(sys.argv[1])
+    input_path = Path(args[0])
 
     if not input_path.exists():
         print(f"Error: Path '{input_path}' not found")
@@ -110,7 +114,11 @@ def main():
             print(f"No .md files found in {input_path}")
             sys.exit(0)
 
-        if len(all_md_files) != len(md_files):
+        # Print header
+        header = "=" * 10 + " FORMAT: Adding Blank Lines to Markdown " + "=" * 10
+        print(header)
+
+        if verbose and len(all_md_files) != len(md_files):
             print(f"Skipped {len(all_md_files) - len(md_files)} files in workspace/hidden directories")
 
         print(f"Processing {len(md_files)} markdown files...")

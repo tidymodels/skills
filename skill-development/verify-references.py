@@ -91,9 +91,10 @@ class ReferenceVerifier:
                 except ValueError:
                     pass
 
-        # Print skipped workspace folders
-        for workspace in sorted(workspace_folders):
-            print(f"Skipping {workspace}")
+        # Print skipped workspace folders (only if not quiet and there are any)
+        if not quiet and workspace_folders:
+            for workspace in sorted(workspace_folders):
+                print(f"Skipping {workspace}")
 
         # Find all markdown files (excluding those that should be skipped)
         all_md_files = list(self.root_dir.rglob("*.md"))
@@ -331,9 +332,13 @@ class ReferenceVerifier:
 
 
 def main():
+    # Parse arguments
+    verbose = '--verbose' in sys.argv
+    args = [arg for arg in sys.argv[1:] if arg != '--verbose']
+
     # Determine root directory
-    if len(sys.argv) > 1:
-        root_dir = sys.argv[1]
+    if len(args) > 0:
+        root_dir = args[0]
     else:
         # Default to parent directory relative to script location
         script_dir = Path(__file__).parent
@@ -345,14 +350,13 @@ def main():
 
     # Verify references
     verifier = ReferenceVerifier(root_dir)
-    verify_exit_code = verifier.verify_all(quiet=True)
+    verify_exit_code = verifier.verify_all(quiet=not verbose)
 
     if verify_exit_code == 0:
         print("✅ VERIFICATION SUCCESSFUL")
     else:
         print("❌ VERIFICATION FAILED - Fix errors above")
 
-    print()
     sys.exit(verify_exit_code)
 
 

@@ -125,9 +125,7 @@ class Builder:
             print(f"  Copying shared-references/*.md → {refs_dir.name}/")
         md_files = list(self.shared_dir.glob("*.md"))
         if not md_files:
-            error = (f"{skill}: No .md files found in shared-references/\n"
-                    f"  Checked directory: {self.shared_dir}\n"
-                    f"  This may indicate a missing or empty shared-references directory")
+            error = f"{skill}: No .md files found in shared-references/"
             self.errors.append(error)
             print(f"  WARNING: {error}")
 
@@ -238,9 +236,13 @@ class Builder:
 
 
 def main():
+    # Parse arguments
+    verbose = '--verbose' in sys.argv
+    args = [arg for arg in sys.argv[1:] if arg != '--verbose']
+
     # Determine root directory
-    if len(sys.argv) > 1:
-        root_dir = sys.argv[1]
+    if len(args) > 0:
+        root_dir = args[0]
     else:
         # Default to parent directory relative to script location
         script_dir = Path(__file__).parent
@@ -252,14 +254,13 @@ def main():
 
     # Build skills
     builder = Builder(root_dir)
-    build_success = builder.build_all(quiet=True)
+    build_success = builder.build_all(quiet=not verbose)
 
     if build_success:
         print("✅ BUILD SUCCESSFUL")
     else:
         print("❌ BUILD FAILED - Fix errors above")
 
-    print()
     sys.exit(0 if build_success else 1)
 
 

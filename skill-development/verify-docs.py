@@ -53,7 +53,7 @@ class DocsVerifier:
             return self.report_results(quiet=quiet)
 
         # Find all skill directories
-        skills = self._discover_skills()
+        skills = self._discover_skills(verbose=not quiet)
 
         if not quiet:
             print(f"Checking {len(skills)} skills in {folder_name}/")
@@ -65,7 +65,7 @@ class DocsVerifier:
 
         return self.report_results(quiet=quiet)
 
-    def _discover_skills(self) -> List[str]:
+    def _discover_skills(self, verbose=False) -> List[str]:
         """Discover all skill directories."""
         skills = []
         if not self.root_dir.exists():
@@ -78,7 +78,8 @@ class DocsVerifier:
 
             # Skip workspace directories
             if '-workspace' in item.name:
-                print(f"Skipping {item.name}")
+                if verbose:
+                    print(f"Skipping {item.name}")
                 continue
 
             # Skip shared-references directories
@@ -168,9 +169,13 @@ class DocsVerifier:
 
 
 def main():
+    # Parse arguments
+    verbose = '--verbose' in sys.argv
+    args = [arg for arg in sys.argv[1:] if arg != '--verbose']
+
     # Determine root directory
-    if len(sys.argv) > 1:
-        root_dir = sys.argv[1]
+    if len(args) > 0:
+        root_dir = args[0]
     else:
         # Default to parent directory relative to script location
         script_dir = Path(__file__).parent
@@ -182,14 +187,13 @@ def main():
 
     # Verify docs
     docs_verifier = DocsVerifier(root_dir)
-    docs_exit_code = docs_verifier.verify_all(quiet=True)
+    docs_exit_code = docs_verifier.verify_all(quiet=not verbose)
 
     if docs_exit_code == 0:
         print("✅ DOCS VERIFICATION SUCCESSFUL")
     else:
         print("❌ DOCS VERIFICATION FAILED - Fix errors above")
 
-    print()
     sys.exit(docs_exit_code)
 
 
