@@ -7,14 +7,20 @@ Complete guide to tuning hyperparameters for time series forecasting models.
 **Offer to tune hyperparameters for complex models:**
 
 - XGBoost (`boost_tree()`)
+
 - Random Forest (`rand_forest()`)
+
 - Elastic Net (`linear_reg()` with `glmnet` engine)
+
 - MARS (`mars()`)
 
 **Generally don't need tuning:**
 
-- ARIMA (`arima_reg()`) - Uses `auto_arima` which selects parameters automatically
+- ARIMA (`arima_reg()`) - Uses `auto_arima` which selects parameters
+  automatically
+
 - ETS (`exp_smoothing()`) - Automatically selects best model
+
 - Prophet (`prophet_reg()`) - Works well with defaults
 
 ## Tuning Workflow
@@ -85,7 +91,10 @@ parallel::detectCores()
 
 **Ask the user in the conversation:**
 
-> "I'm about to run hyperparameter tuning with time series cross-validation. This could take a while. I see you have 8 cores available. Would you like me to use parallel processing to speed this up? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free for other processes)"
+> "I'm about to run hyperparameter tuning with time series cross-validation.
+> This could take a while. I see you have 8 cores available. Would you like me
+> to use parallel processing to speed this up? If so, how many cores should I
+> use? (I'd recommend using 6-7 to leave 1-2 cores free for other processes)"
 
 **If user says yes:**
 
@@ -100,7 +109,8 @@ plan("multisession", workers = 6)  # or whatever they specified
 # Proceed with sequential processing (no future setup)
 ```
 
-**Continue using the same parallel configuration** throughout unless the user asks to stop.
+**Continue using the same parallel configuration** throughout unless the user
+asks to stop.
 
 ### Step 6: Tune
 
@@ -146,32 +156,41 @@ final_fit <- fit(final_wf, train_data)
 **Ask before:**
 
 - Hyperparameter tuning
+
 - Time series cross-validation with many slices
+
 - Fitting many models
+
 - Any computation that might take >2-3 minutes
 
 ### Interaction Pattern
 
-**Don't just add a comment in code** - have an actual conversation with the user.
+**Don't just add a comment in code** - have an actual conversation with the
+user.
 
 **Example interaction:**
 
-> **You:** I'm about to run 10-fold cross-validation with hyperparameter tuning. I can use parallel processing to speed this up significantly.
+> **You:** I'm about to run 10-fold cross-validation with hyperparameter tuning.
+> I can use parallel processing to speed this up significantly.
 >
-> I see you have 8 cores available. Would you like me to use parallel processing? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free for other processes)
+> I see you have 8 cores available. Would you like me to use parallel
+> processing? If so, how many cores should I use? (I'd recommend using 6-7 to
+> leave 1-2 cores free for other processes)
 
 **User might respond:**
 
 - "Yes, use 6 cores"
+
 - "No, just run it normally"
+
 - "I'm not sure - what's the difference?"
 
 **If user is unsure:**
 
 > **You:** Here's the trade-off:
 >
-> - **With parallel processing (6 cores)**: ~5-10 minutes
-> - **Without (sequential)**: ~30-45 minutes
+> - **With parallel processing (6 cores)**: \~5-10 minutes
+> - **Without (sequential)**: \~30-45 minutes
 >
 > Your choice won't affect the results, just the speed.
 
@@ -180,7 +199,9 @@ final_fit <- fit(final_wf, train_data)
 **Do not use:**
 
 - `parallel` package
+
 - `mirai` package
+
 - `foreach` package
 
 **Do use:**
@@ -194,7 +215,8 @@ plan("multisession", workers = 6)
 # Now tune_grid() will automatically use parallel processing
 ```
 
-**Important:** Once parallel processing is set up, continue using it throughout unless the user asks to stop.
+**Important:** Once parallel processing is set up, continue using it throughout
+unless the user asks to stop.
 
 ## Tuning Parameters by Model
 
@@ -244,7 +266,9 @@ linear_reg(
 ### Grid Size
 
 - **Small datasets (<1000 rows)**: 10-15 combinations
+
 - **Medium datasets (1000-10000 rows)**: 15-25 combinations
+
 - **Large datasets (>10000 rows)**: 25-50 combinations
 
 **Balance:** More combinations = better optimization but longer computation
@@ -272,6 +296,7 @@ metrics = metric_set(rmse, mae)
 ```
 
 - **RMSE**: Primary metric (penalizes large errors)
+
 - **MAE**: Secondary metric (less sensitive to outliers)
 
 Select best parameters based on RMSE unless outliers are a major concern.
@@ -303,7 +328,9 @@ show_best(xgb_tuned, metric = "rmse", n = 10)
 **Look for:**
 
 - Clear optimal region (tuning worked)
+
 - Flat region (parameter doesn't matter much)
+
 - Continuously improving (need to expand search space)
 
 ## Complete Tuning Example
@@ -369,15 +396,21 @@ final_fit <- fit(final_wf, train_data)
 **Skip tuning if:**
 
 - Classical models (ARIMA, ETS, Prophet) - use defaults
+
 - Very small datasets (<200 observations)
+
 - Tight time constraints
+
 - Baseline models already perform well
 
 **Focus tuning effort on:**
 
 - ML models (XGBoost, RF, Elastic Net)
+
 - When baseline performance is insufficient
+
 - When you have computational resources
+
 - Production models that will be used repeatedly
 
 ## Summary
@@ -391,4 +424,5 @@ Key principles:
 5. **Visualize results** - To understand parameter effects
 6. **Tune selectively** - Focus on ML models, skip classical models
 
-Tuning can significantly improve model performance, but requires computational resources and careful setup.
+Tuning can significantly improve model performance, but requires computational
+resources and careful setup.

@@ -4,14 +4,20 @@ Complete 8-step workflow for forecasting time series data with modeltime.
 
 ## Overview
 
-This workflow guides you through the complete process of time series forecasting, from data splitting to final predictions. Each step builds on the previous one, and all model development happens on the training data using resampling—the test set is reserved for final validation only.
+This workflow guides you through the complete process of time series
+forecasting, from data splitting to final predictions. Each step builds on the
+previous one, and all model development happens on the training data using
+resampling—the test set is reserved for final validation only.
 
 ## Step 1: Train-Test Split
 
 Always partition data into:
 
-- **Training set**: Used for all feature engineering, feature selection, and model development
-- **Test set**: Reserved for final model evaluation only—requires explicit user permission before use
+- **Training set**: Used for all feature engineering, feature selection, and
+  model development
+
+- **Test set**: Reserved for final model evaluation only—requires explicit user
+  permission before use
 
 Ask the user how much data should be used in the test set before proceeding.
 
@@ -28,21 +34,34 @@ test_data <- testing(init_split)
 ### Test Set Rules
 
 - **NEVER** predict on test data during model development
+
 - **NEVER** calculate test set metrics without explicit user permission
+
 - **NEVER** use test data to compare models (use backtesting instead)
+
 - **NEVER** use test data to tune hyperparameters (use resampling instead)
-- **DO** ask: *"I've completed model development using backtesting on the training data. [Summarize top models with resampling performance]. May I evaluate the final model on the test set?"*
+
+- **DO** ask: *"I've completed model development using backtesting on the
+  training data. [Summarize top models with resampling performance]. May I
+  evaluate the final model on the test set?"*
+
 - **DO** wait for explicit confirmation before proceeding
 
-**Self-check**: If you're writing `predict(..., test_data)` or `modeltime_calibrate(new_data = test_data)` without prior user permission, STOP—you're making an error.
+**Self-check**: If you're writing `predict(..., test_data)` or
+`modeltime_calibrate(new_data = test_data)` without prior user permission,
+STOP—you're making an error.
 
-**Exception**: Basic verification after splitting (e.g., `nrow(test_data)`, `glimpse(test_data)`) to confirm the split worked.
+**Exception**: Basic verification after splitting (e.g., `nrow(test_data)`,
+`glimpse(test_data)`) to confirm the split worked.
 
-**Key Principle**: Use resampling/backtesting on training data for ALL model comparisons. The test set is only for final validation of your best model, not for iterative development.
+**Key Principle**: Use resampling/backtesting on training data for ALL model
+comparisons. The test set is only for final validation of your best model, not
+for iterative development.
 
 ## Step 2: Create & Fit Models
 
-See [models.md](models.md) for detailed information on available models and when to use them.
+See [models.md](models.md) for detailed information on available models and when
+to use them.
 
 ### Modeltime Models
 
@@ -67,7 +86,8 @@ prophet_fit <- prophet_reg() |>
 
 ### Parsnip Models
 
-Parsnip models require date derivatives, not raw dates. See [feature-engineering.md](feature-engineering.md) for details.
+Parsnip models require date derivatives, not raw dates. See
+[feature-engineering.md](feature-engineering.md) for details.
 
 ```r
 # Linear regression with simple date features
@@ -105,13 +125,18 @@ models_tbl <- modeltime_table(
 )
 ```
 
-The modeltime table provides a unified interface for resampling, calibration, and forecasting across different model types.
+The modeltime table provides a unified interface for resampling, calibration,
+and forecasting across different model types.
 
 ## Step 4: Resampling / Backtesting
 
-See [resampling.md](resampling.md) for complete details on time series cross-validation.
+See [resampling.md](resampling.md) for complete details on time series
+cross-validation.
 
-**Important:** Resampling is your PRIMARY tool for comparing models—not the test set. Use backtesting to compare algorithms, evaluate tuning parameters, and choose feature engineering approaches. Only use the test set for final validation after making all decisions.
+**Important:** Resampling is your PRIMARY tool for comparing models—not the test
+set. Use backtesting to compare algorithms, evaluate tuning parameters, and
+choose feature engineering approaches. Only use the test set for final
+validation after making all decisions.
 
 ```r
 library(modeltime.resample)
@@ -147,7 +172,8 @@ set.seed(5847)
 
 ## Step 6: Test Set Evaluation (Optional)
 
-**Before proceeding:** Review the Test Set Rules in Step 1. You must ask for explicit permission before using the test set.
+**Before proceeding:** Review the Test Set Rules in Step 1. You must ask for
+explicit permission before using the test set.
 
 ```r
 # Only after getting explicit user permission:
@@ -184,7 +210,9 @@ calibration_tbl |>
 **Why refit?**
 
 - Uses all available data for the final model
+
 - Produces the most accurate future forecasts
+
 - Standard practice in time series forecasting
 
 ## Summary

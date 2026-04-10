@@ -1,14 +1,19 @@
 # Time Series Models
 
-Complete guide to available models in the modeltime ecosystem and when to use them.
+Complete guide to available models in the modeltime ecosystem and when to use
+them.
 
 ## Model Selection Strategy
 
-**No single model is best for all time series.** The optimal approach depends on:
+**No single model is best for all time series.** The optimal approach depends
+on:
 
 - Data characteristics (trend, seasonality, noise)
+
 - Forecast horizon (short-term vs long-term)
+
 - Available predictors (univariate vs multivariate)
+
 - Interpretability requirements
 
 **Recommended approach:**
@@ -20,40 +25,47 @@ Complete guide to available models in the modeltime ecosystem and when to use th
 
 ## Available Models
 
-| Function | Method | Engine | Best For |
-|----------|--------|--------|----------|
-| `arima_reg()` | ARIMA | `auto_arima` | Trend, short-term seasonality |
-| `arima_boost()` | ARIMA + XGBoost | `auto_arima_xgboost` | ARIMA + external predictors |
-| `exp_smoothing()` | ETS | `ets` | Strong seasonal patterns |
-| `prophet_reg()` | Prophet | `prophet` | Multiple seasonality, holidays |
-| `prophet_boost()` | Prophet + XGBoost | `prophet_xgboost` | Prophet + external predictors |
-| `linear_reg()` | Linear/Elastic Net | `lm`, `glmnet` | Simple trends with predictors |
-| `mars()` | MARS | `earth` | Non-linear relationships |
-| `boost_tree()` | XGBoost | `xgboost` | Complex patterns, many predictors |
-| `rand_forest()` | Random Forest | `ranger` | Non-linear patterns |
+| Function          | Method             | Engine               | Best For                          |
+| ----------------- | ------------------ | -------------------- | --------------------------------- |
+| `arima_reg()`     | ARIMA              | `auto_arima`         | Trend, short-term seasonality     |
+| `arima_boost()`   | ARIMA + XGBoost    | `auto_arima_xgboost` | ARIMA + external predictors       |
+| `exp_smoothing()` | ETS                | `ets`                | Strong seasonal patterns          |
+| `prophet_reg()`   | Prophet            | `prophet`            | Multiple seasonality, holidays    |
+| `prophet_boost()` | Prophet + XGBoost  | `prophet_xgboost`    | Prophet + external predictors     |
+| `linear_reg()`    | Linear/Elastic Net | `lm`, `glmnet`       | Simple trends with predictors     |
+| `mars()`          | MARS               | `earth`              | Non-linear relationships          |
+| `boost_tree()`    | XGBoost            | `xgboost`            | Complex patterns, many predictors |
+| `rand_forest()`   | Random Forest      | `ranger`             | Non-linear patterns               |
 
 ## Classical Time Series Models
 
-These models work directly with date variables and don't require feature engineering.
+These models work directly with date variables and don't require feature
+engineering.
 
 ### ARIMA (`arima_reg()`)
 
 **When to use:**
 
 - Univariate time series with trend
+
 - Short to medium forecast horizons
+
 - Stationary or easily made stationary data
 
 **Strengths:**
 
 - Automatic model selection with `auto_arima`
+
 - Handles trend and short-term seasonality
+
 - Well-understood statistical properties
+
 - Fast to fit
 
 **Limitations:**
 
 - Struggles with long seasonal periods
+
 - Cannot incorporate external predictors (use `arima_boost()` instead)
 
 **Example:**
@@ -69,19 +81,25 @@ arima_fit <- arima_reg() |>
 **When to use:**
 
 - Strong seasonal patterns
+
 - Data without complex non-linear trends
+
 - When you need prediction intervals
 
 **Strengths:**
 
 - Excellent for seasonal data
+
 - Automatically selects best ETS model
+
 - Robust to outliers
+
 - Fast to fit
 
 **Limitations:**
 
 - Cannot incorporate external predictors
+
 - May struggle with irregular patterns
 
 **Example:**
@@ -99,21 +117,29 @@ ets_fit <- exp_smoothing() |>
 **When to use:**
 
 - Multiple seasonal patterns (daily, weekly, yearly)
+
 - Data with holidays or special events
+
 - Missing data or outliers
+
 - Business data with human-scale seasonality
 
 **Strengths:**
 
 - Handles multiple seasonality automatically
+
 - Robust to missing data and outliers
+
 - Holiday effects built-in
+
 - Works well with minimal tuning
 
 **Limitations:**
 
 - Can be slower than ARIMA/ETS
+
 - May overfit on small datasets
+
 - Less interpretable than ARIMA/ETS
 
 **Example:**
@@ -135,6 +161,7 @@ ARIMA for the temporal pattern + XGBoost for external predictors.
 **When to use:**
 
 - You have external predictors
+
 - Temporal patterns + additional signals
 
 **Example:**
@@ -153,6 +180,7 @@ Prophet for seasonality/trend + XGBoost for external predictors.
 **When to use:**
 
 - Multiple seasonality + external predictors
+
 - Complex patterns with additional signals
 
 **Example:**
@@ -165,14 +193,17 @@ prophet_boost_fit <- prophet_boost() |>
 
 ## Machine Learning Models
 
-These require feature engineering from dates. See [feature-engineering.md](feature-engineering.md) for details.
+These require feature engineering from dates. See
+[feature-engineering.md](feature-engineering.md) for details.
 
 ### Linear Regression / Elastic Net
 
 **When to use:**
 
 - Simple linear trends
+
 - Need interpretable coefficients
+
 - Many correlated predictors (use elastic net)
 
 **Requires:** Date features via recipes
@@ -194,20 +225,27 @@ lm_fit <- workflow(rec, linear_reg()) |>
 **When to use:**
 
 - Complex non-linear patterns
+
 - Many external predictors
+
 - Interactions between predictors
+
 - When you need high accuracy
 
 **Strengths:**
 
 - Handles non-linear relationships
+
 - Automatic interaction detection
+
 - Often produces best accuracy
 
 **Limitations:**
 
 - Requires careful feature engineering
+
 - Less interpretable
+
 - Can overfit without proper tuning
 
 **Requires:** Date features via recipes (often `step_timeseries_signature()`)
@@ -229,7 +267,9 @@ xgb_fit <- workflow(rec, boost_tree() |> set_engine("xgboost")) |>
 **When to use:**
 
 - Non-linear patterns
+
 - Want more interpretability than XGBoost
+
 - Less prone to overfitting than XGBoost
 
 **Requires:** Date features via recipes
@@ -257,21 +297,28 @@ rf_fit <- workflow(rec, rand_forest() |> set_engine("ranger")) |>
 These three models:
 
 - Cover different modeling approaches
+
 - Don't require feature engineering
+
 - Are fast to fit
+
 - Often produce competitive results
 
 **Then add ML models if:**
 
 - You have external predictors
+
 - Baseline ensemble is insufficient
+
 - Data has complex patterns
+
 - You need to model interactions
 
 ## Model Selection Process
 
 1. **Fit baseline models** (ARIMA, ETS, Prophet)
-2. **Evaluate using backtesting** (not test set) - see [resampling.md](resampling.md)
+2. **Evaluate using backtesting** (not test set) - see
+   [resampling.md](resampling.md)
 3. **Add ML models** if needed (XGBoost, Random Forest)
 4. **Compare performance** on resampling metrics (RMSE, MAE)
 5. **Consider ensembles** - see [ensembles.md](ensembles.md)
@@ -283,14 +330,19 @@ These three models:
 **Use backtesting metrics to compare:**
 
 - **RMSE**: Primary metric for forecast accuracy (sensitive to large errors)
+
 - **MAE**: Less sensitive to outliers
+
 - **MAPE**: Percentage error (avoid if data has zeros)
 
 **Consider:**
 
 - **Forecast horizon**: Some models better for short vs long-term
+
 - **Computational cost**: Classical models are faster than ML
+
 - **Interpretability**: Classical models more interpretable
+
 - **Ensemble potential**: Different model types often ensemble well
 
 ## Date Handling Summary
@@ -298,13 +350,18 @@ These three models:
 **Modeltime models** (ARIMA, ETS, Prophet):
 
 - Accept `value ~ date` directly
+
 - Handle temporal patterns automatically
+
 - No feature engineering required
 
 **Parsnip models** (linear, XGBoost, RF):
 
 - Need date converted to features
+
 - Use recipes with `step_timeseries_signature()`, `step_date()`, etc.
+
 - More flexible but require more setup
 
-See [feature-engineering.md](feature-engineering.md) for complete guide to date feature engineering.
+See [feature-engineering.md](feature-engineering.md) for complete guide to date
+feature engineering.

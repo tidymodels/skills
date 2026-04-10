@@ -1,6 +1,7 @@
 # Time Series Feature Engineering
 
-Complete guide to engineering features from date variables for machine learning models.
+Complete guide to engineering features from date variables for machine learning
+models.
 
 ## When Feature Engineering is Needed
 
@@ -18,9 +19,13 @@ arima_fit <- arima_reg() |>
 **No feature engineering needed for:**
 
 - `arima_reg()`
+
 - `exp_smoothing()`
+
 - `prophet_reg()`
+
 - `arima_boost()` (but external predictors can be included)
+
 - `prophet_boost()` (but external predictors can be included)
 
 ### Parsnip Models: Feature Engineering Required
@@ -41,9 +46,13 @@ xgb_fit <- workflow(rec, boost_tree()) |>
 **Feature engineering required for:**
 
 - `linear_reg()`
+
 - `boost_tree()`
+
 - `rand_forest()`
+
 - `mars()`
+
 - Any parsnip model
 
 ## Feature Engineering Approaches
@@ -62,16 +71,23 @@ recipe(value ~ date, data = train_data) |>
 **Creates:**
 
 - `date_dow` - Day of week (factor: Mon-Sun)
+
 - `date_month` - Month (factor: Jan-Dec)
+
 - `date_year` - Year (numeric)
+
 - Holiday indicators (numeric: 0/1)
+
 - Linear time trend (numeric)
 
 **When to use:**
 
 - Linear regression
+
 - Simple patterns
+
 - Need interpretability
+
 - Limited training data
 
 ### Approach 2: Time Series Signature
@@ -88,27 +104,41 @@ recipe(value ~ date, data = train_data) |>
 **Creates 20+ features including:**
 
 - `date_index.num` - Numeric index
+
 - `date_year`
+
 - `date_month` - Month number
+
 - `date_month.lbl` - Month label (factor)
+
 - `date_day`
+
 - `date_wday` - Weekday number
+
 - `date_wday.lbl` - Weekday label (factor)
+
 - `date_hour`, `date_minute`, `date_second` (if timestamp)
+
 - `date_week`, `date_quarter`
+
 - Many more...
 
 **Why remove `.iso` and `.xts` features?**
 
 - These are redundant representations
+
 - Can cause issues with some models
+
 - Standard practice to remove them
 
 **When to use:**
 
 - XGBoost, Random Forest
+
 - Complex seasonal patterns
+
 - Many observations (handles many features)
+
 - Don't need interpretability
 
 ### Approach 3: Fourier Terms
@@ -125,15 +155,20 @@ recipe(value ~ date, data = train_data) |>
 **Parameters:**
 
 - `K` - Number of sine/cosine pairs (higher = more flexible)
-- `period` - Length of seasonal cycle (12 for monthly data with yearly seasonality)
+
+- `period` - Length of seasonal cycle (12 for monthly data with yearly
+  seasonality)
 
 **Creates:** `K * 2` features (sine and cosine pairs)
 
 **When to use:**
 
 - Strong seasonal patterns
+
 - Linear or regularized models
+
 - Want smooth seasonal effects
+
 - Limited data (fewer features than time series signature)
 
 ### Approach 4: Combined Features
@@ -152,8 +187,11 @@ recipe(value ~ date, data = train_data) |>
 **When to use:**
 
 - Very complex patterns
+
 - Tree-based models (handle many features well)
+
 - Plenty of training data
+
 - Want maximum flexibility
 
 ## Feature Preprocessing Steps
@@ -167,11 +205,15 @@ step_normalize(matches("(index.num$)|(_year$)"))
 **When to use:**
 
 - Linear models (required)
+
 - Elastic net (required)
+
 - Neural networks (required)
+
 - **Not needed** for tree-based models (XGBoost, Random Forest)
 
-**Why?** Linear models are sensitive to feature scales. Normalization puts all features on the same scale.
+**Why?** Linear models are sensitive to feature scales. Normalization puts all
+features on the same scale.
 
 ### Dummy Encoding
 
@@ -182,6 +224,7 @@ step_dummy(all_nominal())
 **When to use:**
 
 - All parsnip models (required for factors)
+
 - Converts factors (day of week, month names) to numeric dummies
 
 **Why?** Most ML models require numeric inputs.
@@ -195,6 +238,7 @@ step_rm(matches("(.iso$)|(.xts$)"))
 **When to use:**
 
 - After `step_timeseries_signature()`
+
 - Removes ISO week and xts-specific features that are redundant
 
 ## Recommendations by Model Type
@@ -213,7 +257,9 @@ recipe(value ~ date, data = train_data) |>
 **Why:**
 
 - Few interpretable features
+
 - Fourier for smooth seasonality
+
 - Normalization required for linear models
 
 ### XGBoost
@@ -228,7 +274,9 @@ recipe(value ~ date, data = train_data) |>
 **Why:**
 
 - Handles many features well
+
 - No normalization needed
+
 - Automatically finds interactions
 
 ### Random Forest
@@ -243,7 +291,9 @@ recipe(value ~ date, data = train_data) |>
 **Why:**
 
 - Same as XGBoost
+
 - Handles many features
+
 - No normalization needed
 
 ## External Predictors
@@ -260,14 +310,21 @@ recipe(value ~ date + temp + promo, data = train_data) |>
   step_dummy(all_nominal())  # Any remaining factors
 ```
 
-**Important:** External predictors must be available for the entire forecast horizon.
+**Important:** External predictors must be available for the entire forecast
+horizon.
 
 ## Feature Engineering Rules
 
-- **NEVER** use data outside the training set to determine feature engineering steps
+- **NEVER** use data outside the training set to determine feature engineering
+  steps
+
 - **NEVER** engineer features, then evaluate directly on training data
-- **DO** treat feature engineering and model training as a single process (use workflows)
-- **DO** use resampling to measure combined feature engineering + model performance
+
+- **DO** treat feature engineering and model training as a single process (use
+  workflows)
+
+- **DO** use resampling to measure combined feature engineering + model
+  performance
 
 ## Common Patterns
 
@@ -307,16 +364,23 @@ recipe(value ~ date, data = train_data) |>
 **Key decisions:**
 
 1. **Does your model need features?**
+
    - Classical models (ARIMA, ETS, Prophet): No
+
    - ML models (XGBoost, RF, Linear): Yes
 
 2. **Which approach?**
+
    - Simple patterns or linear models: `step_date()` + `step_fourier()`
+
    - Complex patterns or tree models: `step_timeseries_signature()`
 
 3. **Preprocessing?**
+
    - Linear models: Normalize
+
    - Tree models: No normalization needed
+
    - All models: `step_dummy()` for factors
 
 4. **Always use workflows** to bundle recipe + model for proper evaluation

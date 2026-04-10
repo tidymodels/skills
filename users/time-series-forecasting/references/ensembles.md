@@ -1,29 +1,39 @@
 # Ensemble Methods for Time Series
 
-Complete guide to combining multiple models for improved forecasting performance.
+Complete guide to combining multiple models for improved forecasting
+performance.
 
 ## Why Ensembles?
 
-**Ensemble methods combine predictions from multiple models** to produce a single, often more accurate forecast.
+**Ensemble methods combine predictions from multiple models** to produce a
+single, often more accurate forecast.
 
 **Benefits:**
 
 - **Improved accuracy** - Often outperform individual models
+
 - **Reduced variance** - Less sensitive to quirks of single models
+
 - **Robustness** - Hedge against model-specific failures
+
 - **Capture different patterns** - Different models excel at different aspects
 
 **When ensembles help most:**
 
 - Individual models have similar performance
+
 - Models capture different patterns (e.g., ARIMA + XGBoost)
+
 - High-stakes forecasts where accuracy matters
+
 - When no single model clearly dominates
 
 **When ensembles may not help:**
 
 - One model far outperforms all others (just use that model)
+
 - All models are similar types (e.g., all tree-based)
+
 - Very limited data
 
 ## Ensemble Strategy
@@ -37,7 +47,8 @@ Complete guide to combining multiple models for improved forecasting performance
 5. **Compare to individual models**
 6. **Select best approach** (ensemble or individual)
 
-**Key principle:** Ensembles are not automatic improvements. Always evaluate using resampling before deciding to use an ensemble.
+**Key principle:** Ensembles are not automatic improvements. Always evaluate
+using resampling before deciding to use an ensemble.
 
 ## Available Ensemble Methods
 
@@ -55,18 +66,23 @@ ensemble_fit <- calibration_tbl |>
 **When to use:**
 
 - Models have similar accuracy
+
 - Simplest approach
+
 - Good default choice
 
 **Pros:**
 
 - Simple and interpretable
+
 - Reduces variance
+
 - Fast
 
 **Cons:**
 
 - Gives equal weight to all models (even weaker ones)
+
 - May not be optimal if models vary in quality
 
 ### Median Ensemble
@@ -81,17 +97,21 @@ ensemble_fit <- calibration_tbl |>
 **When to use:**
 
 - Concerned about outlier predictions
+
 - Want more robust ensemble
+
 - Some models occasionally produce extreme forecasts
 
 **Pros:**
 
 - Robust to outliers
+
 - Reduces impact of poor individual predictions
 
 **Cons:**
 
 - Less common than mean
+
 - May be less smooth
 
 ### Weighted Ensemble
@@ -107,7 +127,9 @@ ensemble_fit <- calibration_tbl |>
 **When to use:**
 
 - Models have different accuracy levels
+
 - Want to favor better performers
+
 - Have reliable performance estimates
 
 **Note:** More complex setup - requires computing and storing weights.
@@ -153,7 +175,9 @@ resample_results
 **Look for:**
 
 - Models with good mean performance
+
 - Low standard deviation (consistent)
+
 - Complementary strengths
 
 ### Step 3: Create Ensemble
@@ -200,7 +224,8 @@ ensemble_results <- ensemble_tbl |>
 ensemble_results
 ```
 
-**Important:** Evaluate ensemble using resampling, not test set. Only use test set with explicit user permission.
+**Important:** Evaluate ensemble using resampling, not test set. Only use test
+set with explicit user permission.
 
 ### Step 5: Compare
 
@@ -216,7 +241,9 @@ bind_rows(
 **Decision:**
 
 - If ensemble has lowest RMSE → Use ensemble
+
 - If individual model dominates → Use that model
+
 - If tie → Consider ensemble for robustness
 
 ## Example: Complete Ensemble Workflow
@@ -277,36 +304,50 @@ bind_rows(individual_results, ensemble_results) |>
 
 **Include models that:**
 
-- Have reasonable performance (within ~10% of best)
+- Have reasonable performance (within \~10% of best)
+
 - Use different algorithms (ARIMA, tree-based, neural net)
+
 - Capture different patterns
+
 - Show consistent performance (low SD)
 
 **Exclude models that:**
 
 - Perform much worse than others
+
 - Are redundant (e.g., two ARIMA variants)
+
 - Show high variance
+
 - Have correlated predictions with other models
 
 **Example good ensemble:**
 
 - ARIMA (trend)
+
 - ETS (seasonality)
+
 - XGBoost (complex patterns + external predictors)
 
 **Example poor ensemble:**
 
 - ARIMA
+
 - Auto ARIMA with different settings
+
 - Another ARIMA variant
+
 - (Too similar - won't gain from diversity)
 
 ## Ensemble Rules
 
 - **Evaluate ensemble using RESAMPLING** (not test set)
+
 - **Compare to individual models** before deciding
+
 - **Don't assume ensembles always help** - validate the improvement
+
 - **Only evaluate on test set** with explicit user permission
 
 ## Advanced: Model Stacking
@@ -325,7 +366,9 @@ ensemble_fit <- calibration_tbl |>
 **When to use:**
 
 - Have enough data for meta-model training
+
 - Want to optimize model weights
+
 - Individual models have very different performance
 
 **Caution:** More complex, requires careful validation to avoid overfitting.
@@ -335,33 +378,42 @@ ensemble_fit <- calibration_tbl |>
 **Ensembles reduce interpretability:**
 
 - Harder to explain "why" a forecast was made
+
 - Multiple models contribute
+
 - Weights may not be intuitive
 
 **Trade-off:**
 
 - Gain: Improved accuracy
+
 - Loss: Explainability
 
-**Recommendation:** If interpretability is critical, favor individual models (especially classical ones). If accuracy is paramount, ensembles often help.
+**Recommendation:** If interpretability is critical, favor individual models
+(especially classical ones). If accuracy is paramount, ensembles often help.
 
 ## Common Questions
 
 **Q: Should I always use ensembles?**
 
-A: No. Only when they improve performance on backtesting compared to individual models.
+A: No. Only when they improve performance on backtesting compared to individual
+models.
 
 **Q: How many models should I include?**
 
-A: 3-5 diverse models is typical. Too few = limited benefit, too many = diminishing returns and complexity.
+A: 3-5 diverse models is typical. Too few = limited benefit, too many =
+diminishing returns and complexity.
 
 **Q: Can I ensemble only ML models, or only classical models?**
 
-A: You can, but **diverse ensembles work best**. Combining classical + ML often outperforms single-type ensembles.
+A: You can, but **diverse ensembles work best**. Combining classical + ML often
+outperforms single-type ensembles.
 
 **Q: Should I evaluate the ensemble on the test set?**
 
-A: Only after user permission, and only if the ensemble performed well on backtesting. Don't use the test set to decide whether to ensemble—use resampling for that.
+A: Only after user permission, and only if the ensemble performed well on
+backtesting. Don't use the test set to decide whether to ensemble—use resampling
+for that.
 
 **Q: What if the ensemble is worse than the best individual model?**
 
@@ -378,4 +430,5 @@ Ensemble best practices:
 5. **Mean ensemble** is a good default
 6. **Validate improvement** - Don't assume ensembles always help
 
-Ensembles frequently outperform individual models, but always validate through resampling before committing to an ensemble approach.
+Ensembles frequently outperform individual models, but always validate through
+resampling before committing to an ensemble approach.

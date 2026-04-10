@@ -1,0 +1,1 @@
+{{< include ../../../../users/time-series-forecasting/references/resampling.md >}}
