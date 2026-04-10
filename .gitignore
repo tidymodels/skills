@@ -16,3 +16,8 @@ docs/_site
 /.luarc.json
 patients.csv
 users/tabular-data-ml-workspace
+*-workspace
+forecast_traffic.R
+prices.csv
+time_series_analysis.R
+traffic.csv
