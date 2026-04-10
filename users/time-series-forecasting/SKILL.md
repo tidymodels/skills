@@ -1,10 +1,22 @@
 ---
 name: time-series-forecasting
 description: Forecasts time series data using the modeltime ecosystem in R. Supports ARIMA, ETS, Prophet, XGBoost, and ensemble methods. Use when users need to forecast, predict future values, or model time-dependent data with tidymodels workflows.
-author: Based off documentation files created by Matt Dancho
 ---
 
 # Time Series Forecasting with Modeltime
+
+This skill guides the process of forecasting time series data using the modeltime ecosystem in R.
+
+## Overview
+
+Time series forecasting requires special handling to respect temporal ordering and prevent data leakage. This skill provides:
+
+- **Proper data splitting** for time series (temporal train/test)
+- **Backtesting** with time series cross-validation (not random CV)
+- **Model variety** from classical (ARIMA, ETS, Prophet) to ML (XGBoost, Random Forest)
+- **Feature engineering** for date variables
+- **Ensemble methods** to combine model strengths
+- **Test set protection** to ensure valid evaluation
 
 ## Core Packages
 
@@ -17,157 +29,179 @@ library(tidyverse)
 
 Optional extensions: `modeltime.ensemble`, `modeltime.resample`, `modeltime.gluonts`, `modeltime.h2o`
 
-## Reproducibility
+## Quick Start
+
+### Basic Workflow
+
+1. **Split data** using `initial_time_split()` (temporal split)
+2. **Fit multiple models** (ARIMA, ETS, Prophet, XGBoost)
+3. **Create modeltime table** to organize models
+4. **Backtest with `time_series_cv()`** - never use random CV
+5. **Compare models** using backtesting metrics (not test set)
+6. **Optionally tune** hyperparameters for ML models
+7. **Evaluate on test set** (with user permission) for final validation
+8. **Refit on full data** and forecast future periods
+
+See [references/workflow.md](references/workflow.md) for the complete 8-step workflow.
+
+### Model Selection
+
+**Start with a baseline ensemble:**
+
+- ARIMA (`arima_reg()`) - Trend and seasonality
+- ETS (`exp_smoothing()`) - Strong for seasonal data
+- Prophet (`prophet_reg()`) - Robust, handles holidays
+
+**Add ML models if needed:**
+
+- XGBoost (`boost_tree()`) - Complex patterns, external predictors
+- Random Forest (`rand_forest()`) - Non-linear patterns
+
+See [references/models.md](references/models.md) for detailed model guidance and selection strategy.
+
+## Critical Principles
+
+### 1. Reproducibility
 
 **Always set a random seed before any operation that involves randomness:**
 
 - **Before data splitting** - Set seed immediately before `initial_time_split()`
 - **Before resampling** - Set seed immediately before `time_series_cv()`
-- **Before tuning** - Set seed before `tune_grid()` or other tuning functions (if not already set recently)
+- **Before tuning** - Set seed before `tune_grid()` or other tuning functions
 
-This ensures that others can reproduce your exact results. Use a single seed at the start of your script, or re-set it before each random operation for maximum clarity.
-
-### Choosing a Seed Value
-
-**Do not use common values like 123, 111, 999, 42, or 1:** These are overused and can lead to unintentional correlations between different analyses. Using the same seed as other researchers' work may produce accidentally similar results.
-
-**Good practices:**
+**Good seed practices:**
 
 - Use a random integer between 1000 and 10000 (e.g., 3847, 7291, 5628)
-- Different seeds for different projects/analyses
-- Document your seed choice in comments for reference
+- Avoid common values like 123, 42, 111, 999
+- Document your seed choice in comments
 
-## 6-Step Workflow
+### 2. Test Set Protection
 
-### 1. Train-Test Split
-
-Always partition data into:
-
-- **Training set**: Used for all feature engineering, feature selection, and model development
-- **Test set**: Reserved for final model evaluation only—requires explicit user permission before use
-
-Ask the user how much data should be used in the test set before proceeding.
-
-Using modeltime:
-
-```r
-# Set seed before splitting for reproducibility
-set.seed(5847)
-init_split <- initial_time_split(data, prop = 0.9)
-train_data <- training(init_split)
-test_data <- testing(init_split)
-```
-
-### Test Set Rules
+**The test set is reserved for final validation only.**
 
 - **NEVER** predict on test data during model development
-- **NEVER** calculate test set metrics without explicit user permission
 - **NEVER** use test data to compare models (use backtesting instead)
 - **NEVER** use test data to tune hyperparameters (use resampling instead)
-- **DO** ask: *"I've completed model development using backtesting on the training data. [Summarize top models with resampling performance]. May I evaluate the final model on the test set?"*
-- **DO** wait for explicit confirmation before proceeding
+- **DO** ask for explicit permission: *"I've completed model development using backtesting. May I evaluate the final model on the test set?"*
+- **DO** wait for user confirmation before proceeding
 
-**Self-check**: If you're writing `predict(..., test_data)` or `modeltime_calibrate(new_data = test_data)` without prior user permission, STOP—you're making an error.
+**Self-check**: If you're writing `modeltime_calibrate(new_data = test_data)` without prior user permission, STOP—you're making an error.
 
-**Exception**: Basic verification after splitting (e.g., `nrow(test_data)`, `glimpse(test_data)`) to confirm the split worked.
+**Exception**: Basic verification after splitting (e.g., `nrow(test_data)`) to confirm the split worked.
 
-**Key Principle**: Use resampling/backtesting on training data for ALL model comparisons. The test set is only for final validation of your best model, not for iterative development.
+### 3. Temporal Ordering
 
-### 2. Create & Fit Models
+**Never use random cross-validation for time series.**
 
-**Modeltime models** (date in formula):
-
-```r
-# ARIMA
-arima_fit <- arima_reg() |>
-  set_engine("auto_arima") |>
-  fit(value ~ date, data = train_data)
-
-# Exponential Smoothing
-ets_fit <- exp_smoothing() |>
-  set_engine("ets") |>
-  fit(value ~ date, data = train_data)
-
-# Prophet
-prophet_fit <- prophet_reg() |>
-  set_engine("prophet") |>
-  fit(value ~ date, data = train_data)
-```
-
-**Parsnip models** (use date derivatives, not raw date):
-
-```r
-# Linear regression with simple date features
-simple_rec <- recipe(value ~ date, data = train_data) |> 
-  step_holiday(date) |>
-  step_date(date, features = c("dow", "month", "year")) |> 
-  step_mutate(date = as.numeric(date))
-
-lm_fit <- workflow(simple_rec, linear_reg()) |>
-  fit(train_data)
-  
-# XGBoost via workflow with recipe
-signature_rec <- recipe(value ~ date, data = train_data) |>
-  step_timeseries_signature(date) |>
-  step_rm(matches("(.iso$)|(.xts$)")) |>
-  step_dummy(all_nominal())
-
-xgb_fit <- workflow() |>
-  add_recipe(signature_rec) |>
-  add_model(boost_tree() |> set_engine("xgboost")) |>
-  fit(train_data)
-```
-
-### 3. Create Modeltime Table
-
-```r
-models_tbl <- modeltime_table(
-  arima_fit,
-  ets_fit,
-  prophet_fit,
-  lm_fit,
-  xgb_fit
-)
-```
-
-### 4. Resampling / Backtesting
-
-**Why Time Series Resampling is Different**
-
-**Never use random cross-validation for time series data.** Random CV shuffles observations, which:
+Random CV shuffles data, which:
 
 - Violates temporal ordering
-- Creates data leakage (training on future, testing on past)
+- Creates data leakage (trains on future, tests on past)
 - Produces optimistically biased estimates
 
-**Always use time series cross-validation (`time_series_cv`)** which:
+**Always use `time_series_cv()`** which:
 
 - Respects temporal ordering
 - Trains only on past data
-- Tests on future data (realistic forecasting scenario)
-- Expands the training window as it moves forward in time
+- Tests on future data (realistic scenario)
 
-**Important:** Resampling is your PRIMARY tool for comparing models—not the test set. Use backtesting to compare algorithms, evaluate tuning parameters, and choose feature engineering approaches. Only use the test set for final validation after making all decisions.
+See [references/resampling.md](references/resampling.md) for complete details.
 
-#### Resampling Rules
+## Reference Documentation
 
-- **NEVER** use data outside the training set to determine feature engineering steps
-- **NEVER** engineer features, then evaluate directly on training data
-- **DO** treat feature engineering and model training as a single process
-- **DO** use resampling to measure combined feature engineering + model performance
-- **DO** use resampling to select best tuning parameters
-- **DO** ask the user how much data to use to assess the model and suggest the same size as the test set
+**Core Concepts:**
 
-#### Implementation
+- [Complete Workflow](references/workflow.md) - 8-step process from split to forecast
+- [Available Models](references/models.md) - When to use ARIMA, ETS, Prophet, XGBoost, etc.
+- [Time Series Resampling](references/resampling.md) - Backtesting with `time_series_cv()`
+
+**Advanced Topics:**
+
+- [Feature Engineering](references/feature-engineering.md) - Creating date features for ML models
+- [Hyperparameter Tuning](references/tuning.md) - Tuning XGBoost, Random Forest, etc.
+- [Ensemble Methods](references/ensembles.md) - Combining models for better performance
+
+## Parallel Processing
+
+Before starting computationally intensive work (resampling, tuning, model fitting):
+
+1. **Detect available cores**: `parallel::detectCores()`
+2. **Ask the user in the conversation** - Don't just add a comment in code
+
+**Example interaction:**
+
+> **You:** I'm about to run time series cross-validation with 4 slices. I can use parallel processing to speed this up significantly.
+>
+> I see you have 8 cores available. Would you like me to use parallel processing? If so, how many cores should I use? (I'd recommend using 6-7 to leave 1-2 cores free for other processes)
+
+**If user says yes:**
 
 ```r
-library(modeltime.resample)
+library(future)
+plan("multisession", workers = 6)  # or whatever they specified
+```
 
-# Set seed before resampling for reproducibility
+**If user says no:** Proceed sequentially (no future setup)
+
+**Continue using** the same parallel configuration throughout unless the user asks to stop.
+
+**Important:** Only use the `future` package for parallel processing. Do not use `parallel`, `mirai`, or `foreach`.
+
+See [references/tuning.md](references/tuning.md) for complete parallel processing guidance.
+
+## Key Guidance
+
+**Date handling:**
+
+- Modeltime models (ARIMA, ETS, Prophet) accept `value ~ date` directly
+- Parsnip models (XGBoost, RF, Linear) need date features via recipes
+- See [references/feature-engineering.md](references/feature-engineering.md)
+
+**Model comparison:**
+
+- Use backtesting (resampling) to compare models, NOT the test set
+- RMSE is the primary metric (penalizes large errors)
+- Consider ensembles when multiple models perform well
+- See [references/ensembles.md](references/ensembles.md)
+
+**Refitting:**
+
+- Always `modeltime_refit()` on full data before forecasting future periods
+- This uses all available information for the final forecast
+
+**Confidence intervals:**
+
+- Generated from calibration residuals
+- Require the calibration step (`modeltime_calibrate()`)
+
+## Example: Quick Forecast
+
+```r
+# Set seed for reproducibility
 set.seed(5847)
 
+# 1. Split data (temporal split)
+splits <- initial_time_split(data, prop = 0.9)
+train_data <- training(splits)
+test_data <- testing(splits)
+
+# 2. Fit baseline models
+arima_fit <- arima_reg() |> set_engine("auto_arima") |>
+  fit(value ~ date, data = train_data)
+
+ets_fit <- exp_smoothing() |> set_engine("ets") |>
+  fit(value ~ date, data = train_data)
+
+prophet_fit <- prophet_reg() |> set_engine("prophet") |>
+  fit(value ~ date, data = train_data)
+
+# 3. Create modeltime table
+models_tbl <- modeltime_table(arima_fit, ets_fit, prophet_fit)
+
+# 4. Backtest with time series CV
+set.seed(5847)
 resamples <- time_series_cv(
-  data = train_data,
+  train_data,
   initial = "2 years",
   assess = "6 months",
   skip = "3 months",
@@ -175,112 +209,29 @@ resamples <- time_series_cv(
 )
 
 models_tbl |>
-  modeltime_fit_resamples(resamples = resamples) |>
-  modeltime_resample_accuracy(summary_fns = list(mean = mean, sd = sd))
-```
+  modeltime_fit_resamples(resamples) |>
+  modeltime_resample_accuracy()
 
-### 5. Tuning
-
-Offer to tune the hyperparameters of complex models (e.g., xgboost).
-
-Use a space-filling grid, preferably by passing an integer to the `grid` argument. If not, you must use `grid_space_filling()` to create the grid.
-
-**Remember to set a seed before tuning for reproducibility:**
-
-```r
-set.seed(5847)
-# Then proceed with tune_grid() or other tuning functions
-``` 
-
-#### Parallel Processing
-
-Before proposing potentially long-running computations, like resampling or model fitting, first use `parallel::detectCores()` to determine the maximum number of cores available, then ask the user if they would like to use parallel processing and, if so, how many cores you are allowed to use. Keep using the extra cores throughout the work unless the user asks you to stop.
-
-When computing statistics over a large number of columns, use the future package to parallelize these computations. Do not use the parallel, mirai, or foreach packages for parallel execution. 
-
-When using tidymodels functions, such as `tune::tune_grid()`, ask about parallel processing and use the future package to create local workers. 
-
-### 6. Test Set Evaluation (Optional)
-
-**Before proceeding:** Review the Test Set Rules in Section 1. You must ask for explicit permission before using the test set.
-
-```r
-# Only after getting explicit user permission:
+# 5. [After user permission] Evaluate on test set
 calibration_tbl <- models_tbl |>
-  modeltime_calibrate(new_data = test_data)
-```
+  modeltime_calibrate(test_data)
 
-### 7. Report Performance (Optional)
-
-```r
-# Accuracy metrics (on test set if calibrated, or on resamples)
 calibration_tbl |> modeltime_accuracy()
 
-# Visualize forecasts
+# 6. Refit on full data and forecast
 calibration_tbl |>
-  modeltime_forecast(new_data = test_data, actual_data = data) |>
-  plot_modeltime_forecast()
-```
-
-**Remember:** After using the test set, do not return to model development.
-
-### 8. Refit & Forecast
-
-```r
-# Refit to full data, then forecast future
-calibration_tbl |>
-  modeltime_refit(data = data) |>
+  modeltime_refit(data) |>
   modeltime_forecast(h = "12 months", actual_data = data) |>
   plot_modeltime_forecast()
 ```
 
-## Available Models
+## Getting Started
 
-| Function | Method | Engine |
-|----------|--------|--------|
-| `arima_reg()` | ARIMA | `auto_arima` |
-| `arima_boost()` | ARIMA + XGBoost | `auto_arima_xgboost` |
-| `exp_smoothing()` | ETS | `ets` |
-| `prophet_reg()` | Prophet | `prophet` |
-| `prophet_boost()` | Prophet + XGBoost | `prophet_xgboost` |
-| `linear_reg()` | Linear/Elastic Net | `lm`, `glmnet` |
-| `mars()` | MARS | `earth` |
-| `boost_tree()` | XGBoost | `xgboost` |
-| `rand_forest()` | Random Forest | `ranger` |
+New to time series forecasting? Start with these steps:
 
-## Feature Engineering
+1. Read [references/workflow.md](references/workflow.md) for the complete process
+2. Review [references/models.md](references/models.md) to understand model options
+3. Study [references/resampling.md](references/resampling.md) to learn why temporal ordering matters
+4. Refer to other references as needed for advanced topics
 
-Use `timetk` with recipes:
-
-```r
-recipe(value ~ date, data = train_data) |>
-  step_timeseries_signature(date) |>         
-  step_fourier(date, K = 3, period = 12) |>  
-  step_rm(matches("(.iso$)|(.xts$)")) |>     
-  step_normalize(matches("(index.num$)|(_year$)")) |>
-  step_dummy(all_nominal())
-```
-
-## Ensembles
-
-```r
-library(modeltime.ensemble)
-
-# Average ensemble
-ensemble_fit <- calibration_tbl |>
-  ensemble_average(type = "mean")
-
-# Evaluate ensemble using RESAMPLING (not test set)
-modeltime_table(ensemble_fit) |>
-  modeltime_fit_resamples(resamples = resamples) |>
-  modeltime_resample_accuracy()
-
-# Only evaluate on test set if you have explicit user permission
-```
-
-## Key Guidance
-
-- **Date handling**: Modeltime models accept `value ~ date`. Parsnip models need date converted to numeric/factors via recipes.
-- **Refitting**: Always `modeltime_refit()` on full data before forecasting future periods.
-- **Confidence intervals**: Generated from calibration residuals; require calibration step.
-- **Model selection**: No single best model—compare multiple approaches. ETS often excels on seasonal data; ensembles frequently outperform individuals.
+The references provide detailed guidance, examples, and best practices for each component of the forecasting workflow.
