@@ -17,6 +17,26 @@ library(tidyverse)
 
 Optional extensions: `modeltime.ensemble`, `modeltime.resample`, `modeltime.gluonts`, `modeltime.h2o`
 
+## Reproducibility
+
+**Always set a random seed before any operation that involves randomness:**
+
+- **Before data splitting** - Set seed immediately before `initial_time_split()`
+- **Before resampling** - Set seed immediately before `time_series_cv()`
+- **Before tuning** - Set seed before `tune_grid()` or other tuning functions (if not already set recently)
+
+This ensures that others can reproduce your exact results. Use a single seed at the start of your script, or re-set it before each random operation for maximum clarity.
+
+### Choosing a Seed Value
+
+**Do not use common values like 123, 111, 999, 42, or 1:** These are overused and can lead to unintentional correlations between different analyses. Using the same seed as other researchers' work may produce accidentally similar results.
+
+**Good practices:**
+
+- Use a random integer between 1000 and 10000 (e.g., 3847, 7291, 5628)
+- Different seeds for different projects/analyses
+- Document your seed choice in comments for reference
+
 ## 6-Step Workflow
 
 ### 1. Train-Test Split
@@ -24,72 +44,34 @@ Optional extensions: `modeltime.ensemble`, `modeltime.resample`, `modeltime.gluo
 Always partition data into:
 
 - **Training set**: Used for all feature engineering, feature selection, and model development
-- **Test set**: Reserved for final evaluation only—maximum 1-2 uses with explicit user permission
+- **Test set**: Reserved for final model evaluation only—requires explicit user permission before use
 
-Ask the user how much data should be used in the test set before proceeding. 
+Ask the user how much data should be used in the test set before proceeding.
 
-Using modeltime: 
+Using modeltime:
 
 ```r
+# Set seed before splitting for reproducibility
+set.seed(5847)
 init_split <- initial_time_split(data, prop = 0.9)
 train_data <- training(init_split)
 test_data <- testing(init_split)
 ```
 
-### Test Set Discipline
+### Test Set Rules
 
-**The test set may be used AT MOST TWICE in the entire analysis:**
+- **NEVER** predict on test data during model development
+- **NEVER** calculate test set metrics without explicit user permission
+- **NEVER** use test data to compare models (use backtesting instead)
+- **NEVER** use test data to tune hyperparameters (use resampling instead)
+- **DO** ask: *"I've completed model development using backtesting on the training data. [Summarize top models with resampling performance]. May I evaluate the final model on the test set?"*
+- **DO** wait for explicit confirmation before proceeding
 
-1. **First use (optional)**: Evaluate 2-3 final candidate models to select the best one
-2. **Second use (optional)**: Report final performance metrics for the selected model
+**Self-check**: If you're writing `predict(..., test_data)` or `modeltime_calibrate(new_data = test_data)` without prior user permission, STOP—you're making an error.
 
-**After using the test set, you MUST NOT return to model development.**
+**Exception**: Basic verification after splitting (e.g., `nrow(test_data)`, `glimpse(test_data)`) to confirm the split worked.
 
----
-
-#### What You MUST Do
-
-**Before ANY test set use:**
-1. Complete all model development using training data + resampling
-2. Ask for explicit permission using the prompts below
-3. Track usage count (1 of 2, or 2 of 2)
-
-**Permission prompt templates:**
-
-*Before first use:*
-> "I've completed model development using backtesting on the training data. [Summarize top 2-3 models with resampling performance]. May I evaluate these on the test set to select the final model? (**Test set use 1 of 2**)"
-
-*Before second use:*
-> "May I evaluate the final [model name] on the test set to report performance metrics? (**Test set use 2 of 2—final use**)"
-
----
-
-#### What You MUST NEVER Do
-
-- ❌ Predict on test data during model development
-- ❌ Use test data without explicit user permission
-- ❌ Use test data to compare models (use resampling instead)
-- ❌ Use test data to tune hyperparameters (use resampling instead)
-- ❌ Touch the test set more than twice
-- ❌ Return to model development after using the test set
-
----
-
-#### Self-Checks
-
-**Before writing `test_data` in any code:**
-- [ ] Have I completed all model development?
-- [ ] Have I asked for user permission?
-- [ ] How many times have I used the test set? (Must be < 2)
-- [ ] If I'm tempted to use it a 3rd time → STOP and explain to user that test set is exhausted
-
-**Exception:** Basic verification after splitting (e.g., `nrow(test_data)`, `glimpse(test_data)`) is allowed.
-
----
-
-#### Key Principle
-
-**Use resampling/backtesting on training data for ALL model comparisons.** The test set is only for final validation of your best model(s), not for iterative development.
+**Key Principle**: Use resampling/backtesting on training data for ALL model comparisons. The test set is only for final validation of your best model, not for iterative development.
 
 ### 2. Create & Fit Models
 
@@ -148,19 +130,41 @@ models_tbl <- modeltime_table(
 )
 ```
 
-### 4 Resampling / Backtesting
+### 4. Resampling / Backtesting
+
+**Why Time Series Resampling is Different**
+
+**Never use random cross-validation for time series data.** Random CV shuffles observations, which:
+
+- Violates temporal ordering
+- Creates data leakage (training on future, testing on past)
+- Produces optimistically biased estimates
+
+**Always use time series cross-validation (`time_series_cv`)** which:
+
+- Respects temporal ordering
+- Trains only on past data
+- Tests on future data (realistic forecasting scenario)
+- Expands the training window as it moves forward in time
+
+**Important:** Resampling is your PRIMARY tool for comparing models—not the test set. Use backtesting to compare algorithms, evaluate tuning parameters, and choose feature engineering approaches. Only use the test set for final validation after making all decisions.
+
+#### Resampling Rules
 
 - **NEVER** use data outside the training set to determine feature engineering steps
 - **NEVER** engineer features, then evaluate directly on training data
 - **DO** treat feature engineering and model training as a single process
 - **DO** use resampling to measure combined feature engineering + model performance
 - **DO** use resampling to select best tuning parameters
-- **DO** ask the users how much data to use to assess the model and suggest the same size as the test set.
+- **DO** ask the user how much data to use to assess the model and suggest the same size as the test set
 
-**Important:** Resampling is your PRIMARY tool for comparing models—not the test set. Use backtesting to compare algorithms, evaluate tuning parameters, and choose feature engineering approaches. Only use the test set for final validation after making all decisions.
+#### Implementation
 
 ```r
 library(modeltime.resample)
+
+# Set seed before resampling for reproducibility
+set.seed(5847)
 
 resamples <- time_series_cv(
   data = train_data,
@@ -177,9 +181,16 @@ models_tbl |>
 
 ### 5. Tuning
 
-Offer to tune the hyperparameters of complex models (e.g., xgboost). 
+Offer to tune the hyperparameters of complex models (e.g., xgboost).
 
-Use a space-filling grid, preferably by passing an integer to the `grid` argument. If not, you must use `grid_space_filling()` to create the grid. 
+Use a space-filling grid, preferably by passing an integer to the `grid` argument. If not, you must use `grid_space_filling()` to create the grid.
+
+**Remember to set a seed before tuning for reproducibility:**
+
+```r
+set.seed(5847)
+# Then proceed with tune_grid() or other tuning functions
+``` 
 
 #### Parallel Processing
 
@@ -191,10 +202,10 @@ When using tidymodels functions, such as `tune::tune_grid()`, ask about parallel
 
 ### 6. Test Set Evaluation (Optional)
 
-**Before proceeding:** Review the Test Set Discipline rules in Section 1. You must ask for explicit permission using the prompt templates provided, tracking whether this is use 1 of 2 or 2 of 2.
+**Before proceeding:** Review the Test Set Rules in Section 1. You must ask for explicit permission before using the test set.
 
 ```r
-# Only after getting explicit permission and announcing which use (1 of 2 or 2 of 2):
+# Only after getting explicit user permission:
 calibration_tbl <- models_tbl |>
   modeltime_calibrate(new_data = test_data)
 ```
@@ -264,7 +275,7 @@ modeltime_table(ensemble_fit) |>
   modeltime_fit_resamples(resamples = resamples) |>
   modeltime_resample_accuracy()
 
-# Only evaluate on test set if you have user permission and haven't exceeded 2 uses
+# Only evaluate on test set if you have explicit user permission
 ```
 
 ## Key Guidance
