@@ -27,7 +27,8 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./users/tabular-data-ml"
+        "./users/tabular-data-ml",
+        "./users/time-series-forecasting"
       ]
     }
   ]

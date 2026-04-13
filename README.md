@@ -42,6 +42,7 @@ Skills for **creating and extending** Tidymodels packages:
 
 Skills for **using** Tidymodels in data analysis and modeling:
 - Tabular data machine learning workflows
+- Time series forecasting with modeltime
 - Model training, tuning, and evaluation
 - Feature engineering with recipes
 
