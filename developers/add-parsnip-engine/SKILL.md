@@ -176,6 +176,7 @@ instructions.
 - [Prediction Types](references/prediction-types.md) - All 11 prediction types
 
 - [Mode Handling](references/mode-handling.md) - Multi-mode support (regression
+
   - classification)
 - [Encoding Options](references/encoding-options.md) - Interface types and data
   conversion
