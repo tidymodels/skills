@@ -2,7 +2,7 @@
 title: "Getting Started"
 ---
 
-Tidymodels skills are specialized [Claude Code skills](https://support.anthropic.com/en/articles/10218303-what-are-skills-in-claude-code) that guide you through machine learning and package development tasks using the Tidymodels ecosystem. Each skill contains step-by-step guidance for your specific task, best practices from the Tidymodels community, complete working examples, and reference documentation for deeper learning.
+Tidymodels skills are specialized [Claude Code skills](https://support.claude.com/en/articles/12512176-what-are-skills) that guide you through machine learning and package development tasks using the Tidymodels ecosystem. Each skill contains step-by-step guidance for your specific task, best practices from the Tidymodels community, complete working examples, and reference documentation for deeper learning.
 
 ## Installation
 
