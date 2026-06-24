@@ -1,0 +1,252 @@
+{
+  "skill_name": "add-recipe-step",
+  "checks": {
+    "file_count": {
+      "informational": true,
+      "weight": 0.2,
+      "grading_priority": "informational",
+      "extension": {
+        "type": "range",
+        "value": [2, 4],
+        "pass": {
+          "type": "range",
+          "value": [2, 4]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 8
+        }
+      },
+      "source": {
+        "type": "range",
+        "value": [2, 4],
+        "pass": {
+          "type": "range",
+          "value": [2, 4]
+        },
+        "fail": {
+          "type": "greater_than",
+          "value": 8
+        }
+      }
+    },
+    "prohibited_files": {
+      "grading_priority": "informational",
+      "weight": 0.2,
+      "files": [
+        "IMPLEMENTATION_SUMMARY.md",
+        "IMPLEMENTATION_NOTES.md",
+        "QUICKSTART.md",
+        "STEP_DESIGN.md",
+        "example_usage.R",
+        "verification_script.R",
+        "PR_CHECKLIST.md",
+        "PR_DESCRIPTION.md",
+        "NEWS_entry.md",
+        "CONTRIBUTING.md",
+        "HOW_TO_USE.md",
+        "misc.R",
+        "helpers.R",
+        "utils.R",
+        "*.txt",
+        "*.sh",
+        "*.yml"
+      ]
+    },
+    "required_files": {
+      "extension": [
+        "**/*.R"
+      ],
+      "source": [
+        "**/*.R"
+      ]
+    },
+    "patterns": {
+      "extension": {
+        "has_constructor": {
+          "description": "Step constructor uses add_step()",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "add_step\\("
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_prep_bake": {
+          "description": "prep() and bake() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "prep\\.step_",
+            "bake\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_tidy_print": {
+          "description": "tidy() and print() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "tidy\\.step_",
+            "print\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "uses_eval_select": {
+          "description": "Uses recipes_eval_select() for column selection",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "recipes::recipes_eval_select\\("
+          ],
+          "logic": "any",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_roxygen_docs": {
+          "description": "Roxygen documentation with @export and @examples",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples"
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "no_internal_functions": {
+          "description": "No use of internal functions (:::) in actual code",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "recipes:::\\w+\\("
+          ],
+          "logic": "none",
+          "skip_comment_lines": true,
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_complete_tests": {
+          "description": "Tests cover correctness and prep/bake pipeline",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "prep\\(",
+            "bake\\("
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        }
+      },
+      "source": {
+        "has_constructor": {
+          "description": "Step constructor uses add_step() without prefix",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "add_step\\("
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_prep_bake": {
+          "description": "prep() and bake() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "prep\\.step_",
+            "bake\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_tidy_print": {
+          "description": "tidy() and print() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "tidy\\.step_",
+            "print\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "uses_internal_helpers": {
+          "description": "Uses internal helpers directly (no prefix)",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "recipes_eval_select\\(|check_new_data\\(|print_step\\("
+          ],
+          "logic": "any",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_roxygen_docs": {
+          "description": "Roxygen documentation with templates or @examples",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples|#'\\s*@template|#'\\s*@inheritParams"
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_complete_tests": {
+          "description": "Tests cover correctness and prep/bake pipeline",
+          "file_pattern": "**/test-*.R",
+          "patterns": [
+            "test_that",
+            "prep\\(",
+            "bake\\("
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        }
+      }
+    },
+    "prefix_usage": {
+      "extension": {
+        "file_pattern": "**/*.R",
+        "prefix": "recipes::",
+        "min_count": 3,
+        "exclude_files": [
+          "**/test-*.R"
+        ],
+        "grading_priority": "critical",
+        "weight": 0.8
+      },
+      "source": {
+        "file_pattern": "**/*.R",
+        "prefix": "recipes::",
+        "max_count": 2,
+        "exclude_files": [
+          "**/test-*.R"
+        ],
+        "grading_priority": "critical",
+        "weight": 0.8
+      }
+    }
+  }
+}
