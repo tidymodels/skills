@@ -91,10 +91,10 @@
           "weight": 0.8
         },
         "has_roxygen_docs": {
-          "description": "Roxygen documentation for .onLoad",
+          "description": "Roxygen documentation present (exported helpers or documented .onLoad)",
           "file_pattern": "**/*.R",
           "patterns": [
-            "#'\\s*@export"
+            "#'\\s*@export|#'\\s*@keywords internal"
           ],
           "logic": "any",
           "grading_priority": "critical",
