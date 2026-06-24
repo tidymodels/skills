@@ -1,0 +1,12 @@
+{
+  "name": "tidymodels-skills",
+  "version": "0.4.0",
+  "description": "Claude Code skills for the Tidymodels ecosystem — developer tools for building extensions and user guides for data analysis and modeling",
+  "author": {
+    "name": "Tidymodels"
+  },
+  "homepage": "https://tidymodels.github.io/skills",
+  "repository": "https://github.com/tidymodels/skills",
+  "keywords": ["tidymodels", "r", "machine-learning", "modeling", "recipes", "parsnip", "yardstick"],
+  "skills": ["./developers", "./users"]
+}
