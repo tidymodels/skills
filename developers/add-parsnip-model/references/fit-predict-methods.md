@@ -597,6 +597,24 @@ set_pred(...)
 func = c(pkg = "parsnip", fun = "xgb_train")  # Internal helper
 ```
 
+**Use `format_predictions()` for standardizing `post` output (parsnip 1.5.0+):**
+
+```r
+set_pred(
+  ...,
+  value = list(
+    post = function(results, object) {
+      format_predictions(results, "class")
+    },
+    ...
+  )
+)
+```
+
+The older `format_class()`, `format_classprobs()`, `format_num()`,
+`format_time()`, `format_survival()`, `format_linear_pred()`, and
+`format_hazard()` are deprecated.
+
 **Follow parsnip file organization:**
 
 - Fit/predict code in `R/[model]_data.R`
