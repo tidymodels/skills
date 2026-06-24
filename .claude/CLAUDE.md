@@ -151,6 +151,24 @@ This comprehensive guide covers:
 - Testing and validation
 - Time estimates: 14-22 hours for a complete skill
 
+### Updating Skills for Package Changes
+
+When asked to check whether skills need updates (because the underlying tidymodels
+packages changed), or to plan and execute those updates:
+
+**Follow [Updating Skills](../skill-development/UPDATING_SKILLS.md)** — covers how to
+detect upstream drift (new releases, moved source files, renamed functions/args,
+deprecations), plan which skills are affected, and execute the changes.
+
+### Releasing
+
+When asked to prepare a release:
+
+**Follow [Releasing](../skill-development/RELEASING.md)** — bump the version in both
+`.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` (kept in sync),
+update `CHANGELOG.md`, run `build-verify.py`, then hand off all git
+commit/tag/release steps to the user.
+
 ### Project Conventions
 
 - **No code duplication**: Each piece of content exists in exactly one place
@@ -169,6 +187,8 @@ The `repos/` directory contains cloned Tidymodels repositories for reference. Th
 
 **Implementation:**
 - [Skill Implementation Guide](../skill-development/SKILL_IMPLEMENTATION_GUIDE.md) - Creating new skills
+- [Updating Skills](../skill-development/UPDATING_SKILLS.md) - Detecting and applying package-change updates
+- [Releasing](../skill-development/RELEASING.md) - Version bump, changelog, and release handoff
 
 **Example Skills:**
 - [add-yardstick-metric](../developers/add-yardstick-metric/SKILL.md) - Creating custom metrics
