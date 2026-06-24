@@ -135,7 +135,7 @@ The ranked probability score (RPS) is a Brier score for ordinal data that uses
 cumulative probabilities.
 
 ```r
-# R/ranked_prob_score.R
+# R/orderedprob-ranked_prob_score.R
 
 # 1. Implementation function
 ranked_prob_score_impl <- function(truth, estimate, case_weights) {

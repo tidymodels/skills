@@ -33,10 +33,10 @@ where you want to measure how much a metric varies across subgroups.
 
 **Implementation:**
 
-- Groupwise constructor: `R/groupwise.R` (implements `new_groupwise_metric()`)
+- Groupwise constructor: `R/fair-aaa.R` (implements `new_groupwise_metric()`)
 
-- Built-in groupwise metrics: `R/groupwise-accuracy_diff.R`,
-  `R/groupwise-accuracy_ratio.R`
+- Built-in groupwise metrics: `R/fair-demographic_parity.R`,
+  `R/fair-equal_opportunity.R`, `R/fair-equalized_odds.R`
 
 - Aggregation functions: Range, difference, ratio calculations
 

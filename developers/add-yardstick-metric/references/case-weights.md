@@ -27,12 +27,13 @@ have different importance or represent different frequencies.
 
 **Weight handling utilities:**
 
-- Table weighting: `R/table.R` (implements weighted confusion matrices)
+- Table weighting: `R/misc.R` (implements weighted confusion matrices via
+  `yardstick_table()`)
 
-- NA removal with weights: `R/yardstick_remove_missing.R` (preserves weight
-  correspondence)
+- NA removal with weights: `R/missings.R` (implements
+  `yardstick_remove_missing()`, preserves weight correspondence)
 
-- Weight validation: `R/check.R` (validates weight vectors)
+- Weight validation: `R/check-metric.R` (validates weight vectors)
 
 **Test patterns:**
 

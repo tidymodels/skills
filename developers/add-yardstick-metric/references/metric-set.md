@@ -33,7 +33,7 @@ workflows.
 
 **Implementation:**
 
-- Metric set creation: `R/metric_set.R` (implements `metric_set()` and
+- Metric set creation: `R/aaa-metric_set.R` (implements `metric_set()` and
   validation)
 
 - Compatibility checking: Validates metric types can be combined

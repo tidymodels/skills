@@ -139,7 +139,7 @@ Royston's D measures prognostic separation based on the standard deviation of
 the prognostic index.
 
 ```r
-# R/royston_survival.R
+# R/surv-royston.R
 
 # 1. Helper: Blom's normal score transformation
 normal_score_blom <- function(x, case_weights) {
