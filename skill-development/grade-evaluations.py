@@ -53,9 +53,10 @@ import glob
 class GradingCheck:
     """Base class for different types of grading checks."""
 
-    def __init__(self, name: str, description: str):
+    def __init__(self, name: str, description: str, optional: bool = False):
         self.name = name
         self.description = description
+        self.optional = optional
 
     def run(self, outputs_dir: Path) -> Tuple[bool, str]:
         """Run check and return (passed, evidence)."""
@@ -167,14 +168,15 @@ class PatternCheck(GradingCheck):
     """Check for patterns in files (grep-like)."""
 
     def __init__(self, name: str, description: str, file_pattern: str,
-                 patterns: List[str], logic: str = "all"):
+                 patterns: List[str], logic: str = "all", optional: bool = False):
         """
         Args:
             file_pattern: glob pattern for files to check (e.g., "R/*.R")
             patterns: list of regex patterns to search for
             logic: 'all' (all must be present), 'any' (at least one), 'none' (none present)
+            optional: if True, failures do not count against the score
         """
-        super().__init__(name, description)
+        super().__init__(name, description, optional=optional)
         self.file_pattern = file_pattern
         self.patterns = patterns
         self.logic = logic
@@ -335,7 +337,8 @@ def create_checks_from_config(config: Dict[str, Any], eval_context: str) -> List
                     check_config.get("description", check_name),
                     check_config["file_pattern"],
                     check_config["patterns"],
-                    check_config.get("logic", "all")
+                    check_config.get("logic", "all"),
+                    optional=check_config.get("optional", False)
                 ))
 
     # Prefix usage
@@ -365,22 +368,31 @@ def grade_eval(eval_dir: Path, checks: List[GradingCheck]) -> Dict[str, Any]:
         "failed_checks": 0
     }
 
+    optional_checks = 0
     for check in checks:
         passed, evidence = check.run(outputs_dir)
+        is_optional = getattr(check, "optional", False)
 
         results["checks"].append({
             "name": check.name,
             "description": check.description,
             "passed": passed,
+            "optional": is_optional,
             "evidence": evidence
         })
 
-        if passed:
+        if is_optional:
+            optional_checks += 1
+        elif passed:
             results["passed_checks"] += 1
         else:
             results["failed_checks"] += 1
 
-    results["pass_rate"] = results["passed_checks"] / results["total_checks"] if results["total_checks"] > 0 else 0
+    # Scored checks exclude optional ones
+    scored = results["total_checks"] - optional_checks
+    results["scored_checks"] = scored
+    results["optional_checks"] = optional_checks
+    results["pass_rate"] = results["passed_checks"] / scored if scored > 0 else 0
 
     return results
 
@@ -489,16 +501,19 @@ def main():
             json.dump(results, f, indent=2)
 
         # Print summary
-        print(f"  Result: {results['passed_checks']}/{results['total_checks']} checks passed ({results['pass_rate']:.1%})")
+        scored = results.get('scored_checks', results['total_checks'])
+        print(f"  Result: {results['passed_checks']}/{scored} scored checks passed ({results['pass_rate']:.1%})")
+        if results.get('optional_checks', 0) > 0:
+            print(f"  ({results['optional_checks']} optional checks not counted)")
         if results['failed_checks'] > 0:
             print(f"  Failed checks:")
             for check in results['checks']:
-                if not check['passed']:
+                if not check['passed'] and not check.get('optional', False):
                     print(f"    - {check['name']}: {check['evidence'].split(chr(10))[0]}")
         print()
 
     # Summary
-    total_checks = sum(r['total_checks'] for r in all_results)
+    total_checks = sum(r.get('scored_checks', r['total_checks']) for r in all_results)
     total_passed = sum(r['passed_checks'] for r in all_results)
     overall_pass_rate = total_passed / total_checks if total_checks > 0 else 0
 

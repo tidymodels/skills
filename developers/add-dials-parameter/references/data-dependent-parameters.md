@@ -902,6 +902,19 @@ test_that("finalized my_param works with grid functions", {
   expect_true(all(grid$my_param <= finalized$range$upper))
 })
 
+test_that("finalized my_param works with value utilities", {
+  param <- my_param()
+  finalized <- dials::finalize(param, mtcars[, -1])
+
+  seq_vals <- dials::value_seq(finalized, n = 5)
+  expect_length(seq_vals, 5)
+  expect_true(all(seq_vals >= finalized$range$lower))
+  expect_true(all(seq_vals <= finalized$range$upper))
+
+  sampled <- dials::value_sample(finalized, n = 3)
+  expect_length(sampled, 3)
+})
+
 test_that("my_param handles small datasets", {
   small_data <- mtcars[1:5, 1:3]  # 5 rows, 2 predictors
 

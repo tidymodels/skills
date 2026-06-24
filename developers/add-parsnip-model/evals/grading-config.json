@@ -81,10 +81,10 @@
     },
     "required_files": {
       "extension": [
-        "*.R"
+        "**/*.R"
       ],
       "source": [
-        "*.R"
+        "**/*.R"
       ]
     },
     "patterns": {
