@@ -42,14 +42,14 @@
     {
       "id": 4,
       "prompt": "I'm contributing a new parameter to the dials package itself for neural network dropout rate. I've forked tidymodels/dials and I'm working on a PR. The parameter should be dropout_rate() with:\n- Double precision continuous values\n- Range from 0 to 0.9 (can't be 1.0 or network learns nothing)\n- Actually should use logit transformation since dropout is a probability\n- Upper bound exclusive (can't quite reach 0.9)\n\nI've looked at penalty() and learn_rate() as references. Can you help me implement this following dials internal conventions? Want to make sure I use the right transformation, follow the file naming patterns, and write tests that fit the package style.",
-      "expected_output": "A complete implementation of dropout_rate() with:\n- Constructor function using new_quant_param() (source pattern, no prefix)\n- type = 'double'\n- range parameter with default c(0, 0.9)\n- inclusive = c(TRUE, FALSE) (lower inclusive, upper exclusive)\n- trans = scales::transform_logit() (transformation for probability)\n- finalize = NULL\n- Proper label for display\n- Roxygen documentation with:\n  * @inheritParams Laplace (dials pattern for reusing param docs)\n  * @details explaining transformation and exclusivity\n  * @examples with transformation demonstration\n  * @export\n- Tests following dials patterns:\n  * Added to tests/testthat/test-params.R or similar\n  * Uses internal test helpers if available\n  * Tests range validation, transformation behavior\n  * Tests grid generation\n  * Tests inclusive/exclusive bounds\n- File naming: R/param_dropout.R\n- Source development pattern (no dials:: prefix)\n- Follows dials code style and conventions",
+      "expected_output": "A complete implementation of dropout_rate() with:\n- Constructor function using new_quant_param() (source pattern, no prefix)\n- type = 'double'\n- range parameter with default c(0, 0.9)\n- inclusive = c(TRUE, FALSE) (lower inclusive, upper exclusive)\n- trans = <custom logit transform built with scales::new_transform()> (scales::transform_logit() is not exported from scales; must be constructed manually)\n- finalize = NULL\n- Proper label for display\n- Roxygen documentation with:\n  * @inheritParams Laplace (dials pattern for reusing param docs)\n  * @details explaining transformation and exclusivity\n  * @examples with transformation demonstration\n  * @export\n- Tests following dials patterns:\n  * Added to tests/testthat/test-params.R or similar\n  * Uses internal test helpers if available\n  * Tests range validation, transformation behavior\n  * Tests grid generation\n  * Tests inclusive/exclusive bounds\n- File naming: R/param_dropout.R\n- Source development pattern (no dials:: prefix)\n- Follows dials code style and conventions",
       "files": [],
       "expectations": [
         "Creates exactly 2 files: R/param_dropout.R, tests/testthat/test-[appropriate].R",
         "Does NOT create PR_CHECKLIST.md or README.md",
         "Uses no dials:: prefix (source pattern)",
         "Uses @inheritParams Laplace",
-        "Uses scales::transform_logit()",
+        "Builds logit transform using scales::new_transform() (scales::transform_logit() is not exported from scales — must be constructed manually)",
         "Tests inclusive/exclusive bounds correctly"
       ]
     },

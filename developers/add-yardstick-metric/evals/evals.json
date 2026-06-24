@@ -99,7 +99,7 @@
     {
       "id": 4,
       "prompt": "I want to contribute a median absolute error metric to yardstick itself. I've forked tidymodels/yardstick and I'm on a feature branch called 'add-medae'. The metric should be medae() with:\n- Median of absolute errors instead of mean\n- More robust to outliers than MAE\n- Same signature as mae(): truth, estimate, na_rm, case_weights\n- Should use yardstick's internal helpers where appropriate\n- Follow yardstick file naming: R/num-medae.R\n\nI've looked at R/num-mae.R and R/num-rmse.R as examples. Can you help me implement this following yardstick's internal conventions and testing patterns? Want to make sure the PR is clean and follows package style.",
-      "expected_output": "A complete implementation of medae() with:\n- Constructor function using new_numeric_metric() (source pattern, no prefix)\n- direction = 'minimize'\n- range = c(0, Inf)\n- Three-function pattern: medae_impl(), medae_vec(), medae.data.frame()\n- medae_impl() uses yardstick_median() internal helper for case weights\n- medae_vec() uses check_numeric_metric(), yardstick_remove_missing()\n- Proper roxygen documentation with @inheritParams, @templateVar, @template\n- File naming: R/num-medae.R\n- Tests in tests/testthat/test-num-medae.R covering:\n  * Correctness against hand calculation\n  * NA handling\n  * Case weights\n  * Comparison to MAE (more robust to outliers)\n  * Uses internal test data helpers if available\n- Source development pattern (no yardstick:: prefix)\n- Uses internal functions directly (yardstick_median, finalize_estimator_internal, etc.)\n- Follows yardstick code style",
+      "expected_output": "A complete implementation of medae() with:\n- Constructor function using new_numeric_metric() (source pattern, no prefix)\n- direction = 'minimize'\n- range = c(0, Inf)\n- Three-function pattern: medae_impl(), medae_vec(), medae.data.frame()\n- medae_impl() calculates median(abs(truth - estimate)) using stats::median() directly (no yardstick_median() helper exists in yardstick)\n- medae_vec() uses check_numeric_metric(), yardstick_remove_missing()\n- Proper roxygen documentation with @inheritParams, @templateVar, @template\n- File naming: R/num-medae.R\n- Tests in tests/testthat/test-num-medae.R covering:\n  * Correctness against hand calculation\n  * NA handling\n  * Case weights (handled manually — no yardstick_median() helper)\n  * Comparison to MAE (more robust to outliers)\n  * Uses internal test data helpers if available\n- Source development pattern (no yardstick:: prefix)\n- Uses internal functions directly (yardstick_mean for weighted mean, finalize_estimator_internal, etc.); for median, uses stats::median() directly\n- Follows yardstick code style",
       "files": [],
       "expectations": [
         "FILE DISCIPLINE: Creates EXACTLY 2 files: R/num-medae.R, tests/testthat/test-num-medae.R",
@@ -109,10 +109,10 @@
         "CODE STRUCTURE: All three functions present: medae_impl(), medae_vec(), medae.data.frame()",
         "CODE STRUCTURE: Uses new_numeric_metric(direction='minimize', range=c(0, Inf)) constructor",
         "CODE STRUCTURE: medae_vec() uses check_numeric_metric() and yardstick_remove_missing()",
-        "CODE STRUCTURE: medae_impl() uses yardstick_median() internal helper for case weights",
+        "CODE STRUCTURE: medae_impl() calculates median(abs(truth - estimate)) using stats::median() directly (no yardstick_median() helper exists in yardstick)",
         "CODE STRUCTURE: numeric_metric_summarizer() used in data frame method",
         "FUNCTIONAL CORRECTNESS: medae_impl() calculates median(abs(truth - estimate)) correctly",
-        "FUNCTIONAL CORRECTNESS: yardstick_median() handles case weights properly (not median() alone)",
+        "FUNCTIONAL CORRECTNESS: Case weights for median handled manually (no yardstick_median() helper — implement weighted median directly or note case weights not supported for median)",
         "FUNCTIONAL CORRECTNESS: More robust to outliers than MAE (median vs mean)",
         "TEST QUALITY: Correctness test with known values verifies correct median calculation",
         "TEST QUALITY: Robustness test: with outliers, MedAE < MAE (demonstrates robustness)",
