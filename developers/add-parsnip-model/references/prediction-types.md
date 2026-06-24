@@ -589,19 +589,26 @@ set_pred(
 **Output format:**
 
 ```r
+# Single or multiple quantile levels — always a single .pred_quantile column
+# containing a hardhat::quantile_pred object
 tibble::tibble(
-  .pred = c(1.5, 3.2, 5.1),
-  .quantile = c(0.5, 0.5, 0.5)
+  .pred_quantile = hardhat::quantile_pred(
+    matrix(c(1.5, 3.2, 5.1), nrow = 3),
+    quantile_levels = 0.5
+  )
 )
 ```
 
-Or for multiple quantiles:
+For multiple quantile levels, the matrix has one column per level:
 
 ```r
 tibble::tibble(
-  .pred_lower = c(1.0, 2.5, 4.5),
-  .pred = c(1.5, 3.2, 5.1),
-  .pred_upper = c(2.0, 4.0, 6.0)
+  .pred_quantile = hardhat::quantile_pred(
+    matrix(c(1.0, 1.5, 2.0,
+             2.5, 3.2, 4.0,
+             4.5, 5.1, 6.0), nrow = 3, byrow = TRUE),
+    quantile_levels = c(0.1, 0.5, 0.9)
+  )
 )
 ```
 
@@ -616,16 +623,15 @@ set_pred(
   value = list(
     pre = NULL,
     post = function(results, object) {
-      tibble::tibble(
-        .pred = results,
-        .quantile = 0.5
-      )
+      # parsnip:::matrix_to_quantile_pred() is the standard helper —
+      # it wraps the matrix in hardhat::quantile_pred() and returns
+      # a tibble with the required .pred_quantile column
+      parsnip:::matrix_to_quantile_pred(results, object)
     },
     func = c(pkg = "quantreg", fun = "predict"),
     args = list(
       object = rlang::expr(object$fit),
-      newdata = rlang::expr(new_data),
-      tau = 0.5
+      newdata = rlang::expr(new_data)
     )
   )
 )
@@ -633,12 +639,12 @@ set_pred(
 
 **Column naming:**
 
-- `.pred` - Required for single quantile
+- `.pred_quantile` - Required name; contains a `hardhat::quantile_pred` object
 
-- `.quantile` - Which quantile was predicted
+- Quantile levels are stored as metadata on the object, not as a separate column
 
-- For multiple quantiles, use descriptive names (`.pred_lower`, `.pred`,
-  `.pred_upper`)
+- Use `parsnip:::matrix_to_quantile_pred()` as the `post` function to get this
+  format automatically
 
 **When to use:**
 
@@ -1002,4 +1008,4 @@ post = function(results, object) {
 
 - Linear predictor: `.pred_linear_pred`
 
-- Quantile: `.pred`, `.quantile`
+- Quantile: `.pred_quantile` (a `hardhat::quantile_pred` object)
