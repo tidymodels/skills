@@ -116,8 +116,13 @@ fitting):
 **If user says yes:**
 
 ```r
-library(future)
-plan("multisession", workers = 6)  # or whatever they specified
+# Preferred backend (lightweight, recommended by tidymodels)
+library(mirai)
+daemons(6)  # or whatever they specified; daemons(0) to stop
+
+# Alternative backend
+# library(future)
+# plan("multisession", workers = 6)
 ```
 
 **If user says no or doesn't respond:**

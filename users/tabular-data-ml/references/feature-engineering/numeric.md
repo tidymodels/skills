@@ -89,14 +89,14 @@ and outcome; using a linear model.
 
 ```r
 recipe(outcome ~ ., data = train) |>
-  step_ns(predictor_name, deg_free = 4)
+  step_spline_natural(predictor_name, deg_free = 4)
 ```
 
 Tunable degrees of freedom:
 
 ```r
 recipe(outcome ~ ., data = train) |>
-  step_ns(predictor_name, deg_free = tune())
+  step_spline_natural(predictor_name, deg_free = tune())
 ```
 
 ## Interaction Terms
