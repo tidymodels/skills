@@ -24,21 +24,19 @@ dials parameters are designed to work seamlessly with:
 
 **Grid generation implementations:**
 
-- Regular grids: `R/grid_regular.R` (factorial combinations with `value_seq()`)
+- Regular grids: `R/grids.R` (factorial combinations with `value_seq()`)
 
-- Random sampling: `R/grid_random.R` (random sampling with `value_sample()`)
+- Random sampling: `R/grids.R` (random sampling with `value_sample()`)
 
-- Latin hypercube: `R/grid_latin_hypercube.R` (space-filling design)
-
-- Maximum entropy: `R/grid_max_entropy.R` (space-filling design)
+- Space-filling: `R/space_filling.R` (`grid_space_filling()`; also contains
+  deprecated `grid_latin_hypercube()` and `grid_max_entropy()`)
 
 **Parameter sets:**
 
 - Parameter collections: `R/parameters.R` (implements `parameters()` for
   combining)
 
-- Workflow extraction: `R/extract_parameter_set_dials.R` (extracts params from
-  workflows)
+- Workflow extraction: `R/extract.R` (extracts params from workflows)
 
 **Test patterns:**
 

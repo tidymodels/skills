@@ -620,20 +620,21 @@ weight_func <- function(values = values_weight_func) {
 #' @export
 values_weight_func <- c(
   "rectangular", "triangular", "epanechnikov",
-  "biweight", "triweight", "cosine",
-  "gaussian", "rank"
+  "biweight", "triweight", "cos",
+  "inv", "gaussian", "rank"
 )
 
 # Usage
 weight_func()
 #> Distance Weighting Function (qualitative)
-#> 8 possible values include:
-#> 'rectangular', 'triangular', 'epanechnikov', 'biweight', 'triweight' and 2 more
+#> 9 possible values include:
+#> 'rectangular', 'triangular', 'epanechnikov', 'biweight', 'triweight' and 4 more
 
 # See all options
 values_weight_func
 #> [1] "rectangular"  "triangular"   "epanechnikov" "biweight"
-#> [5] "triweight"    "cosine"       "gaussian"     "rank"
+#> [5] "triweight"    "cos"          "inv"          "gaussian"
+#> [9] "rank"
 
 # Use subset
 weight_func(values = c("rectangular", "gaussian", "rank"))

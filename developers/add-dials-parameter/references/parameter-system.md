@@ -32,11 +32,12 @@ flexible ranges, transformations, and integration with Tidymodels workflows.
 
 **Grid generation:**
 
-- Regular grids: `R/grid_regular.R` (factorial combinations)
+- Regular grids: `R/grids.R` (factorial combinations)
 
-- Random grids: `R/grid_random.R` (random sampling)
+- Random grids: `R/grids.R` (random sampling)
 
-- Space-filling: `R/grid_latin_hypercube.R`, `R/grid_max_entropy.R`
+- Space-filling: `R/space_filling.R` (`grid_space_filling()`; deprecated
+  `grid_latin_hypercube()` and `grid_max_entropy()` also live here)
 
 **Test patterns:**
 
