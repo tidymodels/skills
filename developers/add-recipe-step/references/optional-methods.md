@@ -24,8 +24,8 @@ Optional methods:
 - Tunable parameters: `R/spline_natural.R` (deg_free tuning), `R/pca.R`
   (num_comp tuning), `R/normalize.R` (method parameter)
 
-- Package dependencies: `R/umap.R` (requires uwot), `R/kpca.R` (requires
-  kernlab), `R/ica.R` (requires fastICA)
+- Package dependencies: `R/isomap.R` (requires dimRed, RSpectra, igraph),
+  `R/kpca.R` (requires kernlab), `R/ica.R` (requires fastICA)
 
 - Sparsity preservation: `R/scale.R` (preserves sparsity), `R/normalize.R`
   (preserves sparsity)
@@ -35,9 +35,10 @@ Optional methods:
 
 **Test patterns:**
 
-- Tunable tests: `tests/testthat/test-tunable.R`
+- Tunable tests: within individual step test files (e.g.,
+  `tests/testthat/test-bs.R` contains `test_that("tunable", ...)`)
 
-- Package requirement tests: `tests/testthat/test-required_pkgs.R`
+- Package requirement tests: `tests/testthat/test-pkg_check.R`
 
 - Sparsity tests: `tests/testthat/test-sparsity.R`
 

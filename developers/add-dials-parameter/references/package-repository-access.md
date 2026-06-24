@@ -352,9 +352,9 @@ When working with cloned repositories, you can reference files directly:
 
 - `repos/recipes/R/center.R` - Modify-in-place step
 
-- `repos/recipes/R/step_dummy.R` - Create-new-columns step
+- `repos/recipes/R/dummy.R` - Create-new-columns step
 
-- `repos/recipes/tests/testthat/test-step_center.R` - Test patterns
+- `repos/recipes/tests/testthat/test-center.R` - Test patterns
 
 ### Searching for Examples
 
