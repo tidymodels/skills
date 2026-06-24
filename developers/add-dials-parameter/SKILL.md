@@ -1,3 +1,12 @@
+---
+name: add-dials-parameter
+description: Guide for creating new dials parameters for hyperparameter tuning.
+  Use when a developer needs to define custom tuning parameters for models,
+  recipes, or workflows, including quantitative parameters (continuous/integer),
+  qualitative parameters (categorical), parameters with transformations, and
+  data-dependent parameters requiring finalization.
+---
+
 # Add Dials Parameter
 
 **Create custom tuning parameters for hyperparameter tuning in Tidymodels**

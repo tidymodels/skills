@@ -1,3 +1,11 @@
+---
+name: add-parsnip-model
+description: Create entirely new model specifications for the parsnip package.
+  Use when creating a fundamentally new model type (like linear_reg, boost_tree)
+  with its constructors, registration, and engine implementations. For adding
+  engines to existing models, use add-parsnip-engine instead.
+---
+
 # Add Parsnip Model
 
 Create entirely new model specifications for the parsnip package. This skill
