@@ -7,25 +7,53 @@ Official repository for Claude Code skills for the Tidymodels ecosystem, organiz
 ```
 skills/
 ├── skill-development/              # Meta-level tooling for skill maintenance
-│   ├── build-verify.py            # Build and verify skills
-│   ├── rename-and-update.py       # Bulk renaming and updates
+│   ├── build-verify.py            # Orchestrates all steps below
+│   ├── build-skills.py            # Copies shared files into each skill's references/
+│   ├── add-blank-lines.py         # Formats markdown (blank lines before bullets)
+│   ├── verify-references.py       # Checks all markdown links and file references
+│   ├── verify-docs.py             # Confirms each skill has a matching .qmd in docs/
+│   ├── rename-and-update.py       # Bulk renaming and updating all references
 │   ├── replace-text.py            # Surgical text replacement
 │   ├── SKILL_IMPLEMENTATION_GUIDE.md
 │   └── README.md                  # Tool documentation
 ├── developers/                     # Developer-facing skills
 │   ├── add-yardstick-metric/      # Creating custom metrics
 │   ├── add-recipe-step/           # Creating preprocessing steps
-│   ├── shared-references/         # Universal R package patterns
+│   ├── add-parsnip-engine/        # Adding engines to existing parsnip models
+│   ├── add-parsnip-model/         # Creating new parsnip model types
+│   ├── add-dials-parameter/       # Creating dials tuning parameters
+│   ├── shared-references/         # R package patterns copied to ALL developer skills
+│   ├── shared-references-parsnip/ # Patterns copied to parsnip skills only
 │   ├── README.md
 │   └── NEWS.md
-├── users/                          # User-facing skills (future)
-│   ├── shared-references/         # User skill references
-│   └── README.md
-├── repos/                          # Cloned Tidymodels repositories
-│   ├── yardstick/
-│   ├── recipes/
-│   └── ...
+├── users/                          # User-facing skills
+│   └── tabular-data-ml/           # ML with tabular data using tidymodels
+├── docs/                           # Quarto documentation site
+│   ├── developers/                # Mirrors developers/ skill structure as .qmd files
+│   ├── users/                     # Mirrors users/ skill structure as .qmd files
+│   └── ...                        # Site config (_quarto.yml), assets, styles
+├── repos/                          # Cloned Tidymodels repos for reference (not committed;
+│                                   # only present when actively developing a skill)
 └── .claude/                        # Claude Code configuration
+```
+
+### Shared References
+
+Two shared directories exist under `developers/` — both are source files that
+`build-skills.py` copies into each skill's `references/` folder during the build
+step. **Never edit files in a skill's `references/` folder directly if they
+originated from a shared directory — edit the source instead.**
+
+- `shared-references/` — copied to **all** developer skills (universal R package
+  patterns: testing, roxygen, prerequisites, etc.)
+- `shared-references-parsnip/` — copied to parsnip skills only (`add-parsnip-engine`,
+  `add-parsnip-model`); contains parsnip-specific patterns like prediction types,
+  mode handling, engine implementation
+
+To check whether a file in `references/` is a shared copy, run:
+
+```bash
+find developers/shared-references developers/shared-references-parsnip -name "<filename>"
 ```
 
 ## Audience-Specific Skills
@@ -38,7 +66,7 @@ For creating Tidymodels extensions and contributing to packages:
 
 ### User Skills (`users/`)
 For using Tidymodels in data analysis and modeling:
-- *(Coming soon - to be added by content team)*
+- Building ML pipelines for tabular data (`tabular-data-ml`)
 
 ## Working in This Repository
 
@@ -123,6 +151,24 @@ This comprehensive guide covers:
 - Testing and validation
 - Time estimates: 14-22 hours for a complete skill
 
+### Updating Skills for Package Changes
+
+When asked to check whether skills need updates (because the underlying tidymodels
+packages changed), or to plan and execute those updates:
+
+**Follow [Updating Skills](../skill-development/UPDATING_SKILLS.md)** — covers how to
+detect upstream drift (new releases, moved source files, renamed functions/args,
+deprecations), plan which skills are affected, and execute the changes.
+
+### Releasing
+
+When asked to prepare a release:
+
+**Follow [Releasing](../skill-development/RELEASING.md)** — bump the version in both
+`.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` (kept in sync),
+update `CHANGELOG.md`, run `build-verify.py`, then hand off all git
+commit/tag/release steps to the user.
+
 ### Project Conventions
 
 - **No code duplication**: Each piece of content exists in exactly one place
@@ -141,6 +187,8 @@ The `repos/` directory contains cloned Tidymodels repositories for reference. Th
 
 **Implementation:**
 - [Skill Implementation Guide](../skill-development/SKILL_IMPLEMENTATION_GUIDE.md) - Creating new skills
+- [Updating Skills](../skill-development/UPDATING_SKILLS.md) - Detecting and applying package-change updates
+- [Releasing](../skill-development/RELEASING.md) - Version bump, changelog, and release handoff
 
 **Example Skills:**
 - [add-yardstick-metric](../developers/add-yardstick-metric/SKILL.md) - Creating custom metrics

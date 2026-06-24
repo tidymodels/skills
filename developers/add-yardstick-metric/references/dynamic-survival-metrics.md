@@ -149,7 +149,7 @@ my_metric.data.frame <- function(data, truth, ..., na_rm = TRUE,
 Time-dependent Brier score measures mean squared error at each evaluation time.
 
 ```r
-# R/brier_survival.R
+# R/surv-brier_survival.R
 
 # 1. Implementation function
 brier_survival_impl <- function(truth, estimate, censoring_weights,

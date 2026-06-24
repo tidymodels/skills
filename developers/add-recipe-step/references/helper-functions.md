@@ -11,13 +11,16 @@ in recipe steps. Use these instead of implementing your own versions.
 
 **Helper function implementations in recipes:**
 
-- Variable selection: `R/recipes_eval_select.R` (tidyselect resolution)
+- Variable selection: `R/selections.R` (tidyselect resolution via
+  `recipes_eval_select()`)
 
-- Validation functions: `R/check.R` (type checking, new data validation)
+- Validation functions: `R/misc.R` (type checking via `check_type()`, new data
+  validation)
 
 - Case weights: `R/case_weights.R` (weight extraction and checking)
 
-- Column operations: `R/remove_original_cols.R` (handle keep_original_cols)
+- Column operations: `R/misc.R` (handle keep_original_cols via
+  `remove_original_cols()`)
 
 - Utilities: `R/misc.R` (rand_id, print_step, sel2char, is_trained)
 

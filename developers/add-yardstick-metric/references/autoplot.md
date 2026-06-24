@@ -14,15 +14,12 @@ multi-dimensional results like curves or confusion matrices.
 
 **Implementation examples:**
 
-- Curve visualization: `R/prob-roc_curve.R` (ROC curve autoplot),
-  `R/prob-pr_curve.R` (PR curve autoplot)
+- Curve visualization: `R/probcurve-roc_curve.R` (ROC curve autoplot),
+  `R/probcurve-pr_curve.R` (PR curve autoplot)
 
-- Confusion matrix: `R/class-conf_mat.R` (heatmap and mosaic plot autoplots)
+- Confusion matrix: `R/conf_mat.R` (heatmap and mosaic plot autoplots)
 
-- Calibration plots: `R/prob-cal_plot_breaks.R` (calibration curve
-  visualization)
-
-- Gain/lift curves: `R/prob-gain_curve.R`, `R/prob-lift_curve.R`
+- Gain/lift curves: `R/probcurve-gain_curve.R`, `R/probcurve-lift_curve.R`
 
 **Common patterns:**
 
@@ -30,13 +27,11 @@ multi-dimensional results like curves or confusion matrices.
 
 - Matrix metrics: Heatmaps showing confusion patterns
 
-- Calibration: Scatter/line plots of predicted vs observed
-
 - Multi-group: Faceted plots for different groups/resamples
 
 **Test patterns:**
 
-- Autoplot tests: `tests/testthat/test-prob-roc_curve.R` (includes autoplot
+- Autoplot tests: `tests/testthat/test-probcurve-roc_curve.R` (includes autoplot
   validation)
 
 - ggplot2 dependency: Tests check for graceful failure when ggplot2 not

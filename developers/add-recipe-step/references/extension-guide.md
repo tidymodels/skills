@@ -148,7 +148,7 @@ See [Step Architecture](step-architecture.md) for detailed decision tree.
 ### Step 1: Create Step Constructor
 
 ```r
-# R/step_center.R
+# R/center.R
 
 #' Center numeric variables
 #'
@@ -340,7 +340,7 @@ tidy.step_center <- function(x, ...) {
 ### Step 6: Test Your Step
 
 ```r
-# tests/testthat/test-step_center.R
+# tests/testthat/test-center.R
 
 test_that("centering works correctly", {
   rec <- recipes::recipe(mpg ~ ., data = mtcars) |>

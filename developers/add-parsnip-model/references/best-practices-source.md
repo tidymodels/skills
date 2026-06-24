@@ -188,10 +188,23 @@ parsnip:::prepare_survival_data()
 
 **Prediction post-processing:**
 
+Use `format_predictions()` (exported since parsnip 1.5.0) to standardize
+prediction output in `post` functions:
+
 ```r
-parsnip:::format_class_predictions()
-parsnip:::format_prob_matrix()
+format_predictions(results, "class")       # Class predictions
+format_predictions(results, "prob")        # Class probabilities
+format_predictions(results, "numeric")     # Numeric predictions
+format_predictions(results, "linear_pred") # Linear predictors
+format_predictions(results, "time")        # Event time
+format_predictions(results, "survival")    # Survival curves
+format_predictions(results, "hazard")      # Hazard estimates
 ```
+
+> **Note:** The older `format_class()`, `format_classprobs()`, `format_num()`,
+> `format_time()`, `format_survival()`, `format_linear_pred()`, and
+> `format_hazard()` functions were deprecated in parsnip 1.5.0. Use
+> `format_predictions(x, type)` instead.
 
 **Validation:**
 

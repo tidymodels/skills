@@ -189,7 +189,7 @@ The weighted interval score (WIS) is a quantile-based approximation of the
 continuous ranked probability score (CRPS).
 
 ```r
-# R/weighted_interval_score.R
+# R/quant-weighted_interval_score.R
 
 # 1. Helper: Calculate WIS for one observation
 wis_one_quantile <- function(values, quantile_levels, truth, na_rm) {

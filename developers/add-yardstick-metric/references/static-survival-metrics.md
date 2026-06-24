@@ -126,7 +126,7 @@ The concordance index measures the proportion of comparable pairs where
 predictions and outcomes are concordant.
 
 ```r
-# R/concordance_survival.R
+# R/surv-concordance_survival.R
 
 # 1. Implementation function
 concordance_survival_impl <- function(truth, estimate, case_weights) {

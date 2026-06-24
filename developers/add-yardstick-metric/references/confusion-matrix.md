@@ -15,7 +15,7 @@ classification metrics use.
 
 **Implementation:**
 
-- Confusion matrix creation: `R/table.R` (implements `yardstick_table()`)
+- Confusion matrix creation: `R/misc.R` (implements `yardstick_table()`)
 
 - Matrix extraction: Used by all class metrics in `R/class-*.R`
 

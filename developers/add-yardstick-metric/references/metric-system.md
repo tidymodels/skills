@@ -15,21 +15,22 @@ composing, and evaluating performance metrics across different prediction types.
 
 **Core system implementations:**
 
-- Metric constructors: `R/metric.R` (defines `new_numeric_metric()`,
+- Metric constructors: `R/aaa-new.R` (defines `new_numeric_metric()`,
   `new_class_metric()`, `new_prob_metric()`, etc.)
 
-- Metric composition: `R/metric_set.R` (implements `metric_set()` for combining
-  metrics)
+- Metric composition: `R/aaa-metric_set.R` (implements `metric_set()` for
+  combining metrics)
 
-- Estimator finalization: `R/finalize_estimator.R` (determines
+- Estimator finalization: `R/estimator-helpers.R` (determines
   binary/macro/micro/etc.)
 
-- Data frame methods: `R/num_metric.R`, `R/class_metric.R`, `R/prob_metric.R`
-  (metric summarizers)
+- Data frame methods: `R/template.R` (metric summarizers:
+  `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+  `prob_metric_summarizer()`, etc.)
 
 **Integration patterns:**
 
-- Metric sets: `R/metric_set.R` (combines multiple metrics)
+- Metric sets: `R/aaa-metric_set.R` (combines multiple metrics)
 
 - Direction attributes: Used by tune package for optimization
 
@@ -37,11 +38,11 @@ composing, and evaluating performance metrics across different prediction types.
 
 **Test patterns:**
 
-- Constructor tests: `tests/testthat/test-metric.R`
+- Constructor tests: `tests/testthat/test-aaa-new.R`
 
-- Metric set tests: `tests/testthat/test-metric_set.R`
+- Metric set tests: `tests/testthat/test-aaa-metric_set.R`
 
-- Estimator tests: `tests/testthat/test-finalize_estimator.R`
+- Estimator tests: `tests/testthat/test-estimator-helpers.R`
 
 ## What `new_*_metric()` does
 

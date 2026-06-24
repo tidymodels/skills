@@ -148,7 +148,7 @@ Integrated Brier score summarizes time-dependent Brier scores across all
 evaluation times.
 
 ```r
-# R/brier_survival_integrated.R
+# R/surv-brier_survival_integrated.R
 
 # 1. Implementation function
 brier_survival_integrated_impl <- function(truth, estimate, case_weights) {

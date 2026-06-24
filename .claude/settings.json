@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,sys; d=json.load(sys.stdin); c=d.get('command',''); blocked=any(x in c for x in ['git commit','git push']); print('BLOCKED: git commit and git push are not allowed in this project. Ask the user first.') if blocked else None; sys.exit(2 if blocked else 0)\""
+          }
+        ]
+      }
+    ]
+  }
+}

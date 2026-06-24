@@ -463,6 +463,26 @@ set_model_arg(
 
 - Use when engine doesn't support submodels
 
+### Safe Re-registration (parsnip 1.5.0+)
+
+Since parsnip 1.5.0, `set_model_arg()` uses first-wins semantics: calling it for
+an already-registered argument is a no-op, so extension packages can safely call
+it even if parsnip already registered the same argument. Use
+`parsnip::model_arg_exists()` to check explicitly:
+
+```r
+if (!parsnip::model_arg_exists("linear_reg", "glmnet", "penalty", "lambda")) {
+  parsnip::set_model_arg(
+    model = "linear_reg",
+    eng = "glmnet",
+    parsnip = "penalty",
+    original = "lambda",
+    func = list(pkg = "dials", fun = "penalty"),
+    has_submodel = TRUE
+  )
+}
+```
+
 --------------------------------------------------------------------------------
 
 ## Argument Constraints

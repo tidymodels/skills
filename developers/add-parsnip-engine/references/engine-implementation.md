@@ -205,6 +205,24 @@ parsnip::set_model_arg(
 
 Do this for each main argument the engine supports.
 
+Since parsnip 1.5.0, `set_model_arg()` uses first-wins semantics: calling it for
+an already-registered argument is a no-op, so it is safe to call even if parsnip
+has already registered the same argument. Use `parsnip::model_arg_exists()` to
+check whether registration is needed:
+
+```r
+if (!parsnip::model_arg_exists("linear_reg", "my_engine", "penalty", "lambda")) {
+  parsnip::set_model_arg(
+    model = "linear_reg",
+    eng = "my_engine",
+    parsnip = "penalty",
+    original = "lambda",
+    func = list(pkg = "dials", fun = "penalty"),
+    has_submodel = FALSE
+  )
+}
+```
+
 ### Step 4: Register Fit Method
 
 Specify how to fit:

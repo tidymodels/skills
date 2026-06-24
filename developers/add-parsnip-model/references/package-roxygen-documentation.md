@@ -490,6 +490,27 @@ my_function <- function(df) { ... }  # Parameter is 'df', not 'data'
 my_function <- function(df) { ... }
 ```
 
+### Wrapping single-line tags across multiple lines
+
+roxygen2 8.0.0 warns when tags like `@importFrom`, `@aliases`, and `@export`
+span multiple lines. Keep each tag on one line:
+
+```r
+# Bad: @importFrom wrapped to a second line (warns in roxygen2 8.0.0+)
+#' @importFrom stats weighted.mean median
+#'   sd var
+
+# Good: entire @importFrom on one line
+#' @importFrom stats weighted.mean median sd var
+```
+
+If the list is long, use separate `@importFrom` calls — one per package:
+
+```r
+#' @importFrom stats weighted.mean median sd var
+#' @importFrom rlang := !! enquo enquos
+```
+
 ### Using @template without templates
 
 ```r

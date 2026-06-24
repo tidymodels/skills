@@ -1,6 +1,5 @@
 {
-  "skill_name": "add-yardstick-metric",
-  "notes": "The 'no_internal_functions' check may flag false positives when code includes explanatory comments about NOT using internal functions (e.g., critical behavior tests). This is expected when the skill correctly refuses internal functions and documents why.",
+  "skill_name": "add-recipe-step",
   "checks": {
     "file_count": {
       "informational": true,
@@ -8,38 +7,26 @@
       "grading_priority": "informational",
       "extension": {
         "type": "range",
-        "value": [
-          2,
-          6
-        ],
+        "value": [2, 4],
         "pass": {
           "type": "range",
-          "value": [
-            2,
-            6
-          ]
+          "value": [2, 4]
         },
         "fail": {
           "type": "greater_than",
-          "value": 10
+          "value": 8
         }
       },
       "source": {
         "type": "range",
-        "value": [
-          1,
-          5
-        ],
+        "value": [2, 4],
         "pass": {
           "type": "range",
-          "value": [
-            1,
-            5
-          ]
+          "value": [2, 4]
         },
         "fail": {
           "type": "greater_than",
-          "value": 10
+          "value": 8
         }
       }
     },
@@ -48,28 +35,19 @@
       "weight": 0.2,
       "files": [
         "IMPLEMENTATION_SUMMARY.md",
+        "IMPLEMENTATION_NOTES.md",
         "QUICKSTART.md",
-        "QUICK_REFERENCE.md",
-        "USAGE_EXAMPLE.md",
+        "STEP_DESIGN.md",
         "example_usage.R",
-        "METRIC_DESIGN.md",
-        "VALIDATION_APPROACH.md",
         "verification_script.R",
-        "check_metric.R",
         "PR_CHECKLIST.md",
         "PR_DESCRIPTION.md",
-        "PR_NOTES.txt",
         "NEWS_entry.md",
-        "IMPLEMENTATION_NOTES.md",
         "CONTRIBUTING.md",
-        "GETTING_STARTED.md",
         "HOW_TO_USE.md",
-        "INSTALLATION.md",
         "misc.R",
         "helpers.R",
         "utils.R",
-        "EVALUATION_SUMMARY.md",
-        "RESPONSE.md",
         "*.txt",
         "*.sh",
         "*.yml"
@@ -85,49 +63,65 @@
     },
     "patterns": {
       "extension": {
-        "has_three_functions": {
-          "description": "Three-function pattern: _impl(), _vec(), .data.frame()",
+        "has_constructor": {
+          "description": "Step constructor uses add_step()",
           "file_pattern": "**/*.R",
           "patterns": [
-            "_impl\\s*<-\\s*function",
-            "_vec\\s*<-\\s*function",
-            "\\.data\\.frame\\s*<-\\s*function"
+            "add_step\\("
           ],
           "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_prep_bake": {
+          "description": "prep() and bake() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "prep\\.step_",
+            "bake\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_tidy_print": {
+          "description": "tidy() and print() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "tidy\\.step_",
+            "print\\.step_"
+          ],
+          "logic": "all",
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "uses_eval_select": {
+          "description": "Uses recipes_eval_select() for column selection",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "recipes::recipes_eval_select\\("
+          ],
+          "logic": "any",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
           "grading_priority": "critical",
           "weight": 0.8
         },
         "has_roxygen_docs": {
-          "description": "Complete roxygen documentation",
+          "description": "Roxygen documentation with @export and @examples",
           "file_pattern": "**/*.R",
           "patterns": [
             "#'\\s*@export",
-            "#'\\s*@examples",
-            "#'\\s*@param"
+            "#'\\s*@examples"
           ],
           "logic": "all",
-          "grading_priority": "critical",
-          "weight": 0.8
-        },
-        "has_case_weights": {
-          "description": "Case weights handling with hardhat conversion",
-          "file_pattern": "**/*.R",
-          "patterns": [
-            "case_weights\\s*=\\s*NULL",
-            "as\\.double\\(.*case_weights"
+          "exclude_files": [
+            "**/test-*.R"
           ],
-          "logic": "all",
-          "grading_priority": "critical",
-          "weight": 0.8
-        },
-        "has_na_handling": {
-          "description": "NA handling with yardstick_remove_missing",
-          "file_pattern": "**/*.R",
-          "patterns": [
-            "yardstick::yardstick_remove_missing",
-            "na_rm\\s*="
-          ],
-          "logic": "all",
           "grading_priority": "critical",
           "weight": 0.8
         },
@@ -135,20 +129,20 @@
           "description": "No use of internal functions (:::) in actual code",
           "file_pattern": "**/*.R",
           "patterns": [
-            "yardstick:::\\w+\\("
+            "recipes:::\\w+\\("
           ],
           "logic": "none",
+          "skip_comment_lines": true,
           "grading_priority": "critical",
           "weight": 0.8
         },
         "has_complete_tests": {
-          "description": "Comprehensive test coverage",
+          "description": "Tests cover correctness and prep/bake pipeline",
           "file_pattern": "**/test-*.R",
           "patterns": [
             "test_that",
-            "na_rm\\s*=\\s*TRUE",
-            "na_rm\\s*=\\s*FALSE",
-            "case_weights"
+            "prep\\(",
+            "bake\\("
           ],
           "logic": "all",
           "grading_priority": "critical",
@@ -156,46 +150,75 @@
         }
       },
       "source": {
-        "has_three_functions": {
-          "description": "Three-function pattern: _impl(), _vec(), .data.frame()",
+        "has_constructor": {
+          "description": "Step constructor uses add_step() without prefix",
           "file_pattern": "**/*.R",
           "patterns": [
-            "_impl\\s*<-\\s*function",
-            "_vec\\s*<-\\s*function",
-            "\\.data\\.frame\\s*<-\\s*function"
+            "add_step\\("
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_prep_bake": {
+          "description": "prep() and bake() methods present",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "prep\\.step_",
+            "bake\\.step_"
           ],
           "logic": "all",
           "grading_priority": "critical",
           "weight": 0.8
         },
-        "has_roxygen_docs": {
-          "description": "Complete roxygen documentation with templates",
+        "has_tidy_print": {
+          "description": "tidy() and print() methods present",
           "file_pattern": "**/*.R",
           "patterns": [
-            "#'\\s*@export",
-            "#'\\s*@examples|#'\\s*@template"
+            "tidy\\.step_",
+            "print\\.step_"
           ],
           "logic": "all",
           "grading_priority": "critical",
           "weight": 0.8
         },
         "uses_internal_helpers": {
-          "description": "Uses internal helper functions directly",
+          "description": "Uses internal helpers directly (no prefix)",
           "file_pattern": "**/*.R",
           "patterns": [
-            "yardstick_mean|yardstick_median|finalize_estimator_internal|sens_binary|spec_binary|sens_multiclass|spec_multiclass|yardstick_remove_missing|yardstick_any_missing"
+            "recipes_eval_select\\(|check_new_data\\(|print_step\\("
           ],
           "logic": "any",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
+          "grading_priority": "critical",
+          "weight": 0.8
+        },
+        "has_roxygen_docs": {
+          "description": "Roxygen documentation with templates or @examples",
+          "file_pattern": "**/*.R",
+          "patterns": [
+            "#'\\s*@export",
+            "#'\\s*@examples|#'\\s*@template|#'\\s*@inheritParams"
+          ],
+          "logic": "all",
+          "exclude_files": [
+            "**/test-*.R"
+          ],
           "grading_priority": "critical",
           "weight": 0.8
         },
         "has_complete_tests": {
-          "description": "Comprehensive test coverage",
+          "description": "Tests cover correctness and prep/bake pipeline",
           "file_pattern": "**/test-*.R",
           "patterns": [
             "test_that",
-            "na_rm\\s*=\\s*TRUE",
-            "na_rm\\s*=\\s*FALSE"
+            "prep\\(",
+            "bake\\("
           ],
           "logic": "all",
           "grading_priority": "critical",
@@ -206,15 +229,21 @@
     "prefix_usage": {
       "extension": {
         "file_pattern": "**/*.R",
-        "prefix": "yardstick::",
+        "prefix": "recipes::",
         "min_count": 3,
+        "exclude_files": [
+          "**/test-*.R"
+        ],
         "grading_priority": "critical",
         "weight": 0.8
       },
       "source": {
         "file_pattern": "**/*.R",
-        "prefix": "yardstick::",
-        "max_count": 3,
+        "prefix": "recipes::",
+        "max_count": 2,
+        "exclude_files": [
+          "**/test-*.R"
+        ],
         "grading_priority": "critical",
         "weight": 0.8
       }

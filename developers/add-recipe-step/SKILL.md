@@ -122,7 +122,7 @@ working directory. Use this to guide development:
 - Read source files (e.g., `repos/recipes/R/center.R`) to study implementation
   patterns
 
-- Read test files (e.g., `repos/recipes/tests/testthat/test-step_center.R`) for
+- Read test files (e.g., `repos/recipes/tests/testthat/test-center.R`) for
   testing patterns
 
 - Reference these files when answering complex questions or solving problems
@@ -375,7 +375,7 @@ directly.
 ### 1. Step constructor
 
 ```r
-# R/step_center.R
+# R/center.R
 
 #' Center numeric variables
 #'

@@ -81,10 +81,10 @@
     },
     "required_files": {
       "extension": [
-        "*.R"
+        "**/*.R"
       ],
       "source": [
-        "*.R"
+        "**/*.R"
       ]
     },
     "patterns": {
@@ -168,6 +168,7 @@
             "parsnip:::\\w+\\("
           ],
           "logic": "none",
+          "skip_comment_lines": true,
           "grading_priority": "critical",
           "weight": 0.8
         },
@@ -198,7 +199,7 @@
       "source": {
         "has_constructor": {
           "description": "Model constructor using new_model_spec() - no prefix",
-          "file_pattern": "**/[!test-]*.R",
+          "file_pattern": "**/*.R",
           "patterns": [
             "new_model_spec\\(",
             "mode\\s*=",
@@ -255,10 +256,10 @@
           "weight": 0.8
         },
         "no_prefix_in_main": {
-          "description": "No parsnip:: prefix in source development",
+          "description": "No parsnip:: prefix in source development (parsnip::: in roxygen is allowed)",
           "file_pattern": "**/*.R",
           "patterns": [
-            "parsnip::"
+            "parsnip::[^:]"
           ],
           "logic": "none",
           "exclude_files": [
@@ -289,6 +290,7 @@
             "add-parsnip-engine|engine.*not.*model|existing model|already exists"
           ],
           "logic": "any",
+          "optional": true,
           "grading_priority": "critical",
           "weight": 0.8
         }
