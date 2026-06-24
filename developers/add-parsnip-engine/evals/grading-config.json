@@ -117,6 +117,7 @@
             "parsnip:::\\w+\\("
           ],
           "logic": "none",
+          "skip_comment_lines": true,
           "grading_priority": "critical",
           "weight": 0.8
         },

@@ -168,24 +168,34 @@ class PatternCheck(GradingCheck):
     """Check for patterns in files (grep-like)."""
 
     def __init__(self, name: str, description: str, file_pattern: str,
-                 patterns: List[str], logic: str = "all", optional: bool = False):
+                 patterns: List[str], logic: str = "all", optional: bool = False,
+                 exclude_files: Optional[List[str]] = None,
+                 skip_comment_lines: bool = False):
         """
         Args:
             file_pattern: glob pattern for files to check (e.g., "R/*.R")
             patterns: list of regex patterns to search for
             logic: 'all' (all must be present), 'any' (at least one), 'none' (none present)
             optional: if True, failures do not count against the score
+            exclude_files: glob patterns for files to exclude from the check
+            skip_comment_lines: if True, lines starting with # are excluded before matching
         """
         super().__init__(name, description, optional=optional)
         self.file_pattern = file_pattern
         self.patterns = patterns
         self.logic = logic
+        self.exclude_files = exclude_files or []
+        self.skip_comment_lines = skip_comment_lines
 
     def run(self, outputs_dir: Path) -> Tuple[bool, str]:
         if not outputs_dir.exists():
             return False, f"Directory not found: {outputs_dir}"
 
-        files = list(outputs_dir.glob(self.file_pattern))
+        all_files = list(outputs_dir.glob(self.file_pattern))
+        excluded = set()
+        for exc_pattern in self.exclude_files:
+            excluded.update(outputs_dir.glob(exc_pattern))
+        files = [f for f in all_files if f not in excluded]
         if not files:
             return False, f"No files matching pattern: {self.file_pattern}"
 
@@ -194,6 +204,11 @@ class PatternCheck(GradingCheck):
         for file in files:
             try:
                 content = file.read_text()
+                if self.skip_comment_lines:
+                    content = "\n".join(
+                        line for line in content.splitlines()
+                        if not line.lstrip().startswith("#")
+                    )
                 for pattern in self.patterns:
                     if re.search(pattern, content, re.MULTILINE):
                         found_patterns[pattern].append(file.name)
@@ -259,7 +274,7 @@ class PrefixUsageCheck(GradingCheck):
         for file in files:
             try:
                 content = file.read_text()
-                count = len(re.findall(re.escape(self.prefix), content))
+                count = len(re.findall(re.escape(self.prefix) + r'(?!:)', content))
                 total_count += count
                 per_file[file.name] = count
             except Exception as e:
@@ -338,7 +353,9 @@ def create_checks_from_config(config: Dict[str, Any], eval_context: str) -> List
                     check_config["file_pattern"],
                     check_config["patterns"],
                     check_config.get("logic", "all"),
-                    optional=check_config.get("optional", False)
+                    optional=check_config.get("optional", False),
+                    exclude_files=check_config.get("exclude_files", []),
+                    skip_comment_lines=check_config.get("skip_comment_lines", False)
                 ))
 
     # Prefix usage
@@ -408,7 +425,7 @@ def detect_eval_context(eval_dir: Path) -> str:
                 # Check for explicit context field first
                 if "context" in metadata:
                     context = metadata["context"].lower()
-                    if context in ("extension", "source"):
+                    if context in ("extension", "source", "refusal"):
                         return context
                 # Fallback: analyze prompt text
                 prompt = metadata.get("prompt", "").lower()
@@ -442,6 +459,7 @@ def main():
     parser.add_argument("--config", help="Path to grading config JSON file")
     parser.add_argument("--skill", help="Skill name (for auto-config detection)")
     parser.add_argument("--output", help="Output file for grading results (default: grading-summary.json)")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show per-check detail during grading")
 
     args = parser.parse_args()
 
@@ -473,23 +491,27 @@ def main():
         print(f"No evaluation directories found in {workspace}")
         return 1
 
-    print(f"Found {len(eval_dirs)} evaluations to grade")
-    print(f"Skill: {config.get('skill_name', 'unknown')}")
-    print()
+    if args.verbose:
+        print(f"Found {len(eval_dirs)} evaluations to grade")
+        print(f"Skill: {config.get('skill_name', 'unknown')}")
+        print()
 
     # Grade each eval
     all_results = []
 
     for eval_dir in eval_dirs:
-        print(f"Grading {eval_dir.name}...")
+        if args.verbose:
+            print(f"Grading {eval_dir.name}...")
 
         # Detect context (extension vs source)
         context = detect_eval_context(eval_dir)
-        print(f"  Context detected: {context}")
+        if args.verbose:
+            print(f"  Context detected: {context}")
 
         # Create checks for this context
         checks = create_checks_from_config(config, context)
-        print(f"  Running {len(checks)} checks...")
+        if args.verbose:
+            print(f"  Running {len(checks)} checks...")
 
         # Grade
         results = grade_eval(eval_dir, checks)
@@ -500,17 +522,17 @@ def main():
         with open(grading_file, 'w') as f:
             json.dump(results, f, indent=2)
 
-        # Print summary
-        scored = results.get('scored_checks', results['total_checks'])
-        print(f"  Result: {results['passed_checks']}/{scored} scored checks passed ({results['pass_rate']:.1%})")
-        if results.get('optional_checks', 0) > 0:
-            print(f"  ({results['optional_checks']} optional checks not counted)")
-        if results['failed_checks'] > 0:
-            print(f"  Failed checks:")
-            for check in results['checks']:
-                if not check['passed'] and not check.get('optional', False):
-                    print(f"    - {check['name']}: {check['evidence'].split(chr(10))[0]}")
-        print()
+        if args.verbose:
+            scored = results.get('scored_checks', results['total_checks'])
+            print(f"  Result: {results['passed_checks']}/{scored} scored checks passed ({results['pass_rate']:.1%})")
+            if results.get('optional_checks', 0) > 0:
+                print(f"  ({results['optional_checks']} optional checks not counted)")
+            if results['failed_checks'] > 0:
+                print(f"  Failed checks:")
+                for check in results['checks']:
+                    if not check['passed'] and not check.get('optional', False):
+                        print(f"    - {check['name']}: {check['evidence'].split(chr(10))[0]}")
+            print()
 
     # Summary
     total_checks = sum(r.get('scored_checks', r['total_checks']) for r in all_results)
@@ -533,16 +555,38 @@ def main():
     with open(output_file, 'w') as f:
         json.dump(summary, f, indent=2)
 
-    print("=" * 60)
-    print("GRADING SUMMARY")
-    print("=" * 60)
-    print(f"Skill: {config.get('skill_name')}")
-    print(f"Evaluations: {len(all_results)}")
-    print(f"Total checks: {total_checks}")
-    print(f"Passed: {total_passed} ({overall_pass_rate:.1%})")
-    print(f"Failed: {total_checks - total_passed}")
-    print()
-    print(f"Results saved to: {output_file}")
+    # Build human-readable table
+    col_eval = 32
+    col_score = 12
+
+    lines = []
+    lines.append("=" * 60)
+    lines.append(f"RESULTS: {config.get('skill_name')}  ({total_passed}/{total_checks} checks, {overall_pass_rate:.1%})")
+    lines.append("=" * 60)
+    lines.append(f"{'Eval':<{col_eval}} {'Score':>{col_score}}  Failed checks")
+    lines.append("-" * 60)
+
+    for r in all_results:
+        scored = r.get('scored_checks', r['total_checks'])
+        bar = "PASS" if r['pass_rate'] == 1.0 else f"{r['passed_checks']}/{scored}"
+        name = r['eval_name']
+        failed_names = [c['name'] for c in r['checks'] if not c['passed'] and not c.get('optional', False)]
+        fail_str = ", ".join(failed_names) if failed_names else ""
+        lines.append(f"{name:<{col_eval}} {bar:>{col_score}}  {fail_str}")
+
+    lines.append("-" * 60)
+    status = "PASS" if overall_pass_rate == 1.0 else f"{total_passed}/{total_checks} ({overall_pass_rate:.1%})"
+    lines.append(f"{'OVERALL':<{col_eval}} {status:>{col_score}}")
+
+    table = "\n".join(lines)
+
+    # Save table as text file
+    report_file = Path(str(output_file).replace(".json", "-report.txt"))
+    with open(report_file, 'w') as f:
+        f.write(table + "\n")
+
+    print(table)
+    print(f"\nReport saved to: {report_file}")
 
     return 0 if overall_pass_rate >= 0.8 else 1
 

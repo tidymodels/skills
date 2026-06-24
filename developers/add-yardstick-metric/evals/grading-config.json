@@ -114,7 +114,7 @@
           "file_pattern": "**/*.R",
           "patterns": [
             "case_weights\\s*=\\s*NULL",
-            "as\\.double\\(.+case_weights"
+            "as\\.double\\(.*case_weights"
           ],
           "logic": "all",
           "grading_priority": "critical",
@@ -173,8 +173,7 @@
           "file_pattern": "**/*.R",
           "patterns": [
             "#'\\s*@export",
-            "#'\\s*@examples",
-            "#'\\s*@template"
+            "#'\\s*@examples|#'\\s*@template"
           ],
           "logic": "all",
           "grading_priority": "critical",
