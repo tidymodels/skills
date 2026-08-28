@@ -162,13 +162,14 @@ For example:
 library(tidymodels)
 
 # Model with tunable parameters
-bst_spec <- boosted_tree(
+bst_spec <- boost_tree(
   trees = 1000,
   learn_rate = tune(),
   mtry = tune(),
   min_n = tune(),
-  stop_iter = tune()
+  stop_iter = 5
 ) |> 
+ set_engine("xgboost") |> 
  set_mode("regression")
 
 # Recipe 
@@ -278,8 +279,13 @@ Tuning is embarrassingly parallel—each configuration can run independently.
 
    **If user says yes:**
    ```r
-   library(future)
-   plan("multisession", workers = 6)  # or whatever they specified
+   # Preferred backend (lightweight, recommended by tidymodels)
+   library(mirai)
+   daemons(6)  # or whatever they specified; daemons(0) to stop
+
+   # Alternative backend
+   # library(future)
+   # plan("multisession", workers = 6)
    ```
 
    **If user says no or doesn't respond:**
@@ -297,5 +303,7 @@ Tuning is embarrassingly parallel—each configuration can run independently.
 user mentions having multiple cores available.
 
 When using tidymodels functions like `tune::fit_resamples()` or
-`tune::tune_grid()`, they will automatically use the future plan if it's been
-set. Do not use the parallel, doParallel, mirai, or foreach packages.
+`tune::tune_grid()`, they will automatically use the active mirai daemons (or
+future plan) if one has been set—see `?tune::parallelism`. Prefer mirai; future
+is also supported. Do not use the parallel, doParallel, or foreach packages
+(foreach is no longer supported by tune).
