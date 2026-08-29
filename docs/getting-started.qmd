@@ -75,6 +75,13 @@ Install user skills for building predictive models:
   - Model tuning and selection
   - Performance evaluation
 
+- **[Time Series Forecasting](users/time-series-forecasting/index.qmd)**: Forecast time series data with modeltime
+  - Temporal data splitting and backtesting
+  - Classical models (ARIMA, ETS, Prophet)
+  - Machine learning models (XGBoost, Random Forest)
+  - Feature engineering for time series
+  - Ensemble methods
+
 ## For Extensions Development
 
 **[Developer Skills →](developers/index.qmd)**

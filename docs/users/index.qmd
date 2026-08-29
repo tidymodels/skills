@@ -39,6 +39,26 @@ Build predictive models for tabular data with proper validation practices.
 
 ---
 
+<div class="skill-section">
+  <img src="../assets/logos/tidymodels.png" class="skill-logo-inline">
+  <h3><a href="time-series-forecasting/index.qmd">Time Series Forecasting</a></h3>
+</div>
+
+Forecast time series data using the modeltime ecosystem with proper temporal validation.
+
+**What you'll learn:**
+
+- **Temporal Data Splitting**: Time-aware splits that respect chronological ordering
+- **Backtesting**: Time series cross-validation (not random CV) for honest estimates
+- **Model Variety**: Classical (ARIMA, ETS, Prophet) and ML (XGBoost, Random Forest) approaches
+- **Feature Engineering**: Creating date-based features for machine learning models
+- **Ensemble Methods**: Combining model strengths for improved forecasts
+- **Test Set Protection**: Final evaluation only with explicit user permission
+
+**Key principle**: All model development uses time series cross-validation on training data. Random cross-validation is never used. Test set evaluation only occurs with explicit user permission.
+
+---
+
 ## Prerequisites
 
 Before using user skills, ensure you have:

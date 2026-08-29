@@ -1,0 +1,165 @@
+{
+  "skill_name": "time-series-forecasting",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Hey! I have daily sales data for the past 3 years in 'retail_sales.csv' with columns 'date' and 'sales_amount'. I need to forecast the next 90 days. My boss wants to see multiple approaches compared - can you help me build some forecasting models and pick the best one? The data shows pretty clear weekly seasonality and an upward trend.",
+      "expected_output": "Complete time series workflow: (1) initial_time_split with seed, (2) baseline ensemble with ARIMA, ETS, and Prophet, (3) modeltime table, (4) time_series_cv backtesting with seed, (5) model comparison using backtesting (NOT test set), (6) ask permission before test set evaluation, (7) refit on full data, (8) forecast 90 days. Should explain why backtesting is primary comparison tool.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "Verify that set.seed() calls do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026. These values are overused and should be avoided."
+        },
+        {
+          "name": "Seeds set before random operations",
+          "check": "Verify that set.seed() is called immediately before initial_time_split() and time_series_cv(). Seeds should be set for reproducibility."
+        },
+        {
+          "name": "Test set not used for model comparison",
+          "check": "Model comparison should be done using time_series_cv backtesting results. Test set should only be mentioned after asking for permission."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm working on energy demand forecasting. The data is in ~/Documents/energy_usage.csv with hourly readings going back 2 years. I have columns: 'timestamp', 'energy_kwh', 'temperature', 'is_holiday', and 'day_of_week'. I want to use these external predictors to improve accuracy. Can you build me a model that can predict the next 168 hours (1 week)? I'd like to try something more sophisticated than just ARIMA.",
+      "expected_output": "Time series workflow with ML model (XGBoost or Random Forest) that requires feature engineering: (1) split with seed, (2) create recipe with step_timeseries_signature for date features, (3) possibly include external predictors directly, (4) fit baseline models (ARIMA, ETS, Prophet) for comparison, (5) fit ML model with parsnip workflow, (6) backtesting with time_series_cv, (7) compare all models using resampling, (8) explain why feature engineering is needed for ML models but not for ARIMA/ETS/Prophet.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "Verify that set.seed() calls do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026."
+        },
+        {
+          "name": "Feature engineering for ML models only",
+          "check": "Should use recipe with step_timeseries_signature or similar for ML models (XGBoost, Random Forest), but NOT for ARIMA/ETS/Prophet which accept raw dates."
+        },
+        {
+          "name": "Baseline models included",
+          "check": "Should include at least one classical baseline model (ARIMA, ETS, or Prophet) to compare against ML approach."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "ok I've fit my models using your code from earlier. Now I want to see which one performs best. Can you evaluate them on the test set and show me the RMSE for each model? The models are in 'models_tbl' and test data is in 'test_data'.",
+      "expected_output": "Should REFUSE to evaluate on test set without explicit confirmation. Should ask: 'I've completed model development using backtesting. May I evaluate the final model on the test set?' or similar. Should explain: (1) test set is for final validation only, (2) model comparison should use backtesting results from time_series_cv, (3) test set protection prevents overfitting. Should offer to show backtesting results instead.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "Test set protection enforced",
+          "check": "Should NOT call modeltime_calibrate(new_data = test_data) without first asking for explicit user permission. Should explain why."
+        },
+        {
+          "name": "Backtesting offered as alternative",
+          "check": "Should suggest using or showing backtesting results (modeltime_resample_accuracy) for model comparison instead of test set."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I have monthly website traffic data from Jan 2020 to present in 'traffic.csv' (columns: month_date, visitors). The data has multiple seasonality patterns - weekly, monthly, and yearly. I also notice some holiday effects. Can you help me forecast the next 12 months? I want to make sure we're handling the seasonality correctly. Also, I have 10 CPU cores available if that helps.",
+      "expected_output": "Time series workflow emphasizing: (1) Prophet model (handles multiple seasonality well), (2) possibly ARIMA or ETS for comparison, (3) asks about parallel processing in conversation with specific recommendation (e.g., 'use 8 cores, leave 2 free'), (4) if user approves, sets up future package with plan('multisession', workers=8), (5) time_series_cv with multiple slices (computationally intensive), (6) explains that Prophet handles multiple seasonality and holidays, (7) continues using parallel config throughout unless user asks to stop.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "Verify that set.seed() calls do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026."
+        },
+        {
+          "name": "Parallel processing interaction",
+          "check": "Should detect cores with parallel::detectCores(), then ASK user in conversation (not just comment in code) about using parallel processing. Should recommend leaving 1-2 cores free."
+        },
+        {
+          "name": "Uses future package only",
+          "check": "If parallel processing is implemented, should use 'future' package with plan('multisession'). Should NOT use parallel, mirai, or foreach packages."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I'm analyzing financial time series data (stock prices) in 'prices.csv' going back 5 years. Columns are: date, close_price, volume, moving_avg_50, moving_avg_200. I want to forecast the next 30 days. The dataset is quite large and I want to use cross-validation to be thorough. Can you build multiple models and tell me which works best? I'm thinking maybe we need 6 or 8 different time slices for validation.",
+      "expected_output": "Time series workflow with: (1) seed before split, (2) multiple models (baseline + ML), (3) asks about parallel processing given computational intensity, (4) time_series_cv with appropriate parameters (initial, assess, skip, slice_limit=6-8), (5) asks user about forecast horizon to set assess parameter, (6) backtesting as PRIMARY comparison tool, (7) explains that more slices = more reliable but slower, (8) model comparison based on mean RMSE and standard deviation across slices.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "Verify that set.seed() calls do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026."
+        },
+        {
+          "name": "Time series CV parameters explained",
+          "check": "Should explain or ask about time_series_cv parameters: initial (training size), assess (forecast horizon), skip (how often to evaluate), slice_limit (number of slices)."
+        },
+        {
+          "name": "Backtesting is primary comparison",
+          "check": "Should emphasize that time_series_cv results are the PRIMARY tool for model comparison, not test set."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I've been running models for a demand forecasting project. I have three models that all seem pretty good - ARIMA gets RMSE of 45, ETS gets 43, and Prophet gets 46 on cross-validation. They each make different kinds of errors though. Should I just pick ETS since it has the lowest error? Or is there a way to combine them?",
+      "expected_output": "Should recommend ensemble approach: (1) explain benefits of ensembles (reduce overfitting, capture diverse patterns, often improve on best individual), (2) show how to create ensemble with ensemble_average() or ensemble_weighted(), (3) evaluate ensemble on SAME resamples used for individual models, (4) verify ensemble actually improves performance before recommending it, (5) explain that diversity in errors is good for ensembles, (6) show how to compare ensemble vs individual models using backtesting.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "Ensemble evaluated before recommendation",
+          "check": "Should fit and evaluate ensemble using time_series_cv before declaring it's better. Should compare ensemble backtesting results to individual model results."
+        },
+        {
+          "name": "Diversity acknowledged",
+          "check": "Should mention that models making different errors is beneficial for ensemble performance."
+        },
+        {
+          "name": "Ensemble may not always improve",
+          "check": "Should acknowledge that ensemble should be validated - it's not guaranteed to beat the best individual model."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I need to forecast monthly product sales (data in product_sales.csv, 4 years of history). The data has clear trend and seasonality. My colleague used random k-fold cross-validation to compare models and got really good results. Should I do the same? I want to make sure I'm following best practices.",
+      "expected_output": "Should WARN against random CV for time series: (1) explain that random CV violates temporal ordering, (2) creates data leakage (trains on future, tests on past), (3) produces optimistically biased estimates, (4) recommend time_series_cv instead which respects temporal order, (5) show proper time series backtesting approach, (6) explain visual concept: training window always before test window, expanding forward in time.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "If set.seed() calls are generated, verify they do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026."
+        },
+        {
+          "name": "Random CV explicitly discouraged",
+          "check": "Should explicitly explain why random k-fold cross-validation (vfold_cv) is WRONG for time series. Should recommend time_series_cv instead."
+        },
+        {
+          "name": "Data leakage explained",
+          "check": "Should explain the concept of data leakage in context of time series: training on future data to predict the past."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I'm tuning an XGBoost model for time series forecasting (weekly retail sales data). I want to optimize the hyperparameters - tree_depth, learn_rate, mtry, etc. The dataset has about 260 weeks of data. Can you help me set up a proper tuning workflow? I've got 12 cores on this machine.",
+      "expected_output": "Tuning workflow for time series: (1) asks about parallel processing with specific recommendation, (2) creates tune grid for XGBoost parameters, (3) sets up time_series_cv resamples with seed, (4) uses tune_grid with same time series resamples, (5) sets seed before tuning, (6) evaluates tuning results with autoplot or show_best, (7) selects best parameters, (8) fits final model with best hyperparameters, (9) compares tuned model to baseline models using backtesting.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "No common seed values used",
+          "check": "Verify that set.seed() calls do not use common values like 1, 123, 111, 222, 333, 999, 42, 2024, 2025, or 2026."
+        },
+        {
+          "name": "Seed before tuning",
+          "check": "Should set seed immediately before tune_grid() or other tuning functions for reproducibility."
+        },
+        {
+          "name": "Time series resampling for tuning",
+          "check": "Should use time_series_cv resamples for hyperparameter tuning, NOT random vfold_cv."
+        },
+        {
+          "name": "Parallel processing asked",
+          "check": "Should ask user about parallel processing given computational intensity of tuning."
+        }
+      ]
+    }
+  ]
+}
