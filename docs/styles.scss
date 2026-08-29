@@ -414,12 +414,19 @@ pre.claude {
 
 // Logo Collage
 .logo-collage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
   padding: 15px 20px 10px 20px;
+
+  // Pandoc wraps the images in a single <p>, so the flex layout
+  // must live on the paragraph for the hexes to center.
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 0;
+  }
+
   margin: 0;
   background: linear-gradient(135deg, rgba($theme-cranberry, 0.02) 0%, rgba($theme-blue, 0.02) 100%);
   border-radius: 12px;
@@ -594,8 +601,11 @@ pre.claude {
   }
 
   .logo-collage {
-    gap: 15px;
     padding: 30px 15px;
+
+    p {
+      gap: 15px;
+    }
 
     .hex-logo {
       width: 70px;
